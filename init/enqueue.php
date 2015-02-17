@@ -67,4 +67,21 @@ function admin_js_and_css($hook) {
     wp_register_script('formvalidation', get_template_directory_uri() . '/scripts/formvalidation.js', null, '1.3.9  ', true); 
     wp_register_script( 'email_log_js', get_template_directory_uri() . '/scripts/emaillogscripts.js', false, '1.0.6 ', true);
     wp_register_script( 'manage_players_js', get_template_directory_uri() . '/scripts/manage_players.js', false, '1.1.6', true);
-        wp_register_script( 'custom_admin_js', get_template_directory_uri() . '/scripts/adminscript.js.php?post='.(isset($_GET['po
+    wp_register_script( 'custom_admin_js', get_template_directory_uri() . '/scripts/adminscript.js.php?post='.(isset($_GET['post']) ? $_GET['post'] : '').'&templateurl='.urlencode( get_template_directory_uri() ), false, '1.8.5', true);
+    wp_enqueue_script( 'custom_admin_js' );
+    wp_register_script( 'jquery_maps_plugin', get_template_directory_uri() . '/scripts/gmap3.min.js', false, '1.0.0', true);
+    wp_enqueue_script( 'jquery_maps_plugin' );
+    wp_register_script( 'google_maps_api', 'http://maps.googleapis.com/maps/api/js?key=AIzaSyB5uu63Ejv1pU0TKQrZa_uzZN_BMbh7Qyo&sensor=false', false, '1.0.1', true);
+    wp_enqueue_script( 'google_maps_api' );        
+    wp_enqueue_script('jquery-ui-datepicker');
+    wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
+    wp_register_style( 'custom_edit_css', get_template_directory_uri() . "/stylesheets/style-admin.php?post-type=".$post_type, false, '1.2.5');
+    wp_enqueue_style( 'custom_edit_css' );
+    wp_register_script('web_font_loader', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js', null, '1.4.8'); 
+    wp_enqueue_script('web_font_loader');
+    wp_register_script('web_font_loader_local', get_template_directory_uri() . '/scripts/webfont.js', null, '1.0.9'); 
+    wp_enqueue_script('web_font_loader_local');
+
+    add_thickbox();
+}
+add_action ( 'admin_enqueue_scripts' , 'admin_js_and_css');
