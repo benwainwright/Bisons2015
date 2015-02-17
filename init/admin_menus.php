@@ -70,7 +70,7 @@ function add_admin_menus()
     add_action( "load-$awaitingmembershiphook", 'Awaiting_Membership_Forms_Table_Add_Options' );
 
     add_submenu_page ( 'players', 'Add Player', 'Add Player', 'committee_perms', 'add-player', 'add_player_callback');
-    add_submenu_page ( 'players', 'Profiles', 'Profiles', 'committee_perms', 'edit.php?post_type=playerprofile' );
+    add_submenu_page ( 'players', 'Profiles', 'Profiles', 'committee_perms', 'edit.php?post_type=playerprofiles' );
     add_submenu_page ( 'players', 'Pages', 'Pages', 'committee_perms', 'edit.php?post_type=player-page' );
     add_submenu_page ( 'players', 'Page Groups', 'Page Groups', 'committee_perms', 'edit-tags.php?taxonomy=player-page-groups&post_type=player-page' );
     

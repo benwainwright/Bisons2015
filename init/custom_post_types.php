@@ -225,7 +225,7 @@ function add_custom_forms ( $post ) {
         'player-profile-edit',
         'Details',
         'player_profile_edit_form',
-        'playerprofile',
+        'playerprofiles',
         'normal',
         'core'
     );
@@ -312,7 +312,7 @@ function add_custom_forms ( $post ) {
 add_action( 'add_meta_boxes', 'add_custom_forms');
 
 // Callback functions to print custom form content
-function player_profile_edit_form ( $post ) { include_once ( dirname(__FILE__)  . '/../postforms/player-profile.php' ); }
+function player_profile_edit_form ( $post ) { include_once ( dirname(__FILE__)  . '/../postforms/player-profiles.php' ); }
 function fixtures_content( $post ) { include_once( dirname(__FILE__) . '/../postforms/fixtures.php'); }
 function events_content( $post ) { include_once( dirname(__FILE__) . '/../postforms/events.php'); }
 function results_content( $post ) { include_once( dirname(__FILE__) . '/../postforms/results.php');}
