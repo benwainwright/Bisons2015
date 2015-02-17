@@ -1,6 +1,6 @@
 <?php wp_enqueue_script('formvalidation'); 
 $players = new WP_Query (array(
-    'post_type' => 'playerprofile',
+    'post_type' => 'playerprofiles',
     'nopaging' => 'true',
 ));
 

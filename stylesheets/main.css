@@ -52,7 +52,7 @@ body { font-weight:300 }
 #wrapper h2 { text-align:center; }
 h1 { font-family: 'BisonsFont', sans-serif; text-align:center; font-size:40px; }
 h2 {  font-size: 1.8em; line-height:1.3em; 	margin-bottom:1%; font-weight:normal;}
-h3 { margin: 1em 0 0 0; font-weight:300;  font-style:italic}
+h3 { margin: 0; font-weight:300;  font-style:italic}
 h4 { font-weight: bold; margin-top:1em; 	 }
 a {  text-decoration:none;}
 a:hover { text-shadow: 0 0 2px rgba(150, 150, 150, 1); }
@@ -75,7 +75,7 @@ footer a { color: white; border-bottom:1px dashed white; }
 #maincol { width:55.5%;  display:table-cell; padding-right:5%;}
 #maincol p, #sidebar p, #pagecol p, td, li { line-height:1.6em; }
 td h3 { margin:0; padding:0; }
-
+#wrapper h3 { padding-top:0.5em; }
 
 /* Flash message */ 
 #flashmessage { max-width:900px; margin: 0.5em auto; text-align:center; padding:1em; background-color: #C0FACE; border: 1px solid #5F8C6A; }
@@ -142,7 +142,6 @@ div#wrapper div.page header p { padding: 4px 8px; }
 #mainevent ul { margin-left: 0; }
 /* Page styles */
 .page { margin-top:1em }
-.page header { margin-bottom:1em;  }
 .page img.alignleft, .page img.alignright { max-width:60% !important; height:auto; }
 .page header h2 { margin-bottom:0; text-align:left; }
 .pagecontent { padding:0 3em; }
@@ -487,11 +486,22 @@ label.focusedinput
 .albumThumb, .committeeList
 {
 	background-color: #2E2E2E;
-	width:24.2%;
 	margin-right:5px;
 	margin-bottom:5px; 
 	float:left;
 }
+
+.albumThumb
+{
+	width:24.2%;
+}
+
+.committeeList
+{
+	width:30%;
+}
+
+
 html .albumThumb img, html .committeeList img
 {
 	max-width: initial;
@@ -512,12 +522,27 @@ html .committeeList a.desktopthumb {
 	height: 150px;
 }
 
-html .albumThumb img, html .committeeList img  {
-margin: 0;
+html .albumThumb img, html .albumThumb img{
 height: 100%;
 min-width: 100%;
 width: auto;
 max-width: none;
+}
+
+html .albumThumb img{
+height: 100%;
+}
+
+html .committeeList img  
+{
+height: auto;     
+}
+
+.albumMeta a {
+color: white;
+font-weight: bold;
+border-bottom: 1px dashed white;
+padding: 2px;
 }
 
 
@@ -532,15 +557,38 @@ overflow:auto;
 height: 250px;
 }
 
+#wrapper td, #wrapper th {
+background-color: #2E2E2E;
+color: white;
+border-radius: 6px;
+vertical-align: middle;
+}
+
+#wrapper table a {
+color:white;
+text-decoration:none;
+border-bottom:1px dotted white;
+}
+
+#wrapper td p {
+color: white;
+}
+
+#wrapper table.resultstable {
+table-layout:fixed;
+}
+
 
  #wrapper .albumMeta h3 a, #wrapper .albumMeta h3, #wrapper .profileMeta  h3 a, #wrapper .profileMeta  h3 
 {
 	color:white;
+      padding-top:0;
 }
 .albumMeta li, .profileMeta  li
 {
 	list-style:none;
 	font-size:0.8em;
+      margin:2px 0;
 }
 
 .albumMeta ul, .profileMeta  ul
@@ -550,7 +598,7 @@ height: 250px;
 
 .albumMeta h3, .profileMeta  h3
 {
-margin: 6px 6px 0 0;} 
+margin: 6px 6px 0 6px;} 
 
 html .albumThumb img
 {
@@ -599,6 +647,7 @@ html .albumThumb img
 	.post img.alignleft, .page img.alignright
 	{ margin-left: 0.7em; }
 	.albumThumb { 	width:32%; }
+      .committeeList { width: 47%; }
 
 }
  
@@ -614,6 +663,8 @@ html .albumThumb img
 	.post img.alignleft, .page img.alignright
 	{ margin-left: 0.6em; }
 	.albumThumb { 	width:32%; }
+      .committeeList { width: 47%; }
+
 }
 
 
@@ -631,12 +682,18 @@ html .albumThumb img
 	.post img.alignleft, .page img.alignright
 	{ margin-left: 0.6em; }
 	.albumThumb { 	width:48%; }
+      .committeeList { width: 47%; }
+
 
 }
 
 
 @media screen and (max-width: 580px) {
 	.albumThumb { 	width:48%; }
+      .committeeList { width: 100%; }
+      .committeeList .albumMeta { height:120px; }
+      .committeeList .desktopThumb { height:180px; }
+
 
 	fieldset p, form input, form textarea, form select, fieldset label { font-size:1em; padding: 0.1em 0.3em; }
       li.listimage {  max-width:100%; }

@@ -254,18 +254,26 @@ if( $first_fixture ) : ?>
             </tr>
             <tr>
                 <?php if ($past_fixture_print['homeaway'] == "Home") : ?>
+                  
+                  
                 <td class="hometeam-col"><span class="homeawaylabel">Home</span>Bristol Bisons RFC</td>
-                <td class="scorecell<?php if ( $theirscore == 'TBC') echo ' tbcscore' ?>"><?php echo $ourscore; ?></td>
-                <td class="scorecell<?php if ( $ourscore == 'TBC') echo ' tbcscore' ?>"><?php echo $theirscore; ?></td>
+                <td class="scorecell<?php if ( $theirscore == 'TBC' && $ourscore == 'TBC') echo ' tbcscore" colspan="2' ?>"><?php echo $ourscore; ?></td>
+                <?php if ( $theirscore != 'TBC' && $ourscore != 'TBC') : ?>
+                <td class="scorecell"><?php echo $theirscore; ?></td>
+                <?php endif ?>
                 <td class="oppteam-col"><span class="homeawaylabel">Away</span><?php echo team_link($opposing, $oppurl); ?></td>
                 <?php else : ?>
+                  
                 <td class="hometeam-col"><span class="homeawaylabel">Home</span><?php echo team_link($opposing, $oppurl); ?></td>
-                <td class="scorecell<?php if ( $theirscore == 'TBC') echo ' tbcscore' ?>"><?php echo $theirscore; ?></td>
-                <td class="scorecell<?php if ( $ourscore == 'TBC') echo ' tbcscore' ?>"><?php echo $ourscore; ?></td>
+                <td class="scorecell<?php if ( $theirscore == 'TBC' && $ourscore == 'TBC') echo ' tbcscore" colspan="2' ?>"><?php echo $theirscore; ?></td>
+                <?php if ( $theirscore != 'TBC' && $ourscore != 'TBC') : ?>
+                <td class="scorecell"><?php echo $ourscore; ?></td>
+                <?php endif ?>
                 <td class="oppteam-col"><span class="homeawaylabel">Away</span>Bristol Bisons RFC</td>
                 <?php endif ?>
+                  
+                  
                 <?php if($linkedposts) : ?>
-                </tr>
                 <tr>
                 <td colspan='4' class="linkedposts">
                     <ul class='postlist'> 
