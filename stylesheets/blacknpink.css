@@ -1,0 +1,12 @@
+/* Colors */
+h2 { color:black; } 
+h2 a { color:black; }
+a { color:#FF5ABB; }
+#mainheader, footer { background: black; }
+#mainheader nav a { color:white; }
+#mainheader nav a:hover { color:#FF5ABB; }
+#sidebar h2 { border-bottom: none; }
+td { background-color: #F7F7F7;  }
+footer { color:white;  }
+#menu .current-menu-item a { color:black; }
+#menu { background-color:#2E2E2E; }

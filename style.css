@@ -1,0 +1,17 @@
+/*
+Theme Name: Bristol Bisons RFC
+Theme URI: http://www.bisonsrfc.co.uk
+Author: Ben Wainwright
+Description: This is a custom theme designed to extend to the functionality of Wordpress in order to meet all the needs of our rugby team.
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Tags: bisons, rugby, lgbt, team, sports
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+*/
+
+.wp-caption {}
+.wp-caption-text {}
+.gallery-caption {}
+.bypostauthor{}

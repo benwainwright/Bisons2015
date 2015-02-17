@@ -1,0 +1,10 @@
+* { margin:0 ; padding:0; font-family: 'Ubuntu', serif; }
+body { padding:2em; }
+section { padding-bottom:3em; page-break-after: always;}
+h1, h2 { margin-bottom:0.5em;}
+fieldset { margin-bottom:1em; padding:1em; max-width:700px; page-break-inside:avoid; }
+table {text-align:left; border-collapse: separate; border-spacing:10px; }
+table tr { margin:5px; }
+table th { font-weight:bold; max-width:300px; }
+table td { font-weight:300;}
+p { margin-bottom:1em;}
