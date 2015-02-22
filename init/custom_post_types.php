@@ -36,7 +36,7 @@ function create_post_types() {
         'show_in_menu' => false,
         'has_archive' => true,
         'menu_position' => 3,
-        'supports' => array('comments', 'title')
+        'supports' => array('comments', 'title', 'thumbnail')
         )
     );
     /**
@@ -55,7 +55,7 @@ function create_post_types() {
         'has_archive' => true,
         'menu_position' => 5,
         'menu_icon' => 'dashicons-calendar',
-        'supports' => array('comments', 'revisions', 'title', 'editor')
+        'supports' => array('comments', 'revisions', 'title', 'editor', 'thumbnail')
         )
     );
     
@@ -96,7 +96,7 @@ function create_post_types() {
             'add_new_item' => __( 'Add new player page', 'bisonsrfc' ),
             'edit_item' => __( 'Edit player page', 'bisonsrfc' ),
             'view_item' => __( 'View player page', 'bisonsrfc' ),
-            'search_item' => __( 'Search player page', 'bisonsrfc' ),
+            'search_item' => __( 'Search player page', 'bisonsrfc', 'thumbnail' ),
             ),
         'public' => true,
         'rewrite'=> array('slug' => 'players-area'),
@@ -109,29 +109,7 @@ function create_post_types() {
 
     );
     
-    
-    /*
-     *  Create committee member pages post type
-     */
-    register_post_type( 'committee-page', array(
         
-        'labels' => array (
-            'name' => __( 'Committee Pages', 'bisonsrfc' ),
-            'singular_name' => __( 'Committee Page', 'bisonsrfc' ),
-            'add_new_item' => __( 'Add new committee page', 'bisonsrfc' ),
-            'edit_item' => __( 'Edit committee page', 'bisonsrfc' ),
-            'view_item' => __( 'View committee page', 'bisonsrfc' ),
-            'search_item' => __( 'Search committee page', 'bisonsrfc' ),
-            ),
-        'taxonomies' => array('page group'),
-        'public' => true,
-        'rewrite'=> array('slug' => 'committee-area'),
-        'show_in_menu' => false,
-        'has_archive' => true,
-        'hierarchical' => true,
-            )
-    );
-    
     
     register_post_type( 'committee-profile', array(
         
@@ -141,7 +119,7 @@ function create_post_types() {
             'add_new_item' => __( 'Add new Committee Profile', 'bisonsrfc' ),
             'edit_item' => __( 'Edit Committee Profile', 'bisonsrfc' ),
             'view_item' => __( 'View Committee Profile', 'bisonsrfc' ),
-            'search_item' => __( 'Search Committee Profile', 'bisonsrfc' ),
+            'search_item' => __( 'Search Committee Profile', 'bisonsrfc', 'thumbnail' ),
             ),
         'public' => true,
         'show_in_menu' => false,

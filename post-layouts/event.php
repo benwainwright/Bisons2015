@@ -17,17 +17,26 @@ $image_url = wp_get_attachment_url( $image_id );
           <h2><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="summary"><?php the_title(); ?></span></a></h2>
           <?php include( __DIR__ . '/../snippets/post_meta.php' ) ?>
       </header>
-
-      <div class="feature-image" href='<?php echo $image_url; ?>'>
-            <img itemprop="photo"  class='alignright<?php if (get_post_meta(get_the_id(), 'whitebackground', true )) echo " noborder";  ?>' src="<?php echo $image_url; ?>" alt="image <?php echo $image_id ?>"/>
-            <div class='eventMeta'>
-                <h4>Event Details <?php if($fbevent) : ?><br /><a class="fblink facebooksmall" href='<?php echo $fbevent; ?>'>Facebook Event</a><?php endif ?></h4>
-            <ul>
-            	<?php echo datetime_string ( $date, $enddate, $time, $endtime, false, $isodate ) ?>
-        	</ul>
-        	<ul>
-            	<li><h5 class='addresssmall'>Location</h5><?php echo str_replace ("\n", '<br />', $address) ?></li>
-		    </ul>
+      
+            <div class="metaBox">
+                  <?php 
+                  if ( has_post_thumbnail() ) {
+                   
+                        $thumbnailAtributes = array(
+                              'itemprop'  => 'photo',
+                              'class'     => 'alignright'
+                        );
+                        the_post_thumbnail();
+                  } 
+                  ?>
+                  <div class='eventMeta'>
+                      <h4>Event Details <?php if($fbevent) : ?><br /><a class="fblink facebooksmall" href='<?php echo $fbevent; ?>'>Facebook Event</a><?php endif ?></h4>
+                  <ul>
+                        <?php echo datetime_string ( $date, $enddate, $time, $endtime, false, $isodate ) ?>
+                  </ul>
+        	      <ul>
+            	      <li><h5 class='addresssmall'>Location</h5><?php echo str_replace ("\n", '<br />', $address) ?></li>
+		      </ul>
             <div class='clear'></div>
             </div>
       </div>

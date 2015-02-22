@@ -4,7 +4,17 @@
           <?php include( __DIR__ . '/../snippets/post_meta.php' ) ?>
       </header>
       
-      <?php if ( has_post_thumbnail() ) { the_post_thumbnail(); }
+      <?php 
+      if ( has_post_thumbnail() ) {
+
+            $thumbnailAtributes = array(
+                  'itemprop'  => 'photo',
+                  'class'     => 'alignright'
+            );
+            the_post_thumbnail();
+      
+      } 
+
 
       if ( is_single() ) the_content(); 
       else echo preg_replace("/<img(.*?)>/si", "", get_the_excerpt());
