@@ -25,40 +25,39 @@ $homeaway = get_post_meta(get_the_id(), 'fixture-home-away', true);
           <h2><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="eventType">Fixture</span> Details</a></h2>
           <?php include( __DIR__ . '/../snippets/post_meta.php' ) ?>
       </header>
-      <div class='fixturemap'>
-      <div class='gmap-border'><div class="gmap-canvas" id="map-<?php the_id(); ?>"></div></div>
-      <div class='eventMeta fixture'>
-          <table>
-              <tbody>
-                  <tr>
-                      <?php if ( $homeaway == 'Home' ) : ?>
-                      <td><strong>Home</strong><br />Bristol Bisons RFC</td>
-                      <td><strong>Away</strong><br /><?php echo team_link($oppteam, $opplink); ?></td>
-                      <?php else : ?>
-                      <td><strong>Home</strong><br /><?php echo team_link($oppteam, $opplink); ?></td>
-                      <td><strong>Away</strong><br />Bristol Bisons RFC</td>
-                      <?php endif ?>
-                  </tr>
-              </tbody>
-          </table>
-          <ul>
-              <li><h5 class='datesmall'>Date</h5>
-                  <?php if ( $textdate ) : echo $textdate; ?>
-                  <?php else : ?><time itemProp="startDate" datetime="<?php echo $isodate ?>"><?php echo $fixdate; ?></time><?php endif ?>
+      <div class='metaBox fixture'>
+    
+            <a itemprop="url" href="<?php the_permalink() ?>"><img src='<?php echo get_template_directory_uri() ?>/images/ball.jpg' /></a>
+      <div class='eventMeta'>
+      		<h4><?php if ( $textdate ) : echo $textdate; ?><?php else : ?><time itemProp="startDate" datetime="<?php echo $isodate ?>"><?php echo $fixdate; ?></time><?php endif ?></h4>
+            <ul>
+                  
+                  <?php if ( $homeaway == 'Home' ) : ?>
+                  <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
+                  <li>Vs</li>
+                  <li class="fa fa-star teamName"><?php echo team_link($oppteam, $opplink); ?> (Away)</li>
+                  <?php else : ?>
+                  <li class="fa fa-star teamName"><?php echo team_link($oppteam, $opplink); ?> (Home)</li>
+                  <li>Vs</li>
+                  <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
+                  <?php endif ?>
+              </ul>
 
-              </li>
-              <li><h5 class='timesmall'>Kickoff</h5><?php echo $kickoff; ?></strong></li>
-              <li><h5 class='timesmall'>Players Arrive</h5><?php echo $playtme; ?></strong></li>
-          </ul>
-          <ul>
-          <li><h5 class="addresssmall">Location</h5><span itemprop="location" class="gmap-address map-<?php the_id(); ?>"><?php echo $address; ?></span></li>
-          <?php if($fixface) : ?><li><a class="facebooksmall" href='<?php echo $fbevent; ?>'>Facebook Event</a></li><?php endif ?>
-          </ul>
+                  <?php if (is_single()) { ?>
+              <ul class='extra'>
+                  <li class="fa fa-map-marker">Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($address); ?>'><?php echo $address; ?></a></span></li>
+                  <li class="fa fa-clock-o"><strong>Kickoff</strong><br /><?php echo $kickoff; ?></li>
+                  <li class="fa fa-clock-o"><strong>Players Arrive</strong><br /><?php echo $playtme; ?></li>
+                  <?php if($fixface) : ?><li class='fa fa-facebook-square'><a href='<?php echo $fbevent; ?>'>Facebook Event</a></li><?php endif ?>
+              </ul>
+                  <?php } ?>
+
+          
           <div class='clear'></div>
       </div>
       </div>
-      <p>This fixture has now been confirmed by the committee; We'd love it if you could come along and support us, and please feel free to bring friends, family and pets along!</p>
-      <p>If you are a player with questions about the fixture, please get in touch with the relevant committee member; you can find contact details in the <a href='<?php echo site_url('players-area') ?>'>player&apos;s area</a>. For any other queries, please contact us via the contact form at the bottom of the <a href='<?php echo site_url('about-us') ?>'>about us</a> page.</p>
+      <p>Please note that these details are subject to change at any point. Check the <a href='<?php echo home_url('/fixtures/') ?>' title='fixtures'>fixtures</a> page for the most up to date information. Should you need more information about a fixture, please get in touch.</p>
+      <?php if (! is_single() ) { ?><p>Click on the rugby ball above for more details...</p><?php } ?>
       <?php comments_template(); ?>
 </div>
 
