@@ -304,7 +304,7 @@ function membership_fee_postform ( $post ) { include_once( dirname(__FILE__) . '
 // Include custom post types in main blog
 function modify_blog_post_types($query) {
     if( is_home() && $query->is_main_query() || is_feed() )
-        $query->set( 'post_type', array('post', 'fixtures', 'results', 'report', 'event', 'photoalbum') );
+        $query->set( 'post_type', array('post', 'fixtures', 'results', 'report', 'events', 'photoalbum') );
     return $query;
 }
 add_filter ('pre_get_posts', 'modify_blog_post_types');
