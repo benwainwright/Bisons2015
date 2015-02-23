@@ -26,19 +26,17 @@ if ( '' == $text ) {
     $excerpt_length = apply_filters('excerpt_length', $excerpt_word_count); 
      
 	 
-	if (isset ( $post ))
-	{
-    	$excerpt_end = ' <a href="'. get_permalink($post->ID) . '">' . '(More...)' . '</a>'; 
-    	$excerpt_more = apply_filters('excerpt_more', ' ' . $excerpt_end);
-     
-	    $words = preg_split("/[\n\r\t ]+/", $text, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
-	    if ( count($words) > $excerpt_length ) {
-	        array_pop($words);
-	        $text = implode(' ', $words);
-	        $text = $text . $excerpt_more;
-	    } else {
-	        $text = implode(' ', $words);
-	    }
+
+	$excerpt_end = ' <a href="'. get_permalink($post->ID) . '">' . '(More...)' . '</a>'; 
+	$excerpt_more = apply_filters('excerpt_more', ' ' . $excerpt_end);
+ 
+    $words = preg_split("/[\n\r\t ]+/", $text, $excerpt_length + 1, PREG_SPLIT_NO_EMPTY);
+    if ( count($words) > $excerpt_length ) {
+        array_pop($words);
+        $text = implode(' ', $words);
+        $text = $text . $excerpt_more;
+    } else {
+        $text = implode(' ', $words);
     }
 }
 return apply_filters('wp_trim_excerpt', $text, $raw_excerpt);
