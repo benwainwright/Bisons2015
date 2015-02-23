@@ -80,7 +80,7 @@ if( $first_fixture ) : ?>
 <p>Friends and family are always welcome at our matches. If there are any remaining fixtures or we have already played fixtures this season, scroll down the page to find the details and match results. </p>
       <div class='metaBox fixture'>
     
-            <a itemprop="url" href="<?php echo $first_fixture['permalink'] ?>"><img src='<?php echo get_template_directory_uri() ?>/images/ball2.jpg' /></a>
+            <a itemprop="url" href="<?php echo $first_fixture['page'] ?>"><img src='<?php echo get_template_directory_uri() ?>/images/ball2.jpg' /></a>
       <div class='eventMeta'>
       		<h4><?php if ( $first_fixture['textdate'] ) : echo $first_fixture['textdate']; ?><?php else : ?><time itemProp="startDate" datetime="<?php echo $first_fixture['isodate'] ?>"><?php echo $first_fixture['date']; ?></time><?php endif ?></h4>
             <ul>
