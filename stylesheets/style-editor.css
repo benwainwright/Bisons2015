@@ -1,4 +1,15 @@
-@font-face { font-family: 'BisonsFont'; src: url(../fonts/BlairMdITCTTMedium.ttf) }
+@font-face {
+    font-family: 'BisonsFont';
+    src: url('../fonts/blairmditc_tt_medium-webfont.eot');
+    src: url('../fonts/blairmditc_tt_medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/vblairmditc_tt_medium-webfont.woff2') format('woff2'),
+         url('../fonts/blairmditc_tt_medium-webfont.woff') format('woff'),
+         url('../fonts/blairmditc_tt_medium-webfont.ttf') format('truetype'),
+         url('../fonts/blairmditc_tt_medium-webfont.svg#blairmditc_ttmedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
 body#tinymce { font-weight:300; font-size: 1em; line-height:1.6em; font-family: 'Ubuntu', serif; }
 h1 { font-family: 'BisonsFont', sans-serif; text-align:center; font-size:40px; }
 h1 {  font-size:40px; }
