@@ -79,8 +79,8 @@ function add_admin_menus()
 
     
     // Move 'results' page into the Fixtures submenu
-    add_submenu_page ( 'edit.php?post_type=fixture', 'Results', 'Results', 'committee_perms', 'edit.php?post_type=result' );
-    add_submenu_page ( 'edit.php?post_type=fixture', 'New Fixtures', 'New Fixtures', 'committee_perms', 'new-fixtures', 'fixtures_listTable_callback' );
+    add_submenu_page ( 'edit.php?post_type=fixtures', 'Results', 'Results', 'committee_perms', 'edit.php?post_type=result' );
+    add_submenu_page ( 'edit.php?post_type=fixtures', 'New Fixtures', 'New Fixtures', 'committee_perms', 'new-fixtures', 'fixtures_listTable_callback' );
       
     // Create 'committee' submenu
     add_menu_page ( 'Committee', 'Committee', 'committee_perms', 'committee', 'edit.php?post_type=committee-profile', 'dashicons-businessman', 9);

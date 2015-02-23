@@ -14,11 +14,11 @@ $image_url = wp_get_attachment_url( $image_id );
 ?>
 <div itemscope itemtype="http://data-vocabulary.org/Event" <?php post_class('post') ?>>
       <header>
-          <h2><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="summary"><?php the_title(); ?></span></a></h2>
+          <h2><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="summary">Event Details</span></a></h2>
           <?php include( __DIR__ . '/../snippets/post_meta.php' ) ?>
       </header>
       
-            <div class="metaBox">
+            <div class="metaBox event<?php if (is_single() ) echo ' single'; ?>">
                   <?php 
                   if ( has_post_thumbnail() ) {
                    
@@ -30,12 +30,24 @@ $image_url = wp_get_attachment_url( $image_id );
                   } 
                   ?>
                   <div class='eventMeta'>
-                      <h4>Event Details <?php if($fbevent) : ?><br /><a class="fblink facebooksmall" href='<?php echo $fbevent; ?>'>Facebook Event</a><?php endif ?></h4>
                   <ul>
+                   </ul>
+                  <?php if (is_single()) { ?>
+                  	<h4><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="summary"><?php the_title(); ?></span></a></h4>
+                  	<ul class='extra'>
                         <?php echo datetime_string ( $date, $enddate, $time, $endtime, false, $isodate ) ?>
+
+                  <li class="fa fa-map-marker">Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($address); ?>'><?php echo $address; ?></a></span></li>
+                  <?php if($fbevent) : ?><li class='fa fa-facebook-square'><a href='<?php echo $fbevent; ?>'>Facebook Link</a></li><?php endif ?>
+
                   </ul>
-        	      <ul>
-            	      <li><h5 class='addresssmall'>Location</h5><?php echo str_replace ("\n", '<br />', $address) ?></li>
+
+        	      <?php } else { ?>
+                  	<h4><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="summary"><?php the_title(); ?></span></a></h4>
+                  	<ul>
+                        <?php echo datetime_string ( $date, $enddate, $time, $endtime, false, $isodate ) ?>
+    	      		</ul>
+        	      	<?php } ?>
 		      </ul>
             <div class='clear'></div>
             </div>

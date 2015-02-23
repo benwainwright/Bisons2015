@@ -1,7 +1,15 @@
+<?php get_header(); ?>
+<div id="wrapper">
+    <div id="pagecol" class='ajaxcol'>
+        <div class='page'>   
+ 
+<?php if ( isset ( $GLOBALS['bisons_flash_message'] ) ) : ?>
+        <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
+    <?php endif ?>   
 <header class='header'>
-    <h2><?php the_title(); ?></h2>
+    <h2>Events</h2>
     <ul class='pageMenu'>
-    <?php if ( current_user_can('edit_post') ) { ?>
+    <?php if ( current_user_can('edit_post', get_the_ID() ) ) { ?>
         <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=fixture'>Add</a></li>
     <?php } ?>
         <li><a class='fa fa-rss-square fa-lg' href='<?php echo  str_replace ( 'http://', 'webcal://', site_url('/calendar.ics?of=events'))?>'>iCal (events)<a/></li>
@@ -9,7 +17,7 @@
     </ul>
 </header>
 
-<?php 
+<?php
 // Loop through query results, save first event into $first_event, then put the rest in an array called $events
 while( have_posts( ) ): the_post( );
 
@@ -26,14 +34,24 @@ while( have_posts( ) ): the_post( );
         'title'         =>  get_the_title(),
         'date'          =>  $printdate,
         'enddate'       =>  get_post_meta( get_the_id(), 'enddate', true ) ? date( 'l \t\h\e jS \o\f F Y' , (int) get_post_meta( get_the_id(), 'enddate', true ) ) : null,
+        'isodate' 		=>  date('c', get_post_meta(get_the_id(), 'date', true )),
         'permalink'     =>  get_permalink(),
         'time'          =>  $time,
         'endtime'	    =>  get_post_meta( get_the_id(), 'endtime', true ),
         'fb-event'      =>  get_post_meta( get_the_id(), 'facebook-event', true ),
         'description'   =>  wpautop ( get_the_content() ),
         'address'       =>  get_post_meta( get_the_id(), 'address', true ),
-        'image_src'     =>  wp_get_attachment_url( get_post_meta( get_the_id(), 'image_id', true) )
     );
+	
+  	if ( has_post_thumbnail() ) {
+   
+        $thumbnailAtributes = array(
+	              'itemprop'  => 'photo',
+	          'class'     => 'alignright'
+	    );
+	    $event['img_src'] = get_the_post_thumbnail();
+ 	} 
+
     // If the date and time of the event is greater than the current date and time, push the array into the $future_events array
     if( $datetimeunix > time() ) $future_events[] = $event;
 
@@ -49,21 +67,35 @@ if( count($future_events) > 0 )  $future_events = array_values($future_events);
 // If there is a 'Next Event' show the relevant HTML
 if( $first_event ) : ?>
     <p>We are a friendly group of guys and in most cases (except perhaps events where people have paid in advance, such as the christmas meal), anybody is welcome to come along to social events. This can be a great opportunity to get to know us and maybe ask more questions if you are considering coming along to training.</p>
-<section id="nextevent">
-    <h3>Next Event</h3>
-    <div id="mainevent">
-          
-      <ul class="metalist">
-        <li class='listimage'><a href="<?php echo $first_event['image_src']; ?>"><img class='left' src="<?php echo $first_event['image_src']; ?>" /></a></li>
-        <li><strong><?php echo $first_event['title']; ?></strong><?php if(get_edit_post_link( $first_event['id']) ) { ?> - <a href='<?php echo get_edit_post_link( $first_event['id']) ?>'>Edit</a><?php } ?></li>
-        <li><strong><?php echo datetime_string ( $first_event['date'], $first_event['enddate'], $first_event['time'], $first_event['endtime'], false ) ?></strong></li>
-        <li><?php echo $first_event['description']; ?></li>
-        <?php if($future_event['address']) : ?><li class="address"><?php echo $first_event['address']; ?></li><?php endif; ?>
+	<section class='clear'>
+		<h3>Up Next</h3>
+            <div class="metaBox nextEvent">
+            	
+            	<?php if ( isset ( $first_event['img_src'] ) ) echo $first_event['img_src'] ?>
+
+                  <div class='eventMeta'>
+                  <ul>
+                   </ul>
+                  	<ul>
+                        <?php echo datetime_string ( $first_event['date'], $first_event['enddate'], $first_event['time'], $first_event['endtime'], false, $first_event['isodate'] ) ?>
+
+                  <li class="fa fa-map-marker">Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($first_event['address']); ?>'><?php echo $first_event['address']; ?></a></span></li>
+                  <?php if($first_event['fb-event']) : ?><li class='fa fa-facebook-square'><a href='<?php echo $first_event['fb-event']; ?>'>Facebook Link</a></li><?php endif ?>
+
+                  </ul>
 
 
-    </ul> 
-    <div class="clear"></div>
+
+		      </ul>
+	
+            <div class='clear'></div>
+
+
+            </div>
+
       </div>
+      <h4><a itemprop="url" href="<?php echo $first_event['permalink'] ?>"><span itemprop="summary"><?php echo $first_event['title'] ?></span></a></h4>
+	<?php echo $first_event['description'] ?>
 </section>
 <?php endif;
 
@@ -72,13 +104,20 @@ if( count($future_events) > 0)  : ?>
     <section class='clearsection'>
         <h3>Other upcoming events</h3>
         <p>For more details about an event, click on the event title.</p>
+        
         <table class='center'>
             <tbody>
             <?php foreach($future_events as $future_event) : ?>
-            <tr>
-                 <th><a href="<?php echo $future_event['permalink']; ?>"><?php echo $future_event['title']; ?></a></th>
-                 <td><?php echo datetime_string ( $future_event['date'], $future_event['enddate'], $future_event['time'], $future_event['endtime'] ) ?></td>
-            </tr>
+            	
+                <div class='albumThumb eventsArchive'>
+                    <a class="desktopthumb" href='<?php echo $future_event['permalink'] ?>'><?php echo $future_event['img_src'] ?></a>
+                    <div class='profileMeta'>
+                        <h3><a href='<?php echo $future_event['permalink'] ?>'><?php echo $future_event['title'] ?></a></h3>
+                        <ul>
+                    <?php echo datetime_string ( $future_event['date'], $future_event['enddate'], $future_event['time'], $future_event['endtime'], false, $future_event['isodate'] ) ?>
+                        </ul>
+                    </div>
+                </div>
             <?php endforeach; ?>
             </tbody>
         </table>
@@ -135,22 +174,30 @@ if( count($past_events) > 0)  : ?>
         <p>For more details about an event, click on the event title.</p>
         <table class='center'>
             <tbody>
-            <?php foreach( $past_events  as $past_event ) : ?>
-                <tr>
-                    <th><a href="<?php echo $past_event['permalink']; ?>"><?php echo $past_event['title']; ?></a>
-                        
+            	
+
+            <?php foreach($past_events as $past_event) : ?>
+            	
+                <div class='albumThumb eventsArchive'>
+                    <a class="desktopthumb" href='<?php echo $past_event['permalink'] ?>'><?php echo $past_event['img_src'] ?></a>
+                    <div class='profileMeta'>
+                        <h3><a href='<?php echo $past_event['permalink'] ?>'><?php echo $past_event['title'] ?></a></h3>
+                        <ul>
+                    <?php echo datetime_string ( $past_event['date'], $past_event['enddate'], $past_event['time'], $past_event['endtime'], false, $past_event['isodate'] ) ?>
                     <?php if ( isset ( $past_event['linked_posts'] ) ) : ?>
-                        <ul class='postlist'>
-                            <?php foreach ( $past_event['linked_posts'] as $post ): ?>
-                            <li><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></li>
-                            <?php endforeach ?>        
-                        </ul>
+                        <?php foreach ( $past_event['linked_posts'] as $post ): ?>
+                        <li class='fa-thumb-tack fa'><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></li>
+                        <?php endforeach ?>        
                     <?php endif ?>
-                    </th>
-                    <td><?php echo datetime_string ( $past_event['date'], $past_event['enddate'], $past_event['time'], $past_event['endtime'] ) ?></td>
-                </tr>
+                        </ul>
+                    </div>
+                </div>
             <?php endforeach; ?>
+
             </body>
         </table>
     </section>
     <?php endif; ?>
+    </div>
+    </div>
+    </div>

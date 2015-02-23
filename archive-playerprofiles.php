@@ -20,9 +20,9 @@
                )
             );
 			while ( have_posts() ) : the_post() ?>
-            <?php if ( $image_url = wp_get_attachment_image_src( get_post_meta( get_the_id(), 'image_id', true), 'large' ) ) :  ?>
+            <?php if ( has_post_thumbnail() ) :  ?>
                 <div class='albumThumb'>
-                    <a class="desktopthumb" href='<?php the_permalink() ?>'><img src='<?php echo $image_url[0] ?>' /></a>
+                    <a class="desktopthumb" href='<?php the_permalink() ?>'><?php the_post_thumbnail() ?></a>
                     <div class='profileMeta'>
                         <h3><a href='<?php the_permalink() ?>'><?php the_title() ?></a></h3>
                         <ul>

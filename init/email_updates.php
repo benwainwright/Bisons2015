@@ -2,7 +2,7 @@
 
 function email_updates ( $post_id )
 {
-	if ( get_post_status() == 'publish' && $_POST['email_players'] == 'true' && ! (wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) )
+	if ( get_post_type( $post_id ) == 'fixtures' && get_post_status() == 'publish' && $_POST['email_players'] == 'true' && ! (wp_is_post_revision( $post_id ) || wp_is_post_autosave( $post_id ) ) )
 	{
     	// Get users from Wordpress database
     	$users = get_users();

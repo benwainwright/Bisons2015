@@ -4,7 +4,7 @@
 
 // Register post types with Wordpress
 function create_post_types() {
-    register_post_type( 'fixture', array(
+    register_post_type( 'fixtures', array(
         'labels' => array (
             'name' => __( 'Fixtures', 'bisonsrfc'  ),
             'singular_name' => __( 'Fixture', 'bisonsrfc'  ),
@@ -42,7 +42,7 @@ function create_post_types() {
     /**
       * Create 'Events' post type
       */
-    register_post_type( 'event', array(
+    register_post_type( 'events', array(
         'labels' => array (
             'name' => __( 'Events', 'bisonsrfc' ),
             'singular_name' => __( 'Event', 'bisonsrfc' ),
@@ -221,7 +221,7 @@ function add_custom_forms ( $post ) {
         'fixture-edit',
         'Fixture details',
         'fixtures_content',
-        'fixture',
+        'fixtures',
         'normal',
         'high'
     );
@@ -230,7 +230,7 @@ function add_custom_forms ( $post ) {
         'event-edit',
         'Event details',
         'events_content',
-        'event',
+        'events',
         'normal',
         'high'
     );
@@ -304,7 +304,7 @@ function membership_fee_postform ( $post ) { include_once( dirname(__FILE__) . '
 // Include custom post types in main blog
 function modify_blog_post_types($query) {
     if( is_home() && $query->is_main_query() || is_feed() )
-        $query->set( 'post_type', array('post', 'fixture', 'result', 'report', 'event', 'photoalbum') );
+        $query->set( 'post_type', array('post', 'fixtures', 'results', 'report', 'event', 'photoalbum') );
     return $query;
 }
 add_filter ('pre_get_posts', 'modify_blog_post_types');
