@@ -9,6 +9,16 @@
 </header>
 
 <?php 
+  if ( has_post_thumbnail() ) {
+   
+        $thumbnailAtributes = array(
+              'itemprop'  => 'photo',
+              'class'     => 'alignright'
+        );
+        the_post_thumbnail( 'full');
+  } 
+  ?>
+
 the_content(''); 
 comments_template();
 ?>
