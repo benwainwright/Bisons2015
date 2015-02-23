@@ -20,12 +20,6 @@
                     endif; 
                     ?>
     <?php endwhile; ?>
-        <section class="pagination">
-            <ul>
-                <li class="newer"><?php previous_posts_link('Newer posts'); ?></li>
-                <li class="older"><?php next_posts_link('Older posts'); ?></li>
-            </ul>
-        </section>
 
     <?php else : ?>
         <h2>Nothing Found</h2>
