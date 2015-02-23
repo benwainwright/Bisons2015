@@ -3,7 +3,7 @@
 <div id="wrapper">
     <div id="pagecol" class='ajaxcol'>
         <div class='page'>   
-<?php if ( $GLOBALS['bisons_flash_message'] ) : ?>
+<?php if ( isset ( $GLOBALS['bisons_flash_message'] ) ) : ?>
         <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
     <?php endif ?>    
     <header>
@@ -11,7 +11,7 @@
 		
 		
     <ul class='pageMenu'>
-    <?php if ( current_user_can('edit_post') ) { ?>
+    <?php if ( current_user_can('edit_post', get_the_id()) ) { ?>
         <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=player-page'>Add</a></li>
 		<li><a class='fa fa-wordpress fa-lg' href='<?php echo admin_url(); ?>'>Dashboard</a></li>
     <?php } ?>
