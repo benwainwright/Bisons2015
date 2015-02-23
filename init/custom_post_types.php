@@ -344,7 +344,7 @@ add_action( 'save_post', 'save_custom_post_form');
 // For child forms, if the user accidentilly finds his way onto them without a parent post set, remove the editing interface
 function restrict_parentless_children_forms() {
     if( $_SERVER['PHP_SELF'] == '/wp-admin/post-new.php' &&
-        !$_GET['parent_post']) {
+        ! isset ( $_GET['parent_post'] ) && isset($_GET['post_type']) ) {
             switch($_GET['post_type']) {
                 case "report":
                     $type = 'report';
@@ -352,6 +352,7 @@ function restrict_parentless_children_forms() {
                 case "result":
                     $type = 'result';
                     break;
+					
             }
 
             remove_post_type_support( $type, 'title');

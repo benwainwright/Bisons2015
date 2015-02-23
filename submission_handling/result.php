@@ -18,12 +18,15 @@ $postdetails = array (
     'post_content' => 'No content'
 );
 
-if ($_POST['hide_from_blog'] == 'true')
+if ( isset ( $_POST['hide_from_blog'] ) )
 {
-    update_post_meta($post, 'hide_from_blog', 'true');
-} else 
-{
-    delete_post_meta($post, 'hide_from_blog');
+	if ($_POST['hide_from_blog'] == 'true')
+	{
+	    update_post_meta($post, 'hide_from_blog', 'true');
+	} else 
+	{
+	    delete_post_meta($post, 'hide_from_blog');
+	}
 }
 
 // unhook this function so it doesn't loop infinitely
