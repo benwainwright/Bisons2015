@@ -74,28 +74,24 @@ if( $first_event ) : ?>
             	<?php if ( isset ( $first_event['img_src'] ) ) echo $first_event['img_src'] ?>
 
                   <div class='eventMeta'>
-                  <ul>
-                   </ul>
+      				<h4><a itemprop="url" href="<?php echo $first_event['permalink'] ?>"><span itemprop="summary"><?php echo $first_event['title'] ?></span></a></h4>
+
                   	<ul>
                         <?php echo datetime_string ( $first_event['date'], $first_event['enddate'], $first_event['time'], $first_event['endtime'], false, $first_event['isodate'] ) ?>
 
                   <li class="fa fa-map-marker">Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($first_event['address']); ?>'><?php echo $first_event['address']; ?></a></span></li>
                   <?php if($first_event['fb-event']) : ?><li class='fa fa-facebook-square'><a href='<?php echo $first_event['fb-event']; ?>'>Facebook Link</a></li><?php endif ?>
-
+				  <li><?php echo $first_event['description'] ?></li>
                   </ul>
 
 
 
-		      </ul>
-	
             <div class='clear'></div>
 
 
             </div>
 
       </div>
-      <h4><a itemprop="url" href="<?php echo $first_event['permalink'] ?>"><span itemprop="summary"><?php echo $first_event['title'] ?></span></a></h4>
-	<?php echo $first_event['description'] ?>
 </section>
 <?php endif;
 
