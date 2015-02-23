@@ -1,6 +1,6 @@
 <?php
 $fixtures = new WP_Query(array(
-    'post_type' => 'fixture',
+    'post_type' => 'fixtures',
     'nopaging' => 'true',
     'orderby'   => 'meta_value',
     'meta_key'  => 'fixture-date',
@@ -8,7 +8,7 @@ $fixtures = new WP_Query(array(
 ));
 
 $events = new WP_Query(array(
-    'post_type' => 'event',
+    'post_type' => 'events',
     'nopaging' => 'true',
     'orderby'   => 'meta_value',
     'meta_key'  => 'date',
