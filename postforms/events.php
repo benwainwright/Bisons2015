@@ -69,23 +69,6 @@ All-Day Event</label>
                 <span class="description">Where will the event be taking place? If you put an address that can be recognised by Google maps into this field, a Google map will be included in the event post</span>
             </td>
         </tr>
-        <tr>
-            <th><label for="photo">Image upload</label></th>
-            <td>
-                <input type="button" class="button button-large custom-image-upload-button" name='add-event-image' value='Upload image' />
-                <input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
-                <input type="button" class="button button-large custom-image-remove-button" name='remove-event-image' value='Remove image' style="<?php echo ( ! $image_id ? 'display:none;' : '' ); ?>" />
-                <span class="description">Choose an image on your computer or from the Wordpress media gallery to insert into the event listing. <strong>Please use photographs only</strong>; clipart or photographs with a white background will not work well with this theme.</strong></span>
-            </td>
-        </tr>
-        <tr>
-            <th><label>Image</label></th>
-            <td>
-                <img id="image_canvas" src="<?php echo $image_url; ?>" />
-                <span class="image_canvas_description"><?php if( ! $image_id ) echo $image_id; ?></span>
-            </td>
-        </tr>
-
             <tr>
                 <th scope="row">Visible</th>
                 <td>

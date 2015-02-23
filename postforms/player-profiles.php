@@ -9,23 +9,6 @@ $image_url = wp_get_attachment_thumb_url( $image_id ) ;
 <div id='custom-form'>
     <table class="form-table">
         <tbody>
-            <tr>
-                <th><label for="photo">Photo upload</label></th>
-                <td>
-                    <input type="button" class="button button-large custom-image-upload-button" name='add-event-image' value='Upload image' />
-                    <input type="hidden" name="upload_image_id" id="upload_image_id" value="<?php echo $image_id; ?>" />
-                    <input type="button" class="button button-large custom-image-remove-button" name='remove-event-image' id='remove-event-image' value='Remove image' style="<?php echo ( ! $image_id ? 'display:none;' : '' ); ?>" />
-                    <span class="description">Choose an image on your computer or from the Wordpress media gallery to display on the profile page. Note that profiles will <strong>not be listed</strong> without a photo.</span>
-                </td>
-            </tr>
-           
-            <tr class='image_canvas_row'>
-                <th><label>Photo</label></th>
-                <td>
-                    <img id="image_canvas" src="<?php echo $image_url ? $image_url : $GLOBALS['blog_info']['template_url'].'/images/default-avatar.jpg'; ?>" />
-                    <span class="image_canvas_description"><?php if( ! $image_id ) echo $image_id; ?></span>
-                </td>
-            </tr>
 
             <tr>
                 <th><label for="name">Name</label></th>
