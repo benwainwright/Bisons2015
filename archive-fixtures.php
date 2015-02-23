@@ -7,7 +7,7 @@
         <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
     <?php endif ?>   
 <header>
-    <h2><?php the_title(); ?></h2>
+    <h2>Fixtures</h2>
     <ul class='pageMenu'>
     <?php if ( current_user_can('edit_post', get_the_id() ) ) { ?>
         <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=fixture'>Add</a></li>
@@ -40,7 +40,7 @@ while( have_posts()) : the_post();
     // Reformat date and convert the date and time combined into a unix time
     $unixdate = get_post_meta( get_the_id(), 'fixture-date', true );
 
-    $printdate = date( 'l \t\h\e jS \o\f F Y' , $unixdate );
+    $printdate = date( 'jS \o\f F Y' , $unixdate );
     $time = get_post_meta( get_the_id(), 'fixture-kickoff-time', true );
     $datetime = date( 'Y:m:d' , $unixdate ). ' '.$time.':00';
     $datetimeunix = strtotime($datetime);
@@ -78,44 +78,26 @@ if( count($future_fixtures) > 0 ) $future_fixtures = array_values($future_fixtur
 if( $first_fixture ) : ?>
 <h3>Next Fixture</h3>
 <p>Friends and family are always welcome at our matches. If there are any remaining fixtures or we have already played fixtures this season, scroll down the page to find the details and match results. </p>
-<section class="centeralign">
-
-    <table class='center resultstable'>
-    <tbody>
-        <tr>
-            <th class="date-col" colspan='4'>
-                <?php echo  $first_fixture['date']; ?>
-                <?php if(get_edit_post_link( $first_fixture['id'] )) : ?>
-                    <ul class='edit-links'>
-                        <li><?php echo $first_fixture['edit_link']; ?></li>
-                    </ul>
-                <?php endif ?>
-            </th>
-        </tr>
-        <tr class='nextfixturemeta'>
-            <?php if ($first_fixture['homeaway'] == "Home") : ?>
-            <td class="hometeam-col"><span class="homeawaylabel">Home Team</span>Bristol Bisons RFC</td>
-            <?php else : ?>
-            <td class="hometeam-col"><span class="homeawaylabel">Home Team</span><?php echo team_link($first_fixture['opposing'], $first_fixture['teamurl']); ?></td>
-            <?php endif ?>
-            <td>
-                <ul>
-                    <li><strong>Players Arrive</strong><br /><?php echo $first_fixture['playtime'] ?></li>
-                    <li><strong>Kickoff</strong><br /><?php echo $first_fixture['kickoff'] ?></li>
-                </ul>
-            </td>
-            <td>
-                <strong>Address</strong><br /><span class="gmap-address map-1"><?php echo str_replace ( "\n", '<br />', $first_fixture['address'] ) ?></span>
-            </td>
-            <?php if ($first_fixture['homeaway'] == "Away") : ?>
-            <td class="hometeam-col"><span class="homeawaylabel">Away Team</span>Bristol Bisons RFC</td>
-            <?php else : ?>
-            <td class="hometeam-col"><span class="homeawaylabel">Away Team</span><?php echo team_link($first_fixture['opposing'], $first_fixture['teamurl']); ?></td>
-            <?php endif ?>           
-        </tr>
-    </tbody>
-    </table>
-<div class="gmap-canvas" id="map-1"></div>
+      <div class='metaBox fixture'>
+    
+            <a itemprop="url" href="<?php echo $first_fixture['permalink'] ?>"><img src='<?php echo get_template_directory_uri() ?>/images/ball2.jpg' /></a>
+      <div class='eventMeta'>
+      		<h4><?php if ( $first_fixture['textdate'] ) : echo $first_fixture['textdate']; ?><?php else : ?><time itemProp="startDate" datetime="<?php echo $first_fixture['isodate'] ?>"><?php echo $first_fixture['date']; ?></time><?php endif ?></h4>
+            <ul>
+                  
+                  <?php if ( $first_fixture['homeaway'] == 'Home' ) : ?>
+                  <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
+                  <li>Vs</li>
+                  <li class="fa fa-star teamName"><?php echo team_link($first_fixture['opposing'], $first_fixture['teamurl']); ?> (Away)</li>
+                  <?php else : ?>
+                  <li class="fa fa-star teamName"><?php echo team_link($first_fixture['opposing'], $first_fixture['teamurl']); ?> (Home)</li>
+                  <li>Vs</li>
+                  <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
+                  <?php endif ?>
+              </ul>          
+          <div class='clear'></div>
+      </div>
+      </div>
 
 
 
@@ -128,16 +110,20 @@ if( $first_fixture ) : ?>
 <?php if( $future_fixtures ) : ?>
     <section class="clearsection">
     <h3>Upcoming Fixtures</h3>
-    <p>Below are the remaining upcoming fixtures for this season. Click on the fixture date for more information about each one.</p>
+    <p>Below are the remaining upcoming fixtures for this season. Click on the fixture date for details of that fixture.</p>
+    
       <table class='center fixturestable'>
+
             <tbody>
 
     <?php foreach($future_fixtures as $future_fixture) : ?>
-  
-                <tr>
-                    <td colspan='3'><h4><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></h4>
-                        <p><strong><?php echo $future_fixture['homeaway'] ?></strong> match against <?php echo link_if_avail($future_fixture['opposing'], $future_fixture['teamurl']); ?></p></td>
-                </tr>
+    	
+    			<tr>
+    				<td><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
+    				<td><?php echo $future_fixture['homeaway'] ?></td>
+    				<td><?php echo link_if_avail($future_fixture['opposing'], $future_fixture['teamurl']); ?></td>
+    			</tr>
+
 
     <?php endforeach; ?>
         </tbody>
@@ -195,6 +181,8 @@ if( $first_fixture ) : ?>
      */
     $match_report_col_on = false;
     $edit_col_on = false; 
+	$linked_post_on = false;
+
     foreach($past_fixtures as &$past_fixture) :
 
         foreach($results as $result) :
@@ -208,75 +196,63 @@ if( $first_fixture ) : ?>
         foreach($linked_posts as $linked_post) :
             if($past_fixture['id'] == $linked_post['parent-fixture']) :
                 $past_fixture['linked_posts'][] = $linked_post;
+				$linked_post_on = true;
             endif;
         endforeach;
         if(get_edit_post_link( $past_fixture['id'] ) ) $edit_col_on = true; 
     endforeach;
         
-    $past_fixtures = array_reverse( $past_fixtures ); 
+    $past_fixtures = array_reverse( $past_fixtures );
+    ?>
+    <table class='center'>
+    	<tbody>
+    	
     
+	<?php
     foreach($past_fixtures as $past_fixture_print) :
         $fixdate = $past_fixture_print['date'];
-        $ourscore = $past_fixture_print['our-score'] ? $past_fixture_print['our-score'] : "TBC";
-        $theirscore = isset($past_fixture_print['their-score']) ? $past_fixture_print['their-score'] : "TBC";
         $opposing = $past_fixture_print['opposing'];
         $oppurl = $past_fixture_print['teamurl'];
-        $linkedposts = $past_fixture_print['linked_posts'];
-         $past_fixture_print['edit-result-link'] = $past_fixture_print['edit-result-link'] 
+         $past_fixture_print['edit-result-link'] = isset ( $past_fixture_print['edit-result-link'] ) 
                 ? $past_fixture_print['edit-result-link'] 
-                : "<a class='editsmall' href='/wp-admin/post-new.php?post_type=result&parent_post=".$past_fixture_print['id']."'>Add result</a>";
+                : "<a href='/wp-admin/post-new.php?post_type=result&parent_post=".$past_fixture_print['id']."'>Result</a>";
 
         ?>
-        <table class='center resultstable'>
-        <tbody>
-            <tr>
-                <th class="date-col" colspan='4'>
-                    <?php echo  $fixdate; ?>
-                    <?php if(get_edit_post_link( $past_fixture['id'] )) : ?>
-                        <ul class='edit-links'>
-                            <li><?php echo $past_fixture_print['edit_link']; ?></li>
-                            <li><?php echo $past_fixture_print['edit-result-link']; ?></li>
-                        </ul>
-                    <?php endif ?>
-                </th>
-            </tr>
-            <tr>
-                <?php if ($past_fixture_print['homeaway'] == "Home") : ?>
-                  
-                  
-                <td class="hometeam-col"><span class="homeawaylabel">Home</span>Bristol Bisons RFC</td>
-                <td class="scorecell<?php if ( $theirscore == 'TBC' && $ourscore == 'TBC') echo ' tbcscore" colspan="2' ?>"><?php echo $ourscore; ?></td>
-                <?php if ( $theirscore != 'TBC' && $ourscore != 'TBC') : ?>
-                <td class="scorecell"><?php echo $theirscore; ?></td>
-                <?php endif ?>
-                <td class="oppteam-col"><span class="homeawaylabel">Away</span><?php echo team_link($opposing, $oppurl); ?></td>
-                <?php else : ?>
-                  
-                <td class="hometeam-col"><span class="homeawaylabel">Home</span><?php echo team_link($opposing, $oppurl); ?></td>
-                <td class="scorecell<?php if ( $theirscore == 'TBC' && $ourscore == 'TBC') echo ' tbcscore" colspan="2' ?>"><?php echo $theirscore; ?></td>
-                <?php if ( $theirscore != 'TBC' && $ourscore != 'TBC') : ?>
-                <td class="scorecell"><?php echo $ourscore; ?></td>
-                <?php endif ?>
-                <td class="oppteam-col"><span class="homeawaylabel">Away</span>Bristol Bisons RFC</td>
-                <?php endif ?>
-                  
-                  
-                <?php if($linkedposts) : ?>
-                <tr>
-                <td colspan='4' class="linkedposts">
-                    <ul class='postlist'> 
-                        <?php foreach ($linkedposts as $post ) : ?>
-                        <li><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></li>
+        <tr>
+        	<td><?php echo  $fixdate; ?></td>
+        	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? "Bristol Bisons RFC" :  team_link($opposing, $oppurl) ?></td>
+        	<?php if (isset ( $past_fixture_print['our-score'] ) && isset ( $past_fixture_print['their-score'] ) ) : ?>
+        	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['our-score'] : $past_fixture_print['their-score'] ?></td>
+        	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['their-score'] : $past_fixture_print['our-score'] ?></td>
+        	<?php else : ?>
+        		<?php if ( current_user_can('edit_post', get_the_id() ) ) : ?>
+    			<td colspan="2"><span class='fa fa-plus-square'><?php echo $past_fixture_print['edit-result-link'] ?></span></td>
+    			<?php else : ?>
+    			<td colspan="2">TBC</td>
+    			<?php endif ?>
+    		<?php endif ?>
+        	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? team_link($opposing, $oppurl) : "Bristol Bisons RFC" ?></td>
+			
+			<?php if ($linked_post_on) : ?>
+        	<td>
+        		<?php if ( isset ( $past_fixture_print['linked_posts'] ) ) : ?>
+        		<ul>
+                    <?php foreach ($past_fixture_print['linked_posts'] as $post ) : ?>
+                    <li class='linked-posts-col'><span class='fa fa-file'><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></span></li>
                     <?php endforeach; ?>
-                    </ul>
+        		</ul>
+        		<?php endif ?>
+        	</td>
+        	<?php endif ?>
+        	
+        </tr>
+    <?php endforeach; ?>
+      
 
-                </td>
-                </tr>
-                <?php endif; ?>
-            </tr>
         </tbody>
         </table>
-    <?php endforeach; ?>
+    </tbody>
+    </table>
     </section>
 <?php endif; ?>
 		</div>
