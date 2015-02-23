@@ -9,11 +9,11 @@ function contact_form_shortcode() {
 
     $types = array();
 
-    if ($emailopt['contact-us-email-query-type-1'] && $emailopt['contact-us-email-address-1'])
+    if ( isset ( $emailopt['contact-us-email-query-type-1'] ) && isset ( $emailopt['contact-us-email-address-1'] ) )
         $types[1] = $emailopt['contact-us-email-query-type-1'];
-    if ($emailopt['contact-us-email-query-type-2'] && $emailopt['contact-us-email-address-2'])
+    if ( isset ( $emailopt['contact-us-email-query-type-2'] ) && isset ( $emailopt['contact-us-email-address-2'] ) )
         $types[2] = $emailopt['contact-us-email-query-type-2'];
-    if ($emailopt['contact-us-email-query-type-3'] && $emailopt['contact-us-email-address-3'])
+    if ( isset ( $emailopt['contact-us-email-query-type-3'] ) && isset ( $emailopt['contact-us-email-address-3'] ) )
         $types[3] = $emailopt['contact-us-email-query-type-3'];
 
     if (sizeof($types))

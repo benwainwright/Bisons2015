@@ -332,8 +332,12 @@ add_action( 'pre_get_posts', 'exclude_hidden' );
 
 // Load code that handles submission of custom post types
 function save_custom_post_form( $post ) {
-    if( file_exists( dirname( __FILE__  ) . '/../submission_handling/' . $_POST ['post_type'] . '.php' ) )
-        include_once( dirname( __FILE__  ) . '/../submission_handling/' . $_POST ['post_type'] . '.php' );
+	
+	if ( isset ( $_POST ['post_type'] ) )
+	{
+	    if( file_exists( dirname( __FILE__  ) . '/../submission_handling/' . $_POST ['post_type'] . '.php' ) )
+	        include_once( dirname( __FILE__  ) . '/../submission_handling/' . $_POST ['post_type'] . '.php' );
+    }
 }
 add_action( 'save_post', 'save_custom_post_form');
 

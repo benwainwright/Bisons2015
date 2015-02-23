@@ -45,7 +45,6 @@ Class Wordpress_Form
         $this->fields = array();
         $this->html_id = $html_id;
         $this->form_method = $form_method; 
-        $this->post_id = $post_id;
         $this->submit_text = $submit_text;
         $this->row_tag = $row_tag ? $row_tag : "div" ;
         $this->has_file_uploads = false;
@@ -492,8 +491,16 @@ Class Wordpress_Form
               if ( $this->use_fieldsets )
               {
                     $output .= "<fieldset id='$fieldset_name'>";
-                    if ( $this->fieldsets[$fieldset_name]['legend'] ) $output .= "\t\t<legend>".$this->fieldsets[$fieldset_name]['legend']."</legend>\n";                
-                    if ( $this->fieldsets[$fieldset_name]['fieldsetinfo'] ) $output .= "\t\t<p class='info'>".$this->fieldsets[$fieldset_name]['fieldsetinfo']."</p>\n";
+					
+					if ( isset ( $this->fieldsets[$fieldset_name]['legend'] ) )
+					{
+                    	if ( $this->fieldsets[$fieldset_name]['legend'] ) $output .= "\t\t<legend>".$this->fieldsets[$fieldset_name]['legend']."</legend>\n";                
+					}
+                    
+                    if ( isset ( $this->fieldsets[$fieldset_name]['fieldsetinfo'] ) )
+                    {
+                    	if ( $this->fieldsets[$fieldset_name]['fieldsetinfo'] ) $output .= "\t\t<p class='info'>".$this->fieldsets[$fieldset_name]['fieldsetinfo']."</p>\n";
+					}
               }
               
               foreach ( $fields as $field ) 
