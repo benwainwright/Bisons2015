@@ -1,6 +1,9 @@
 <?php
 function modify_query( $query ) {
-    if ( $query->is_post_type_archive( 'events' ) && $query->is_main_query() ) {
+	
+	// Setup events archive
+    if ( !is_admin() && $query->is_post_type_archive( 'events' ) && $query->is_main_query() ) 
+    {
         $query->set( 'orderby', 'meta_value' );
 		$query->set( 'meta_key', 'date' );
 		$query->set('nopaging', 1);
