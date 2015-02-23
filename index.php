@@ -6,7 +6,7 @@
 
     
 	<div id="maincol">
-    <?php if ( $GLOBALS['bisons_flash_message'] ) : ?>
+<?php if ( isset ( $GLOBALS['bisons_flash_message'] ) ) : ?>
         <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
     <?php endif ?>
     <header class="mobileonly">

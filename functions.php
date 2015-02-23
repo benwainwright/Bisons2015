@@ -24,8 +24,11 @@ foreach ( glob( __DIR__ . '/helper_functions/*.php')  as $filename )
 { include_once($filename); }
 
 // Get flash message from querystring if there is one
-if ( wp_verify_nonce ( $_GET['nonce'], 'bisons_flashmessage_nonce') )
+if (isset ( $_GET['nonce'] ) )
+{
+	if ( wp_verify_nonce ( $_GET['nonce'], 'bisons_flashmessage_nonce') )
     $GLOBALS['bisons_flash_message'] = stripslashes ( $_GET['flash'] );
+}
 
 // Dependencies
 include_once('Mandrill/Mandrill.php');
@@ -75,17 +78,29 @@ include_once('widgets/welcometext.php');
 
 
 // Form handlers
-if ( wp_verify_nonce( $_POST['nonce'], 'wordpress_form_submit' ) && file_exists ( __DIR__ . '/form_handlers/' . $_POST['wp_form_id'] . '.php' ) )
+
+if (isset ( $_POST['nonce'] ) )
+{
+	if ( wp_verify_nonce( $_POST['nonce'], 'wordpress_form_submit' ) && file_exists ( __DIR__ . '/form_handlers/' . $_POST['wp_form_id'] . '.php' ) )
     include_once('form_handlers/' . $_POST['wp_form_id']. '.php');
+}
 
 include_once('listTables/players_no_mem_form.php');
-if ( wp_verify_nonce ( $_POST['nonce'],  'bulk-'.Players_No_Mem_form::$plural )  && $_POST['action'] != '-1' )
+
+if (isset ( $_POST['nonce'] ) )
+{
+	if ( wp_verify_nonce ( $_POST['nonce'],  'bulk-'.Players_No_Mem_form::$plural )  && $_POST['action'] != '-1' )
     include_once ('list_table_bulk_actions/' . $_POST['action'] . '.php' );
+}
 
 
 include_once('listTables/membership_forms.php');
-if ( file_exists ( __DIR__ . '/list_table_bulk_actions/' . $_POST['action'] . '.php' ) && wp_verify_nonce ( $_POST['_wpnonce'], 'bulk-'.Membership_Forms_Table::$plural ) && $_POST['action'] != '-1')
+
+if (isset ( $_POST['action'] ) )
+{
+	if ( file_exists ( __DIR__ . '/list_table_bulk_actions/' . $_POST['action'] . '.php' ) && wp_verify_nonce ( $_POST['_wpnonce'], 'bulk-'.Membership_Forms_Table::$plural ) && $_POST['action'] != '-1')
     include_once ('list_table_bulk_actions/' . $_POST['action'] . '.php' );
+}
     
 
 // Fix 'insert to post' button not visible bug.

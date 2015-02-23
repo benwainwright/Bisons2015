@@ -3,7 +3,7 @@ function datetime_string($startdate, $enddate = false, $starttime = false, $endt
 
     $starttime = $starttime ? date("g:ia", strtotime($starttime)) : false;
     $endtime = $endtime ? date("g:ia", strtotime($endtime)) : false;
-
+	$return = '';
     if ($ul)
         $return = '<ul>';
   

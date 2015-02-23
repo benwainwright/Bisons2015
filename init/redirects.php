@@ -21,7 +21,7 @@ function redirect_restricted_areas( $query )
     if ( ! $on_login_page && !is_admin() && $query->is_main_query() )
     {
           // If the query is an object, get the current post type
-          if ( is_object ( $query ) ) 
+          if ( is_object ( $query ) && isset ( $query->query['post_type'] ) ) 
                 $current_post_type = $query->query['post_type'];
           
           // For each pair in the array
