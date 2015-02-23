@@ -112,7 +112,7 @@ font-size: 0.8em;
 #menu .menubutton { display:none; }
 #menu li:hover a { color: black; }
 .nowrap { white-space:nowrap; }
-.left-col { white-space:nowrap; }
+.left-col {  width:120px; text-align:center; }
 
 /* Post styles */
 .post header, .page header {  width:100%;}
@@ -352,10 +352,10 @@ div.metaBox.fixture { width:100%; }
 div.metaBox.fixture ul { width:100%; text-align:center }
 #wrapper div.metaBox p { color:white; margin:1em; clear:both;}
 #wrapper div.metaBox li a p {line-height:1em; }
-div.metaBox.nextEvent { width:50%;  margin-right:1em; clear:both; }
-div.metaBox.nextEvent li {text-align:left;}
+div.metaBox.nextEvent { width:100%;  margin-right:1em; clear:both; }
+div.metaBox.nextEvent li, div.metaBox.nextEvent h4 {text-align:left; }
 
-
+div.metaBox.nextEvent h4 { font-size:1.3em; }
 
 
 #wrapper .metaBox ul { margin: 0 0 1em 0; }
@@ -417,6 +417,13 @@ border-radius: 7px;
 border: 1px solid black;
 background: white;
 
+}
+
+
+.linked-posts-col {
+max-width: 200px;
+font-size: 0.8em;
+margin:0;	
 }
 
 img.loadinglogo {
@@ -519,6 +526,8 @@ label.focusedinput
 	margin-right:5px;
 	margin-bottom:5px; 
 	float:left;
+	border-radius:6px;
+	overflow:hidden;
 }
 
 .albumThumb

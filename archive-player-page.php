@@ -85,7 +85,7 @@
                         $post = get_post();
                         $link = get_post_meta(get_the_id(), 'link', true);
                         ?> <tr>
-                        <td class="left-col"><span class='fa fa-file'><a href='<?php echo $link ? $link : get_permalink(); ?>' title='<?php echo get_the_title(); ?>'><?php echo get_the_title(); ?></a></span>
+                        <td class="left-col"><span class='<?php echo $link ? 'fa fa-external-link-square' : 'fa fa-file' ?>'><a href='<?php echo $link ? $link : get_permalink(); ?>' title='<?php echo get_the_title(); ?>'><?php echo get_the_title(); ?></a></span>
                         </td>
                         <td><?php echo get_post_meta(get_the_id(), 'description', true) ?>
 </td>
