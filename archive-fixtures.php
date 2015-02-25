@@ -215,7 +215,7 @@ if( $first_fixture ) : ?>
         $oppurl = $past_fixture_print['teamurl'];
          $past_fixture_print['edit-result-link'] = isset ( $past_fixture_print['edit-result-link'] ) 
                 ? $past_fixture_print['edit-result-link'] 
-                : "<a href='/wp-admin/post-new.php?post_type=result&parent_post=".$past_fixture_print['id']."'>Result</a>";
+                : "<a href='/wp-admin/post-new.php?post_type=results&parent_post=".$past_fixture_print['id']."'>Result</a>";
 
         ?>
         <tr>
