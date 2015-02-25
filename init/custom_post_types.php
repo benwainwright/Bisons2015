@@ -18,7 +18,7 @@ function create_post_types() {
         'menu_position' => 4,
         'menu_icon' => 'dashicons-flag',
         'taxonomies' => array('seasons'),
-        'supports' => array('comments', 'revisions')
+        'supports' => array('comments', 'revisions', 'thumbnail')
         )
     );
     

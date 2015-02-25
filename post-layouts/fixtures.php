@@ -26,8 +26,9 @@ $homeaway = get_post_meta(get_the_id(), 'fixture-home-away', true);
           <?php include( __DIR__ . '/../snippets/post_meta.php' ) ?>
       </header>
       <div class='metaBox fixture'>
-    
-            <a itemprop="url" href="<?php the_permalink() ?>"><img src='<?php echo get_template_directory_uri() ?>/images/ball.jpg' /></a>
+    		 
+
+            <a itemprop="url" href="<?php the_permalink() ?>"><?php if ( has_post_thumbnail() ) { $thumbnailAtributes = array( 'itemprop'  => 'photo', );the_post_thumbnail($thumbnailAtributes); } else { ?><img src='<?php echo get_template_directory_uri() ?>/images/ball.jpg' /><?php }?></a>
       <div class='eventMeta'>
       		<h4><?php if ( $textdate ) : echo $textdate; ?><?php else : ?><time itemProp="startDate" datetime="<?php echo $isodate ?>"><?php echo $fixdate; ?></time><?php endif ?></h4>
             <ul>
