@@ -204,7 +204,7 @@ if( $first_fixture ) : ?>
         
     $past_fixtures = array_reverse( $past_fixtures );
     ?>
-    <table class='center'>
+    <table class='resultsTable center'>
     	<tbody>
     	
     
@@ -222,8 +222,8 @@ if( $first_fixture ) : ?>
         	<td><?php echo  $fixdate; ?></td>
         	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? "Bristol Bisons RFC" :  team_link($opposing, $oppurl) ?></td>
         	<?php if (isset ( $past_fixture_print['our-score'] ) && isset ( $past_fixture_print['their-score'] ) ) : ?>
-        	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['our-score'] : $past_fixture_print['their-score'] ?></td>
-        	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['their-score'] : $past_fixture_print['our-score'] ?></td>
+        	<td class='resultsCell'><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['our-score'] : $past_fixture_print['their-score'] ?></td>
+        	<td class='resultsCell'><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['their-score'] : $past_fixture_print['our-score'] ?></td>
         	<?php else : ?>
         		<?php if ( current_user_can('edit_post', get_the_id() ) ) : ?>
     			<td colspan="2"><span class='fa fa-plus-square'><?php echo $past_fixture_print['edit-result-link'] ?></span></td>
@@ -234,7 +234,7 @@ if( $first_fixture ) : ?>
         	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? team_link($opposing, $oppurl) : "Bristol Bisons RFC" ?></td>
 			
 			<?php if ($linked_post_on) : ?>
-        	<td>
+        	<td<?php if ( ! isset ( $past_fixture_print['linked_posts'] ) ) echo " class='emptycell' " ?>>
         		<?php if ( isset ( $past_fixture_print['linked_posts'] ) ) : ?>
         		<ul>
                     <?php foreach ($past_fixture_print['linked_posts'] as $post ) : ?>
