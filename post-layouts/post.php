@@ -11,7 +11,7 @@
                   'itemprop'  => 'photo',
                   'class'     => 'alignright'
             );
-            the_post_thumbnail($thumbnailAtributes);
+            the_post_thumbnail('large', $thumbnailAtributes);
       
       } 
 

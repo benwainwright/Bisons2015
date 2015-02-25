@@ -24,9 +24,8 @@ $image_url = wp_get_attachment_url( $image_id );
                    
                         $thumbnailAtributes = array(
                               'itemprop'  => 'photo',
-                              'class'     => 'alignright'
                         );
-                        the_post_thumbnail();
+                        the_post_thumbnail($thumbnailAtributes);
                   } 
                   ?>
                   <div class='eventMeta'>
