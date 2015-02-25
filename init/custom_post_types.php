@@ -62,7 +62,7 @@ function create_post_types() {
     /**
      * Create 'results' post type
      */
-    register_post_type( 'result', array(
+    register_post_type( 'results', array(
         
         'labels' => array (
             'name' => __( 'Results', 'bisonsrfc' ),
@@ -239,7 +239,7 @@ function add_custom_forms ( $post ) {
         'result-edit',
         'Match Result',
         'results_content',
-        'result',
+        'results',
         'normal',
         'high'
     );
