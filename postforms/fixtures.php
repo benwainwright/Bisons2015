@@ -106,7 +106,7 @@ Email Players</label>
 
     <?php
             $is_there_results_query = new WP_Query(array(
-                                            'post_type' => 'result',
+                                            'post_type' => 'results',
                                             'posts_per_page' => -1,
                                             'meta_key' => 'parent-fixture',
                                             'meta_value' => $_GET['post']

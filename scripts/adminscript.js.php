@@ -80,7 +80,7 @@ jQuery(document).ready(function() {
 
     jQuery( '#match-result-button').click(function(){
     var post_id = jQuery('#postid').val();
-    window.location.replace('post-new.php?post_type=result&parent_post=' + post_id);
+    window.location.replace('post-new.php?post_type=results&parent_post=' + post_id);
     });
 
     jQuery('.custom-TinyMCE').addClass("mceEditor");

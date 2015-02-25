@@ -139,7 +139,7 @@ if( $first_fixture ) : ?>
 
     // Create match results query
     $getresultsquery = new WP_Query(array(
-    'post_type' => 'result',
+    'post_type' => 'results',
 'nopaging' => 'true'
     ));
     // Loop over results, store in an array
