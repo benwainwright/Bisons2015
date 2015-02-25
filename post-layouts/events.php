@@ -25,7 +25,7 @@ $image_url = wp_get_attachment_url( $image_id );
                         $thumbnailAtributes = array(
                               'itemprop'  => 'photo',
                         );
-                        the_post_thumbnail($thumbnailAtributes);
+                        the_post_thumbnail("large", $thumbnailAtributes);
                   } 
                   ?>
                   <div class='eventMeta'>
