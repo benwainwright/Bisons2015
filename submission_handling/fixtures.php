@@ -32,20 +32,30 @@ update_post_meta($post, 'fixture-facebook-event', $fixface);
 update_post_meta($post, 'is_post_revision', wp_is_post_revision( $post ));
 update_post_meta($post, '$post', $post);
 
-if ($_POST['hide_from_blog'] == 'true')
-{
-    update_post_meta($post, 'hide_from_blog', 'true');
-} else 
-{
+
+if (isset ( $_POST['hide_from_blog'] )) {
+	if ($_POST['hide_from_blog'] == 'true')
+	{
+	    update_post_meta($post, 'hide_from_blog', 'true');
+	} else 
+	{
+	    delete_post_meta($post, 'hide_from_blog');
+	}
+} else {
     delete_post_meta($post, 'hide_from_blog');
 }
 
-if ($_POST['email_players'] == 'true')
-{
-    update_post_meta($post, 'email_players', 'yes');
-} else 
-{
-    update_post_meta($post, 'email_players', 'no');
+if (isset ( $_POST['email_players'] )) {
+
+	if ($_POST['email_players'] == 'true')
+	{
+	    update_post_meta($post, 'email_players', 'yes');
+	} else 
+	{
+	    update_post_meta($post, 'email_players', 'no');
+	}
+} else {
+	    update_post_meta($post, 'email_players', 'no');
 }
 
 
