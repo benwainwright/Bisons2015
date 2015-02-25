@@ -345,7 +345,7 @@ td.narrowcell { text-align:center; }
 .smalltext { font-size:0.8em;}
 #showmenu { display:none; }
 
-div.metaBox {background-color: #2E2E2E;
+div.metaBox {
  margin-bottom:1em; display:block; width:60%; float:right; position:relative; margin: 0.5em 0 5px 5px;  border-radius:6px; overflow:hidden;}
 div.metaBox.single { width:100%; }
 div.metaBox img { width:100%; max-width:100%; margin-bottom:10px; margin-top:0; float:right; border-radius:0; }
