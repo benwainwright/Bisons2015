@@ -7,7 +7,7 @@ function custom_taxonomies() {
      */
     register_taxonomy(
         'seasons',
-        'fixture',
+        'fixtures',
         array(
             'hierarchical' => false,
             'labels' => array(
