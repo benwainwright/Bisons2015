@@ -49,7 +49,7 @@ while( have_posts( ) ): the_post( );
 	              'itemprop'  => 'photo',
 	          'class'     => 'alignright'
 	    );
-	    $event['img_src'] = get_the_post_thumbnail();
+	    $event['img_src'] = get_the_post_thumbnail(get_the_id(), "full");
  	} 
 
     // If the date and time of the event is greater than the current date and time, push the array into the $future_events array
