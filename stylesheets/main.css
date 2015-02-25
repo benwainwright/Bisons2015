@@ -354,8 +354,8 @@ div.metaBox.fixture { width:100%; }
 div.metaBox.fixture ul { width:100%; text-align:center }
 #wrapper div.metaBox p { color:white; margin:1em; clear:both;}
 #wrapper div.metaBox li a p {line-height:1em; }
-div.metaBox.nextEvent { width:100%;  margin-right:1em; clear:both; }
-div.metaBox.nextEvent li, div.metaBox.nextEvent h4 {text-align:left; }
+div.metaBox.nextEvent { width:100%; clear:both; }
+#wrapper div.metaBox.nextEvent li, #wrapper div.metaBox.nextEvent h4 {text-align:left; }
 
 div.metaBox.nextEvent h4 { font-size:1.3em; }
 
