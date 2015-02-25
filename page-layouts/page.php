@@ -17,8 +17,6 @@
         );
         the_post_thumbnail( 'full');
   } 
-  ?>
-
 the_content(''); 
 comments_template();
 ?>
