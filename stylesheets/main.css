@@ -18,7 +18,7 @@ html { margin:0 !important; }
 }
 .fa:before { margin-right:0.4em; }
 
-.post header { margin-bottom:0.4em; }
+.post header, .page header { margin-bottom:0.4em; }
 .post header p { text-align:center; }
 .post header p a { color:white; }
 
