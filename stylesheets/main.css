@@ -28,6 +28,8 @@ html { margin:0 !important; }
     vertical-align: initial;
 }
 
+.fa-li { margin-left:0.5em; }
+
 #wrapper ul.pageMenu li
 {
     display:inline-block;
