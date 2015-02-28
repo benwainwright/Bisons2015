@@ -20,6 +20,25 @@ function create_post_types() {
         'supports' => array('thumbnail')
         )
     );
+	
+	/**
+	 * Create 'Teams' post type
+	 */
+	 
+	 register_post_type ('teams', array(
+        'labels' => array (
+            'name' => __( 'Teams', 'bisonsrfc'  ),
+            'singular_name' => __( 'Team', 'bisonsrfc'  ),
+            'add_new_item' => __( 'Add new team', 'bisonsrfc' ),
+            'edit_item' => __( 'Edit team', 'bisonsrfc' ),
+            'view_item' => __( 'View team', 'bisonsrfc' ),
+            'search_item' => __( 'Search teams', 'bisonsrfc' ),
+            ),
+        'show_in_menu' => false,
+		'public' => true,
+		'has_archive' => false,
+		'supports'	=> array ('thumbnail', 'title')
+	 ));
     
     
     register_post_type( 'playerprofiles', array(
@@ -136,7 +155,7 @@ function create_post_types() {
      */
     register_post_type( 'photos', array(
         'labels' => array(
-            'name' => __( 'photos', 'bisonsrfc' ),
+            'name' => __( 'Photos', 'bisonsrfc' ),
             'singular_name' => __( 'photo', 'bisonsrfc' ),
         ),
 	    'public' => true,
@@ -224,6 +243,15 @@ function add_custom_forms ( $post ) {
         'normal',
         'high'
     );
+	
+	add_meta_box(
+		'teams',
+		'Team details',
+		'team_edit_box',
+		'teams',
+		'normal',
+		'high'
+	);
 
     add_meta_box(
         'event-edit',
@@ -299,6 +327,8 @@ function fixture_link_selector ( $post ) { include_once( dirname(__FILE__) . '/.
 function attribute_post ( $post ) { include_once( dirname(__FILE__) . '/../postforms/post-attribute.php'); }
 function committee_profile ( $post ) { include_once( dirname(__FILE__) . '/../postforms/committee-profile.php'); } 
 function membership_fee_postform ( $post ) { include_once( dirname(__FILE__) . '/../postforms/memfees.php'); } 
+function team_edit_box ( $post ) { include_once( dirname(__FILE__) . '/../postforms/teams.php'); } 
+
 
 // Include custom post types in main blog
 function modify_blog_post_types($query) {
@@ -351,20 +381,25 @@ function restrict_parentless_children_forms() {
                 case "result":
                     $type = 'result';
                     break;
+				
+				default: $type = false;	
 					
             }
 
-            remove_post_type_support( $type, 'title');
-            remove_post_type_support( $type, 'editor');
-            remove_post_type_support( $type, 'author');
-            remove_post_type_support( $type, 'excerpt');
-            remove_post_type_support( $type, 'thumbnail');
-            remove_post_type_support( $type, 'trackbacks');
-            remove_post_type_support( $type, 'custom-fields');
-            remove_post_type_support( $type, 'comments');
-            remove_post_type_support( $type, 'revisions');
-            remove_post_type_support( $type, 'page-attributes');
-            remove_post_type_support( $type, 'post-formats');
+			if ( $type )
+			{
+	            remove_post_type_support( $type, 'title');
+	            remove_post_type_support( $type, 'editor');
+	            remove_post_type_support( $type, 'author');
+	            remove_post_type_support( $type, 'excerpt');
+	            remove_post_type_support( $type, 'thumbnail');
+	            remove_post_type_support( $type, 'trackbacks');
+	            remove_post_type_support( $type, 'custom-fields');
+	            remove_post_type_support( $type, 'comments');
+	            remove_post_type_support( $type, 'revisions');
+	            remove_post_type_support( $type, 'page-attributes');
+	            remove_post_type_support( $type, 'post-formats');
+			}
         }
 }
 add_action( 'admin_init', 'restrict_parentless_children_forms');

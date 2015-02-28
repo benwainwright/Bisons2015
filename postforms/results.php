@@ -1,11 +1,11 @@
 <?php wp_enqueue_script('formvalidation'); ?>
-<?php if(!$_GET['parent_post'] && $_SERVER['PHP_SELF'] == '/wp-admin/post-new.php') { ?>
+<?php if(! isset ( $_GET['parent_post'] ) && $_SERVER['PHP_SELF'] == '/wp-admin/post-new.php') { ?>
 
     <p>Error: You cannot create a new match result from here - please use the button within the fixture editing screen.</p>
 
 <?php } else {
     
-    $parentpost =  $_GET['parent_post'] ?  $_GET['parent_post'] : get_post_meta( $post->ID, 'parent-fixture', true);
+    $parentpost =  isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $post->ID, 'parent-fixture', true);
     $fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
     $oppteam = get_post_meta( $parentpost, 'fixture-opposing-team', true );
     ?>
