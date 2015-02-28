@@ -256,17 +256,17 @@ ul.invalidformerrors { border: 1px dashed #F55151; background: #F7E4E4; padding:
 ul.invalidformerrors li { margin-left: 2em; color: #F55151; }
 #cardnumber { max-width: 230px; }
 
-fieldset legend { font-weight: bold; margin:0.5em; position:absolute; top:-34px; left:5px; }
-fieldset p { font-size:1.2em; margin: 0.5em 0 1.5em 0;}
-fieldset { background-color: #F7F7F7;margin: 3em 0 2em 0; padding: 1em;  position:relative; }
-fieldset input { max-width:350px; }
+fieldset legend { font-weight: bold; margin:0.5em; position:absolute; top:-34px; left:5px; color:#2E2E2E;}
+fieldset p {  margin: 0.5em 0 1.5em 0;}
+#wrapper fieldset p.info { color: white; }
+fieldset { background-color: #2E2E2E; margin: 3em 0 2em 0; padding: 1em;  position:relative; color:white; border-radius:6px; }
+fieldset input { max-width:350px; border-radius:6px;}
 
 fieldset, input, textarea, select { border:1px solid #EDEDED; }
 fieldset textarea { max-width:450px; height: 110px; }
 fieldset input, fieldset textarea, fieldset select { background: white; display:inline-block; margin:0 0.3em 0 0;  }
 fieldset input.norightmargin, fieldset textarea.norightmargin, fieldset select.norightmargin { background: white; margin:0 0.1em 0 0;  }
 fieldset div { clear:both; }
-fieldset div .inlinediv  select { width: initial; }
 fieldset div .inlinediv { display:inline; }
 fieldset div.fieldgroup { padding: 0; }
 label.checkboxlabel { width:auto; float:none; } 
@@ -688,7 +688,15 @@ html .albumThumb img
 	.albumThumb { 	width:32%; }
 
 }
+@media screen and (max-width: 700px)  {
+	
+	fieldset {}
+	fieldset label { text-align:center; width:100%; }
+	#wrapper input, label, select { float:left; clear:both; max-width:initial;  margin:0.5em 0; }
+	fieldset div .inlinediv  select { margin:0.5em 0; width:100%;}
+	#wrapper select { width:100%; }
 
+}
 @media screen and (max-width: 750px)  {
 	
 	table, thead, tbody, th, td, tr { 
@@ -724,9 +732,6 @@ html .albumThumb img
 	table td:nth-of-type(1) { font-weight:bold; }
 	table.resultsTable td:nth-of-type(2):before { content:"H"; font-weight:bold;margin-right:0.5em; }
 	table.resultsTable td:nth-last-of-type(2):before { content:" A"; font-weight:bold; margin-right:0.5em;   } 
-}
-
-
 }
 
 @media screen and (min-width: 701px) and (max-width: 750px)  {
