@@ -52,7 +52,20 @@ function Emails_Table_Set_Options($status, $option, $value)
 }
 add_filter('set-screen-option', 'Emails_Table_Set_Options', 10, 3);
 
-
+function Fixtures_Table_Add_Options() {
+  $option = 'per_page';
+  $args = array(
+         'label' => 'Fixtures',
+         'default' => 10,
+         'option' => 'fixtures_per_page'
+         );
+  add_screen_option( $option, $args );
+}
+function Fixtures_Table_Set_Options($status, $option, $value) 
+{
+  return $value;
+}
+add_filter('set-screen-option', 'Fixtures_Table_Add_Options', 10, 3);
 
 
 
@@ -79,9 +92,12 @@ function add_admin_menus()
 
     
     // Move 'results' page into the Fixtures submenu
-    add_submenu_page ( 'edit.php?post_type=fixtures', 'Results', 'Results', 'committee_perms', 'edit.php?post_type=results' );
-    add_submenu_page ( 'edit.php?post_type=fixtures', 'New Fixtures', 'New Fixtures', 'committee_perms', 'new-fixtures', 'fixtures_listTable_callback' );
-      
+    $fixtures_menu_hook = add_menu_page ( 'Fixtures', 'Fixtures', 'committee_perms', 'fixturelist', 'fixtures_listTable_callback', 'dashicons-flag', 4);
+    add_action( "load-$fixtures_menu_hook", 'Fixtures_Table_Add_Options' );
+    add_submenu_page ( 'fixturelist', 'Teams', 'Teams', 'committee_perms', 'teams' );
+    add_submenu_page ( 'fixturelist', 'Seasons', 'Seasons', 'committee_perms', 'edit-tags.php?taxonomy=seasons&post_type=fixtures' );
+
+
     // Create 'committee' submenu
     add_menu_page ( 'Committee', 'Committee', 'committee_perms', 'committee', 'edit.php?post_type=committee-profile', 'dashicons-businessman', 9);
     add_submenu_page ( 'committee', 'Committee Profiles', 'Committee Profiles', 'committee_perms', 'edit.php?post_type=committee-profile');
@@ -129,6 +145,9 @@ function membership_forms_callback()
 
 function players_menu_callback()
 { include_once( dirname(__FILE__) . '/../dashboardpages/manage_players.php');  }
+
+function teams_page_callback()
+{include_once( dirname(__FILE__) . '/../dashboardpages/teams.php'); }
 
 function committee_menu_callback()
 {}

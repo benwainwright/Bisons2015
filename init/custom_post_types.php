@@ -15,10 +15,9 @@ function create_post_types() {
             ),
         'public' => true,
         'has_archive' => true,
-        'menu_position' => 4,
-        'menu_icon' => 'dashicons-flag',
+		'show_in_menu' => false,
         'taxonomies' => array('seasons'),
-        'supports' => array('comments', 'revisions', 'thumbnail')
+        'supports' => array('thumbnail')
         )
     );
     

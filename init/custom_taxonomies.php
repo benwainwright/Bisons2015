@@ -9,6 +9,7 @@ function custom_taxonomies() {
         'seasons',
         'fixtures',
         array(
+        	'public' => false,
             'hierarchical' => false,
             'labels' => array(
             'name' => _x( 'Seasons', 'taxonomy general name', 'bisonsrfc'  ),

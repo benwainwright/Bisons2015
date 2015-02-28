@@ -166,15 +166,7 @@ if( $first_fixture ) : ?>
                 'value' => '0') )
     ));
 
-    // Loop over reports, store in an array
-    while($linked_posts_query->have_posts()) : $linked_posts_query->the_post();
-        $linked_posts[] = array(
-            'id' => get_the_id(),
-            'parent-fixture' => get_post_meta(get_the_id(), 'fixture_id', true),
-            'link' => get_permalink(get_the_id()),
-            'title' => get_the_title(get_the_id())
-        );
-    endwhile;
+
 
     /* Loop through fixtures array and change the unix times back to a date string.
      * Also if any of the results or reports parent_fixture matches the id, insert results/reports into the details of the old fixture

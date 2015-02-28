@@ -9,7 +9,7 @@
     $fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
     $oppteam = get_post_meta( $parentpost, 'fixture-opposing-team', true );
     ?>
-    <p>Bristol Bisons RFC vs. <?php echo $oppteam; ?> - <?php echo $fixdate; ?></p>
+    <h4>Bristol Bisons RFC vs. <?php echo $oppteam; ?> (<?php echo $fixdate; ?>)</h4>
 
     <div id='custom-form'>
         <table class="form-table">
