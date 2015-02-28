@@ -11,7 +11,7 @@ $pagename = $post->post_name;
 
     <div id="pagecol" class='ajaxcol'>
         <div class='page'>
-<?php if ( $GLOBALS['bisons_flash_message'] ) : ?>
+<?php if ( isset ( $GLOBALS['bisons_flash_message'] )  ) : ?>
         <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
     <?php endif ?>
         <?php if ( have_posts() ) : 

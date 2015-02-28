@@ -133,7 +133,7 @@ if ( ! $disabled )
     <?php if  ( current_user_can ('committee_perms') ) : ?>
     <fieldset>
         <legend>Select Player</legend>
-        <?php if ( is_numeric ( $_GET['player_id' ] ) ) : ?>
+        <?php if ( isset ( $_GET['player_id' ] ) ) : ?>
         <p class='info'>This is NOT YOUR MEMBERSHIP form. You can fill in someone else's form below or use the dropdown box below to return to your membership form.</p>
         <input type='hidden' name='form_belongs_to' value='<?php echo $_GET['player_id' ] ?>' />
         <?php else : ?>
@@ -142,7 +142,7 @@ if ( ! $disabled )
         <select id='committeeSelectPlayer'>
             <option value='me'>Me</option>
         <?php $users = get_users(); foreach ($users as $user) : ?>
-            <option value='<?php echo $user->data->ID."'"; if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } ?>><?php echo $user->data->display_name ?></option>
+            <option value='<?php echo $user->data->ID."'"; if ( isset ( $_GET['player_id' ] ) ) { if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } } ?>><?php echo $user->data->display_name ?></option>
         <?php endforeach ?>
         </select>
     </fieldset>
