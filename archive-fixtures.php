@@ -165,6 +165,16 @@ if( $first_fixture ) : ?>
                 'compare' => '!=' ,
                 'value' => '0') )
     ));
+	
+    // Loop over linked posts, store in an array
+    while($linked_posts_query->have_posts()) : $linked_posts_query->the_post();
+        $linked_posts[] = array(
+            'id' => get_the_id(),
+            'parent-fixture' => get_post_meta(get_the_id(), 'fixture_id', true),
+            'link' => get_permalink(get_the_id()),
+            'title' => get_the_title(get_the_id())
+        );
+    endwhile;
 
 
 
