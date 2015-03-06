@@ -700,7 +700,7 @@ html .albumThumb img
 	fieldset div .inlinediv  select { margin:0.5em 0; width:100%;}
 	#wrapper select { width:100%; }
 	#wrapper .info { margin:0; text-align:center; }
-	html #wrapper .formerror, html #wrapper .forminfo { clear:both; display:block;  text-align:center; }
+	html #wrapper .formerror, html #wrapper .forminfo { clear:both;  text-align:center; }
 }
 @media screen and (max-width: 750px)  {
 	
