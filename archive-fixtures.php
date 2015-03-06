@@ -119,8 +119,8 @@ if( $first_fixture ) : ?>
     <?php foreach($future_fixtures as $future_fixture) : ?>
     	
     			<tr>
-    				<td><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
-    				<td><?php echo $future_fixture['homeaway'] ?></td>
+    				<td class="datecol"><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
+    				<td class="homeawaycol"><?php echo $future_fixture['homeaway'] ?></td>
     				<td><?php echo link_if_avail($future_fixture['opposing'], $future_fixture['teamurl']); ?></td>
     			</tr>
 
@@ -221,7 +221,7 @@ if( $first_fixture ) : ?>
 
         ?>
         <tr>
-        	<td><?php echo  $fixdate; ?></td>
+        	<td class="datecol"><?php echo  $fixdate; ?></td>
         	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? "Bristol Bisons RFC" :  team_link($opposing, $oppurl) ?></td>
         	<?php if (isset ( $past_fixture_print['our-score'] ) && isset ( $past_fixture_print['their-score'] ) ) : ?>
         	<td class='resultsCell'><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['our-score'] : $past_fixture_print['their-score'] ?></td>
