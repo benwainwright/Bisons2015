@@ -7,7 +7,7 @@
 function header_css_and_js($hook) {
 
     // CSS
-    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '7.8.2');
+    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '7.8.5');
     wp_enqueue_style('main_css_file');
     
 
@@ -33,6 +33,7 @@ function header_css_and_js($hook) {
     	wp_register_script('jquery', ("http://code.jquery.com/jquery-2.1.1.min.js"), false, '2.1.1');
     }
     
+    	
     wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-migrate', $GLOBALS['blog_info']['url'].'/wp-includes/js/jquery/jquery-migrate.min.js', false, '1.2.1', true);
     wp_register_script( 'jquery_maps_plugin', get_template_directory_uri() . '/scripts/gmap3.min.js', false, '1.0.0', true);
