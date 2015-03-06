@@ -892,7 +892,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	#maincol, .page { margin:80px 0 10px 0 !important; }
 	header { padding:0; }
 	header nav, #maincol, #sidebar { float: left; clear:left; margin: 0 0 10px;width:100%; }
-      .post header, .page header { margin-bottom: 0; }
 	header #title { width: 70%; }
 	a img { padding:0; margin-bottom: 0;}
 	.post img.alignnone, .page img.aligncenter, .post img.alignnone, .page img.alignnone, .post img.alignright, .page img.alignright
