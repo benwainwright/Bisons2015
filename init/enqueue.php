@@ -7,7 +7,7 @@
 function header_css_and_js($hook) {
 
     // CSS
-    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '7.8.2');
+    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '7.8.3');
     wp_enqueue_style('main_css_file');
     
 
@@ -25,7 +25,7 @@ function header_css_and_js($hook) {
     wp_enqueue_script('web_font_loader');
     wp_register_script('web_font_loader_local', get_template_directory_uri() . '/scripts/webfont.js', null, '1.0.9'); 
     wp_enqueue_script('web_font_loader_local');
-    wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', null, '1.8.3', true); 
+    wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', null, '1.8.4', true); 
     wp_register_script('formvalidation', get_template_directory_uri() . '/scripts/formvalidation.js', null, '1.4.3', true); 
     wp_register_script('stripe', 'https://js.stripe.com/v2/', false, '2.0.0', true); // Not enqueued here as not necessary on every page
     if( !is_admin()){

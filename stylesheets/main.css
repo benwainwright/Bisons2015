@@ -210,7 +210,6 @@ ul.documentlist { margin: 0 0 1em 0; }
 .address:before { content: '\f409'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; margin-right:5px; }
 .addresssmall:before { content: '\f409'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 16px/1 'Genericons'; vertical-align: text-top; }
 .person:before { content: '\f304'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; margin-right:5px; }
-.info:before { content: '\f455'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; margin-right:5px; }
 
 #wrapper p.infoalert { font-size:1.1em;  text-align: center; color:white; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; background:#2E2E2E; line-height:1.5em; max-width:500px; margin:1em auto 3.5em auto; padding:1em; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px;}
 .infosmall:before { content: '\f455'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 16px/1 'Genericons'; vertical-align: text-top;  }
@@ -264,7 +263,7 @@ fieldset p {  margin: 0.5em 0 1.5em 0;}
 fieldset { background-color: #2E2E2E; margin: 3em 0 2em 0; padding: 1em;  position:relative; color:white; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px; }
 fieldset input { max-width:350px; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px;}
 
-fieldset, input, textarea, select { border:1px solid #EDEDED; }
+fieldset, input, textarea, select, button  { border:1px solid #EDEDED; -webkit-border-radius: 6px; -moz-border-radius: 6px; border-radius: 6px;}
 fieldset textarea { max-width:450px; height: 110px; }
 fieldset input, fieldset textarea, fieldset select { background: white; display:inline-block; margin:0 0.3em 0 0;  }
 fieldset input.norightmargin, fieldset textarea.norightmargin, fieldset select.norightmargin { background: white; margin:0 0.1em 0 0;  }
@@ -279,12 +278,11 @@ fieldset table th { padding:0; margin:0; font-weight:300; border:0; }
 fieldset table  { margin:0; }
 fieldset table td { padding:0.2em 0.4em; border:0; }
 fieldset label { padding:0 5px 0 0; margin:0;  }
-#wrapper fieldset .forminfo, p.paymentreceived { margin-top:1em; display:none; padding: 0.5em; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; color: #5F8C6A; background-color: #C0FACE; border:1px solid #5F8C6A }
-#wrapper fieldset .forminfo:before { content: '\f455'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; padding-right:5px; }
+#wrapper fieldset .forminfo, p.paymentreceived { margin-top:1em; display:none; padding: 0.5em;  color: #FF5ABB; font-style:italic }
 #wrapper p.flashmessage { margin-top: 1em; padding: 0.5em; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background-color: #C0FACE; border: 1px solid #5F8C6A; }
-#wrapper fieldset .formerror { margin: 1em 0; color: #D45F57; padding: 0.3em; background-color: #FAE5E3; border:1px solid #D45F57}
+#wrapper fieldset .formerror { color: white; display:inline-block; padding:0.3em 0.3em 0.3em 0; margin:0;  font-style:italic; }
 #wrapper fieldset .formerrorlight { font-weight: normal; margin: 1em 0; color: #D45F57; border: 1px solid; padding:0.3em 0.7em 0.3em 0.3em; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background-color: #FAE5E3;}
-#wrapper fieldset .formerror:before { content: '\f456'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; margin-right: 5px; }
+#wrapper fieldset .formerror:before { content: '\f456'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; margin-right: 5px; color:#FF2E2E}
 #wrapper fieldset .errorlabel { color: #D45F57; }
 #wrapper fieldset .inputerror { color: #D45F57 !important;border: 1px solid; background-color: #FAE5E3;}
 #wrapper fieldset .inputerror:before {content: '\f456'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; margin-right: 5px; }
@@ -514,16 +512,16 @@ ul.feeslist {
       margin-top: 1em;
 }
 
-input.focusedinput, select.focusedinput, textarea.focusedinput, option.focusedinput
+#wrapper input.focusedinput, #wrapper select.focusedinput, #wrapper textarea.focusedinput, #wrapper option.focusedinput
 {
-	background-color:#C0FACE;
-	color:#5F8C6A;
-	border: 1px solid #5F8C6A;
+	background-color:#FFDBF0;
+	color:#FF5ABB;
+	border: 1px solid #FF5ABB;
 }
 
 label.focusedinput
 {
-	color:#5F8C6A
+	color:#FF5ABB
 }
 
 .albumThumb, .committeeList
@@ -698,12 +696,17 @@ html .albumThumb img
 }
 @media screen and (max-width: 700px)  {
 	
-	fieldset {}
-	fieldset label { text-align:center; width:100%; }
-	#wrapper input, label, select { float:left; clear:both; max-width:initial;  margin:0.5em 0; }
+	
+	fieldset label { text-align:center; width:100%; padding:0; }
+	fieldset div  { margin-bottom:1em; }
+	#wrapper input, #wrapper label, #wrapper select, #wrapper textarea, #wrapper option,  #wrapper button { float:left; clear:both; max-width:100%; width:100%; text-align:center; }
+	#wrapper input[type=checkbox] { float:none; margin-right:0.3em; width:auto; top:-1px; position:relative;}
+	#wrapper input, #wrapper select, #wrapper textarea  {margin:0.5em 0; padding-left:0; padding-right:0; }
+	#wrapper label {margin:0.5em 0 0 0; }
 	fieldset div .inlinediv  select { margin:0.5em 0; width:100%;}
 	#wrapper select { width:100%; }
-
+	#wrapper .info { margin:0; text-align:center; }
+	html #wrapper .formerror, html #wrapper .forminfo { clear:both; display:block;  text-align:center; }
 }
 @media screen and (max-width: 750px)  {
 	
@@ -771,7 +774,7 @@ html .albumThumb img
 	{ margin-left: 0.6em; }
 	.albumThumb { 	width:32%; }
       .committeeList { width: 47%; }
-#wrapper .metaBox ul.extra li, #wrapper .metaBox.nextEvent  {  margin: 1em 0; width:100%; }
+	#wrapper .metaBox ul.extra li, #wrapper .metaBox.nextEvent  {  margin: 1em 0; width:100%; }
 
 }
 
@@ -805,7 +808,6 @@ html .albumThumb img
 #wrapper .metaBox ul.extra li, #wrapper .metaBox.nextEvent { margin: 1em 0; width:100%; }
 
 
-	fieldset p, form input, form textarea, form select, fieldset label { font-size:1em; padding: 0.1em 0.3em; }
       li.listimage {  max-width:100%; }
 	h2 { font-size:23px; }
 	div#wrapper { padding-top:0 !important; }
@@ -924,7 +926,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', end
 	form .inlinediv select { min-width:0;  }
 	.post img.alignleft, .page img.alignright { margin-left:0; } 
 	thead {display:none; }
-	form label { font-size:1em; text-align:left; width:100%; margin-bottom:3px; }
+
       div.feature-image { width:100%; }
       div.metaBox { width:100%; }
       #wrapper table td p, #wrapper table td h4 { margin:0; padding:0; }
