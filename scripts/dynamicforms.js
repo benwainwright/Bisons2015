@@ -37,12 +37,15 @@ jQuery(document).ready(function() {
         jQuery(this).siblings('.forminfo').show();
         jQuery(this).addClass('focusedinput');
         jQuery(this).siblings('label').addClass('focusedinput');
+        jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
+        
     });
     
     jQuery('input, select, textarea').focusout(function() {
         jQuery(this).siblings('.forminfo').hide();
         jQuery(this).removeClass('focusedinput');
         jQuery(this).siblings('label').removeClass('focusedinput');
+        jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
     });
 
     jQuery('#joiningas').change(function() {
