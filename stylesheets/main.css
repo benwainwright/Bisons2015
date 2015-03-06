@@ -618,6 +618,15 @@ border-radius: 6px;
 vertical-align: middle;
 }
 
+#wrapper .photogallery td, #wrapper .photogallery th {
+background-color:none;
+-webkit-border-radius: 6px;
+-moz-border-radius: 6px;
+border-radius: 6px;
+vertical-align: middle;
+}
+
+
 #wrapper table a {
 text-decoration:none; line-height:1.2em; 
 }

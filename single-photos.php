@@ -15,8 +15,13 @@
         <header>
             <h2><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h2>
         </header>
+	      <ul class='pageMenu'>
+	          <li class='fa fa-calendar'>Album created on <a href='https://www.flickr.com/photos/bisonsrfc/'>Flickr</a> on the <?php the_date('jS \o\f F Y') ?></li>
+	          <li><?php edit_post_link( 'Edit'); ?></li>
+	      </ul>
+
         <ul class='nobullet'>
-            <li class='date'>Album created on <a href='https://www.flickr.com/photos/bisonsrfc/'>Flickr</a> on the <?php the_date('jS \o\f F Y') ?></li>
+            <li class='date'></li>
             <?php if ( get_post_meta( get_the_id(), 'description', true) ) : ?><li><?php echo get_post_meta( get_the_id(), 'description', true) ?></li><?php endif ?>
         </ul>
         <p></p>
