@@ -619,7 +619,7 @@ vertical-align: middle;
 }
 
 #wrapper .photogallery td, #wrapper .photogallery th {
-background-color:none;
+background:none;
 -webkit-border-radius: 6px;
 -moz-border-radius: 6px;
 border-radius: 6px;
