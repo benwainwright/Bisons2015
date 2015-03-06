@@ -619,8 +619,7 @@ vertical-align: middle;
 }
 
 #wrapper table a {
-color:#CC85AF;
-text-decoration:none;
+text-decoration:none; line-height:1.2em; 
 }
 
 #wrapper td p {
