@@ -741,10 +741,15 @@ html .albumThumb img
 		display:none;
 	}
 	
-	
+	td.resultsCell {
+  		font-size: 1.8em;
+  		font-weight: bold;
+  		line-height: 0.6em;
+  	}
+  	
 	table td:nth-of-type(1) { font-weight:bold; }
-	table.resultsTable td:nth-of-type(2):before { content:"H"; font-weight:bold;margin-right:0.5em; }
-	table.resultsTable td:nth-last-of-type(2):before { content:" A"; font-weight:bold; margin-right:0.5em;   } 
+	table.resultsTable td:nth-of-type(2):before { content:"H"; font-weight:bold;margin-right:0.5em; font-size:1.4em; vertical-align:bottom; }
+	table.resultsTable td:nth-last-of-type(2):before { content:" A"; font-weight:bold; margin-right:0.5em; font-size:1.4em; vertical-align:bottom;   } 
 }
 
 @media screen and (min-width: 701px) and (max-width: 750px)  {
