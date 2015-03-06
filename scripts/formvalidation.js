@@ -11,14 +11,14 @@ function FormValidator( form, validation_patterns )
         {
             name  : 'mustselect',
             regex : /^.+$/,
-            error : 'You must make a selection'
+            error : 'Please make a selection'
             
         },
         
         {
             name  : 'notempty',
             regex : /^(?=\s*\S).*$/m,
-            error : 'Field cannot be left empty'
+            error : 'Cannot be left empty'
         },
         
         {
