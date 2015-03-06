@@ -14,10 +14,10 @@
     <?php endif ?>
         <header>
             <h2><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h2>
-        </header>
-	      <ul class='pageMenu'>
+	      	<ul class='pageMenu'>
 	          <li class='fa fa-calendar fa-lg'>Album created on <a href='https://www.flickr.com/photos/bisonsrfc/'>Flickr</a> on the <?php the_date('jS \o\f F Y') ?></li>
-	      </ul>
+	      	</ul>
+        </header>
         <table class="photogallery">
             <tbody>
             <?php foreach ( $photo_rows as $row ) : ?>
