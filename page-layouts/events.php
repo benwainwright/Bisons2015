@@ -1,6 +1,6 @@
 <header class='header'>
     <h2><?php the_title(); ?></h2>
-    <ul class='pageMenu'>
+    <ul class='meta'>
     <?php if ( current_user_can('edit_post') ) { ?>
         <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=fixture'>Add</a></li>
     <?php } ?>

@@ -14,7 +14,7 @@
     <?php endif ?>
         <header>
             <h2><a href="<?php the_permalink() ?>"><?php the_title() ?></a></h2>
-	      	<ul class='pageMenu'>
+	      	<ul class='meta'>
 	          <li class='fa fa-calendar fa-lg'>Album created on <a href='https://www.flickr.com/photos/bisonsrfc/'>Flickr</a> on the <?php the_date('jS \o\f F Y') ?></li>
 	      	</ul>
         </header>

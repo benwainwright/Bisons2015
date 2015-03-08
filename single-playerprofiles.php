@@ -21,7 +21,7 @@ $image_url_original = $image_url_original[0];
                     <h2><?php the_title(); ?></h2>
                 </header>
         <?php if ( current_user_can('edit_post', get_the_id()) ) { ?>
-            <ul class='pageMenu'>
+            <ul class='meta'>
                 <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=page'>New Page</a></li>
                 <li><?php edit_post_link( 'Edit'); ?></li>
             </ul>
