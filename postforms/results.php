@@ -11,44 +11,6 @@
 		$parentpost = isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $_GET['post'] , 'parent-fixture', true);
     	$oppteam = get_post_meta( $parentpost, 'fixture-opposing-team', true );
 ?>
-	<style type='text/css'>
-	#custom-form .resultsField 
-	{
-		 border: 1px solid #ddd;
-  	     -webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  	     box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
-  		 background-color: #fff;
-  		 color: #333;
-  		 outline: 0;
-  		 -webkit-transition: .05s border-color ease-in-out;
-  		 transition: .05s border-color ease-in-out;
-  		 width:80px;
-  		 font-size:2em;
-  		 text-align:center;
-  		 font-weight:bold;
-  		 margin:0 auto;
-	}
-	
-	#custom-form .resultsButton { 
-		float:right; 
-		height:40px; 
-		width:150px;
-		margin-top:0.3em;
-		font-size:1.5em;
-	}
-	
-	.resultsButtonCell { 
-		width:100%;
-	}
-	
-	@media screen and (max-width: 782px) {
-		#custom-form .resultsField, #custom-form .resultsButton  
-		{	width:100%; }
-		
-		#custom-form .team { text-align:center;}
-	}
-		
-	</style>
     <div id='custom-form'>
         <table class="form-table">
             <tbody>
