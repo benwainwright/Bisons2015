@@ -93,7 +93,6 @@ function create_post_types() {
         'public' => true,
         'show_in_menu' => false,
         'has_archive' => false,
-        'hierarchical' => true,
         'menu_position' => 6,
         'supports' => array(
             'page-attributes'
@@ -240,7 +239,7 @@ function add_custom_forms ( $post ) {
         'Fixture details',
         'fixtures_content',
         'fixtures',
-        'normal',
+        'advanced',
         'high'
     );
 	
@@ -258,7 +257,7 @@ function add_custom_forms ( $post ) {
         'Event details',
         'events_content',
         'events',
-        'normal',
+        'advanced',
         'high'
     );
     
@@ -270,10 +269,10 @@ function add_custom_forms ( $post ) {
 
 	    add_meta_box(
 	        'result-edit',
-	        '$fixdate',
+	        "$fixdate",
 	        'results_content',
 	        'results',
-	        'normal',
+	        'advanced',
 	        'high'
 	    );
 	}
