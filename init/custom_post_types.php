@@ -270,7 +270,7 @@ function add_custom_forms ( $post ) {
 
 	    add_meta_box(
 	        'result-edit',
-	        'Match Result',
+	        '$fixdate',
 	        'results_content',
 	        'results',
 	        'normal',
