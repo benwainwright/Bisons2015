@@ -272,7 +272,7 @@ function add_custom_forms ( $post ) {
 	        'Match Results',
 	        'results_content',
 	        'results',
-	        'advanced',
+	        'normal',
 	        'high'
 	    );
 	} 
