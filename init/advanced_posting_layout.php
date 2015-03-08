@@ -59,7 +59,19 @@ function create_advanced_posting_layout ( )
         remove_post_type_support( 'result', 'page-attributes');
         remove_post_type_support( 'result', 'formats'); 
         remove_post_type_support( 'result', 'excerpt');
+		
 
     } 
 }
 add_action ( 'init', 'create_advanced_posting_layout');
+    if( !current_user_can( 'advanced_posting_layout' ) ) 
+    {
+		function remove_my_meta_boxes() {
+			remove_meta_box('slugdiv','fixtures','core');
+			remove_meta_box('commentsdiv','events','core');
+			remove_meta_box('commentstatusdiv','events','core');
+			remove_meta_box('pageparentdiv','results','core');
+			remove_meta_box('submitdiv','results','core');
+		}
+		add_filter( 'admin_menu', 'remove_my_meta_boxes' );
+	}
