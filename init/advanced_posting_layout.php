@@ -72,6 +72,8 @@ if( !current_user_can( 'advanced_posting_layout' ) )
 		remove_meta_box('commentstatusdiv','events','core');
 		remove_meta_box('pageparentdiv','results','core');
 		remove_meta_box('submitdiv','results','core');
+		remove_meta_box('submitdiv','fixtures','core');
+
 	}
 	add_filter( 'admin_menu', 'remove_my_meta_boxes' );
 }

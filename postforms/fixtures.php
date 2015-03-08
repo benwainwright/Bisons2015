@@ -98,7 +98,11 @@ Email Players</label>
                    <span class="description">Check this box to send an email to all players letting them know about the new fixture. Note that this email will not be sent to those who have not yet filled in a membership form.</span>
                 </td>
             </tr>
-
+            <?php if( !current_user_can( 'advanced_posting_layout' ) ) : ?> 
+        	<tr>
+			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Publish" accesskey="p"></div></td>
+			</tr>
+			<?php endif ?>
         </tbody>
     </table>
    

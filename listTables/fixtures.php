@@ -30,16 +30,7 @@ class Fixtures_Table extends WP_List_Table_Copy
 					$query_vars['meta_key'] = "fixture-opposing-team"; 
 				break;
 				
-				case "homeAway" :
-					$query_vars['orderby'] = "meta_value";  
-					$query_vars['meta_key'] = "fixture-home-away"; 
-				break; 
-													
-				case "kickoffTime" : 
-					$query_vars['orderby'] = "meta_value"; 
-					$query_vars['meta_key'] = "fixture-kickoff-time"; 
-				break;
-				
+																	
 				case "date" : 
 					$query_vars['orderby'] = "meta_value_num"; 
 					$query_vars['meta_key'] = "fixture-date"; 
@@ -93,7 +84,7 @@ class Fixtures_Table extends WP_List_Table_Copy
                         'kickoffTime' => get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) ? get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) : 'TBC',
                         'opposingTeam' => get_post_meta( get_the_id(), 'fixture-opposing-team', true ) ? get_post_meta( get_the_id(), 'fixture-opposing-team', true ) : 'TBC',
                         'author' => get_the_author(),
-                        'postDate' => get_the_time('jS \o\f F Y'),
+                        'postDate' => get_the_time('d/m/Y'),
                         'season' => $season,
                         'id' => get_the_id(),
                         'permalink' => get_the_permalink()
@@ -121,7 +112,7 @@ class Fixtures_Table extends WP_List_Table_Copy
 		        foreach($results as $result) {
 		            if($fixture['id'] == $result['parent-fixture']) {
 		            	$fixture['result_id'] = $result['result_id'];
-		                $fixture['result'] = 'Bisons:	 <strong>' .$result['our-score'] . '</strong><br />' . $fixture['opposingTeam'] . ': <strong>' . $result['their-score'] . '</strong>';
+		                $fixture['result'] = 'Us: <strong>' .$result['our-score'] . '</strong><br />Them: <strong>' . $result['their-score'] . '</strong>';
 		            }
 		        }
 				
