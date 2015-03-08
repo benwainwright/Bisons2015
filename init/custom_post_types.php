@@ -239,7 +239,7 @@ function add_custom_forms ( $post ) {
         'Fixture details',
         'fixtures_content',
         'fixtures',
-        'advanced',
+        'normal',
         'high'
     );
 	
@@ -261,7 +261,6 @@ function add_custom_forms ( $post ) {
         'high'
     );
     
-	/*
 	
 	if ( isset ( $_GET['parent_post'] ) || isset ( $_GET['post']) )
 	{
@@ -276,18 +275,9 @@ function add_custom_forms ( $post ) {
 	        'advanced',
 	        'high'
 	    );
-	} */
-	/*
-	   add_meta_box(
-        'result-edit',
-        'Match Result',
-        'results_content',
-        'results',
-        'normal',
-        'high'
-    );
-	*/
-       add_meta_box(
+	} 
+    
+    add_meta_box(
         'fixture-link-selector',
         'Link to fixture',
         'fixture_link_selector',
