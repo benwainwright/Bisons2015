@@ -93,6 +93,7 @@ function create_post_types() {
         'public' => true,
         'show_in_menu' => false,
         'has_archive' => false,
+        'hierarchical' => true,
         'menu_position' => 6,
         'supports' => array(
             'page-attributes'
@@ -239,7 +240,7 @@ function add_custom_forms ( $post ) {
         'Fixture details',
         'fixtures_content',
         'fixtures',
-        'advanced',
+        'normal',
         'high'
     );
 	
