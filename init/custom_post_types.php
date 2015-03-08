@@ -264,7 +264,10 @@ function add_custom_forms ( $post ) {
     
 	if ( isset ( $_GET['parent_post']) || isset ( $_GET['post']) )
 	{
-	
+		
+    	$parentpost =  isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $_GET['post'], 'parent-fixture', true);
+    	$fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
+
 	    add_meta_box(
 	        'result-edit',
 	        'Match Result',
