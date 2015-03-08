@@ -266,11 +266,10 @@ function add_custom_forms ( $post ) {
 	{
     	$parentpost =  isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $_GET['post'], 'parent-fixture', true);
     	$fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
-		echo $parentpost . $fixdate;
 
 	    add_meta_box(
 	        'result-edit',
-	        "$fixdate",
+	        'Match Results',
 	        'results_content',
 	        'results',
 	        'advanced',
