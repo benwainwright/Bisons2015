@@ -1,6 +1,9 @@
-<?php wp_enqueue_script('formvalidation'); ?>
+<?php 
+wp_enqueue_script('formvalidation'); 
+include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php')
+?>
 <div id='custom-form'>
-    <?php// wp_nonce_field( 'save_fixture_' . $_GET['post'] ) ?>
+    <?php if (isset( $_GET['post'] ) ) wp_nonce_field( 'save_fixture_' . $_GET['post'] )  ?>
     <table class="form-table">
         <tbody>
             <tr>
