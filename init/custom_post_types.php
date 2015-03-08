@@ -261,6 +261,7 @@ function add_custom_forms ( $post ) {
         'high'
     );
     
+	/*
 	
 	if ( isset ( $_GET['parent_post'] ) || isset ( $_GET['post']) )
 	{
@@ -275,7 +276,7 @@ function add_custom_forms ( $post ) {
 	        'advanced',
 	        'high'
 	    );
-	}
+	} */
 	/*
 	   add_meta_box(
         'result-edit',
