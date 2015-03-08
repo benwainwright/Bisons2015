@@ -93,7 +93,6 @@ function create_post_types() {
         'public' => true,
         'show_in_menu' => false,
         'has_archive' => false,
-        'hierarchical' => true,
         'menu_position' => 6,
         'supports' => array(
             'page-attributes'
@@ -258,21 +257,27 @@ function add_custom_forms ( $post ) {
         'Event details',
         'events_content',
         'events',
-        'normal',
+        'advanced',
         'high'
     );
+    
+	
+	if ( isset ( $_GET['parent_post'] ) || isset ( $_GET['post']) )
+	{
+    	$parentpost =  isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $_GET['post'], 'parent-fixture', true);
+    	$fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
+
+	    add_meta_box(
+	        'result-edit',
+	        'Match Results',
+	        'results_content',
+	        'results',
+	        'normal',
+	        'high'
+	    );
+	} 
     
     add_meta_box(
-        'result-edit',
-        'Match Result',
-        'results_content',
-        'results',
-        'normal',
-        'high'
-    );
-    
-
-       add_meta_box(
         'fixture-link-selector',
         'Link to fixture',
         'fixture_link_selector',

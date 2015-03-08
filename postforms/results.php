@@ -5,22 +5,22 @@
 
 <?php } else {
     
-    $parentpost =  isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $post->ID, 'parent-fixture', true);
-    $fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
-    $oppteam = get_post_meta( $parentpost, 'fixture-opposing-team', true );
     ?>
-    <h4>Bristol Bisons RFC vs. <?php echo $oppteam; ?> (<?php echo $fixdate; ?>)</h4>
-
+	<?php include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php');
+	
+		$parentpost = isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $_GET['post'] , 'parent-fixture', true);
+    	$oppteam = get_post_meta( $parentpost, 'fixture-opposing-team', true );
+?>
     <div id='custom-form'>
         <table class="form-table">
             <tbody>
             <tr>
-                <th><label>Our score</label></th>
-                <td><input class='small-text notempty' type='text' name='our-score' value='<?php echo get_post_meta( $post->ID, 'our-score', true) ?>' /></td>
+                <th class='team'><label>Bristol Bisons RFC</label></th>
+                <td><input class='resultsField notempty' type='text' name='our-score' value='<?php echo get_post_meta( $post->ID, 'our-score', true) ?>' /></td>
             </tr>
             <tr>
-                <th><label>Their score</label></th>
-                <td><input class='small-text notempty' type='text' name='their-score' value='<?php echo get_post_meta( $post->ID, 'their-score', true) ?>' /></td>
+                <th class='team'><label><?php echo $oppteam ?></label></th>
+                <td><input class='resultsField notempty' type='text' name='their-score' value='<?php echo get_post_meta( $post->ID, 'their-score', true) ?>' /></td>
             </tr>
             <tr>
                 <th scope="row">Visible</th>
@@ -34,7 +34,15 @@ Hide from blog</label>
                    <span class="description">If you tick this box, this result will only appear on the 'Fixtures' page and not on the blog.</span>
                 </td>
             </tr>
+                <?php if( !current_user_can( 'advanced_posting_layout' ) ) : ?> 
+        	<tr>
+			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Publish" accesskey="p"></div></td>
+			</tr>
+			<?php endif ?>
+
+
         </table>
     </div>
     <input type="hidden" name="parent-fixture" value="<?php echo $_GET['parent_post'] ? $_GET['parent_post'] : get_post_meta( $post->ID, 'parent-fixture', true); ?>" />
+    <div class='clear'></div>
 <?php } ?>

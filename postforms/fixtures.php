@@ -1,6 +1,9 @@
-<?php wp_enqueue_script('formvalidation'); ?>
+<?php 
+wp_enqueue_script('formvalidation'); 
+include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php')
+?>
 <div id='custom-form'>
-    <?php// wp_nonce_field( 'save_fixture_' . $_GET['post'] ) ?>
+    <?php if (isset( $_GET['post'] ) ) wp_nonce_field( 'save_fixture_' . $_GET['post'] )  ?>
     <table class="form-table">
         <tbody>
             <tr>
@@ -95,7 +98,11 @@ Email Players</label>
                    <span class="description">Check this box to send an email to all players letting them know about the new fixture. Note that this email will not be sent to those who have not yet filled in a membership form.</span>
                 </td>
             </tr>
-
+            <?php if( !current_user_can( 'advanced_posting_layout' ) ) : ?> 
+        	<tr>
+			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Publish" accesskey="p"></div></td>
+			</tr>
+			<?php endif ?>
         </tbody>
     </table>
    
