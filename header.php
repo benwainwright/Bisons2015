@@ -56,7 +56,7 @@
          
           <div class="title">
 		<h1><?php echo $GLOBALS['blog_info']['name']; ?></h1>
-		<p><?php echo $GLOBALS['blog_info']['description']; ?></p>
+		<p class='subtitle'><?php echo $GLOBALS['blog_info']['description']; ?></p>
 		</div>
                         <div class="expand"></div>
 
