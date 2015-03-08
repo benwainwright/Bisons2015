@@ -10,16 +10,16 @@
     font-style: normal;
 
 }
-body#tinymce { font-weight:300; font-size: 1em; line-height:1.6em; font-family: 'Ubuntu', serif; }
+body#tinymce { font-weight:300; font-size: 1em; line-height:1.6em; font-family: 'Ubuntu', serif; color: #2E2E2E;}
 h1 { font-family: 'BisonsFont', sans-serif; text-align:center; font-size:40px; }
 h1 {  font-size:40px; }
 h2 {  font-size: 1.8em; line-height:1.3em; 	margin-bottom:1%; font-weight:normal;}
-h3 { margin: 1em 0 0.3em 0; font-weight:300;  font-style:italic}
+h3 { margin: 1em 0 0 0; font-weight:bold;  font-style:italic; padding:0}
 h4 { font-weight: bold; margin-top:1em; 	 }
 a {  text-decoration:none; color:#FF5ABB; }
 a:hover { text-shadow: 0px 0px 2px rgba(150, 150, 150, 1); }
 h2 a:hover { text-shadow:2px 2px 2px rgba(150, 150, 150, 1); }
-p { margin-bottom:0.7em;  }
+p { margin:0 0 0.6em 0;  }
 * { margin:0 ; padding:0; }
 img.alignleft  { float:left; margin-right:1em;}
 img.alignnone, img.aligncenter, img.alignright { float:right; margin-left:1em;  }
