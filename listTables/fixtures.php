@@ -207,7 +207,7 @@ class Fixtures_Table extends WP_List_Table_Copy
                   'view' => '<a href=\''.$item['permalink'].'\'>View</a>',
                   'delete' => '<a href=\'\'>Delete</a>'
              );
-             return sprintf('%1$s %2$s', $item['opposingTeam'] . "<br /><strong>".$item['homeAway']."<", $this->row_actions($actions) );
+             return sprintf('%1$s %2$s', $item['opposingTeam'] . "<br /><strong>".$item['homeAway']."</strong>", $this->row_actions($actions) );
       }
 	  
 	  function column_result ($item)
