@@ -239,7 +239,7 @@ function add_custom_forms ( $post ) {
         'Fixture details',
         'fixtures_content',
         'fixtures',
-        'advanced',
+        'normal',
         'high'
     );
 	
