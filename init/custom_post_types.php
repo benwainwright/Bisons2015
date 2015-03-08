@@ -261,10 +261,10 @@ function add_custom_forms ( $post ) {
         'high'
     );
     
-	/*
-	if ( isset ( $_GET['parent_post']) || isset ( $_GET['post']) )
+	
+	if ( isset ( $_GET['parent_post'] ) || isset ( $_GET['post']) )
 	{
-		
+		echo "SURPRISE"
     	$parentpost =  isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $_GET['post'], 'parent-fixture', true);
     	$fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
 
@@ -277,7 +277,7 @@ function add_custom_forms ( $post ) {
 	        'high'
 	    );
 	}
-	*/
+	/*
 	   add_meta_box(
         'result-edit',
         'Match Result',
@@ -286,7 +286,7 @@ function add_custom_forms ( $post ) {
         'normal',
         'high'
     );
-	
+	*/
        add_meta_box(
         'fixture-link-selector',
         'Link to fixture',
