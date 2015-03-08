@@ -262,15 +262,18 @@ function add_custom_forms ( $post ) {
         'high'
     );
     
-    add_meta_box(
-        'result-edit',
-        'Match Result',
-        'results_content',
-        'results',
-        'normal',
-        'high'
-    );
-    
+	if ( isset ( $_GET['parent_post']) || isset ( $_GET['post']) )
+	{
+	
+	    add_meta_box(
+	        'result-edit',
+	        'Match Result',
+	        'results_content',
+	        'results',
+	        'normal',
+	        'high'
+	    );
+	}
 
        add_meta_box(
         'fixture-link-selector',
