@@ -154,7 +154,7 @@ if( $first_fixture ) : ?>
 
     // Create match reports query;
     $linked_posts_query = new WP_Query(array(
-        'post_type' => 'post',
+        'post_type' => array ( 'post', 'photos' ),
         'nopaging' => 'true', 'meta_query' => array ( 
             'relation' => 'AND',
             array(
@@ -172,7 +172,8 @@ if( $first_fixture ) : ?>
             'id' => get_the_id(),
             'parent-fixture' => get_post_meta(get_the_id(), 'fixture_id', true),
             'link' => get_permalink(get_the_id()),
-            'title' => get_the_title(get_the_id())
+            'title' => get_the_title(get_the_id()),
+			'class' => ( get_post_type( get_the_id() ) == 'photos' ) ? 'fa fa-picture-o' : 'fa fa-file'
         );
     endwhile;
 
@@ -240,7 +241,7 @@ if( $first_fixture ) : ?>
         		<?php if ( isset ( $past_fixture_print['linked_posts'] ) ) : ?>
         		<ul>
                     <?php foreach ($past_fixture_print['linked_posts'] as $post ) : ?>
-                    <li class='linked-posts-col'><span class='fa fa-file'><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></span></li>
+                    <li class='linked-posts-col'><span class='<?php echo $post['class'] ?>'><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></span></li>
                     <?php endforeach; ?>
         		</ul>
         		<?php endif ?>
