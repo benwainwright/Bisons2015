@@ -130,7 +130,7 @@ if( $first_fixture ) : ?>
     			<tr>
     				<td class="datecol"><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
     				<td class="homeawaycol"><?php echo $future_fixture['homeaway'] ?></td>
-    				<td><a href='<?php echo $first_fixture['teamurl'] ?>'><?php echo $first_fixture['opposing'] ?></a> </td>
+    				<td><a href='<?php echo $future_fixture['teamurl'] ?>'><?php echo $future_fixture['opposing'] ?></a> </td>
     			</tr>
 
 

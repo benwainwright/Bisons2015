@@ -170,7 +170,7 @@ if( $fixtures ) : ?>
     			<td colspan="2">TBC</td>
     			<?php endif ?>
     		<?php endif ?>
-        	<td><?php echo ($fixture['homeaway'] == "Home") ?  '<a href='.$first_fixture['teamurl'].'>'.$first_fixture['opposing'].'</a></td>' : "Bristol Bisons RFC" ?></td>
+        	<td><?php echo ($fixture['homeaway'] == "Home") ?  '<a href='.$fixture['teamurl'].'>'.$fixture['opposing'].'</a></td>' : "Bristol Bisons RFC" ?></td>
 			
 			<?php if ($linked_post_on) : ?>
         	<td<?php if ( ! isset ( $fixture['linked_posts'] ) ) echo " class='emptycell' " ?>>
