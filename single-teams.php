@@ -17,11 +17,10 @@
 			            the_post_thumbnail('large');
 			      } 
 				?>
-				<ul class='fa-ul'>
-					<li><span class='fa-li fa  fa-info'></span><strong>Description</strong><br /><?php the_content() ?></li>
-					<li><span class='fa-li fa  fa-link'></span><strong>Website</strong><br /><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'><?php echo get_post_meta( get_the_id(), 'website', true) ?></a></li>
-					<li><span class='fa-li fa  fa-home'></span><strong>Address</strong><br /><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?></li>
-				</ul>
+				<h3>Details</h3>
+				<h4 class='fa fa-info'>Description</h3><?php the_content() ?></li>
+				<h4 class='fa fa-link'>Website</h3><p><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'><?php echo get_post_meta( get_the_id(), 'website', true) ?></a></p>
+				<h4 class='fa  fa-home'>Address</h3><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?>
 				<section class='clearsection'>
 					
 					<?php 
@@ -60,7 +59,8 @@
 						?>
 						
 						
-						
+					<?php if ( ( sizeof ( $future_fixtures) > 0 ) ||  ( sizeof ( $past_fixtures) > 0 ) ) : ?>
+
 					<h3>Fixtures</h3>
 					<?php if ( sizeof ( $future_fixtures) > 0 ) : ?>
 					<h4>Upcoming</h4>
@@ -71,7 +71,6 @@
 			    			<tr>
 			    				<td class="datecol"><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
 			    				<td class="homeawaycol"><?php echo $future_fixture['homeaway'] ?></td>
-			    				<td><?php echo $future_fixture['opposing'] ?></td>
 			    			</tr>
 						</tbody>
 
@@ -196,8 +195,9 @@
 					</table>
 					<?php endif ?>
 				</section>
-        <?php endwhile; ?>
-        <?php endif; ?>
+        <?php endif ?>
+        <?php endwhile ?>
+        <?php endif ?>
         </div>
     </div>
 </div>
