@@ -67,7 +67,7 @@ while( have_posts()) : the_post();
         'opposing' => get_post_meta( get_the_id(), 'fixture_team', true ) ? get_the_title( get_post_meta( get_the_id(), 'fixture_team', true ) ) : 'No Team' ,
         'page' => get_permalink(),
         'gmap' => get_post_meta( get_the_id(), 'fixture-gmap', true ) ? get_post_meta( get_the_id(), 'fixture-gmap', true ) : false,
-        'teamurl' => get_post_meta( get_post_meta( get_the_id(), 'fixture_team', true), 'website', true),
+        'teamurl' => get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ),
         'edit_link' => '<a class="editsmall" href="'.get_edit_post_link( get_the_id() ).'">Edit fixture</a>',
         'homeaway' => get_post_meta(get_the_id(), 'fixture-home-away', true)
     );
@@ -97,9 +97,9 @@ if( $first_fixture ) : ?>
                   <?php if ( $first_fixture['homeaway'] == 'Home' ) : ?>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
                   <li>Vs</li>
-                  <li class="fa fa-star teamName"><?php echo team_link($first_fixture['opposing'], $first_fixture['teamurl']); ?> (Away)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo $first_fixture['teamurl'] ?>'><?php echo $first_fixture['opposing'] ?></a> (Away)</li>
                   <?php else : ?>
-                  <li class="fa fa-star teamName"><?php echo team_link($first_fixture['opposing'], $first_fixture['teamurl']); ?> (Home)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo $first_fixture['teamurl'] ?>'><?php echo $first_fixture['opposing'] ?></a> (Home)</li>
                   <li>Vs</li>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
                   <?php endif ?>
@@ -130,7 +130,7 @@ if( $first_fixture ) : ?>
     			<tr>
     				<td class="datecol"><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
     				<td class="homeawaycol"><?php echo $future_fixture['homeaway'] ?></td>
-    				<td><?php echo link_if_avail($future_fixture['opposing'], $future_fixture['teamurl']); ?></td>
+    				<td><a href='<?php echo $first_fixture['teamurl'] ?>'><?php echo $first_fixture['opposing'] ?></a> </td>
     			</tr>
 
 

@@ -60,7 +60,7 @@ while( have_posts()) : the_post();
         'opposing' => get_post_meta( get_the_id(), 'fixture_team', true ) ? get_the_title( get_post_meta( get_the_id(), 'fixture_team', true ) ) : 'No Team' ,
         'page' => get_permalink(),
         'gmap' => get_post_meta( get_the_id(), 'fixture-gmap', true ) ? get_post_meta( get_the_id(), 'fixture-gmap', true ) : false,
-        'teamurl' => get_post_meta( get_post_meta( get_the_id(), 'fixture_team', true), 'website', true),
+        'teamurl' => get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ),
         'edit_link' => '<a class="editsmall" href="'.get_edit_post_link( get_the_id() ).'">Edit fixture</a>',
         'homeaway' => get_post_meta(get_the_id(), 'fixture-home-away', true)
     );
@@ -159,7 +159,7 @@ if( $fixtures ) : ?>
         ?>
         <tr>
         	<td class="datecol"><?php echo  $fixdate; ?></td>
-        	<td><?php echo ($fixture['homeaway'] == "Home") ? "Bristol Bisons RFC" :  team_link($opposing, $oppurl) ?></td>
+        	<td><?php echo ($fixture['homeaway'] == "Home") ? "Bristol Bisons RFC" :  '<a href='.$first_fixture['teamurl'].'>'.$first_fixture['opposing'].'</a></td>' ?></td>
         	<?php if (isset ( $fixture['our-score'] ) && isset ( $fixture['their-score'] ) ) : ?>
         	<td class='resultsCell'><?php echo ($fixture['homeaway'] == "Home") ? $fixture['our-score'] : $fixture['their-score'] ?></td>
         	<td class='resultsCell'><?php echo ($fixture['homeaway'] == "Home") ? $fixture['their-score'] : $fixture['our-score'] ?></td>
@@ -170,7 +170,7 @@ if( $fixtures ) : ?>
     			<td colspan="2">TBC</td>
     			<?php endif ?>
     		<?php endif ?>
-        	<td><?php echo ($fixture['homeaway'] == "Home") ? team_link($opposing, $oppurl) : "Bristol Bisons RFC" ?></td>
+        	<td><?php echo ($fixture['homeaway'] == "Home") ?  '<a href='.$first_fixture['teamurl'].'>'.$first_fixture['opposing'].'</a></td>' : "Bristol Bisons RFC" ?></td>
 			
 			<?php if ($linked_post_on) : ?>
         	<td<?php if ( ! isset ( $fixture['linked_posts'] ) ) echo " class='emptycell' " ?>>

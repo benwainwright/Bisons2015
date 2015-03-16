@@ -14,7 +14,6 @@ $opplink = get_post_meta( get_post_meta( get_the_id(), 'fixture_team', true), 'w
 
 if ( get_post_meta(get_the_id(), 'fixture-home-away', true) == 'Home' )
 {
-	
 	$clubInfoSettings = get_option('club-info-settings-page');
 	$address = $clubInfoSettings['home-address'];
 }
@@ -47,9 +46,9 @@ $homeaway = get_post_meta(get_the_id(), 'fixture-home-away', true);
                   <?php if ( $homeaway == 'Home' ) : ?>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
                   <li>Vs</li>
-                  <li class="fa fa-star teamName"><?php echo team_link($oppteam, $opplink); ?> (Away)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo $oppteam ?>'><?php echo $opplink ?></a> (Away)</li>
                   <?php else : ?>
-                  <li class="fa fa-star teamName"><?php echo team_link($oppteam, $opplink); ?> (Home)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo $oppteam ?>'><?php echo $opplink ?></a>  (Home)</li>
                   <li>Vs</li>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
                   <?php endif ?>
