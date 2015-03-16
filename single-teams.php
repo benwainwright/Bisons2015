@@ -18,9 +18,9 @@
 			      } 
 				?>
 				<h3>Details</h3>
-				<h4 class='fa fa-info'>Description</h3><?php the_content() ?></li>
-				<h4 class='fa fa-link'>Website</h3><p><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'><?php echo get_post_meta( get_the_id(), 'website', true) ?></a></p>
-				<h4 class='fa  fa-home'>Address</h3><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?>
+				<h4 class='fa fa-info'>Description</h4><?php the_content() ?></li>
+				<h4 class='fa  fa-home'>Address</h4><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?>
+				<h4 class='fa fa-link'>Website</h4><p><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'><?php echo get_post_meta( get_the_id(), 'website', true) ?></a></p>
 				<section class='clearsection'>
 					
 					<?php 
