@@ -198,8 +198,7 @@ th ul.postlist { font-size:0.7em; list-style:none; }
 #wrapper ul.feedlist { margin:0;}
 #wrapper ul.feedlist li { list-style:none; }
 #wrapper ul.feedlist li:before { content: '\f413'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 16px/1 'Genericons'; vertical-align: text-bottom; margin-right:5px;} 
-.post ul , .page ul  { margin-left: 2em; margin-bottom:1em;  }
-.post ul.fa-ul , .page ul.fa-ul  { margin-left: 1em; margin-bottom:1em;  }
+.post ul , .page ul  { margin-left: 1em; margin-bottom:1em;  }
 
 ol {margin-left: 1em; margin-bottom: 2em;}
 
