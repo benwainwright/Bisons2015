@@ -148,7 +148,7 @@ if( $fixtures ) : ?>
 
         ?>
         <tr>
-        	<td><?php echo  $fixdate; ?></td>
+        	<td class="datecol"><?php echo  $fixdate; ?></td>
         	<td><?php echo ($fixture['homeaway'] == "Home") ? "Bristol Bisons RFC" :  team_link($opposing, $oppurl) ?></td>
         	<?php if (isset ( $fixture['our-score'] ) && isset ( $fixture['their-score'] ) ) : ?>
         	<td class='resultsCell'><?php echo ($fixture['homeaway'] == "Home") ? $fixture['our-score'] : $fixture['their-score'] ?></td>

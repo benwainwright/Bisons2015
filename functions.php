@@ -7,7 +7,11 @@ add_filter('show_admin_bar', '__return_false');
 add_filter('wp_mail_content_type',create_function('', 'return "text/html"; '));
 
 
-function style_bisons_editor() { add_editor_style( 'stylesheets/style-editor.css' ); }
+function style_bisons_editor() {
+     $font_url = str_replace( ',', '%2C', '//fonts.googleapis.com/css?family=Ubuntu:300,400,300italic,400italic:latin' );
+     add_editor_style( $font_url );
+	 add_editor_style( 'stylesheets/style-editor.css' ); 
+}
 add_action( 'after_setup_theme', 'style_bisons_editor' );
 
 

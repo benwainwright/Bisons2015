@@ -30,16 +30,7 @@ class Fixtures_Table extends WP_List_Table_Copy
 					$query_vars['meta_key'] = "fixture-opposing-team"; 
 				break;
 				
-				case "homeAway" :
-					$query_vars['orderby'] = "meta_value";  
-					$query_vars['meta_key'] = "fixture-home-away"; 
-				break; 
-													
-				case "kickoffTime" : 
-					$query_vars['orderby'] = "meta_value"; 
-					$query_vars['meta_key'] = "fixture-kickoff-time"; 
-				break;
-				
+																	
 				case "date" : 
 					$query_vars['orderby'] = "meta_value_num"; 
 					$query_vars['meta_key'] = "fixture-date"; 
@@ -89,11 +80,11 @@ class Fixtures_Table extends WP_List_Table_Copy
                   $season = isset ( $seasons[0]->name ) ? $seasons[0]->name : "Current" ;
                   $fixtures[] = array(
                         'homeAway' => get_post_meta(get_the_id(), 'fixture-home-away', true),
-                        'date' => date('jS \o\f F Y', (int) get_post_meta( get_the_id(), 'fixture-date', true ) ),
+                        'kickOffDate' => date('d/m/Y', (int) get_post_meta( get_the_id(), 'fixture-date', true ) ),
                         'kickoffTime' => get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) ? get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) : 'TBC',
                         'opposingTeam' => get_post_meta( get_the_id(), 'fixture-opposing-team', true ) ? get_post_meta( get_the_id(), 'fixture-opposing-team', true ) : 'TBC',
                         'author' => get_the_author(),
-                        'postDate' => get_the_time('jS \o\f F Y'),
+                        'postDate' => get_the_time('d/m/Y'),
                         'season' => $season,
                         'id' => get_the_id(),
                         'permalink' => get_the_permalink()
@@ -121,7 +112,7 @@ class Fixtures_Table extends WP_List_Table_Copy
 		        foreach($results as $result) {
 		            if($fixture['id'] == $result['parent-fixture']) {
 		            	$fixture['result_id'] = $result['result_id'];
-		                $fixture['result'] = 'Bisons:	 <strong>' .$result['our-score'] . '</strong><br />' . $fixture['opposingTeam'] . ': <strong>' . $result['their-score'] . '</strong>';
+		                $fixture['result'] = 'Us: <strong>' .$result['our-score'] . '</strong><br />Them: <strong>' . $result['their-score'] . '</strong>';
 		            }
 		        }
 				
@@ -136,9 +127,7 @@ class Fixtures_Table extends WP_List_Table_Copy
       {
             $columns = array(
                   'opposingTeam' => 'Opposing Team',
-                  'homeAway' => 'Home or Away',
-                  'date' => 'Date',
-                  'kickoffTime' => 'Kickoff',
+                  'kickOffDate' => 'Kickoff',
                   'result' => 'Score',
                   'author' => 'Author',
                   'postDate' => 'Post Date',
@@ -168,8 +157,7 @@ class Fixtures_Table extends WP_List_Table_Copy
             $columns = array(
                   'opposingTeam' => array('opposingTeam', false),
                   'homeAway' => array('homeAway', false),
-                  'date' =>  array('date', false),
-                  'kickoffTime' => array('kickoffTime', false),
+                  'kickOffDate' =>  array('kickOffDate', false),
                   'author' => array('author', false),
                   'postDate' => array('postDate', false)
                   );
@@ -197,8 +185,6 @@ class Fixtures_Table extends WP_List_Table_Copy
       {
             switch ( $column_name )
             {
-                  case 'homeAway':
-                  case 'date':
                   case 'kickoffTime':
                   case 'opposingTeam':
                   case 'author':
@@ -206,6 +192,7 @@ class Fixtures_Table extends WP_List_Table_Copy
                   case 'season':
 				  case 'result':
                   	return $item [ $column_name ];
+                  case 'kickOffDate':return $item [ 'kickOffDate' ]. '<br /><strong>' . $item [ 'kickoffTime' ].'</strong>';
                   default:
                         new dBug ( $item );
             }
@@ -218,7 +205,7 @@ class Fixtures_Table extends WP_List_Table_Copy
                   'view' => '<a href=\''.$item['permalink'].'\'>View</a>',
                   'delete' => '<a href=\'\'>Delete</a>'
              );
-             return sprintf('%1$s %2$s', $item['opposingTeam'], $this->row_actions($actions) );
+             return sprintf('%1$s %2$s', $item['opposingTeam'] . "<br /><strong>".$item['homeAway']."</strong>", $this->row_actions($actions) );
       }
 	  
 	  function column_result ($item)

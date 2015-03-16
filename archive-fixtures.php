@@ -119,8 +119,8 @@ if( $first_fixture ) : ?>
     <?php foreach($future_fixtures as $future_fixture) : ?>
     	
     			<tr>
-    				<td><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
-    				<td><?php echo $future_fixture['homeaway'] ?></td>
+    				<td class="datecol"><a href="<?php echo $future_fixture['page']; ?>"><?php echo $future_fixture['textdate'] ? $future_fixture['textdate'] : $future_fixture['date'] ?></a></td>
+    				<td class="homeawaycol"><?php echo $future_fixture['homeaway'] ?></td>
     				<td><?php echo link_if_avail($future_fixture['opposing'], $future_fixture['teamurl']); ?></td>
     			</tr>
 
@@ -154,7 +154,7 @@ if( $first_fixture ) : ?>
 
     // Create match reports query;
     $linked_posts_query = new WP_Query(array(
-        'post_type' => 'post',
+        'post_type' => array ( 'post', 'photos' ),
         'nopaging' => 'true', 'meta_query' => array ( 
             'relation' => 'AND',
             array(
@@ -165,6 +165,17 @@ if( $first_fixture ) : ?>
                 'compare' => '!=' ,
                 'value' => '0') )
     ));
+	
+    // Loop over linked posts, store in an array
+    while($linked_posts_query->have_posts()) : $linked_posts_query->the_post();
+        $linked_posts[] = array(
+            'id' => get_the_id(),
+            'parent-fixture' => get_post_meta(get_the_id(), 'fixture_id', true),
+            'link' => get_permalink(get_the_id()),
+            'title' => get_the_title(get_the_id()),
+			'class' => ( get_post_type( get_the_id() ) == 'photos' ) ? 'fa fa-picture-o' : 'fa fa-file'
+        );
+    endwhile;
 
 
 
@@ -211,7 +222,7 @@ if( $first_fixture ) : ?>
 
         ?>
         <tr>
-        	<td><?php echo  $fixdate; ?></td>
+        	<td class="datecol"><?php echo  $fixdate; ?></td>
         	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? "Bristol Bisons RFC" :  team_link($opposing, $oppurl) ?></td>
         	<?php if (isset ( $past_fixture_print['our-score'] ) && isset ( $past_fixture_print['their-score'] ) ) : ?>
         	<td class='resultsCell'><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['our-score'] : $past_fixture_print['their-score'] ?></td>
@@ -230,7 +241,7 @@ if( $first_fixture ) : ?>
         		<?php if ( isset ( $past_fixture_print['linked_posts'] ) ) : ?>
         		<ul>
                     <?php foreach ($past_fixture_print['linked_posts'] as $post ) : ?>
-                    <li class='linked-posts-col'><span class='fa fa-file'><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></span></li>
+                    <li class='linked-posts-col'><span class='<?php echo $post['class'] ?>'><a href="<?php echo $post['link']; ?>"><?php echo $post['title']; ?></a></span></li>
                     <?php endforeach; ?>
         		</ul>
         		<?php endif ?>

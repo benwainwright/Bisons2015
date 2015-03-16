@@ -1,6 +1,9 @@
-<?php wp_enqueue_script('formvalidation'); ?>
+<?php 
+wp_enqueue_script('formvalidation'); 
+include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php')
+?>
 <div id='custom-form'>
-    <?php// wp_nonce_field( 'save_fixture_' . $_GET['post'] ) ?>
+    <?php if (isset( $_GET['post'] ) ) wp_nonce_field( 'save_fixture_' . $_GET['post'] )  ?>
     <table class="form-table">
         <tbody>
             <tr>
@@ -95,38 +98,12 @@ Email Players</label>
                    <span class="description">Check this box to send an email to all players letting them know about the new fixture. Note that this email will not be sent to those who have not yet filled in a membership form.</span>
                 </td>
             </tr>
-
+            <?php if( !current_user_can( 'advanced_posting_layout' ) ) : ?> 
+        	<tr>
+			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Publish" accesskey="p"></div></td>
+			</tr>
+			<?php endif ?>
         </tbody>
     </table>
-    
-
-
-    <?php
-            if( get_current_screen()->action !=  'add' ) { ?>
-
-    <?php
-            $is_there_results_query = new WP_Query(array(
-                                            'post_type' => 'results',
-                                            'posts_per_page' => -1,
-                                            'meta_key' => 'parent-fixture',
-                                            'meta_value' => $_GET['post']
-                                            ));
-
-            while( $is_there_results_query->have_posts()) : $is_there_results_query->the_post();
-                    $result_id = get_the_id();
-            endwhile;
-            $results_button_label = $result_id 
-                    ? "You have already recorded the result of this match in the database. Click on this button to edit it."
-                    : "Click on this button to record the results of this match. Results entered via this button will be posted on both the blog and the fixtures page."; ?>
-
-            <div class='bottom-buttons'>
-            <p class='submit'>
-                <input type='button' class='button button-large button-primary' id='match-result-button' value='<?php echo $result_id ? 'Edit match results' : 'Record match results'; ?>' />
-                <span class="description"><?php echo $results_button_label; ?>
-                <div class='spacer'></div>
-             </p> 
-                <input type="hidden" id="postid" value="<?php echo $post->ID; ?>" />
-            </div>
-
-    <?php } ?>
+   
 </div>

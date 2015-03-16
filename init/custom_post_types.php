@@ -93,7 +93,6 @@ function create_post_types() {
         'public' => true,
         'show_in_menu' => false,
         'has_archive' => false,
-        'hierarchical' => true,
         'menu_position' => 6,
         'supports' => array(
             'page-attributes'
@@ -137,7 +136,7 @@ function create_post_types() {
             'add_new_item' => __( 'Add new Committee Profile', 'bisonsrfc' ),
             'edit_item' => __( 'Edit Committee Profile', 'bisonsrfc' ),
             'view_item' => __( 'View Committee Profile', 'bisonsrfc' ),
-            'search_item' => __( 'Search Committee Profile', 'bisonsrfc', 'thumbnail' ),
+            'search_item' => __( 'Search Committee Profile', 'bisonsrfc' ),
             ),
         'public' => true,
         'show_in_menu' => false,
@@ -155,12 +154,17 @@ function create_post_types() {
      */
     register_post_type( 'photos', array(
         'labels' => array(
-            'name' => __( 'Photos', 'bisonsrfc' ),
-            'singular_name' => __( 'photo', 'bisonsrfc' ),
+            'name' => __( 'Photo Album', 'bisonsrfc' ),
+            'singular_name' => __( 'Photo Album', 'bisonsrfc' ),
+            'add_new_item' => __( 'Add new Photo Album', 'bisonsrfc' ),
+            'edit_item' => __( 'Edit Photo Album', 'bisonsrfc' ),
+            'view_item' => __( 'View Photo Album', 'bisonsrfc' ),
+            'search_item' => __( 'Search Photo Albums', 'bisonsrfc' ),
         ),
 	    'public' => true,
 	    'exclude_from_search' => false,
 	    'has_archive' => true
+	    
 	    )
     );
     
@@ -258,21 +262,27 @@ function add_custom_forms ( $post ) {
         'Event details',
         'events_content',
         'events',
-        'normal',
+        'advanced',
         'high'
     );
+    
+	
+	if ( isset ( $_GET['parent_post'] ) || isset ( $_GET['post']) )
+	{
+    	$parentpost =  isset ( $_GET['parent_post'] ) ?  $_GET['parent_post'] : get_post_meta( $_GET['post'], 'parent-fixture', true);
+    	$fixdate = date('jS \o\f F Y', get_post_meta( $parentpost, 'fixture-date', true ));
+
+	    add_meta_box(
+	        'result-edit',
+	        'Match Results',
+	        'results_content',
+	        'results',
+	        'normal',
+	        'high'
+	    );
+	} 
     
     add_meta_box(
-        'result-edit',
-        'Match Result',
-        'results_content',
-        'results',
-        'normal',
-        'high'
-    );
-    
-
-       add_meta_box(
         'fixture-link-selector',
         'Link to fixture',
         'fixture_link_selector',
@@ -313,6 +323,14 @@ function add_custom_forms ( $post ) {
         'core'
     );
     
+	
+	add_meta_box(
+		'photo-album-metabox', 
+		'Photo Album', 
+		'photo_album_meta',
+		'photos',
+		'normal',
+		'high');
 }
 add_action( 'add_meta_boxes', 'add_custom_forms');
 
@@ -328,7 +346,7 @@ function attribute_post ( $post ) { include_once( dirname(__FILE__) . '/../postf
 function committee_profile ( $post ) { include_once( dirname(__FILE__) . '/../postforms/committee-profile.php'); } 
 function membership_fee_postform ( $post ) { include_once( dirname(__FILE__) . '/../postforms/memfees.php'); } 
 function team_edit_box ( $post ) { include_once( dirname(__FILE__) . '/../postforms/teams.php'); } 
-
+function photo_album_meta ( $post ) { include_once( dirname(__FILE__) . '/../postforms/photo_albums.php'); }
 
 // Include custom post types in main blog
 function modify_blog_post_types($query) {

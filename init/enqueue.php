@@ -7,7 +7,7 @@
 function header_css_and_js($hook) {
 
     // CSS
-    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '7.8.2');
+    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '7.9.3');
     wp_enqueue_style('main_css_file');
     
 
@@ -33,6 +33,7 @@ function header_css_and_js($hook) {
     	wp_register_script('jquery', ("http://code.jquery.com/jquery-2.1.1.min.js"), false, '2.1.1');
     }
     
+    	
     wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-migrate', $GLOBALS['blog_info']['url'].'/wp-includes/js/jquery/jquery-migrate.min.js', false, '1.2.1', true);
     wp_register_script( 'jquery_maps_plugin', get_template_directory_uri() . '/scripts/gmap3.min.js', false, '1.0.0', true);
@@ -75,7 +76,7 @@ function admin_js_and_css($hook) {
     wp_enqueue_script( 'google_maps_api' );        
     wp_enqueue_script('jquery-ui-datepicker');
     wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
-    wp_register_style( 'custom_edit_css', get_template_directory_uri() . "/stylesheets/style-admin.php?post-type=".$post_type, false, '1.2.5');
+    wp_register_style( 'custom_edit_css', get_template_directory_uri() . "/stylesheets/style-admin.php?post-type=".$post_type, false, '1.2.6');
     wp_enqueue_style( 'custom_edit_css' );
     wp_register_script('web_font_loader', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js', null, '1.4.8'); 
     wp_enqueue_script('web_font_loader');
