@@ -444,9 +444,9 @@ right: 0;
 z-index: 150;
 }
 /* tables */
-table { width:100%; margin:0 0 1em 0;  border-spacing:3px; }
+table { width:100%; margin:0 0 1em 0;  border-spacing:0;}
 th { font-size:1.4em; text-align: center;}
-td { text-align:left } 
+td { text-align:left border-right:1px solid white; } 
 td, th { padding:0.5em; background:#F7F7F7;  line-height:1.2em;}
 td li { line-height:1.2em; }
 td ul { margin: 0 !important; list-style:none; }
@@ -617,6 +617,8 @@ color: white;
 -moz-border-radius: 6px;
 border-radius: 6px;
 vertical-align: middle;
+border-right:2px solid white;
+border-top:2px solid white;
 }
 
 #wrapper .photogallery td, #wrapper .photogallery th {

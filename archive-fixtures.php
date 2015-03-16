@@ -273,7 +273,7 @@ if( $first_fixture ) : ?>
 		<h3>Previous Seasons</h3>
 		<ul class="fa-ul">
 			<?php foreach ( $seasons as $season ) : ?>
-			<li class='fa-li fa fa-folder'><a href='<?php echo site_url('/seasons/' . $season->slug) ?>'><?php echo $season->name ?></a></li>	
+			<li><span class='fa-li fa fa-folder'></span><a href='<?php echo site_url('/seasons/' . $season->slug) ?>'><?php echo $season->name ?></a></li>	
 			<?php endforeach ?>
 		</ul>
 		<?php endif ?>

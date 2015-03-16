@@ -19,8 +19,8 @@
 				?>
 				<h3>Details</h3>
 				<h4 class='fa fa-info'>Description</h4><?php the_content() ?></li>
-				<h4 class='fa  fa-home'>Address</h4><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?>
-				<h4 class='fa fa-link'>Website</h4><p><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'><?php echo get_post_meta( get_the_id(), 'website', true) ?></a></p>
+				<h4 class='fa  fa-home'>Address</h4><p><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?></p>
+				<p class='fa fa-link'><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'>Website</a></p>
 				<section class='clearsection'>
 					
 					<?php 
@@ -31,7 +31,8 @@
 						'meta_value' => get_the_id() 
 						) );
 						
-						
+						$future_fixtures = array();
+						$past_fixtures = array();
 						
 						while ( $fixtures_query->have_posts() ) {
 							$fixtures_query->the_post();
@@ -62,6 +63,7 @@
 					<?php if ( ( sizeof ( $future_fixtures) > 0 ) ||  ( sizeof ( $past_fixtures) > 0 ) ) : ?>
 
 					<h3>Fixtures</h3>
+					<p>All the fixtures which involve this team, including the fixture results, are listed below. If you think any of the information is innaccurate, please get in touch.</p>
 					<?php if ( sizeof ( $future_fixtures) > 0 ) : ?>
 					<h4>Upcoming</h4>
 					<table class='center fixturestable'>
