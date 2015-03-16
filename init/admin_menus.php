@@ -94,7 +94,7 @@ function add_admin_menus()
     // Move 'results' page into the Fixtures submenu
     $fixtures_menu_hook = add_menu_page ( 'Fixtures', 'Fixtures', 'committee_perms', 'fixturelist', 'fixtures_listTable_callback', 'dashicons-flag', 4);
     add_action( "load-$fixtures_menu_hook", 'Fixtures_Table_Add_Options' );
-    add_submenu_page ( 'fixturelist', 'Teams', 'Teams', 'committee_perms', 'teams' );
+    add_submenu_page ( 'fixturelist', 'Teams', 'Teams', 'committee_perms', 'edit.php?post_type=teams' );
     add_submenu_page ( 'fixturelist', 'Seasons', 'Seasons', 'committee_perms', 'edit-tags.php?taxonomy=seasons&post_type=fixtures' );
 
 

@@ -1,9 +1,17 @@
 <?php 
 wp_enqueue_script('formvalidation'); 
-include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php')
+include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php');
+
+$teams = new WP_Query(array(
+    'post_type' => 'teams',
+    'nopaging' => 'true'
+));
+
 ?>
 <div id='custom-form'>
-    <?php if (isset( $_GET['post'] ) ) wp_nonce_field( 'save_fixture_' . $_GET['post'] )  ?>
+	<?php if ( !$teams->have_posts() ) : ?>
+    <p>Before you can create a fixture, you need to create some teams first...</p>	
+	<?php else : ?>
     <table class="form-table">
         <tbody>
             <tr>
@@ -33,21 +41,19 @@ include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php')
                    <input type='time' class='notempty' name='fixture-player-arrival-time' value='<?php echo get_post_meta( $post->ID, 'fixture-player-arrival-time', true) ? get_post_meta( $post->ID, 'fixture-player-arrival-time', true) : "12:30 pm"; ?>' />
                     <span class="description">What time should Bisons players arrive on site? Again, enter in 24 hour format.</span>
                 </td>
+            </tr>
+            <tr>
+            <th><label for="fixture_team">Opposing team</label></th>
+            <td>
+                <select class='mustselect' name="fixture_team">
+                	<option></option>
+                    <?php while ( $teams->have_posts() ) : $teams->the_post() ?>       
+                    <option <?php if ( get_the_id() == get_post_meta( $post->ID, 'fixture_team', true ) ) echo 'selected="selected"'; ?> value="<?php echo get_the_id() ?>"><?php the_title() ?></option>
+                    <?php endwhile; ?>
+                </select>
+            </td>
+
             </tr>   
-            <tr>
-                <th><label for="fixture-opposing-team">Opposing team</label></th>
-                <td>
-                    <input type='text' class='notempty' class="regular-text" name='fixture-opposing-team' value='<?php echo get_post_meta( $post->ID, 'fixture-opposing-team', true) ?>' />
-                    <span class="description">What team are we playing against?</span>
-                </td>
-            </tr>
-            <tr>
-                <th><label for="fixture-opposing-team-website-url">Team website</label></th>
-                <td>
-                    <input type='text'  class="regular-text" name='fixture-opposing-team-website-url' value='<?php echo get_post_meta( $post->ID, 'fixture-opposing-team-website-url', true) ?>' />
-                    <span class="description">Does that team have a website? If so add it and it will show up on fixture listings and related blog posts. If not, just leave it blank.</span>
-                </td>
-            </tr>
             <tr>
                 <th><label for="fixture-home-away">Home or Away</label></th>
                 <td>
@@ -65,8 +71,8 @@ include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php')
             <tr>
                 <th><label for="fixture-address">Venue address</label></th>
                 <td>
-                    <textarea class="address-input small notempty" name='fixture-address'><?php echo get_post_meta( $post->ID, 'fixture-address', true) ?></textarea>
-                    <span class="description">What is the address of the pitch where the fixture will be taking place?</span>
+                    <textarea class="address-input small" name='fixture-address'><?php echo get_post_meta( $post->ID, 'fixture-address', true) ?></textarea>
+                    <span class="description">If the fixture is being held at this team's normal home venue <strong>leave this field blank.</strong></span>
                 </td>
             </tr>
             <tr class="map-row">
@@ -102,6 +108,7 @@ Email Players</label>
         	<tr>
 			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Publish" accesskey="p"></div></td>
 			</tr>
+			<?php endif ?>
 			<?php endif ?>
         </tbody>
     </table>

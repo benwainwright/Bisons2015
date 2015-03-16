@@ -38,6 +38,16 @@ while( have_posts()) : the_post();
     $datetime = date( 'Y:m:d' , $unixdate ). ' '.$time.':00';
     $datetimeunix = strtotime($datetime);
 
+	if ( get_post_meta(get_the_id(), 'fixture-home-away', true) == 'Home' )
+	{
+		
+		$clubInfoSettings = get_option('club-info-settings');
+		$address = $clubInfoSettings['home-address'];
+	}
+	else
+	{
+		$address = get_post_meta( get_the_id(), 'fixture-address', true ) ? wpautop ( get_post_meta( get_the_id(), 'fixture-address', true ) ) : wpautop ( get_post_meta( get_post_meta( get_the_id(), 'fixture_team', true), 'homeaddress', true) );
+	}
 
     // Prepare fixtures array
     $fixture = array(
@@ -46,11 +56,11 @@ while( have_posts()) : the_post();
         'textdate' => get_post_meta( get_the_id(), 'text-date', true ),
         'kickoff' => get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) ? date("g:ia", strtotime(get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) )) : 'TBC',
         'playtime' => get_post_meta( get_the_id(), 'fixture-player-arrival-time', true ) ? date("g:ia", strtotime(get_post_meta( get_the_id(), 'fixture-player-arrival-time', true ))) : false,
-        'address' => get_post_meta( get_the_id(), 'fixture-address', true ) ? get_post_meta( get_the_id(), 'fixture-address', true ) : 'TBC',
-        'opposing' => get_post_meta( get_the_id(), 'fixture-opposing-team', true ) ? get_post_meta( get_the_id(), 'fixture-opposing-team', true ) : 'TBC',
+        'address' => $address,
+        'opposing' => get_post_meta( get_the_id(), 'fixture_team', true ) ? get_the_title( get_post_meta( get_the_id(), 'fixture_team', true ) ) : 'No Team' ,
         'page' => get_permalink(),
         'gmap' => get_post_meta( get_the_id(), 'fixture-gmap', true ) ? get_post_meta( get_the_id(), 'fixture-gmap', true ) : false,
-        'teamurl' => get_post_meta( get_the_id(), 'fixture-opposing-team-website-url', true ) ? get_post_meta( get_the_id(), 'fixture-opposing-team-website-url', true ) : false,
+        'teamurl' => get_post_meta( get_post_meta( get_the_id(), 'fixture_team', true), 'website', true),
         'edit_link' => '<a class="editsmall" href="'.get_edit_post_link( get_the_id() ).'">Edit fixture</a>',
         'homeaway' => get_post_meta(get_the_id(), 'fixture-home-away', true)
     );

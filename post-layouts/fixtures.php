@@ -9,12 +9,23 @@ $kickoff = reformat_date($kickoff, 'g:ia');
 $fixdate = date('jS \o\f F Y', (int) $postdate);
 $isodate = mktime ( (int) $hour, (int) $minute, 0, date('n', (int) $postdate), date('j', (int) $postdate), date('Y', (int) $postdate) );
 $isodate = date('c', $isodate);
-$oppteam = get_post_meta( get_the_id(), 'fixture-opposing-team', true ) ? get_post_meta( get_the_id(), 'fixture-opposing-team', true ) : 'TBC';
-$opplink = get_post_meta( get_the_id(), 'fixture-opposing-team-website-url', true ) ? get_post_meta( get_the_id(), 'fixture-opposing-team-website-url', true ) : false;
+$oppteam = get_post_meta( get_the_id(), 'fixture_team', true ) ? get_the_title( get_post_meta( get_the_id(), 'fixture_team', true ) ) : 'No Team';
+$opplink = get_post_meta( get_post_meta( get_the_id(), 'fixture_team', true), 'website', true);
+
+if ( get_post_meta(get_the_id(), 'fixture-home-away', true) == 'Home' )
+{
+	
+	$clubInfoSettings = get_option('club-info-settings');
+	$address = $clubInfoSettings['home-address'];
+}
+else
+{
+	$address = get_post_meta( get_the_id(), 'fixture-address', true ) ? wpautop ( get_post_meta( get_the_id(), 'fixture-address', true ) ) : wpautop ( get_post_meta( get_post_meta( get_the_id(), 'fixture_team', true), 'homeaddress', true) );
+}
+
 
 $playtme = get_post_meta( get_the_id(), 'fixture-player-arrival-time', true ) ? get_post_meta( get_the_id(), 'fixture-player-arrival-time', true ) : false;
 $playtme = reformat_date($playtme, 'g:ia');
-$address = wpautop ( get_post_meta( get_the_id(), 'fixture-address', true ) ? get_post_meta( get_the_id(), 'fixture-address', true ) : 'TBC' );
 $gmpcode = get_post_meta( get_the_id(), 'fixture-gmap', true ) ? get_post_meta( get_the_id(), 'fixture-gmap', true ) : false;
 $fixface = get_post_meta( get_the_id(), 'fixture-facebook-event', true ) ? get_post_meta( get_the_id(), 'fixture-facebook-event', true ) : false;
 $gmpcode = html_entity_decode($gmpcode);

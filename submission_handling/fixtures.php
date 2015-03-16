@@ -14,14 +14,16 @@ update_post_meta($post, 'text-date', $fixturedate);
 $fixturekickoff = esc_attr( $_POST['fixture-kickoff-time'] );    
 update_post_meta($post, 'fixture-kickoff-time', $fixturekickoff);
 
-$fixtureoppteam = esc_attr( $_POST['fixture-opposing-team'] );
-update_post_meta($post, 'fixture-opposing-team', $fixtureoppteam);
+$fixture_team = esc_attr( $_POST['fixture_team'] );    
+update_post_meta($post, 'fixture_team', $fixture_team);
+
+$fixtureoppteam = get_the_title ( $fixture_team );
+
+
 
 $fixturepat = esc_attr( $_POST['fixture-player-arrival-time'] );
 update_post_meta($post, 'fixture-player-arrival-time', $fixturepat);
 
-$fixtureoppteamurl = esc_attr( $_POST['fixture-opposing-team-website-url'] );       
-update_post_meta($post, 'fixture-opposing-team-website-url', $fixtureoppteamurl);
 
 $fixtureaddy = esc_attr( $_POST['fixture-address'] );
 update_post_meta($post, 'fixture-address', $fixtureaddy);
@@ -64,7 +66,9 @@ update_post_meta ( $post, 'fixture-home-away', esc_attr( $_POST['fixture-home-aw
 // If this is a revision, get real post ID
 if ( $parent_id = wp_is_post_revision( $post ) ) 
         $post = $parent_id;
-    
+
+
+
 $postdetails = array (
     'ID' => $post,
     'post_title' => $fixtureoppteam,

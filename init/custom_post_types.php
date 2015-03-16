@@ -36,8 +36,8 @@ function create_post_types() {
             ),
         'show_in_menu' => false,
 		'public' => true,
-		'has_archive' => false,
-		'supports'	=> array ('thumbnail', 'title')
+		'has_archive' => true,
+		'supports'	=> array ('thumbnail', 'title', 'editor')
 	 ));
     
     

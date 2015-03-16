@@ -82,7 +82,7 @@ class Fixtures_Table extends WP_List_Table_Copy
                         'homeAway' => get_post_meta(get_the_id(), 'fixture-home-away', true),
                         'kickOffDate' => date('d/m/Y', (int) get_post_meta( get_the_id(), 'fixture-date', true ) ),
                         'kickoffTime' => get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) ? get_post_meta( get_the_id(), 'fixture-kickoff-time', true ) : 'TBC',
-                        'opposingTeam' => get_post_meta( get_the_id(), 'fixture-opposing-team', true ) ? get_post_meta( get_the_id(), 'fixture-opposing-team', true ) : 'TBC',
+                        'opposingTeam' => get_post_meta( get_the_id(), 'fixture_team', true ) ? get_the_title( get_post_meta( get_the_id(), 'fixture_team', true ) ) : 'No Team' ,
                         'author' => get_the_author(),
                         'postDate' => get_the_time('d/m/Y'),
                         'season' => $season,
