@@ -41,7 +41,7 @@ while( have_posts()) : the_post();
 	if ( get_post_meta(get_the_id(), 'fixture-home-away', true) == 'Home' )
 	{
 		
-		$clubInfoSettings = get_option('club-info-settings');
+		$clubInfoSettings = get_option('club-info-settings-page');
 		$address = $clubInfoSettings['home-address'];
 	}
 	else
