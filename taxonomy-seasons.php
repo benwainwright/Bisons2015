@@ -159,7 +159,7 @@ if( $fixtures ) : ?>
         ?>
         <tr>
         	<td class="datecol"><?php echo  $fixdate; ?></td>
-        	<td><?php echo ($fixture['homeaway'] == "Home") ? "Bristol Bisons RFC" :  '<a href='.$first_fixture['teamurl'].'>'.$first_fixture['opposing'].'</a></td>' ?></td>
+        	<td><?php echo ($fixture['homeaway'] == "Home") ? "Bristol Bisons RFC" :  '<a href='.$fixture['teamurl'].'>'.$fixture['opposing'].'</a></td>' ?></td>
         	<?php if (isset ( $fixture['our-score'] ) && isset ( $fixture['their-score'] ) ) : ?>
         	<td class='resultsCell'><?php echo ($fixture['homeaway'] == "Home") ? $fixture['our-score'] : $fixture['their-score'] ?></td>
         	<td class='resultsCell'><?php echo ($fixture['homeaway'] == "Home") ? $fixture['their-score'] : $fixture['our-score'] ?></td>
