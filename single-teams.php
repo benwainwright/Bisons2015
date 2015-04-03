@@ -12,16 +12,16 @@
                 <header>
                     <h2><?php the_title(); ?></h2>
                 </header>
+				<h3>Details</h3>
                 <?php 
 			      if ( has_post_thumbnail() ) {         
 			            the_post_thumbnail('large');
 			      } 
 				?>
-				<h3>Details</h3>
-				<h4 class='fa fa-info'>Description</h4><?php the_content() ?></li>
+				<?php the_content() ?>
 				<h4 class='fa  fa-home'>Address</h4><p><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?></p>
 				<p class='fa fa-link'><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'>Website</a></p>
-				<section class='clearsection'>
+				<section>
 					
 					<?php 
 		            	$fixtures_query = new WP_Query ( array(
@@ -64,6 +64,7 @@
 
 					<h3>Fixtures</h3>
 					<p>All the fixtures which involve this team, including the fixture results, are listed below. If you think any of the information is innaccurate, please get in touch.</p>
+					<section class='clearsection'>
 					<?php if ( sizeof ( $future_fixtures) > 0 ) : ?>
 					<h4>Upcoming</h4>
 					<table class='center fixturestable'>
@@ -196,6 +197,7 @@
 						</tbody>
 					</table>
 					<?php endif ?>
+					</section>
 				</section>
         <?php endif ?>
         <?php endwhile ?>

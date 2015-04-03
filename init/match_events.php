@@ -45,5 +45,10 @@ $match_events = array (
 			'Subbed On',
 			'Player subbed on during play to replace a player leaving the field'),			
 
+	'injured'	=> array (
+		'Injured',
+		'Player is injured to the extent that they have to leave the field'),			
+
+
 			
 );

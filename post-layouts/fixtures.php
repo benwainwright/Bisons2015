@@ -46,9 +46,9 @@ $homeaway = get_post_meta(get_the_id(), 'fixture-home-away', true);
                   <?php if ( $homeaway == 'Home' ) : ?>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
                   <li>Vs</li>
-                  <li class="fa fa-star teamName"><a href='<?php echo $oppteam ?>'><?php echo $opplink ?></a> (Away)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ) ?>'><?php echo $oppteam ?></a> (Away)</li>
                   <?php else : ?>
-                  <li class="fa fa-star teamName"><a href='<?php echo $oppteam ?>'><?php echo $opplink ?></a>  (Home)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ) ?>'><?php echo $oppteam ?></a>  (Home)</li>
                   <li>Vs</li>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
                   <?php endif ?>
