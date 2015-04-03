@@ -142,7 +142,7 @@ if( $first_fixture ) : ?>
 <?php if( $past_fixtures ) : ?>
 <section class="clearsection">
 <h3>Fixture Results</h3>
-<p>Results for this season are below. Please get in contact with us if you believe any fixture results to be wrong.</p>
+<p>Results for this season are below. Click on the match date to be taken to the individual results page which contains more details about that match such as match statistics. Please get in contact with us if you believe any fixture results to be wrong.</p>
     <?php
 
 
@@ -154,6 +154,7 @@ if( $first_fixture ) : ?>
     // Loop over results, store in an array
     while($getresultsquery->have_posts()) : $getresultsquery->the_post();
         $results[] = array(
+        				'link'			=> get_the_permalink(),
                         'parent-fixture' => get_post_meta(get_the_id(), 'parent-fixture', true),
                         'their-score'    => get_post_meta(get_the_id(), 'their-score', true),
                         'our-score'      => get_post_meta(get_the_id(), 'our-score', true),
@@ -199,6 +200,7 @@ if( $first_fixture ) : ?>
 
         foreach($results as $result) :
             if($past_fixture['id'] == $result['parent-fixture']) :
+				$past_fixture['result_link'] = $result['link'];
                 $past_fixture['their-score'] = $result['their-score'];
                 $past_fixture['our-score'] = $result['our-score'];
                 $past_fixture['edit-result-link'] = $result['edit-result-link'];
@@ -222,6 +224,7 @@ if( $first_fixture ) : ?>
     
 	<?php
     foreach($past_fixtures as $past_fixture_print) :
+		
         $fixdate = $past_fixture_print['date'];
         $opposing = $past_fixture_print['opposing'];
         $oppurl = $past_fixture_print['teamurl'];
@@ -231,7 +234,7 @@ if( $first_fixture ) : ?>
 
         ?>
         <tr>
-        	<td class="datecol"><?php echo  $fixdate; ?></td>
+        	<td class="datecol"><?php if ( isset ($past_fixture_print['result_link'] ) ) : ?><a href='<?php echo $past_fixture_print['result_link'] ?>'><?php echo  $fixdate; ?></a><?php else : echo $fixdate; endif; ?></td>
         	<td><?php echo ($past_fixture_print['homeaway'] == "Home") ? "Bristol Bisons RFC" :  team_link($opposing, $oppurl) ?></td>
         	<?php if (isset ( $past_fixture_print['our-score'] ) && isset ( $past_fixture_print['their-score'] ) ) : ?>
         	<td class='resultsCell'><?php echo ($past_fixture_print['homeaway'] == "Home") ? $past_fixture_print['our-score'] : $past_fixture_print['their-score'] ?></td>
