@@ -14,6 +14,35 @@ jQuery(document).ready(function() {
             }
     });
     
+    var match_event_box_count = 0;
+    
+    
+    var adminNotBlankAddNew = function ()
+    {
+    
+		
+		if ( jQuery(this).val() != '')
+		{
+			var newField = jQuery(this).parent().parent().clone();
+			newField.appendTo(jQuery(this).parent().parent().parent());
+			var inputs = newField.find('select').each(function() {
+				var split = jQuery(this).attr('name').split('_');
+				split[split.length - 1]++;
+				jQuery(this).attr('name', split.join('_'));
+
+			}); 
+			jQuery('.adminNotBlankaddNew').last().change( adminNotBlankAddNew );
+			
+		}
+    };
+    
+    
+    
+    
+	jQuery('.adminNotBlankaddNew').last().change( adminNotBlankAddNew );
+	
+	
+
     jQuery('#allDay').click(function() {
         
       if( jQuery(this).prop('checked') )
