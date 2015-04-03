@@ -19,13 +19,14 @@ $image_url_original = $image_url_original[0];
             <?php while (have_posts() ) : the_post(); ?>
                 <header>
                     <h2><?php the_title(); ?></h2>
+		        <?php if ( current_user_can('edit_post', get_the_id()) ) { ?>
+		            <ul class='pageMenu'>
+		                <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=page'>New Page</a></li>
+		                <li><?php edit_post_link( 'Edit'); ?></li>
+		            </ul>
+		        <?php } ?>
+
                 </header>
-        <?php if ( current_user_can('edit_post', get_the_id()) ) { ?>
-            <ul class='pageMenu'>
-                <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=page'>New Page</a></li>
-                <li><?php edit_post_link( 'Edit'); ?></li>
-            </ul>
-        <?php } ?>
 
 				<?php 
                   if ( has_post_thumbnail() ) {
