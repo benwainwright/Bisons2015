@@ -64,6 +64,7 @@
 
 					<h3>Fixtures</h3>
 					<p>All the fixtures which involve this team, including the fixture results, are listed below. If you think any of the information is innaccurate, please get in touch.</p>
+					<section class='clearsection'>
 					<?php if ( sizeof ( $future_fixtures) > 0 ) : ?>
 					<h4>Upcoming</h4>
 					<table class='center fixturestable'>
@@ -196,6 +197,7 @@
 						</tbody>
 					</table>
 					<?php endif ?>
+					</section>
 				</section>
         <?php endif ?>
         <?php endwhile ?>
