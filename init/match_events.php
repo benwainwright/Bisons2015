@@ -23,11 +23,11 @@ $match_events = array (
 			'Man of the Match, when only one MOTM is awarded'),
 			
 	'MOTM_Own' => array (
-			'Man of the Match (Bisons)',
+			'Man of the Match (Nominated by the Bisons)',
 			'Man of the Match, awarded by us when both teams nominate someone from each time'),
 			
 	'MOTM_Opposing' => array (
-			'Man of the Match (Opposing Team)',
+			'Man of the Match (Nominated by Opposing Team)',
 			'Man of the Match, awarded by the opposing team when both teams nominate someone from each time'),
 			
 	'DOTD' => array (
