@@ -392,9 +392,10 @@ li.listimage { padding-right: 1em; }
 
 
 #wrapper .eventMeta { background-color: #2E2E2E; padding:0 20px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px; }
-#wrapper .eventMeta h4 { color: white;padding:5px 5px 5px 0; margin:0;   }
+#wrapper .eventMeta h4, #wrapper .eventMeta h3 { color: white;padding:5px 5px 5px 0; margin:0; text-align:center;  font-style:italic}
 #wrapper .eventMeta h4 a { color: white; }
-
+#wrapper .eventMeta ul { width:100%; }
+#wrapper ul.small li { font-size:0.8em; } 
 #wrapper .eventMeta h5 { color: white;  }
 #wrapper .eventMeta table {table-layout:fixed; margin:0; }
 #wrapper .eventMeta td {text-align:center; background:none; color:white; border:0; vertical-align:top; }
@@ -609,6 +610,11 @@ html .albumThumb.eventsArchive .profileMeta {
 	text-align:center;
 }
 
+html #wrapper li.score {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 0 0 0.4em 0;
+}
 
 #wrapper td, #wrapper th {
 background-color: #2E2E2E;

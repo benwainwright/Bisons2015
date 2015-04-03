@@ -19,14 +19,18 @@ $image_url_original = $image_url_original[0];
             <?php while (have_posts() ) : the_post(); ?>
                 <header>
                     <h2><?php the_title(); ?></h2>
-                </header>
-        <?php if ( current_user_can('edit_post', get_the_id()) ) { ?>
-            <ul class='pageMenu'>
-                <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=page'>New Page</a></li>
-                <li><?php edit_post_link( 'Edit'); ?></li>
-            </ul>
-        <?php } ?>
+		        <?php if ( current_user_can('edit_post', get_the_id()) ) { ?>
+		            <ul class='pageMenu'>
+		                <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=page'>New Page</a></li>
+		                <li><?php edit_post_link( 'Edit'); ?></li>
+		            </ul>
+		        <?php } ?>
 
+                </header>
+				
+				<?php if ( $stats = total_stat_per_user($post->post_author)) : ?>
+				<div class='metaBox'>
+				<?php endif ?>
 				<?php 
                   if ( has_post_thumbnail() ) {
                    
@@ -37,7 +41,20 @@ $image_url_original = $image_url_original[0];
                         the_post_thumbnail( 'full');
                   } 
                   ?>
-
+				<?php if ($stats) : 
+					$stats = array_count_values( $stats );
+					?>
+					<div class='eventMeta'>
+						<h3>Statistics</h3>
+						<ul>
+							<?php foreach ( $stats as $key => $stat) : ?>
+							<li class='fa fa-flag'><em><?php global $match_events; echo $match_events[$key][0]. ' - <strong>' . $stat?></strong></em></li>
+							<?php endforeach ?>							
+						</ul>
+					<div class='clear'></div>
+					</div>
+				</div>
+				<?php endif ?>
                 <?php if (get_post_meta( $post->ID, 'name', true) ) : ?>
                 <h4>Name</h4>
                 <p><?php echo get_post_meta( $post->ID, 'name', true); ?></p>

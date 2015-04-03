@@ -2,6 +2,29 @@
 if(basename(__FILE__) == basename($_SERVER['PHP_SELF'])){exit();}
 
 
+// Iterate through match events and save them
+for ( $i = 0; isset ( $_POST['match_event_type_' . $i] ); $i++)
+{
+	if ( $_POST['match_event_type_' . $i] != '' ) 
+	{
+		update_post_meta( $post, 'match_event_type_' . $i, $_POST['match_event_type_' . $i]);
+	}
+	else 
+	{
+		delete_post_meta($post, 'match_event_type_' . $i);
+	}
+	if ( $_POST['match_event_player_' . $i] != '' ) 
+	{
+		update_post_meta( $post, 'match_event_player_' . $i, $_POST['match_event_player_' . $i]);
+	}
+	else 
+	{
+		delete_post_meta($post, 'match_event_player_' . $i);
+	}
+}
+
+
+
 // Save metainfo from custom form, then create a title pulled from the opposing team of the parent fixture
 
 
