@@ -7,7 +7,7 @@ function total_stat_per_user( $user, $stat = false )
 	global $wpdb;
 	(int) $user; 
 	$queryAppendum = array();
-	$player_rows = $wpdb->get_results ( "SELECT `post_id`, `meta_key`, `meta_value` FROM `wp_postmeta`   WHERE `meta_key` LIKE 'match_event_player%' AND `meta_value` = $user" );
+	$player_rows = $wpdb->get_results ( "SELECT `post_id`, `meta_key` FROM `wp_postmeta`   WHERE `meta_key` LIKE 'match_event_player%' AND `meta_value` = $user" );
 	
 	if ( $player_rows )
 	{
@@ -33,5 +33,8 @@ function total_stat_per_user( $user, $stat = false )
 		}
 		
 		return $stat ? $statcount : $return;
+	}
+	else {
+		return false;
 	}
 }
