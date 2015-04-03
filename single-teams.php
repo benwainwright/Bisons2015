@@ -12,16 +12,16 @@
                 <header>
                     <h2><?php the_title(); ?></h2>
                 </header>
-                <?php 
-			      if ( has_post_thumbnail() ) {         
-			            the_post_thumbnail('large');
-			      } 
-				?>
 				<h3>Details</h3>
 				<h4 class='fa fa-info'>Description</h4><?php the_content() ?></li>
+                <?php 
+			      if ( has_post_thumbnail() ) {         
+			            the_post_thumbnail('medium');
+			      } 
+				?>
 				<h4 class='fa  fa-home'>Address</h4><p><?php echo wpautop( get_post_meta( get_the_id(), 'homeaddress', true) ) ?></p>
 				<p class='fa fa-link'><a href='<?php echo get_post_meta( get_the_id(), 'website', true) ?>'>Website</a></p>
-				<section class='clearsection'>
+				<section>
 					
 					<?php 
 		            	$fixtures_query = new WP_Query ( array(
