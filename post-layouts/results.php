@@ -41,7 +41,7 @@ $homeaway = get_post_meta($parent, 'fixture-home-away', true);
 					$event_player = get_user_by('id', get_post_meta ( get_the_id(), 'match_event_player_' . $i, true ) ) ;
 					$player_name = $event_player->data->display_name;
               		?>
-              	<li><?php global $match_events; echo $match_events[$event_key][0]; echo get_profile_url ( $event_player->ID ) ? ' - <a href="'.get_profile_url ( $event_player->ID ).'">'.$player_name.'</a>' : ' - ' .$player_name ?></li>
+              	<li class='fa fa-flag'><?php global $match_events; echo $match_events[$event_key][0]; echo get_profile_url ( $event_player->ID ) ? ' - <a href="'.get_profile_url ( $event_player->ID ).'">'.$player_name.'</a>' : ' - ' .$player_name ?></li>
               	<?php endfor ?>
               </ul>
               <?php endif ?>
