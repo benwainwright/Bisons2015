@@ -269,6 +269,51 @@ if( $first_fixture ) : ?>
     </tbody>
     </table>
     </section>
+    <h3>Statistics - Top 10s</h3>
+    <p>The following information is based directly on match event data recorded in the database. If you think you should be included below, please let me know specifically which match you scored a try/conversion/motm in and I will add you to the match result record.
+    <h4>Try Scorers</h4>
+    <?php $tries = get_stats_chart ( 'try_scored' ) ?>
+    <table class="center">
+
+    	<tbody>
+    <?php $position = 1; foreach ($tries as $user => $tries ) : ?>
+    	<tr>
+    		<td class='smallcol'><?php echo $position ?></td>
+    		<td><?php if ( $url = get_profile_url ( $user ) ) echo "<a href='$url'>" ?><?php $user = get_userdata ( $user ); echo $user->display_name; ?><?php echo $url ? '</a>' : '' ?></td>
+    		<td class='medcol'><?php echo $tries. ' ' . plural_word ( $tries, 'try', 'tries' ) ?></td>
+    	</tr>
+	<?php $position++; endforeach ?>
+		</tbody>
+	</table>
+    <h4>Men of the Match</h4>
+    <?php $MOTM = get_stats_chart ( 'MOTM' ) ?>
+    <table class="center">
+
+    	<tbody>
+    <?php $position = 1; foreach ($MOTM as $user => $motm ) : ?>
+    	<tr>
+    		<td class='smallcol'><?php echo $position ?></td>
+    		<td><?php if ( $url = get_profile_url ( $user ) ) echo "<a href='$url'>" ?><?php $user = get_userdata ( $user ); echo $user->display_name; ?><?php echo $url ? '</a>' : '' ?></td>
+    		<td class='medcol'><?php echo $motm. ' ' . plural_word ( $motm, 'match', 'matches' ) ?></td>
+    	</tr>
+	<?php $position++; endforeach ?>
+		</tbody>
+	</table>
+    <h4>Conversions</h4>
+    <?php $conversions = get_stats_chart ( 'conversion' ) ?>
+    <table class="center">
+
+    	<tbody>
+    <?php $position = 1; foreach ($conversions as $user => $conversion ) : ?>
+    	<tr>
+    		<td class='smallcol'><?php echo $position ?></td>
+    		<td><?php if ( $url = get_profile_url ( $user ) ) echo "<a href='$url'>" ?><?php $user = get_userdata ( $user ); echo $user->display_name; ?><?php echo $url ? '</a>' : '' ?></td>
+    		<td class='medcol'><?php echo $conversion. ' ' . plural_word ( $conversion, 'conversion', 'conversion' ) ?></td>
+    	</tr>
+	<?php $position++; endforeach ?>
+		</tbody>
+	</table>
+
 <?php endif; ?>
 		<?php
 		$seasons = get_terms ( array ( 'seasons' ) );

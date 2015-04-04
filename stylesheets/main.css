@@ -16,6 +16,9 @@ html { margin:0 !important; }
     font-style: normal;
 
 }
+
+.smallcol { width:30px; }
+.medcol { width: 150px; } 
 .fa:before { margin-right:0.4em; }
 
 .post header, .page header { margin-bottom:0.4em; }
@@ -767,7 +770,9 @@ html .albumThumb img
 	  font-style:italic;
 	 
 	}
-	
+	.smallcol { width:auto; font-size:1.6em; font-weight:bold;}
+	.medcol { width:auto; }
+
 	#wrapper td.datecol a {
 	  color: #2E2E2E;	 
 	}
