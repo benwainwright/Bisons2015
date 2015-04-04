@@ -315,7 +315,7 @@ if( $first_fixture ) : ?>
     	<tr>
     		<td class='smallcol'><?php echo $position ?></td>
     		<td><?php if ( $url = get_profile_url ( $user ) ) echo "<a href='$url'>" ?><?php $user = get_userdata ( $user ); echo $user->display_name; ?><?php echo $url ? '</a>' : '' ?></td>
-    		<td class='medcol'><?php echo $conversion. ' ' . plural_word ( $conversion, 'conversion', 'conversion' ) ?></td>
+    		<td class='medcol'><?php echo $conversion. ' ' . plural_word ( $conversion, 'conversion', 'conversions' ) ?></td>
     	</tr>
 	<?php $position++; endforeach ?>
 		</tbody>
