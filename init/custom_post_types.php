@@ -302,6 +302,16 @@ function add_custom_forms ( $post ) {
         'normal',
         'high'
         );
+		
+       add_meta_box(
+        'attribute-post',
+        'Attribute Post',
+        'attribute_post',
+        'playerprofiles',
+        'normal',
+        'high'
+        );
+
     }
     
     
