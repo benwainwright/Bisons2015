@@ -269,10 +269,15 @@ if( $first_fixture ) : ?>
     </tbody>
     </table>
     </section>
+    <?php $tries = get_stats_chart ( 'try_scored' ) ?>
+    <?php $MOTM = get_stats_chart ( 'MOTM' ) ?>
+    <?php $conversions = get_stats_chart ( 'conversion' ) ?>
+	<?php if ( $tries || $MOTM || $conversions ) : ?>
     <h3>Statistics - Top 10s</h3>
     <p>The following information is based directly on match event data recorded in the database. If you think you should be included below, please let me know specifically which match you scored a try/conversion/motm in and I will add you to the match result record.
+    
+    <?php if ( $tries ) : ?>
     <h4>Try Scorers</h4>
-    <?php $tries = get_stats_chart ( 'try_scored' ) ?>
     <table class="center">
 
     	<tbody>
@@ -285,8 +290,9 @@ if( $first_fixture ) : ?>
 	<?php $position++; endforeach ?>
 		</tbody>
 	</table>
+    <?php endif ?> 
+    <?php if ( $MOTM ) : ?>
     <h4>Men of the Match</h4>
-    <?php $MOTM = get_stats_chart ( 'MOTM' ) ?>
     <table class="center">
 
     	<tbody>
@@ -299,8 +305,9 @@ if( $first_fixture ) : ?>
 	<?php $position++; endforeach ?>
 		</tbody>
 	</table>
+	<?php endif ?>
+	<?php if ( $conversions ) : ?>
     <h4>Conversions</h4>
-    <?php $conversions = get_stats_chart ( 'conversion' ) ?>
     <table class="center">
 
     	<tbody>
@@ -313,6 +320,8 @@ if( $first_fixture ) : ?>
 	<?php $position++; endforeach ?>
 		</tbody>
 	</table>
+	<?php endif ?>
+	<?php endif ?>
 
 <?php endif; ?>
 		<?php
