@@ -34,7 +34,7 @@ $homeaway = get_post_meta($parent, 'fixture-home-away', true);
                   <?php endif ?>
               </ul>
               <?php if ( get_post_meta ( get_the_id(), 'match_event_type_0', true ) ) : ?>
-              <h4>Key Information</h4>
+              <h4>Achievements</h4>
               <ul class='small'>
               	<?php for ( $i = 0; get_post_meta ( get_the_id(), 'match_event_type_' . $i, true ); $i++ ) : 
               		$event_key = get_post_meta ( get_the_id(), 'match_event_type_' . $i, true );
