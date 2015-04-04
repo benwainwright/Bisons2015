@@ -28,7 +28,7 @@ $match_events = array (
 			'The player awarded the coveted Dick of the Day award'),
 			
 	'conversion' => array (
-			'Scored a Conversion',
+			'Conversion Scored',
 			'The player who scores a successful conversion',
 			2),
 	'drop_goal' => array (
