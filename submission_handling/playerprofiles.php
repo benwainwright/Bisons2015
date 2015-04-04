@@ -44,3 +44,12 @@ if ($_POST['upload_image_id']) {
 } else {
     delete_post_meta($post, 'image_id');
 }
+
+if ( isset ( $_POST['attr_user'] ) && isset ( $_POST['current_user'] ) ) 
+{
+	if ( $_POST['attr_user'] != $_POST['current_user'] )
+	{  
+	    wp_update_post( array ( 'ID' => $post, 'post_author' => $_POST['attr_user'] ) );
+	}
+}
+
