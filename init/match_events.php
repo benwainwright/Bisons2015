@@ -3,8 +3,9 @@ global $match_events;
 
 $match_events = array (
 	'try_scored' => array (
-			'Try Scored (Five points)',
-			'Scored a try '),
+			'Try Scored',
+			'Scored a try ',
+			5),
 
 	'scoring_pass' => array (
 			'Scoring Pass',
@@ -27,11 +28,13 @@ $match_events = array (
 			'The player awarded the coveted Dick of the Day award'),
 			
 	'conversion' => array (
-			'Scored a Conversion (2 points)',
-			'The player who scores a successful conversion'),
+			'Scored a Conversion',
+			'The player who scores a successful conversion',
+			2),
 	'drop_goal' => array (
-			'Drop Goal Scored (3 points)',
-			'The player who scores a successful conversion'),
+			'Drop Goal Scored',
+			'The player who scores a successful conversion',
+			3),
 			
 	'subbed_on' => array (
 			'Subbed On',
