@@ -6,7 +6,7 @@ if ($users) : ?>
     <table class="form-table">
         <tbody>
             <tr>
-                <th><label for="attr_user">Fixture</label></th>
+                <th><label for="attr_user">Author</label></th>
                 <td>
                     <select name="attr_user">
                         <?php foreach ($users as $user) : ?>
