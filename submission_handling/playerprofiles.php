@@ -37,17 +37,17 @@ update_post_meta($post, 'living', esc_attr( $_POST['living'] ) );
 update_post_meta($post, 'growingup', esc_attr( $_POST['growingup'] ) );
 update_post_meta($post, 'cartoon', esc_attr( $_POST['cartoon'] ) );
 update_post_meta($post, 'lastfifty', esc_attr( $_POST['lastfifty'] ) );
-update_post_meta($post, 'image_id', $_POST['upload_image_id']);
+if ( isset (  $_POST['upload_image_id'] ) ) update_post_meta($post, 'image_id', $_POST['upload_image_id']);
 
-if ($_POST['upload_image_id']) {
+if (isset ( $_POST['upload_image_id'] ) ) {
     update_post_meta($post, 'image_id', $_POST['upload_image_id']);
 } else {
     delete_post_meta($post, 'image_id');
 }
 
-if ( isset ( $_POST['attr_user'] ) && isset ( $_POST['current_user'] ) ) 
+if ( isset ( $_POST['attr_user'] ) && isset ( $_POST['current_author'] ) ) 
 {
-	if ( $_POST['attr_user'] != $_POST['current_user'] )
+	if ( $_POST['attr_user'] != $_POST['current_author'] )
 	{  
 	    wp_update_post( array ( 'ID' => $post, 'post_author' => $_POST['attr_user'] ) );
 	}
