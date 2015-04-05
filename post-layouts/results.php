@@ -3,7 +3,7 @@ $parent = get_post_meta( get_the_id(), 'parent-fixture', true);
 $fixdate = get_post_meta( $parent, 'fixture-date', true );
 $fixdate = date('jS \o\f F Y', $fixdate); 
 $opposing = get_post_meta( $parent, 'fixture-opposing-team', true );
-$opplink = get_post_meta( $parent, 'fixture-opposing-team-website-url', true );
+$opplink = get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) );
 $ourscore = get_post_meta( get_the_id(), 'our-score', true );
 $theirscore = get_post_meta( get_the_id(), 'their-score', true );
 $homeaway = get_post_meta($parent, 'fixture-home-away', true);
@@ -24,10 +24,10 @@ $homeaway = get_post_meta($parent, 'fixture-home-away', true);
                   <?php if ( $homeaway == 'Home' ) : ?>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
                   <li class='score'><?php echo $ourscore ?></li>
-                  <li class="fa fa-star teamName"><?php echo team_link($opposing, $opplink); ?> (Away)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo $opplink ?>'><?php echo $opposing ?></a> (Away)</li>
                   <li class='score'><?php echo $theirscore ?></li>
                   <?php else : ?>
-                  <li class="fa fa-star teamName"><?php echo team_link($opposing, $opplink); ?> (Home)</li>
+                  <li class="fa fa-star teamName"><a href='<?php echo $opplink ?>'><?php echo $opposing ?></a> (Home)</li>
                   <li class='score'><?php echo $theirscore ?></li>
                   <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
                   <li class='score'><?php echo $ourscore ?></li>
