@@ -14,7 +14,7 @@ function header_css_and_js($hook) {
     wp_register_style( 'magnific_css', get_template_directory_uri() . '/magnific/magnific.css', false, '1.0.0');
     wp_enqueue_style( 'magnific_css');
     
-    wp_register_style('colorscheme_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/blacknpink.css', false, '1.1.3');
+    wp_register_style('colorscheme_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/blacknpink.css', false, '1.1.4');
     wp_enqueue_style('colorscheme_css_file');
     
     wp_register_style('fa', '//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css', false, '4.3.1');
