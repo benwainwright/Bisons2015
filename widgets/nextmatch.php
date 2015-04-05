@@ -48,7 +48,7 @@ class NextMatch extends WP_Widget {
 				$next_match_query->the_post();
 				echo "<ul>";
 				echo "<li><i class='fa fa-calendar'></i>".date( 'jS \o\f F Y' , get_post_meta( get_the_id(), 'fixture-date', true ) )."</li>";
-				echo "<li><i class='fa fa-flag'></i>Bristol Bisons RFC VS " . ( get_post_meta( get_the_id(), 'fixture_team', true ) ? get_the_title( get_post_meta( get_the_id(), 'fixture_team', true ) ) : 'No Team' ) . "<a href='".get_permalink()."'>More...</a></li>";
+				echo "<li><i class='fa fa-flag'></i>Bristol Bisons RFC VS " . ( get_post_meta( get_the_id(), 'fixture_team', true ) ? get_the_title( get_post_meta( get_the_id(), 'fixture_team', true ) ) : 'No Team' ) . "<a href='".get_permalink()."'>(More...)</a></li>";
 				echo "</ul>";
 			}
 	
