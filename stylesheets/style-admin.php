@@ -111,7 +111,7 @@ border-bottom: 0;
 	 font-weight:bold;
 	 margin:0 auto;
 }
-
+tr.smallFormRow td { padding:4px; }
 #custom-form .resultsButton { 
 	float:right; 
 	height:40px; 
