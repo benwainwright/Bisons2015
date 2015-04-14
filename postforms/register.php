@@ -54,7 +54,7 @@
 			</tr>
             <?php if( !current_user_can( 'advanced_posting_layout' ) ) : ?> 
         	<tr>
-			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Publish" accesskey="p"></div></td>
+			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Save" accesskey="p"></div></td>
 			</tr>
 			<?php endif ?>
 
