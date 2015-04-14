@@ -120,9 +120,11 @@ tr.smallFormRow td { padding:4px; }
 	font-size:1.5em;
 }
 
-.formButtonCell { 
-	width:100%;
+.register_listbox {
+	width:100%;  
 }
+
+
 
 @media screen and (max-width: 782px)
 {
