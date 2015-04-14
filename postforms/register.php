@@ -18,9 +18,11 @@ wp_enqueue_style('chosen_css');
 			<tr>
             <th><label for="players_present">Present</label></th>
 			<td>
+			<?php $selected = get_post_meta ( $post->ID, 'players_present', false ) ?>
+			
 			    <select class='register_listbox' id='players_present' multiple="multiple" name="players_present[]">
 					<?php $users = get_users(); foreach ($users as $user) : ?>
-					<option value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
+					<option <?php if ( array_search ($user->data->ID, $selected) !== false ) echo "selected='selected' " ?>value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
 			        <?php endforeach; ?>
 			    </select>
 			</td>
@@ -28,9 +30,12 @@ wp_enqueue_style('chosen_css');
 			<tr>
             <th><label for="players_watching">Watching</label></th>
 			<td>
+				
+			<?php $selected = get_post_meta ( $post->ID, 'players_watching', false ) ?>
+
 			    <select class='register_listbox' id='players_watching' multiple="multiple" name="players_watching[]">
 					<?php $users = get_users(); foreach ($users as $user) : ?>
-					<option value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
+					<option <?php if ( array_search ($user->data->ID, $selected) !== false ) echo "selected='selected' " ?>value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
 			        <?php endforeach; ?>
 			    </select>
 			</td>
@@ -38,9 +43,12 @@ wp_enqueue_style('chosen_css');
 			<tr>
             <th><label for="players_coaching">Coaching</label></th>
 			<td>
+				
+			<?php $selected = get_post_meta ( $post->ID, 'players_coaching', false ) ?>
+
 			    <select class='register_listbox' id='players_coaching' multiple="multiple" name="players_coaching[]">
 					<?php $users = get_users(); foreach ($users as $user) : ?>
-					<option value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
+					<option <?php if ( array_search ($user->data->ID, $selected) !== false ) echo "selected='selected' " ?>value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
 			        <?php endforeach; ?>
 			    </select>
 			</td>

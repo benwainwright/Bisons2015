@@ -1,26 +1,40 @@
 <?php
 if(basename(__FILE__) == basename($_SERVER['PHP_SELF'])){exit();}
 
-// Iterate through register entries and save them
-for ( $i = 0; isset ( $_POST['register_entry_player_' . $i] ); $i++)
+// Clear players_present and replace with new values 
+if ( isset ( $_POST['players_present'] ) )
 {
-	if ( $_POST['register_entry_status_' . $i] != '' ) 
+	delete_post_meta ( $post, 'players_present');
+	 
+	foreach ( $_POST['players_present'] as $player)
 	{
-		update_post_meta( $post, 'register_entry_status_' . $i, $_POST['register_entry_status_' . $i]);
-	}
-	else 
-	{
-		delete_post_meta($post, 'register_entry_status_' . $i);
-	}
-	if ( $_POST['register_entry_player_' . $i] != '' ) 
-	{
-		update_post_meta( $post, 'register_entry_player_' . $i, $_POST['register_entry_player_' . $i]);
-	}
-	else 
-	{
-		delete_post_meta($post, 'register_entry_player_' . $i);
+		add_post_meta ( $post, 'players_present', (int) $player);
 	}
 }
 
+
+// Clear players_watching and replace with new values 
+if ( isset ( $_POST['players_watching'] ) )
+{
+	delete_post_meta ( $post, 'players_watching');
+	 
+	foreach ( $_POST['players_watching'] as $player)
+	{
+		add_post_meta ( $post, 'players_watching', (int) $player);
+	}
+}
+
+// Clear players_coaching and replace with new values 
+if ( isset ( $_POST['players_coaching'] ) )
+{
+	delete_post_meta ( $post, 'players_coaching');
+	 
+	foreach ( $_POST['players_coaching'] as $player)
+	{
+		add_post_meta ( $post, 'players_coaching', (int) $player);
+	}
+}
+
+// Save date
 $date = strtotime( $_POST['reg-date'] );
 update_post_meta($post, 'reg-date', esc_attr($date));
