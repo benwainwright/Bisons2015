@@ -1,5 +1,6 @@
 <?php
-wp_enqueue_script('formvalidation');
+
+wp_enqueue_script('dynamicforms');
 
 if(! isset ( $_GET['parent_post'] ) && $_SERVER['PHP_SELF'] == '/wp-admin/post-new.php') { ?>
 
