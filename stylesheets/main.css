@@ -258,7 +258,16 @@ form button.smallbutton {padding: 0.4em 2em; font-size: 1em; margin: 0.3em 0 0 1
 .fullWidthImage { width:100%; }
 
 ul.invalidformerrors { border: 1px dashed #F55151; background: #F7E4E4; padding: 0.3em; margin: 1em 3em 0 3em; display:none; }
-ul.invalidformerrors li { margin-left: 2em; color: #F55151; }
+label.error { margin-left: 1em; color: white; }
+label.error:before {
+        position:relative;
+        font-family: FontAwesome;
+        top:0;
+        left:-5px;
+        color:#F55151;
+        content: "\f071"; <--- this is your text. You can also use UTF-8 character codes as I do here
+    }
+
 #cardnumber { max-width: 230px; }
 
 fieldset legend { font-weight: bold; margin:0.5em; position:absolute; top:-34px; left:5px; color:#2E2E2E;}
@@ -523,6 +532,13 @@ ul.feeslist {
 	background-color:#FFDBF0;
 	color:#FF5ABB;
 	border: 1px solid #FF5ABB;
+}
+
+#wrapper input.error, #wrapper select.error, #wrapper textarea.error, #wrapper option.error
+{
+	background-color:#FFCCCC;
+	color:#F55151;
+	border: 2px solid #F55151;
 }
 
 label.focusedinput

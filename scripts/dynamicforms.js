@@ -66,7 +66,7 @@ jQuery(document).ready(function() {
     jQuery('input, select, textarea').focus(function() {
         jQuery(this).siblings('.forminfo').show();
         jQuery(this).addClass('focusedinput');
-        jQuery(this).siblings('label').addClass('focusedinput');
+        jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
         jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
         
     });
