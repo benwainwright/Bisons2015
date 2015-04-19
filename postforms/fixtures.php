@@ -1,8 +1,5 @@
 <?php 
-wp_enqueue_script('chosen_init');
-wp_enqueue_style('chosen_css');
-wp_enqueue_script('dynamicforms');
-
+wp_enqueue_script('formvalidation'); 
 include_once(__DIR__ . '/../snippets/remove_blank_post_body_box.php');
 
 $teams = new WP_Query(array(
