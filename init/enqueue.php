@@ -25,10 +25,12 @@ function header_css_and_js($hook) {
     wp_enqueue_script('web_font_loader');
     wp_register_script('web_font_loader_local', get_template_directory_uri() . '/scripts/webfont.js', null, '1.0.9'); 
     wp_enqueue_script('web_font_loader_local');
-    wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', null, '1.8.3', true);
 	wp_register_script('formvalidation', '//cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js', null, '1.13.1', true); 
-    wp_register_script('formvalidation-validate-uk-filters', get_template_directory_uri() . '/scripts/validation/jquery-validate-uk-filters.js', null, '1.0.0', true); 
+    wp_register_script('formvalidation-validate-uk-filters', get_template_directory_uri() . '/scripts/validation/jquery-validate-uk-filters.js', null, '1.0.0', true);
+	 wp_register_script('formvalidation-generic', get_template_directory_uri() . '/scripts/validation/all-forms.js', null, '1.0.0', true);
 	wp_register_script('formvalidation-membership-form', get_template_directory_uri() . '/scripts/validation/membership-form.js', array( 'formvalidation', 'formvalidation-validate-uk-filters'), '1.0.0', true);
+	wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', array( 'formvalidation', 'formvalidation-validate-uk-filters', 'formvalidation-generic'), '1.8.3', true);
+	
 	
     wp_register_script('stripe', 'https://js.stripe.com/v2/', false, '2.0.0', true); // Not enqueued here as not necessary on every page
     if( !is_admin()){

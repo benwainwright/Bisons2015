@@ -1,5 +1,7 @@
 <?php
     wp_enqueue_script('dynamicforms');
+    wp_enqueue_script('formvalidation-membership-form');
+
 
 
 $form_user = ( isset ( $_GET['player_id'] ) && current_user_can ('committee_perms') ) 
@@ -151,8 +153,8 @@ if ( ! $disabled )
         <legend>Player or Supporter</legend>
         <div>
             <label>Joining as</label>
-            <select class="mustselect" name='joiningas' id='joiningas' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+            <select class="required" name='joiningas' id='joiningas' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'joiningas', true) == "Player") { echo " selected='selected'"; } ?>>Player</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'joiningas', true) == "Supporter") { echo " selected='selected'"; } ?>>Supporter</option>
             </select>
@@ -164,16 +166,16 @@ if ( ! $disabled )
         <legend>Personal Details</legend>
         <div>
             <label class="smalllabel" for="firstname">First name</label>
-            <input type="text" class="smalltextbox notempty" name="firstname" id="firstname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'firstname', true) ?>'<?php } else { ?> value='<?php echo $userdata->user_firstname ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required min2chars" name="firstname" id="firstname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'firstname', true) ?>'<?php } else { ?> value='<?php echo $userdata->user_firstname ?>'<?php } ?> />
         </div>
         <div>
             <label class="smalllabel" for="surname">Surname</label>
-            <input type="text" class="smalltextbox notempty" name="surname" id="surname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'surname', true) ?>'<?php }  else { ?> value='<?php echo $userdata->user_lastname ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required min2chars" name="surname" id="surname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'surname', true) ?>'<?php }  else { ?> value='<?php echo $userdata->user_lastname ?>'<?php } ?> />
         </div>
         <div>
             <label>Gender</label>
-            <select class="mustselect" name='gender' id='gender' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+            <select class="required" name='gender' id='gender' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'gender', true) == "Male") { echo " selected='selected'"; } ?>>Male</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'gender', true) == "Female") { echo " selected='selected'"; } ?>>Female</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'gender', true) == "Other") { echo " selected='selected'"; } ?>>Other</option>
@@ -181,14 +183,14 @@ if ( ! $disabled )
         </div>
         <div id="othergender"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'gender', true) == "Other") { ?> style="display:block"<?php } ?>>
             <label class="smalllabel" for="othergender">Other Gender Details</label>
-            <input type="text" class="smalltextbox notempty" name="othergender" <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'othergender', true) ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required" name="othergender" <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'othergender', true) ?>'<?php } ?> />
             <p class="forminfo">As a fully inclusive rugby club, we completely recognise that a gender designation of 'male' or 'female' is far too simplistic for the real world. However, because we are a rugby team, we are bound by <a href='http://www.rfu.com/' title='RFU Website'>RFU</a> regulations which unfortunately are categorised in simple male/female terms. Please be aware therefore that only a person who self-identifies as 'male' in some way can play in 'male' rugby. Likewise, only a person who self-identifies as 'female' in some way can play in 'female' rugby.</p>
         </div>
         <div>
             <label class="smalllabel" for="dob">Date of Birth</label>
              <div class="inlinediv">
-             <select class="norightmargin" id="dob-year" name="dob-day" <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                    <option value="0"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-day', true) == "0") { echo " selected='selected'"; } ?>></option>
+             <select class="norightmargin required" id="dob-day" name="dob-day" <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                    <option value=""></option>
                     <option value="1"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-day', true) == "1") { echo " selected='selected'"; } ?>>1st</option>
                     <option value="2"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-day', true) == "2") { echo " selected='selected'"; } ?>>2nd</option>
                     <option value="3"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-day', true) == "3") { echo " selected='selected'"; } ?>>3rd</option>
@@ -221,8 +223,8 @@ if ( ! $disabled )
                     <option value="30"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-day', true) == "30") { echo " selected='selected'"; } ?>>30th</option>
                     <option value="31"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-day', true) == "31") { echo " selected='selected'"; } ?>>31st</option>
                 </select>
-             <select class="norightmargin" id="dob-year" name="dob-month" <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                    <option value="0"></option>
+             <select class="norightmargin required" id="dob-month" name="dob-month" <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                    <option value=""></option>
                     <option value="01"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-month', true) == "01") { echo " selected='selected'"; } ?>>January</option>
                     <option value="02"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-month', true) == "02") { echo " selected='selected'"; } ?>>February</option>
                     <option value="03"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-month', true) == "03") { echo " selected='selected'"; } ?>>March</option>
@@ -236,8 +238,8 @@ if ( ! $disabled )
                     <option value="11"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-month', true) == "11") { echo " selected='selected'"; } ?>>November</option>
                     <option value="12"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-month', true) == "12") { echo " selected='selected'"; } ?>>December</option>
                 </select>
-            <select class="norightmargin" id="dob-year" name="dob-year" <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option value="0"></option>
+            <select class="norightmargin required" id="dob-year" name="dob-year" <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                    <option value=""></option>
                 <?php for ($i = 1901; $i < 2014; $i++ ) : ?>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'dob-year', true) == $i) { echo " selected='selected'"; } ?>><?php echo $i ?></option>
                 <?php endfor ?>
@@ -246,18 +248,18 @@ if ( ! $disabled )
         </div>
         <div>
             <label class="smalllabel" for="email_addy">Email</label>
-            <input type="text" class="smalltextbox needemail" name="email_addy" id="email_addy"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'email_addy', true) ?>'<?php } else { ?> value='<?php echo $userdata->user_email ?>'<?php } ?> />
+            <input type="email" class="smalltextbox needemail" name="email_addy" id="email_addy"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'email_addy', true) ?>'<?php } else { ?> value='<?php echo $userdata->user_email ?>'<?php } ?> />
         </div>
         <div>
             <label class="smalllabel" for="contact_number">Contact Number</label>
-            <input type="text" class="smalltextbox needphonenum" name="contact_number" id="contact_number"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'contact_number', true) ?>'<?php } ?> />
+            <input type="tel" class="smalltextbox required" name="contact_number" id="contact_number"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'contact_number', true) ?>'<?php } ?> />
         </div>
     </fieldset>
     <fieldset>
         <legend>Home Address</legend>
         <div>
             <label  class="smalllabel" for="streetaddyl1">Line 1</label>
-            <input type="text" class="smalltextbox notempty" name="streetaddyl1" id="streetaddyl1"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'streetaddyl1', true) ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required" name="streetaddyl1" id="streetaddyl1"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'streetaddyl1', true) ?>'<?php } ?> />
         </div>
         <div>
             <label  class="smalllabel" for="streetaddyl2">Line 2</label>
@@ -269,7 +271,7 @@ if ( ! $disabled )
         </div>
         <div>
             <label  class="smalllabel" for="postcode">Postcode</label>
-            <input type="text" class="smalltextbox needpostcode" name="postcode" id="postcode"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'postcode', true) ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required postcode" name="postcode" id="postcode"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'postcode', true) ?>'<?php } ?> />
         </div>
     </fieldset>
     <fieldset>
@@ -277,24 +279,24 @@ if ( ! $disabled )
         <p class="info">This person will be contacted in case of emergencies.</p>
         <div>
             <label class="smalllabel" for="nokfirstname">First name</label>
-            <input type="text" class="smalltextbox notempty" name="nokfirstname" id="nokfirstname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokfirstname', true) ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required" name="nokfirstname" id="nokfirstname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokfirstname', true) ?>'<?php } ?> />
         </div>
         <div>
             <label class="smalllabel" for="noksurname">Surname</label>
-            <input type="text" class="smalltextbox notempty" name="noksurname" id="noksurname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'noksurname', true) ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required" name="noksurname" id="noksurname"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'noksurname', true) ?>'<?php } ?> />
         </div>
         <div>
             <label class="smalllabel" for="nokrelationship">Relationship</label>
-            <input type="text" class="smalltextbox notempty" name="nokrelationship" id="nokrelationship"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokrelationship', true) ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required" name="nokrelationship" id="nokrelationship"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokrelationship', true) ?>'<?php } ?> />
         </div>
        <div>
             <label class="smalllabel" for="nokcontactnumber">Phone Number</label>
-            <input type="text" class="smalltextbox needphonenum" name="nokcontactnumber" id="nokcontactnumber"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokcontactnumber', true) ?>'<?php } ?> />
+            <input type="tel" class="smalltextbox required" name="nokcontactnumber" id="nokcontactnumber"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokcontactnumber', true) ?>'<?php } ?> />
         </div>
         <div>
             <label>Lives at same address</label>
             <select name='sameaddress' id='sameaddress' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'sameaddress', true) == "No") { echo " selected='selected'"; } ?>>No</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'sameaddress', true) == "Yes") { echo " selected='selected'"; } ?>>Yes</option>
             </select>
@@ -302,11 +304,11 @@ if ( ! $disabled )
         <div id="nokaddygroup"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'sameaddress', true) == "No") { ?> style="display:block"<?php } ?>>
             <div>
                 <label for="nokstreetaddy">Street address</label>
-                <textarea class='notempty' name="nokstreetaddy" id="nokstreetaddy"<?php if ( $disabled ) { ?> disabled='true'<?php } ?>><?php if ( $current_form->have_posts() ) { echo get_post_meta($form_id, 'nokstreetaddy', true); } ?></textarea>
+                <textarea class='required' name="nokstreetaddy" id="nokstreetaddy"<?php if ( $disabled ) { ?> disabled='true'<?php } ?>><?php if ( $current_form->have_posts() ) { echo get_post_meta($form_id, 'nokstreetaddy', true); } ?></textarea>
             </div>
             <div>
                 <label  class="smalllabel" for="nokpostcode">Postcode</label>
-                <input type="text" class="smalltextbox needpostcode" name="nokpostcode" id="nokpostcode"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokpostcode', true) ?>'<?php } ?> />
+                <input type="text" class="smalltextbox required postcode" name="nokpostcode" id="nokpostcode"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'nokpostcode', true) ?>'<?php } ?> />
             </div>
         </div>
     </fieldset>
@@ -316,8 +318,8 @@ if ( ! $disabled )
         <p class="info">Please answer the next few sections as accurately and honestly as you can. In the very rare event of some kind of injury occurring, this information will help insure that medical professionals are able to do their job properly. </p>
         <div>
             <label>Do you have any current medical conditions or disabilities?</label>
-            <select class="mustselect" name='medconsdisabyesno' id='medconsdisabyesno' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+            <select class="required" name='medconsdisabyesno' id='medconsdisabyesno' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'medconsdisabyesno', true) == "No") { echo " selected='selected'"; } ?>>No</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'medconsdisabyesno', true) == "Yes") { echo " selected='selected'"; } ?>>Yes</option>
             </select>
@@ -326,8 +328,8 @@ if ( ! $disabled )
 
         <div>
             <label>Do you have any allergies?</label>
-            <select class="mustselect" name='allergiesyesno' id='allergiesyesno' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+            <select class="required" name='allergiesyesno' id='allergiesyesno' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'allergiesyesno', true) == "No") { echo " selected='selected'"; } ?>>No</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'allergiesyesno', true) == "Yes") { echo " selected='selected'"; } ?>>Yes</option>
             </select>
@@ -335,8 +337,8 @@ if ( ! $disabled )
         </div>
         <div>
             <label>Have you ever been injured?</label>
-            <select class="mustselect" name='injuredyesno' id='injuredyesno' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+            <select class="required" name='injuredyesno' id='injuredyesno' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'injuredyesno', true) == "No") { echo " selected='selected'"; } ?>>No</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'injuredyesno', true) == "Yes") { echo " selected='selected'"; } ?>>Yes</option>
             </select>
@@ -358,9 +360,9 @@ if ( ! $disabled )
             <tbody>
                 <?php for ( $i = 1; $i == 1 || $i <= get_post_meta($form_id, 'condsdisablities_rowcount', true); $i++ ) : ?>
                 <tr class='clonerow'>
-                    <td><input name="condsdisablities_name_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'condsdisablities_name_row' . $i, true); } ?>" /></td>
-                    <td><input name="condsdisablities_drugname_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'condsdisablities_drugname_row' . $i, true); } ?>" /></td>
-                    <td><input name="condsdisablities_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'condsdisablities_drugdose_freq_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="condsdisablities_name_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'condsdisablities_name_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="condsdisablities_drugname_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'condsdisablities_drugname_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="condsdisablities_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'condsdisablities_drugdose_freq_row' . $i, true); } ?>" /></td>
                 </tr>
                 <?php endfor; ?>
             </tbody>
@@ -432,32 +434,32 @@ if ( ! $disabled )
         <legend>Health and Fitness Assessment</legend>
         <div>
             <label class="smalllabel" for="othersports">In which other sports or physical activities are you involved?</label>
-            <input type="text" class="smalltextbox notempty" name="othersports" id="othersports"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'othersports', true) ?>'<?php } ?>>
+            <input type="text" class="smalltextbox required" name="othersports" id="othersports"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'othersports', true) ?>'<?php } ?>>
         </div>
         <div>
             <label class="smalllabel" for="hoursaweektrain">How many hours a week do you train?</label>
-            <input type="text" class="smalltextbox notempty" name="hoursaweektrain" id="hoursaweektrain"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'hoursaweektrain', true) ?>'<?php } ?>>
+            <input type="text" class="smalltextbox required" name="hoursaweektrain" id="hoursaweektrain"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'hoursaweektrain', true) ?>'<?php } ?>>
         </div>
         <div>
             <label class="smalllabel" for="playedbefore">Have you played rugby before?</label>
             <select name='playedbefore' id='playedbefore' <?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'playedbefore', true) == "No") { echo " selected='selected'"; } ?>>No</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'playedbefore', true) == "Yes") { echo " selected='selected'"; } ?>>Yes</option>
             </select>        
         </div>
         <div id="howmanyseasonsgroup"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'playedbefore', true) == "Yes") { ?> style="display:block"<?php } ?>>
             <label class="smalllabel" for="whereandseasons">Where did you play and for how many seasons?</label>
-            <input type="text" class="smalltextbox notempty" name="whereandseasons" id="whereandseasons"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'whereandseasons', true) ?>'<?php } ?>>
+            <input type="text" class="smalltextbox required" name="whereandseasons" id="whereandseasons"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'whereandseasons', true) ?>'<?php } ?>>
         </div>
         <div>
             <label class="smalllabel" for="height">Height</label>
-            <input type="text" class="smalltextbox notempty" name="height" id="height"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'height', true) ?>'<?php } ?>>
+            <input type="text" class="smalltextbox required" name="height" id="height"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'height', true) ?>'<?php } ?>>
             <p class="forminfo">Please make sure to indicate units</p>
         </div>
         <div>
             <label class="smalllabel" for="weight">Weight</label>
-            <input type="text" class="smalltextbox notempty" name="weight" id="weight"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'weight', true) ?>'<?php } ?>>
+            <input type="text" class="smalltextbox required" name="weight" id="weight"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'weight', true) ?>'<?php } ?>>
             <p class="forminfo">Please make sure to indicate units</p>
 
         </div>
@@ -483,7 +485,7 @@ if ( ! $disabled )
         </div>
         <div id="howmanycigs"<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'smoking', true) == "On") { ?> style="display:block"<?php } ?>>
             <label class="smalllabel" for="howmanycigsperday">How many cigarettes do you smoke per day?</label>
-            <input type="text" class="smalltextbox notempty" name="howmanycigsperday" id="weight"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'howmanycigsperday', true) ?>'<?php } ?> />
+            <input type="text" class="smalltextbox required" name="howmanycigsperday" id="weight"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'howmanycigsperday', true) ?>'<?php } ?> />
         </div>
     </fieldset>
     </div>
@@ -491,7 +493,7 @@ if ( ! $disabled )
         <legend>Other</legend>
         <div>
             <label for="howdidyouhear">How did you hear about The Bisons?</label>
-            <textarea class='notempty' name="howdidyouhear" id="howdidyouhear"<?php if ( $disabled ) { ?> disabled='true'<?php } ?>><?php if ( $current_form->have_posts() ) { echo get_post_meta($form_id, 'howdidyouhear', true); } ?></textarea>
+            <textarea class='required' name="howdidyouhear" id="howdidyouhear"<?php if ( $disabled ) { ?> disabled='true'<?php } ?>><?php if ( $current_form->have_posts() ) { echo get_post_meta($form_id, 'howdidyouhear', true); } ?></textarea>
         </div>
         <div>
             <label for="whatcanyoubring">Is there anything you can bring to the Bisons?</label>
@@ -500,8 +502,8 @@ if ( ! $disabled )
         </div>
         <div>
             <label for="topsize">Top size</label>
-            <select class='mustselect' name='topsize'<?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
-                <option></option>
+            <select class='required' name='topsize'<?php if ( $disabled ) { ?> disabled='true'<?php } ?>>
+                <option value="">Choose...</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'topsize', true) == "Small") { echo " selected='selected'"; } ?>>Small</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'topsize', true) == "Medium") { echo " selected='selected'"; } ?>>Medium</option>
                 <option<?php if ( $current_form->have_posts() && get_post_meta($form_id, 'topsize', true) == "Large") { echo " selected='selected'"; } ?>>Large</option>
@@ -519,8 +521,8 @@ if ( ! $disabled )
         <p class="info">Please indicate how you will be paying your membership fees. Note that if you select either a direct debit or a single payment, saving this form will cause you to be redirected to another website in order to setup the direct debit. You will be returned here afterwards. If you have already paid, a committee member will need to manually approve your membership.</p>
         <div>
             <label class="smalllabel" for="paymethod">Payment Method</label>
-            <select class="mustselect" name="paymethod" id="paymethod">
-                <option></option>
+            <select class="required" name="paymethod" id="paymethod">
+                <option value="">Choose...</option>
                 <option>Monthly Direct Debit</option>
                 <option>Single Payment</option>
             </select>
@@ -562,8 +564,8 @@ if ( ! $disabled )
 	  <div id="playerfees" class='playersonly'>
         <div id="playermempaymonthly" style="display:none" >
             <label class="smalllabel" for="playermembershiptypemonthly">Membership Type</label>
-            <select class="mustselect" name="playermembershiptypemonthly" id="playermembershiptypemonthly">
-                <option></option>
+            <select class="required" name="playermembershiptypemonthly" id="playermembershiptypemonthly">
+                <option value="">Choose...</option>
             <?php foreach ($playerfees[ 'direct_debits' ] as $fee) : ?>
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
@@ -574,8 +576,8 @@ if ( ! $disabled )
         </div>
         <div id="playermempaysingle" style="display:none" >
             <label class="smalllabel" for="playermembershiptypesingle">Membership Type</label>
-            <select class="mustselect" name="playermembershiptypesingle" id="playermembershiptypesingle">
-                <option></option>
+            <select class="required" name="playermembershiptypesingle" id="playermembershiptypesingle">
+                <option value="">Choose...</option>
             <?php foreach ($playerfees[ 'single_payments' ] as $fee) : ?>
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
@@ -589,8 +591,8 @@ if ( ! $disabled )
 	  <div id="supporterfees" class='supportersonly'>
         <div id="supportermempaymonthly" style="display:none" >
             <label class="smalllabel" for="supportermembershiptypemonthly">Membership Type</label>
-            <select class="mustselect" name="supportermembershiptypemonthly" id="supportermembershiptypemonthly">
-                <option></option>
+            <select class="required" name="supportermembershiptypemonthly" id="supportermembershiptypemonthly">
+                <option value="">Choose...</option>
             <?php foreach ($supporterfees[ 'direct_debits' ] as $fee) : ?>
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
@@ -601,8 +603,8 @@ if ( ! $disabled )
         </div>
         <div id="supportermempaysingle" style="display:none" >
             <label class="smalllabel" for="supportermembershiptypesingle">Membership Type</label>
-            <select class="mustselect" name="supportermembershiptypesingle" id="supportermembershiptypesingle">
-                <option></option>
+            <select class="required" name="supportermembershiptypesingle" id="supportermembershiptypesingle">
+                <option value="">Choose...</option>
             <?php foreach ($supporterfees[ 'single_payments' ] as $fee) : ?>
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
