@@ -100,9 +100,11 @@ function add_admin_menus()
 
 
     // Create 'committee' submenu
-    add_menu_page ( 'Committee', 'Committee', 'committee_perms', 'committee', 'edit.php?post_type=committee-profile', 'dashicons-businessman', 9);
-    add_submenu_page ( 'committee', 'Committee Profiles', 'Committee Profiles', 'committee_perms', 'edit.php?post_type=committee-profile');
-    add_submenu_page ( 'committee', 'Commmittee Pages', 'Commmittee Pages', 'committee_perms', 'edit.php?post_type=committee-page' );
+    
+    
+    add_menu_page ( 'Committee', 'Committee', 'committee_perms', 'edit.php?post_type=committee-profile', false, 'dashicons-businessman', 9);
+    //add_submenu_page ( 'committee', 'Committee Profiles', 'Committee Profiles', 'committee_perms', 'committee', 'edit.php?post_type=committee-profile');
+    
     
     // Create 'payment' submenu
     add_menu_page ( 'Fees', 'Fees', 'committee_perms', 'payment', 'fees_callback', 'dashicons-cart', 11);
