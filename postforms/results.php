@@ -1,7 +1,7 @@
 <?php
 wp_enqueue_script('formvalidation');
 
-<?php if(! isset ( $_GET['parent_post'] ) && $_SERVER['PHP_SELF'] == '/wp-admin/post-new.php') { ?>
+if(! isset ( $_GET['parent_post'] ) && $_SERVER['PHP_SELF'] == '/wp-admin/post-new.php') { ?>
 
     <p>Error: You cannot create a new match result from here - please use the button within the fixture editing screen.</p>
 
