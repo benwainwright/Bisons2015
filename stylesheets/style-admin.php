@@ -143,6 +143,7 @@ margin-left:10px;
 
 #custom-form textarea { width:100%; height:200px;}
 #custom-form .small { width:auto; ;height:100px;}
+#custom-form .tiny { width:100%; ;height:50px;}
 #custom-form img { max-width:100%;}
 
 .wp-list-table ul, .wp-list-table li  {
