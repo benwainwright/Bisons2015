@@ -386,9 +386,9 @@ if ( ! $disabled )
             <tbody>
                 <?php for ( $i = 1; $i == 1 || $i <= get_post_meta($form_id, 'allergies_rowcount', true); $i++ ) : ?>
                 <tr class='clonerow'>
-                    <td><input name="allergies_name_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'allergies_name_row' . $i, true); } ?>" /></td>
-                    <td><input name="allergies_drugname_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'allergies_drugname_row' . $i, true); } ?>" /></td>
-                    <td><input name="allergies_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'allergies_drugdose_freq_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="allergies_name_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'allergies_name_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="allergies_drugname_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'allergies_drugname_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="allergies_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'allergies_drugdose_freq_row' . $i, true); } ?>" /></td>
                 </tr>
                 <?php endfor; ?>
             </tbody>
@@ -414,11 +414,11 @@ if ( ! $disabled )
             <tbody>
                 <?php for ( $i = 1; $i == 1 || $i <= get_post_meta($form_id, 'injuries_rowcount', true); $i++ ) : ?>
                 <tr class='clonerow'>
-                    <td><input name="injuries_name_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_name_row' . $i, true); } ?>" /></td>
-                    <td><input name="injuries_when_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_when_row' . $i, true); } ?>" /></td>
-                    <td><input name="injuries_treatmentreceived_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_treatmentreceived_row' . $i, true); } ?>" /></td>
-                    <td><input name="injuries_who_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_who_row' . $i, true); } ?>" /></td>
-                    <td><input name="injuries_status_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_status_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_name_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_name_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_when_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_when_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_treatmentreceived_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_treatmentreceived_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_who_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_who_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_status_row<?php echo $i; ?>" type='text' <?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value="<?php echo get_post_meta($form_id, 'injuries_status_row' . $i, true); } ?>" /></td>
 
                 </tr>
                 <?php endfor; ?>

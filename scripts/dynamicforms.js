@@ -194,9 +194,9 @@ jQuery(document).ready(function() {
         
         var rownum = jQuery('#conddisablefieldset').find('tbody').find('tr').length + 1;
         
-        var row = '<tr><td><input name="condsdisablities_name_row' + rownum + '" type=\'text\' /></td><td>'
-                  +'<input name="condsdisablities_drugname_row' + rownum + '" type=\'text\' /></td><td> '
-                  +'<input name="condsdisablities_drugdose_freq_row' + rownum + '" type=\'text\' /></td>'
+        var row = '<tr><td><input class="required tableInputs" name="condsdisablities_name_row' + rownum + '" type=\'text\' /></td><td>'
+                  +'<input class="required tableInputs" name="condsdisablities_drugname_row' + rownum + '" type=\'text\' /></td><td> '
+                  +'<input class="required tableInputs" name="condsdisablities_drugdose_freq_row' + rownum + '" type=\'text\' /></td>'
                   +'</tr>';
         jQuery('#conddisablefieldset').find('tbody').append( row );
         
@@ -228,9 +228,9 @@ jQuery(document).ready(function() {
         
         var rownum = jQuery('#allergiesfieldset').find('tbody').find('tr').length + 1;
         
-        var row = '<tr><td><input name="allergies_name_row' + rownum + '" type=\'text\' /></td><td>'
-                  +'<input name="allergies_drugname_row' + rownum + '" type=\'text\' /></td><td> '
-                  +'<input name="allergies_drugdose_freq_row' + rownum + '" type=\'text\' /></td>'
+        var row = '<tr><td><input class=\"required tableInputs\" name="allergies_name_row' + rownum + '" type=\'text\' /></td><td>'
+                  +'<input class=\"required tableInputs\" name="allergies_drugname_row' + rownum + '" type=\'text\' /></td><td> '
+                  +'<input class=\"required tableInputs\" name="allergies_drugdose_freq_row' + rownum + '" type=\'text\' /></td>'
                   +'</tr>';
         jQuery('#allergiesfieldset').find('tbody').append( row );
         
@@ -262,11 +262,11 @@ jQuery(document).ready(function() {
         
         var rownum = jQuery('#injuriesfieldset').find('tbody').find('tr').length + 1;
         
-        var row = '<tr><td><input name="injuries_name_row' + rownum + '" type=\'text\' /></td><td>'
-                  +'<input name="injuries_when_row' + rownum + '" type=\'text\' /></td><td> '
-                  +'<input name="injuries_treatmentreceived_row' + rownum + '" type=\'text\' /></td><td>'
-                  +'<input name="injuries_who_row' + rownum + '" type=\'text\' /></td><td>'
-                  +'<input name="injuries_status_row' + rownum + '" type=\'text\' /></td>';
+        var row = '<tr><td><input class="required tableInputs" name="injuries_name_row' + rownum + '" type=\'text\' /></td><td>'
+                  +'<input class="required tableInputs" name="injuries_when_row' + rownum + '" type=\'text\' /></td><td> '
+                  +'<input class="required tableInputs" name="injuries_treatmentreceived_row' + rownum + '" type=\'text\' /></td><td>'
+                  +'<input class="required tableInputs" name="injuries_who_row' + rownum + '" type=\'text\' /></td><td>'
+                  +'<input class="required tableInputs" name="injuries_status_row' + rownum + '" type=\'text\' /></td>';
                   +'</tr>';
         jQuery('#injuriesfieldset').find('tbody').append( row );
         

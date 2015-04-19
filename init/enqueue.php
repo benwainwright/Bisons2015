@@ -29,7 +29,7 @@ function header_css_and_js($hook) {
     wp_register_script('formvalidation-validate-uk-filters', get_template_directory_uri() . '/scripts/validation/jquery-validate-uk-filters.js', null, '1.0.0', true);
 	 wp_register_script('formvalidation-generic', get_template_directory_uri() . '/scripts/validation/all-forms.js', null, '1.0.0', true);
 	wp_register_script('formvalidation-membership-form', get_template_directory_uri() . '/scripts/validation/membership-form.js', array( 'formvalidation', 'formvalidation-validate-uk-filters'), '1.0.0', true);
-	wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', array( 'formvalidation', 'formvalidation-validate-uk-filters', 'formvalidation-generic'), '1.8.4', true);
+	wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', array( 'formvalidation', 'formvalidation-validate-uk-filters', 'formvalidation-generic'), '1.8.6', true);
 	
 	
 
