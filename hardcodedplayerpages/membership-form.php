@@ -248,7 +248,7 @@ if ( ! $disabled )
         </div>
         <div>
             <label class="smalllabel" for="email_addy">Email</label>
-            <input type="email" class="smalltextbox needemail" name="email_addy" id="email_addy"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'email_addy', true) ?>'<?php } else { ?> value='<?php echo $userdata->user_email ?>'<?php } ?> />
+            <input type="email" class="smalltextbox required" name="email_addy" id="email_addy"<?php if ( $disabled ) { ?> disabled='true'<?php } if ( $current_form->have_posts() ) { ?> value='<?php echo get_post_meta($form_id, 'email_addy', true) ?>'<?php } else { ?> value='<?php echo $userdata->user_email ?>'<?php } ?> />
         </div>
         <div>
             <label class="smalllabel" for="contact_number">Contact Number</label>
@@ -619,15 +619,15 @@ if ( ! $disabled )
     <fieldset>
         <legend>Declaration and submission</legend>
         <div>
-            <label class='checkboxlabel' for='codeofconduct'><input class='mustcheck' type="checkbox" name="codeofconduct" id="codeofconduct"<?php if ( $current_form->have_posts() ) { ?> disabled='true' checked='checked' <?php } ?>/>
+            <label class='checkboxlabel' for='codeofconduct'><input class='required' type="checkbox" name="codeofconduct" id="codeofconduct"<?php if ( $current_form->have_posts() ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I wish to become a member of the Bisons and have read and agree to abide by the club <a href='<?php echo $GLOBALS['blog_info']['url'] ?>/players-area/code-of-conduct/'>code of conduct</a>.</label>
         </div>
         <div>
-            <label class='checkboxlabel' for='photographicpolicy'><input class='mustcheck'  type="checkbox" name="photographicpolicy" id="photographicpolicy"<?php if ( $current_form->have_posts() ) { ?> disabled='true' checked='checked' <?php } ?>/>
+            <label class='checkboxlabel' for='photographicpolicy'><input class='required'  type="checkbox" name="photographicpolicy" id="photographicpolicy"<?php if ( $current_form->have_posts() ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I have read and fully understand the club <a href='<?php echo $GLOBALS['blog_info']['url'] ?>/players-area/photographic-policy/'>photographic policy</a>.</label>
         </div>
         <div>
-            <label class='checkboxlabel' for='physicalsport'><input class='mustcheck'  type="checkbox" name="physicalsport" id="physicalsport"<?php if ( $current_form->have_posts() ) { ?> disabled='true' checked='checked' <?php } ?>/>
+            <label class='checkboxlabel' for='physicalsport'><input class='required'  type="checkbox" name="physicalsport" id="physicalsport"<?php if ( $current_form->have_posts() ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I understand that Rugby is a contact sport, and like all contact sports, players may be exposed to the risk of physical injury. Should injury occur, I understand that the club cannot accept responsibility for any injuries which arise.</label>
         </div>
         <div>
