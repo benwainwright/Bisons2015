@@ -105,10 +105,10 @@ function add_admin_menus()
     add_submenu_page ( 'committee', 'Commmittee Pages', 'Commmittee Pages', 'committee_perms', 'edit.php?post_type=committee-page' );
     
     // Create 'payment' submenu
-    add_menu_page ( 'Player Subscriptions', 'Payment', 'committee_perms', 'payment', 'payment_callback', 'dashicons-cart', 11);
-    add_submenu_page ( 'payment', 'Player Subscriptions', 'Player Subscriptions', 'committee_perms', 'payment');
-    add_submenu_page ( 'payment', 'Payment Event Log', 'Payment Event Log', 'committee_perms', 'webhooklog', 'webhook_log_callback');
-    add_submenu_page ( 'payment', 'Edit Fees', 'Edit Fees', 'committee_perms', 'fees', 'fees_callback');
+    add_menu_page ( 'Fees', 'Fees', 'committee_perms', 'payment', 'fees_callback', 'dashicons-cart', 11);
+    //add_submenu_page ( 'payment', 'Player Subscriptions', 'Player Subscriptions', 'committee_perms', 'payment');
+    //add_submenu_page ( 'payment', 'Payment Event Log', 'Payment Event Log', 'committee_perms', 'webhooklog', 'webhook_log_callback');
+    //add_submenu_page ( 'payment', 'Edit Fees', 'Edit Fees', 'committee_perms', 'fees', 'fees_callback');
 
     
     // Create 'email' submenu
