@@ -7,7 +7,7 @@
 function header_css_and_js($hook) {
 
     // CSS
-    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '7.9.9');
+    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '8.0.0');
     wp_enqueue_style('main_css_file');
     
 
@@ -32,6 +32,7 @@ function header_css_and_js($hook) {
 	wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', array( 'formvalidation', 'formvalidation-validate-uk-filters', 'formvalidation-generic'), '1.8.3', true);
 	
 	
+
     wp_register_script('stripe', 'https://js.stripe.com/v2/', false, '2.0.0', true); // Not enqueued here as not necessary on every page
     if( !is_admin()){
     	wp_deregister_script('jquery');

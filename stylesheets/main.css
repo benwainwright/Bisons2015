@@ -630,6 +630,11 @@ border-right:2px solid white;
 border-top:2px solid white;
 }
 
+#wrapper form table th, #wrapper form table td {
+	border-right:0;
+	border-top:0; 
+}
+
 #wrapper .photogallery td, #wrapper .photogallery th {
 background:none;
 -webkit-border-radius: 6px;

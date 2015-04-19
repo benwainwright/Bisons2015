@@ -205,6 +205,26 @@ function create_post_types() {
         'exclude_from_search' => true,
         'has_archive' => false,
     ) );
+	
+	register_post_type ( 'attendance_registers' , array(
+        'labels' => array (
+            'name' => __( 'Attendance Registers', 'bisonsrfc' ),
+            'singular_name' => __( 'Attendance Register', 'bisonsrfc' ),
+            'add_new_item' => __( 'Add new attendance register', 'bisonsrfc' ),
+            'edit_item' => __( 'Edit attendance register', 'bisonsrfc' ),
+            'view_item' => __( 'View attendance register', 'bisonsrfc' ),
+            'search_item' => __( 'Search attendance registers', 'bisonsrfc', 'thumbnail' ),
+            ),
+        'public' => true,
+        'show_in_menu' => false,
+        'has_archive' => true,
+        'hierarchical' => true,
+        'menu_position' => 8,
+        'supports' => false,
+
+        )
+
+	);
 
 }
 add_action( 'init', 'create_post_types');
@@ -265,6 +285,17 @@ function add_custom_forms ( $post ) {
         'advanced',
         'high'
     );
+	
+
+    add_meta_box(
+        'attendance_register_edit',
+        'Attendance Register',
+        'register_postform',
+        'attendance_registers',
+        'advanced',
+        'high'
+    );
+    
     
 	
 	if ( isset ( $_GET['parent_post'] ) || isset ( $_GET['post']) )
@@ -357,6 +388,8 @@ function committee_profile ( $post ) { include_once( dirname(__FILE__) . '/../po
 function membership_fee_postform ( $post ) { include_once( dirname(__FILE__) . '/../postforms/memfees.php'); } 
 function team_edit_box ( $post ) { include_once( dirname(__FILE__) . '/../postforms/teams.php'); } 
 function photo_album_meta ( $post ) { include_once( dirname(__FILE__) . '/../postforms/photo_albums.php'); }
+function register_postform ( $post ) { include_once( dirname(__FILE__) . '/../postforms/register.php'); }
+
 
 // Include custom post types in main blog
 function modify_blog_post_types($query) {

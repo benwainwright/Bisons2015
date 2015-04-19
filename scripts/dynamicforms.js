@@ -31,6 +31,7 @@ jQuery(document).ready(function() {
 				jQuery(this).attr('name', split.join('_'));
 
 			}); 
+			jQuery(this).off('change');
 			jQuery('.adminNotBlankaddNew').last().change( adminNotBlankAddNew );
 			
 		}
