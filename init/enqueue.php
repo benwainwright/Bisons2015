@@ -31,7 +31,6 @@ function header_css_and_js($hook) {
 	wp_register_script('formvalidation-membership-form', get_template_directory_uri() . '/scripts/validation/membership-form.js', array( 'formvalidation', 'formvalidation-validate-uk-filters'), '1.0.0', true);
 	wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', array( 'formvalidation', 'formvalidation-validate-uk-filters', 'formvalidation-generic'), '1.8.6', true);
 	
-	
 
     wp_register_script('stripe', 'https://js.stripe.com/v2/', false, '2.0.0', true); // Not enqueued here as not necessary on every page
     if( !is_admin()){
@@ -46,11 +45,14 @@ function header_css_and_js($hook) {
     wp_enqueue_script( 'jquery_maps_plugin' );
     wp_register_script( 'google_maps_api', 'http://maps.googleapis.com/maps/api/js?key=AIzaSyB5uu63Ejv1pU0TKQrZa_uzZN_BMbh7Qyo&sensor=false', false, '1.0.1', true);
     wp_enqueue_script( 'google_maps_api' );
-        wp_register_script( 'magnific_js', get_template_directory_uri() . "/magnific/magnific.min.js", null, null, true);
+    wp_register_script( 'magnific_js', get_template_directory_uri() . "/magnific/magnific.min.js", null, null, true);
     wp_enqueue_script('magnific_js');
-  
+  	
+    
     wp_register_script( 'main_scripts_file', get_template_directory_uri() . '/scripts/scripts.js', null, '1.7.9', true );
     wp_enqueue_script( 'main_scripts_file' );
+	
+	
     wp_register_script( 'ajax_scripts', get_template_directory_uri() . '/scripts/AJAX.js', null, '1.0.5', true );
     wp_enqueue_script( 'ajax_scripts' );
     wp_register_script( 'hideaddybar', get_template_directory_uri() . '/scripts/hideaddressbar.js', null, '1.0.0', true );
@@ -84,6 +86,12 @@ function admin_js_and_css($hook) {
     wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
     wp_register_style( 'custom_edit_css', get_template_directory_uri() . "/stylesheets/style-admin.php?post-type=".$post_type, false, '1.2.6');
     wp_enqueue_style( 'custom_edit_css' );
+	
+	// Chosen - jQuery plugin to create more user query list boxes
+  	wp_register_style ( 'chosen_css', get_template_directory_uri() . '/scripts/jQueryPlugins/chosen/chosen.css', false, '1.4.2');
+  	wp_register_script( 'chosen_lib', get_template_directory_uri() . '/scripts/jQueryPlugins/chosen/chosen.jquery.min.js', array ( 'jquery'), '1.4.2', true);
+    wp_register_script( 'chosen_init', get_template_directory_uri() . '/scripts/jQueryPlugins/chosen/initialise.js', array ('chosen_lib' ), '1.0.0', true);
+
 
     add_thickbox();
 }
