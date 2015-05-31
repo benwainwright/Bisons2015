@@ -46,6 +46,7 @@ include_once('classes/WP_List_table_copy.php');
 // List tables
 include_once('listTables/fixtures.php');
 include_once('listTables/emails.php');
+include_once('listTables/goCardlessBills.php');
 
 // Feeds
 include_once('feeds/ical-all.php');
