@@ -200,7 +200,7 @@ function create_post_types() {
         'has_archive' => false,
     ) );
     
-    register_post_type ( 'goCardlessWebhook', array(
+    register_post_type ( 'GCLBillLog', array(
         'public' => false, 
         'exclude_from_search' => true,
         'has_archive' => false,

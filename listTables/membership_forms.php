@@ -191,9 +191,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy
         }
         $this->data = $data;
         
-        $hook = add_menu_page('My Plugin List Table', 'My List Table Example', 'activate_plugins', 'my_list_test', 'my_render_list_page');
-        add_action( "load-$hook", 'add_options' );
-        
+
         parent::__construct(
             array('singular'    =>  Membership_Forms_Table::$singular,
                   'plural'      =>  Membership_Forms_Table::$plural)
@@ -270,7 +268,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy
       }
       function prepare_items()
       {
-            $this->_column_headers = $this->get_column_info();
+	      $this->_column_headers = $this->get_column_info();
+
             usort( $this->data, array( &$this, 'usort_reorder' ) );
             $total_items = count($this->data);
             $per_page = $this->get_items_per_page('forms_per_page', 5);
@@ -281,9 +280,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy
                 'per_page'    => $per_page                     //WE have to determine how many items to show on a page
             ) );
             $this->items = $this->found_data;  
-            
 
-            
       }
       
     function column_default( $item, $column_name )
