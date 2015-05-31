@@ -108,6 +108,7 @@ function add_admin_menus()
     
     // Create 'payment' submenu
     add_menu_page ( 'Fees', 'Fees', 'committee_perms', 'payment', 'fees_callback', 'dashicons-cart', 11);
+	add_submenu_page( 'payment', 'Bills', 'Bills', 'committee_perms', 'bills', 'GCL_Bills_Callback');
     //add_submenu_page ( 'payment', 'Player Subscriptions', 'Player Subscriptions', 'committee_perms', 'payment');
     //add_submenu_page ( 'payment', 'Payment Event Log', 'Payment Event Log', 'committee_perms', 'webhooklog', 'webhook_log_callback');
     //add_submenu_page ( 'payment', 'Edit Fees', 'Edit Fees', 'committee_perms', 'fees', 'fees_callback');
@@ -131,7 +132,10 @@ function add_player_callback()
 
 function payment_callback()
 { include_once( dirname(__FILE__) . '/../dashboardpages/payment_info.php');  }
-   
+
+
+function GCL_Bills_Callback()
+{ include_once( dirname(__FILE__) . '/../dashboardpages/GCL_Bills.php');  }
 
 function fees_callback()
 { include_once( dirname(__FILE__) . '/../dashboardpages/membership_fees.php');  }
