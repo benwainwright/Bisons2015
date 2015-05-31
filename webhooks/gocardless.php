@@ -15,8 +15,7 @@ if (TRUE === $webhook_valid)
     $hook_log = array(
         'post_status' => 'publish',
         'post_date' => date('Y-m-d H:i:s'),
-        'post_author' => 1,
-        'post_type' => 'webhook'
+        'post_type' => 'goCardlessWebhook'
     );
     
     switch ( $data['resource_type'] )
