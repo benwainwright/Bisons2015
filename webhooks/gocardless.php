@@ -1,8 +1,8 @@
 <?php
 
 $webhook = file_get_contents('php://input');
-$webhook_array = json_decode($webhook, true);
-$webhook_valid = GoCardless::validate_webhook($webhook_array['payload']);
+$webhook_array = json_decode( $webhook, true );
+$webhook_valid = GoCardless::validate_webhook( $webhook_array['payload'] );
 
 if ($webhook_valid == TRUE)
 {

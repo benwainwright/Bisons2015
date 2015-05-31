@@ -7,8 +7,7 @@ function prepare_pages( $the_query )
         if ( ! is_object ( $the_query ) ) 
             return false;
         
-		if (isset ( $the_query->query['post_type'] ) && ! is_archive() )
-		{
+		if (isset ( $the_query->query['post_type'] ) && ! is_archive() ) {
 	        switch ( $the_query->query['post_type'] )
 	        {
 	       

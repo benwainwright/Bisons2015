@@ -1,18 +1,20 @@
 <?php
 
+
 $options = get_option('other-settings-page');
 
-if ( $options['gcl-prod-app-id']  
-    && $options['gcl-prod-app-secret'] 
-    && $options['gcl-prod-merchant-id'] 
+
+if ( $options['gcl-prod-app-id']
+    && $options['gcl-prod-app-secret']
+    && $options['gcl-prod-merchant-id']
     && $options['gcl-prod-access-token']
     && $options['gcl-sandbox-app-id']
     && $options['gcl-sandbox-app-secret']
     && $options['gcl-sandbox-merchant-id']
-    && $options['gcl-sandbox-access-token'] )
-{
+    && $options['gcl-sandbox-access-token'] ) {
+
     include_once ('GoCardless.php');
-    if ( $options['gcl-environment'] == 0 ) 
+    if (  0 === $options['gcl-environment'])
           GoCardless::$environment = 'production';
     
     
