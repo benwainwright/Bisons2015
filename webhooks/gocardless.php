@@ -11,18 +11,12 @@ if (TRUE === $webhook_valid)
 {
     $data = $webhook_array['payload'];
 
-    // Create webhook log
-    $hook_log = array(
-        'post_status' => 'publish',
-        'post_date' => date('Y-m-d H:i:s'),
-        'post_type' => 'goCardlessWebhook'
-    );
 
 	// Include appropriate resource handler
-	include_once( __DIR__ . '/' . $data['resource_type'] . '/all.php');
+	include_once( __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
 
 	// If action handler exists, include it
-	$handler =  __DIR__ . '/' . $data['resource_type'] . '/' . $data['action'] . '.php';
+	$handler =  __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/' . $data['action'] . '.php';
 	if ( file_exists( $handler ) )
 	{
 		include_once( $handler );
@@ -31,6 +25,8 @@ if (TRUE === $webhook_valid)
 		header('HTTP/1.1 200 OK');
 	}
 
+	header('Content-type: application/json');
+	echo $return ? json_encode( $return ) : '';
 } 
 else 
 {
