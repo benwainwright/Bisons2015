@@ -147,12 +147,12 @@ if( $first_fixture ) : ?>
 
 
     // Create match results query
-    $getresultsquery = new WP_Query(array(
+    $getResultsQuery = new WP_Query(array(
     'post_type' => 'results',
 'nopaging' => 'true'
     ));
     // Loop over results, store in an array
-    while($getresultsquery->have_posts()) : $getresultsquery->the_post();
+    while($getResultsQuery->have_posts()) : $getResultsQuery->the_post();
         $results[] = array(
         				'link'			=> get_the_permalink(),
                         'parent-fixture' => get_post_meta(get_the_id(), 'parent-fixture', true),
@@ -221,7 +221,7 @@ if( $first_fixture ) : ?>
     <table class='resultsTable center'>
     	<tbody>
     	
-    
+
 	<?php
     foreach($past_fixtures as $past_fixture_print) :
 		
