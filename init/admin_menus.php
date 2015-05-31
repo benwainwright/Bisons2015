@@ -1,23 +1,60 @@
 <?php
 
+
+add_filter('set-screen-option', 'Awaiting_Membership_Forms_Table_Set_Options', 10, 3);
+add_filter('set-screen-option', 'Emails_Table_Set_Options', 10, 3);
+add_filter('set-screen-option', 'Fixtures_Table_Add_Options', 10, 3);
+
 function Membership_Forms_Table_Add_Options() {
     
     global $membershipFormsTable;
 
     $option = 'per_page';
+
     $args = array(
              'label' => 'Membership Forms',
              'default' => 10,
              'option' => 'forms_per_page'
     );
     add_screen_option( $option, $args );
+
     $membershipFormsTable = new Membership_Forms_Table;
 }
+
+add_filter('set-screen-option', 'Membership_Forms_Table_Set_Options', 1, 3);
+
 function Membership_Forms_Table_Set_Options($status, $option, $value) 
 {
-  return $value;
+	if ( 'forms_per_page' == $option ) return $value;
+
+	return $status;
 }
-add_filter('set-screen-option', 'Membership_Forms_Table_Set_Options', 10, 3);
+
+function Bills_Table_Add_Options() {
+	global $billsFormsTable;
+
+	$option = 'per_page';
+
+	$args = array(
+		'label' => 'Bills',
+		'default' => 10,
+		'option' => 'bills_per_page'
+	);
+
+	add_screen_option( $option, $args );
+
+	$billsFormsTable = new GCLBillsTable;
+}
+
+add_filter('set-screen-option', 'Bills_Table_Set_Options', 10, 3);
+
+
+function Bills_Table_Set_Options($status, $option, $value)
+{
+	if ( 'bills_per_page' == $option ) return $value;
+
+	return $status;
+}
 
 
 function Awaiting_Membership_Forms_Table_Add_Options() {
@@ -33,7 +70,6 @@ function Awaiting_Membership_Forms_Table_Set_Options($status, $option, $value)
 {
   return $value;
 }
-add_filter('set-screen-option', 'Awaiting_Membership_Forms_Table_Set_Options', 10, 3);
 
 
 
@@ -50,7 +86,6 @@ function Emails_Table_Set_Options($status, $option, $value)
 {
   return $value;
 }
-add_filter('set-screen-option', 'Emails_Table_Set_Options', 10, 3);
 
 function Fixtures_Table_Add_Options() {
   $option = 'per_page';
@@ -65,7 +100,6 @@ function Fixtures_Table_Set_Options($status, $option, $value)
 {
   return $value;
 }
-add_filter('set-screen-option', 'Fixtures_Table_Add_Options', 10, 3);
 
 
 
@@ -108,8 +142,10 @@ function add_admin_menus()
     
     // Create 'payment' submenu
     add_menu_page ( 'Fees', 'Fees', 'committee_perms', 'payment', 'fees_callback', 'dashicons-cart', 11);
-	add_submenu_page( 'payment', 'Bills', 'Bills', 'committee_perms', 'bills', 'GCL_Bills_Callback');
-    //add_submenu_page ( 'payment', 'Player Subscriptions', 'Player Subscriptions', 'committee_perms', 'payment');
+	$bills_menu_hook = add_submenu_page( 'payment', 'Bills', 'Bills', 'committee_perms', 'bills', 'GCL_Bills_Callback');
+	add_action( "load-$bills_menu_hook", 'Bills_Table_Add_Options' );
+
+	//add_submenu_page ( 'payment', 'Player Subscriptions', 'Player Subscriptions', 'committee_perms', 'payment');
     //add_submenu_page ( 'payment', 'Payment Event Log', 'Payment Event Log', 'committee_perms', 'webhooklog', 'webhook_log_callback');
     //add_submenu_page ( 'payment', 'Edit Fees', 'Edit Fees', 'committee_perms', 'fees', 'fees_callback');
 
