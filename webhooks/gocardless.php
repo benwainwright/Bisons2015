@@ -7,11 +7,9 @@ $webhook = file_get_contents('php://input');
 $webhook_array = json_decode( $webhook, true );
 $webhook_valid = GoCardless::validate_webhook( $webhook_array['payload'] );
 
-if ($webhook_valid == TRUE)
+if (TRUE === $webhook_valid)
 {
-    
     $data = $webhook_array['payload'];
-    
 
     // Create webhook log
     $hook_log = array(
