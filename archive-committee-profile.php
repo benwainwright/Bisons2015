@@ -1,6 +1,6 @@
-
- if (! current_user_can ('view_players_area') ) $loggedin = true; 
-
+<?php if ( !current_user_can ('view_players_area') ) {
+	$loggedin = true;
+}
 ?>
 <?php get_header(); ?>
 
