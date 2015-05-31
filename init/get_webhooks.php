@@ -12,4 +12,5 @@ $hook = filter_input( INPUT_GET, 'webhook', FILTER_SANITIZE_ENCODED, array( 'fla
 if ( file_exists ( __DIR__ . "/../webhooks/$hook.php" ) )
 {
     include_once(  __DIR__ . "/../webhooks/$hook.php" );
+	exit();
 }

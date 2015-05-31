@@ -40,3 +40,7 @@ if ( $options['gcl-prod-app-id']
     
     GoCardless::set_account_details($account_details);
 }
+else
+{
+	trigger_error("GoCardless API settings are incomplete...", E_USER_WARNING);
+}

@@ -1,5 +1,8 @@
 <?php
 
+// Load official GoCardless library
+include_once( __DIR__ . '/../GoCardless/init.php' );
+
 $webhook = file_get_contents('php://input');
 $webhook_array = json_decode( $webhook, true );
 $webhook_valid = GoCardless::validate_webhook( $webhook_array['payload'] );
