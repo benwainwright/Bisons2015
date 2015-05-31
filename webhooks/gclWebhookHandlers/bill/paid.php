@@ -1,5 +1,5 @@
 <?php
-update_post_meta($mem_form, 'last_payment', date('Y-m-d H:i:s') );
+update_post_meta($mem_form, 'last_payment', $date );
 update_post_meta($the_post, 'mem_status', 'Active' );
 
 switch ( get_post_meta($mem_form, 'payment_status', true) )
