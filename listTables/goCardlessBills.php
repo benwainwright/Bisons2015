@@ -114,7 +114,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 		switch ( $column_name )
 		{
 			case 'amount': case 'amount_minus_fees':
-				setlocale(LC_MONETARY, 'en_GB');
+				setlocale(LC_MONETARY, 'en_GB.UTF-8');
 				return money_format( '%n', $item [ $column_name ]);
 			break;
 			case 'user':
