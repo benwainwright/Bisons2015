@@ -31,7 +31,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 			$row['status'] = get_post_meta(get_the_id(), 'status',true);
 			$row['amount'] = get_post_meta(get_the_id(), 'amount',true);
 			$row['amount_minus_fees'] = get_post_meta(get_the_id(), 'amount_minus_fees',true);
-			$row['source_type'] = get_post_meta(get_the_id(), 'subscription',true);
+			$row['source_type'] = get_post_meta(get_the_id(), 'source_type',true);
 
 			$data[] = $row;
 		}
