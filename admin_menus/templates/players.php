@@ -101,7 +101,7 @@
 				'Number of Payments'    =>  0,
 				'Total Paid'            =>  0,
 				'Total Refunded'        =>  0,
-				'Last Payment'           =>  ''
+				'Last Payment'           => 0
 			);
 
 
@@ -189,13 +189,20 @@
 
 					while ($query->have_posts())
 					{
+
+						$currentBiggest = 0;
 						$query->the_post();
 
 						switch ( get_post_meta(get_the_id(), 'status', true ) ) {
 							case "paid":
+
 								$paymentInfo['Number of Payments']++;
 								$paymentInfo['Total Paid'] += get_post_meta(get_the_id(), 'amount', true);
-								$paymentInfo['Last Payment'] = get_the_date();
+
+								if (get_the_date(('U')) > $paymentInfo['Last Payment']) {
+									$paymentInfo['Last Payment'] = get_the_date('U');
+								}
+
 								break;
 
 							case "failed":
@@ -207,6 +214,9 @@
 						}
 
 					}
+
+					$paymentInfo['Last Payment'] = date('M j, Y', $paymentInfo['Last Payment']);
+
 						if ($paymentInfo['Total Refunded'] > 0) {
 							$paymentInfo['Net Total'] = money_format('%n', $paymentInfo['Total Paid'] - $paymentInfo['Total Refunded']);
 							$paymentInfo['Total Refunded'] = money_format('%n', (int)$paymentInfo['Total Refunded'] );

@@ -9,7 +9,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 	function __construct()
 	{
-		$query_args = array( 'post_type' => 'GCLBillLog', 'posts_per_page' => -1);
+		$query_args = array( 'post_type' => 'GCLBillLog', 'posts_per_page' => -1, 'orderby' => 'date', 'order' => 'ASC');
 
 		if ( isset($_GET['user_id']) ) {
 			$query_args['author'] = $_GET['user_id'];
