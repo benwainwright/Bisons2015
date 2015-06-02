@@ -117,6 +117,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 				setlocale(LC_MONETARY, 'en_GB.UTF-8');
 				return money_format( '%n', $item [ $column_name ]);
 			break;
+
 			case 'user':
 				$return = isset($_GET['user_id'])
 					? $item [$column_name]
@@ -124,12 +125,20 @@ class GCLBillsTable extends WP_List_Table_Copy
 				return $return;
 			break;
 
-			case 'date':
-			case 'source_id':
+
 			case 'status':
+				return ucwords ( $item [ $column_name ] );
+			break;
 
 			case 'source_type':
+				return ucwords ( $item [ $column_name ] );
+
+			case 'date':
+
+			case 'source_id':
 				return $item [ $column_name ];
+			break;
+
 			default:
 				new dBug ( $item );
 		}
