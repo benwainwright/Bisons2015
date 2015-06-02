@@ -14,11 +14,10 @@ if ( $options['gcl-prod-app-id']
     && $options['gcl-sandbox-access-token'] ) {
 
     include_once ('GoCardless.php');
-    if (  0 === $options['gcl-environment'])
-          GoCardless::$environment = 'production';
-    
-    
-    if (GoCardless::$environment == 'production') {
+
+    if (  0 == $options['gcl-environment']) {
+
+        GoCardless::$environment = 'production';
         
         // Set your live environment developer credentials
         $account_details = array(
