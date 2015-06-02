@@ -18,27 +18,43 @@ add_action('admin_menu', 'addPlayersMenu');
 function Membership_Forms_Table_Add_Options() {
 
 	global $membershipFormsTable;
+	global $billsTable;
 
 	$option = 'per_page';
 
-	$args = array(
-		'label' => 'Membership Forms',
-		'default' => 10,
-		'option' => 'forms_per_page'
-	);
-	add_screen_option( $option, $args );
+	if ( isset( $_GET['user_id'] ) ) {
+		$args = array(
+			'label' => 'Bills per Page',
+			'default' => 20,
+			'option' => 'bills_per_page'
+		);
 
-	$membershipFormsTable = new Membership_Forms_Table;
+		$billsTable = new GCLBillsTable;
+
+	}
+
+	else {
+		$args = array(
+			'label' => 'Users per Page',
+			'default' => 10,
+			'option' => 'forms_per_page'
+		);
+		$membershipFormsTable = new Membership_Forms_Table;
+	}
+
+
+	add_screen_option( $option, $args );
 }
-add_filter('set-screen-option', 'Membership_Forms_Table_Set_Options', 1, 3);
 
 /****************** Set Screen Options *******************/
+
 function Membership_Forms_Table_Set_Options($status, $option, $value)
 {
-	if ( 'forms_per_page' == $option ) return $value;
-
+	if ( 'bills_per_page' === $option && isset ( $_GET['user_id'] ) ) return $value;
+	else if ( 'forms_per_page' === $option  ) return $value;
 	return $status;
 }
+add_filter('set-screen-option', 'Membership_Forms_Table_Set_Options', 10, 3);
 
 
 /****************** Include Template *******************/

@@ -1,346 +1,300 @@
 <?php
 
 
+class Membership_Forms_Table extends WP_List_Table_Copy {
+	private $users;
+
+	private $paidRows;
+
+	private $supportersRows;
+
+	private $notJoinedRows;
+
+	private $cancelledRows;
+
+	private $rawData;
+
+	private $noPayment;
+
+	function __construct( $args = array()) {
+		// Get users from Wordpress database
+		$users = get_users();
 
 
-class Membership_Forms_Table extends WP_List_Table_Copy
-{
-      private $users;
-      
-      public static $singular = 'user';
-      public static $plural = 'users';
-      
-      function __construct()
-      {
-        // Get fixtures from Wordpress database
-        $users = get_users();
-        
-        // Create table data array
-        $data = array();
-        foreach ( $users as $user )
-        {
-           // Get membership form information and insert it into data array
-           $membership_form = new WP_Query ( array (
-                     'post_type' => 'membership_form',
-                     'posts_per_page' => 1,
-                     'orderby'   => 'date',
-                     'order'     => 'ASC',
-                     'author'   => $user->data->ID
-                     ) );
-                  
-            while ( $membership_form->have_posts() )
-            {
-                $membership_form->the_post();
-                
-                // Create address HTML string
-                $address = array (
-                    get_post_meta(get_the_id(), 'streetaddyl1', true),
-                    get_post_meta(get_the_id(), 'streetaddyl2', true),
-                    get_post_meta(get_the_id(), 'streetaddytown', true),
-                    get_post_meta(get_the_id(), 'postcode', true)
-                );
-                
-                $address = implode ( '<br />', $address);
-                
-                
-                if ( get_post_meta(get_the_id(), 'sameaddress' , true ) == 'Yes')
-                {
-                    $nokaddress = 'Same address';
-                }
-                else 
-                {
-                    $nokaddress = array (
-                        get_post_meta(get_the_id(), 'nokstreetaddy' , true),
-                        get_post_meta(get_the_id(), 'nokpostcode' , true)
-                    );
-                    $nokaddress = implode ( '<br />', $nokaddress );
-                }
-                
-                // Create DOB string
-                $dob = get_post_meta(get_the_id(), 'dob-day', true).'/'.get_post_meta(get_the_id(), 'dob-month', true).'/'.get_post_meta(get_the_id(), 'dob-year', true);
-               
-               if ( get_post_meta(get_the_id(), 'medconsdisabyesno', true) == "No" ) 
-               {
-                   $medCons = '<strong>None</strong>';
-               }
-               else
-               {
-                   $medCons = '<ul>';
-                   for ( $ii = 1; $ii == 1 || $ii <= get_post_meta(get_the_id(), 'condsdisablities_rowcount', true); $ii++ )
-                   {
-                       $condition = array();
-                       if ( get_post_meta(get_the_id(), 'condsdisablities_name_row' . $ii, true) )
-                            $condition[] = '<strong>'.get_post_meta(get_the_id(), 'condsdisablities_name_row' . $ii, true).'</strong>';
-                       
-                       if ( get_post_meta(get_the_id(), 'condsdisablities_drugname_row' . $ii, true) )
-                            $condition[] = '<em>Medication:</em> '.get_post_meta(get_the_id(), 'condsdisablities_drugname_row' . $ii, true);
 
-                       if ( get_post_meta(get_the_id(), 'condsdisablities_drugname_row' . $ii, true) )
-                            $condition[] = '<em>Dose/Frequency:</em> '.get_post_meta(get_the_id(), 'condsdisablities_drugdose_freq_row' . $ii, true);
-                        
-                        if ( sizeof ( $condition ) )
-                            $medCons .= '<li>'.implode ( '<br />', $condition ).'</li>';
-                   }
-                   $medCons .= '</ul>';
-               }
-               
-               if ( get_post_meta(get_the_id(), 'allergiesyesno', true) == "No" ) 
-               {
-                   $allergies = '<strong>None</strong>';
-               }
-               else
-               {
-                   $allergies = '<ul>';
-                   for ( $ii = 1; $ii == 1 || $ii <= get_post_meta(get_the_id(), 'allergies_rowcount', true); $ii++ )
-                   {
-         
-                        
-                       $condition = array();
-                       if ( get_post_meta(get_the_id(), 'allergies_name_row' . $ii, true) )
-                            $condition[] = '<strong>'.get_post_meta(get_the_id(), 'allergies_name_row' . $ii, true).'</strong>';
-                       
-                       if ( get_post_meta(get_the_id(), 'allergies_drugname_row' . $ii, true) )
-                            $condition[] = '<em>Medication:</em> '.get_post_meta(get_the_id(), 'allergies_drugname_row' . $ii, true);
+		// Create table data array
+		$data = array();
+		foreach ( $users as $user ) {
+			// Get membership form information and insert it into data array
+			$membership_form = new WP_Query ( array(
+				'post_type'      => 'membership_form',
+				'posts_per_page' => 1,
+				'orderby'        => 'date',
+				'order'          => 'ASC',
+				'author'         => $user->data->ID
+			) );
 
-                       if ( get_post_meta(get_the_id(), 'allergies_drugdose_freq_row' . $ii, true) )
-                            $condition[] = '<em>Dose/Frequency:</em> '.get_post_meta(get_the_id(), 'allergies_drugdose_freq_row' . $ii, true);
-                        
-                        if ( sizeof ( $condition ) )
-                            $allergies .= '<li>'.implode ( '<br />', $condition ).'</li>';
-                   }
-                   $allergies .= '</ul>';
-               }
-               
-               if ( get_post_meta(get_the_id(), 'injuredyesno', true) == "No" ) 
-               {
-                   $injuries = '<strong>None</strong>';
-               }
-               else
-               {
-                   $injuries = '<ul>';
-                   for ( $ii = 1; $ii == 1 || $ii <= get_post_meta(get_the_id(), 'injuries_rowcount', true); $ii++ )
-                   {
 
-                       $condition = array();
-                       if ( get_post_meta(get_the_id(), 'injuries_name_row' . $ii, true) )
-                            $condition[] = '<strong>'.get_post_meta(get_the_id(), 'injuries_name_row' . $ii, true).'</strong>';
-                       
-                       if ( get_post_meta(get_the_id(), 'injuries_when_row' . $ii, true) )
-                            $condition[] = '<em>When:</em> '.get_post_meta(get_the_id(), 'injuries_when_row' . $ii, true);
+			if ( $membership_form->have_posts() ) {
 
-                       if ( get_post_meta(get_the_id(), 'injuries_treatmentreceived_row' . $ii, true) )
-                            $condition[] = '<em>Treatment received:</em> '.get_post_meta(get_the_id(), 'injuries_treatmentreceived_row' . $ii, true);
+				$membership_form->the_post();
 
-                       if ( get_post_meta(get_the_id(), 'injuries_who_row' . $ii, true) )
-                            $condition[] = '<em>Who treated:</em> '.get_post_meta(get_the_id(), 'injuries_who_row' . $ii, true);
-                       
-                       if ( get_post_meta(get_the_id(), 'injuries_status_row' . $ii, true) )
-                            $condition[] = '<em>Status:</em> '.get_post_meta(get_the_id(), 'injuries_status_row' . $ii, true);
+				$gclSubID = get_post_meta( get_the_id(), 'gcl_sub_id', true );
 
-                       
-                        if ( sizeof ( $condition ) )
-                            $injuries .= '<li>'.implode ( '<br />', $condition ).'</li>';
-                   }
-                   $injuries .= '</ul>';
-               }
-               
-                $conditions = array(); 
-                if ( get_post_meta(get_the_id(), 'fainting' , true) == 'on' ) $conditions[] = 'Fainting';
-                if ( get_post_meta(get_the_id(), 'dizzyturns' , true) == 'on' ) $conditions[] = 'Dizzy turns';
-                if ( get_post_meta(get_the_id(), 'breathlessness' , true) == 'on' ) $conditions[] = 'Breathlessness or more easily tired than team-mates';
-                if ( get_post_meta(get_the_id(), 'bloodpressure' , true) == 'on' ) $conditions[] = 'History of high blood pressure';
-                if ( get_post_meta(get_the_id(), 'diabetes' , true) == 'on' ) $conditions[] = 'Diabetes';
-                if ( get_post_meta(get_the_id(), 'palpitations' , true) == 'on' ) $conditions[] = 'Palpitations';
-                if ( get_post_meta(get_the_id(), 'chestpain' , true) == 'on' ) $conditions[] = 'Chest pain or tightness';
-                if ( get_post_meta(get_the_id(), 'suddendeath' , true) == 'on' ) $conditions[] = 'Sudden death in immediate family of anyone under fifty';
-                if ( get_post_meta(get_the_id(), 'smoking' , true) == 'on' ) $conditions[] = 'Smoker';
-                $conditionsstring = "";
-                for ( $ii = 0; $conditions[$ii]; $ii++ ) $conditionsstring .= ( $ii ? ', ' : null ).$conditions[$ii];
-                $conditionsstring = $conditionsstring ? $conditionsstring : "None"; 
+				$hasItCancelledQuery = new WP_Query ( array(
 
-                $playedbefore = ( get_post_meta(get_the_id(), 'playedbefore' , true) == 'Yes' ) ? 'Yes - '.get_post_meta(get_the_id(), 'whereandseasons' , true) : 'No'; 
-                $data[] = array(
-                    'form_id'                 => get_the_id(),
-                    'user_id'                 => get_the_author_meta('ID'), 
-                    'type'                    => get_post_meta(get_the_id(), 'joiningas' , true),
-                    'fullname'                => get_post_meta(get_the_id(), 'firstname', true).' '.get_post_meta(get_the_id(), 'surname', true),
-                    'dob'                     => $dob,
-                    'age'                     => getage($dob),
-                    'gender'                  => get_post_meta(get_the_id(), 'gender', true) == "Other" ? get_post_meta(get_the_id(), 'othergender', true) : get_post_meta(get_the_id(), 'gender', true),
-                    'email'                   => get_post_meta(get_the_id(), 'email_addy', true),
-                    'telephone'               => get_post_meta(get_the_id(), 'contact_number', true),
-                    'address'                 => $address, 
-                    'nokname'                 => get_post_meta(get_the_id(), 'nokfirstname' , true).' '.get_post_meta(get_the_id(), 'noksurname', true),
-                    'nokrelationship'         => get_post_meta(get_the_id(), 'nokrelationship' , true),
-                    'nokphone'                => get_post_meta(get_the_id(), 'nokcontactnumber', true),
-                    'nokaddress'              => $nokaddress,
-                    'medicalConditions'       => $medCons,
-                    'allergies'               => $allergies,
-                    'injuries'                => $injuries,
-                    'otherSportsOrActivities' => get_post_meta(get_the_id(), 'othersports' , true),
-                    'traininghours'           => get_post_meta(get_the_id(), 'hoursaweektrain' , true),
-                    'playedbefore'            => $playedbefore,
-                    'height'                  => get_post_meta(get_the_id(), 'height' , true),
-                    'weight'                  => get_post_meta(get_the_id(), 'weight' , true),
-                    'cardiacQues'             => $conditionsstring,
-                    'howDidYouHear'           => get_post_meta(get_the_id(), 'howdidyouhear' , true),
-                    'whatCanYouBring'         => get_post_meta(get_the_id(), 'whatcanyoubring' , true),
-                    'topsize'                 => get_post_meta(get_the_id(), 'topsize' , true)
-                );
-            }
-        }
-        $this->data = $data;
-        
+				));
 
-        parent::__construct(
-            array('singular'    =>  Membership_Forms_Table::$singular,
-                  'plural'      =>  Membership_Forms_Table::$plural)
-        );
-        
-      }
-      
-    function get_columns()
-    {
-            $columns = array(
-                    'cb'                      => '<input type="checkbox" />',
-                    'type'                    => 'Type',
-                    'fullname'                => 'Name',
-                    'dob'                     => 'DOB',
-                    'age'                     => 'Age',
-                    'gender'                  => 'Gender',
-                    'email'                   => 'Email',
-                    'telephone'               => 'Phone',
-                    'address'                 => 'Address', 
-                    'nokname'                 => 'NOK name',
-                    'nokphone'                => 'NOK phone',
-                    'nokrelationship'         => 'NOK relationship',
-                    'nokaddress'              => 'NOK address',
-                    'medicalConditions'       => 'Medical conditions/disabilities',
-                    'allergies'               => 'Allergies',
-                    'injuries'                => 'Injuries',
-                    'otherSportsOrActivities' => 'Other sports or activities',
-                    'traininghours'           => 'Training hours a week',
-                    'playedbefore'            => 'Played before?',
-                    'height'                  => 'Height',
-                    'weight'                  => 'Weight',
-                    'cardiacQues'             => 'Cardiac questionnaire',
-                    'howDidYouHear'           => 'How did you hear about us',
-                    'whatCanYouBring'         => 'Skills',
-                    'topsize'                 => 'Top size'
-            );
-            
-            return $columns; 
-      }
-      
-      function usort_reorder( $a, $b )
-      {
-        // If no sort, default to date
-        $orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
-        
-            // If no order, default to asc
-        $order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
-        
-            // Determine sort order
-        $result = strcmp( $a[$orderby], $b[$orderby] );
-        
-            // Send final sort direction to usort
-        return ( $order === 'asc' ) ? $result : -$result;
-    }
-      
-      function get_sortable_columns()
-      {
-            $columns = array(
-                    'type'                    => array('type', false),
-                    'fullname'                => array('fullname', false),
-                    'age'                     => array('age', false),
-                    'gender'                  => array('gender', false),
-                    'email'                   => array('email', false),
-                    'nokname'                 => array('nokname', false),
-                    'nokrelationship'         => array('nokrelationship', false),
-                    'traininghours'           => array('traininghours', false),
-                    'playedbefore'            => array('playedbefore', false),
-                    'height'                  => array('height', false),
-                    'weight'                  => array('weight', false),
-                    'cardiacQues'             => array('cardiacQues', false),
-                    'top size'                => array('topsize', false)
-                  );
-            return $columns;
-      }
-      function prepare_items()
-      {
-	      $this->_column_headers = $this->get_column_info();
+				$data[] = array(
+					'memForm'   => get_the_id(),
+					'DD_sub_id' => $gclSubID,
+					'dd_status' => $gclSubID ? get_post_meta(get_the_id(), 'payment_status', true) : 0,
+					'user_id'   => $user->data->ID,
+					'type'      => get_post_meta( get_the_id(), 'joiningas', true ),
+					'fullname'  => get_post_meta( get_the_id(), 'firstname', true ) . ' ' . get_post_meta( get_the_id(),
+							'surname', true ),
+					'age'       => getage( get_post_meta( get_the_id(), 'dob-day',
+							true ) . '/' . get_post_meta( get_the_id(), 'dob-month',
+							true ) . '/' . get_post_meta( get_the_id(), 'dob-year', true ) ),
+					'email'     => get_post_meta( get_the_id(), 'email_addy', true ),
+				);
+			} else {
+				$data[] = array(
+					'dd_status'=> 0,
+					'memForm'  => false,
+					'user_id'  => $user->data->ID,
+					'type'     => 'N/A',
+					'fullname' => $user->first_name . ' ' . $user->last_name,
+					'age'      => 'Unknown',
+					'email'    => $user->data->user_email
+				);
+			}
 
-            usort( $this->data, array( &$this, 'usort_reorder' ) );
-            $total_items = count($this->data);
-            $per_page = $this->get_items_per_page('forms_per_page', 5);
-            $current_page = $this->get_pagenum();
-            $this->found_data = array_slice($this->data,(($current_page-1)*$per_page),$per_page);
-            $this->set_pagination_args( array(
-                'total_items' => $total_items,                  //WE have to calculate the total number of items
-                'per_page'    => $per_page                     //WE have to determine how many items to show on a page
-            ) );
-            $this->items = $this->found_data;  
 
-      }
-      
-    function column_default( $item, $column_name )
-      {
-            
-            switch ( $column_name )
-            {
-                    case 'type':
-                    case 'fullname':
-                    case 'dob':
-                    case 'age':
-                    case 'gender':
-                    case 'email':
-                    case 'telephone':
-                    case 'nokphone':
-                    case 'address': 
-                    case 'nokname':
-                    case 'nokrelationship':
-                    case 'nokaddress':
-                    case 'medicalConditions':
-                    case 'allergies':
-                    case 'injuries':
-                    case 'otherSportsOrActivities':
-                    case 'traininghours':
-                    case 'playedbefore':
-                    case 'height':
-                    case 'weight':
-                    case 'cardiacQues':
-                    case 'howDidYouHear':
-                    case 'whatCanYouBring':
-                    case 'topsize': 
-                    return $item [ $column_name ];
-                  default:
-                        new dBug ( $item );
-            }
-      }
+		}
 
-    function get_bulk_actions()
-    {
-        $actions = array(
-            
-            'bulk_email'     => 'Send Email',
-            'reset_pass'     => 'Reset Passwords',
-            'download_csv'   => 'Download CSV',
-            'printable_forms'=> 'Download Printable Membership Data'
-        );
-        
-        return $actions;
-    }
+		$this->rawData = $data;
 
-    
-    function column_cb($item) {
-        return sprintf(
-            '<input type="checkbox" name="user_id[]" value="%s" />', $item['user_id']
-        );    
-    }
-    
-    function column_email ($item)
-    {
-        return "<a href='mailto:".$item['email']."'>".$item['email']."</a>";
-    }
+
+		parent::__construct($args);
+
+	}
+
+	function get_columns() {
+		$columns = array(
+			'cb'       => '<input type="checkbox" />',
+
+			'fullname' => 'Name',
+			'type'     => 'Type',
+			'memForm'  => 'Joined',
+			'dd_status'=> 'Payment',
+			'age'      => 'Age',
+			'email'    => 'Email'
+		);
+
+		return $columns;
+	}
+
+	function usort_reorder( $a, $b ) {
+		// If no sort, default to date
+		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
+
+		// If no order, default to asc
+		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+
+		// Determine sort order
+		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
+
+		// Send final sort direction to usort
+		return ( $order === 'asc' ) ? $result : - $result;
+	}
+
+	function get_sortable_columns() {
+		$columns = array(
+			'memForm'     => array( 'memForm', false ),
+			'dd_status'     => array( 'dd_status', false ),
+			'type'     => array( 'type', false ),
+			'fullname' => array( 'fullname', false ),
+			'age'      => array( 'age', false ),
+			'email'    => array( 'email', false ),
+		);
+
+		return $columns;
+	}
+
+	function prepare_items() {
+		$this->_column_headers = $this->get_column_info();
+
+		// Sort data
+		usort( $this->rawData, array( &$this, 'usort_reorder' ) );
+
+		// Compiled filtered rows
+		$this->paidRows = array();
+		$this->cancelledRows = array();
+		$this->notJoinedRows = array();
+		$this->supportersRows = array();
+		$this->noPayment = array();
+
+		foreach ($this->rawData as $key => $row) {
+
+			if ( $row['dd_status'] == 8 || $row['dd_status'] == 7 ||  $row['dd_status'] == 4 ) {
+				$this->paidRows[] = $row;
+			}
+
+			if ( $row['memForm'] == false) {
+				$this->notJoinedRows[] = $row;
+			}
+
+			if ( $row['dd_status'] == 3 || $row['dd_status'] == 5 ||  $row['dd_status'] == 9 ) {
+				$this->cancelledRows[] = $row;
+			}
+
+			if ( $row['dd_status'] == 0 ) {
+				$this->noPayment[] = $row;
+			}
+
+			if ( $row['type'] == 'Supporter' ) {
+				$this->supportersRows[] = $row;
+			}
+		}
+
+		// If requested, swap them into the main data array
+		switch ( $_GET['filter'] ) {
+			case "paid":
+				$this->data = $this->paidRows;
+				break;
+
+			case "cancelleddd":
+				$this->data = $this->cancelledRows;
+				break;
+
+			case "notjoined":
+				$this->data = $this->notJoinedRows;
+				break;
+
+			case "nopayment":
+				$this->data = $this->noPayment;
+				break;
+
+			case "supporters":
+				$this->data = $this->supportersRows;
+				break;
+
+			default:
+				$this->data = $this->rawData;
+		}
+
+
+
+		$total_items      = count( $this->data );
+		$per_page         = $this->get_items_per_page( 'forms_per_page', 5 );
+		$current_page     = $this->get_pagenum();
+		$this->found_data = array_slice( $this->data, ( ( $current_page - 1 ) * $per_page ), $per_page );
+		$this->set_pagination_args( array(
+			'total_items' => $total_items,                  //WE have to calculate the total number of items
+			'per_page'    => $per_page                     //WE have to determine how many items to show on a page
+		) );
+		$this->items = $this->found_data;
+
+	}
+
+	function column_default( $item, $column_name ) {
+
+		switch ( $column_name ) {
+
+			case 'type':
+			case 'fullname':
+			case 'age':
+			case 'email':
+				return $item [ $column_name ];
+			default:
+				new dBug ( $item );
+		}
+	}
+
+	function get_bulk_actions() {
+		$actions = array(
+
+			'bulk_email'      => 'Send Email',
+			'reset_pass'      => 'Reset Passwords',
+			'download_csv'    => 'Download CSV',
+			'printable_forms' => 'Download Printable Membership Data'
+		);
+
+		return $actions;
+	}
+
+
+	function get_views() {
+		$views = array();
+		$current = ( !empty($_REQUEST['filter']) ? $_REQUEST['filter'] : 'all');
+
+		//All link
+		$class = ($current == 'all' ? ' class="current"' :'');
+		$url = remove_query_arg('filter');
+		$count = count ( $this->rawData );
+		$views['all'] = "<a href='{$url }' {$class} >All <span class='count'>($count)</span></a>";
+
+		// Paid
+		$class = ($current == 'paid' ? ' class="current"' :'');
+		$url = add_query_arg('filter', 'paid');
+		$count = count ( $this->paidRows );
+		$views['paid'] = "<a href='{$url }' {$class} >Paid <span class='count'>($count)</span></a>";
+
+		// Not joined link
+		$class = ($current == 'notjoined' ? ' class="current"' :'');
+		$url = add_query_arg('filter', 'notjoined');
+		$count = count ( $this->notJoinedRows );
+		$views['not_joined'] = "<a href='{$url }' {$class} >Not Joined <span class='count'>($count)</span></a>";
+
+		// No Payment
+		$class = ($current == 'nopayment' ? ' class="current"' :'');
+		$url = add_query_arg('filter', 'nopayment');
+		$count = count ( $this->noPayment );
+		$views['no_payment'] = "<a href='{$url }' {$class} >No Payment <span class='count'>($count)</span></a>";
+
+		// Cancelled DD link
+		$class = ($current == 'cancelleddd' ? ' class="current"' :'');
+		$url = add_query_arg('filter', 'cancelleddd');
+		$count = count ( $this->cancelledRows );
+		$views['cancelleddd'] = "<a href='{$url }' {$class} >Cancelled DD <span class='count'>($count)</span></a>";
+
+		// Supporters
+		$class = ($current == 'supporters' ? ' class="current"' :'');
+		$url = add_query_arg('filter', 'supporters');
+		$count = count ( $this->supportersRows );
+		$views['supporters'] = "<a href='{$url }' {$class} >Supporters <span class='count'>($count)</span></a>";
+
+		return $views;
+
+	}
+
+	function column_dd_status( $item ) {
+		global $payment_statuses;
+		$status = $payment_statuses[$item['dd_status']][0];
+		$statusStub = $payment_statuses[$item['dd_status']][1];
+		return "<span class='dd_$statusStub'>$status</span>";
+	}
+
+	function column_memForm ( $item )
+	{
+		$return = $item [ 'memForm' ] ? 'Yes' : 'No';
+
+		return "<span class='memForm_$return'>$return</span>";
+	}
+
+	function column_fullname ( $item ) {
+		return "<a href=' " . admin_url("admin.php?page=players&user_id={$item[ 'user_id' ]}'") . ">" .$item ['fullname'] . "</a>";
+	}
+
+	function column_cb( $item ) {
+		return sprintf(
+			'<input type="checkbox" name="user_id[]" value="%s" />', $item['user_id']
+		);
+	}
+
+	function column_email( $item ) {
+		return "<a href='mailto:" . $item['email'] . "'>" . $item['email'] . "</a>";
+	}
 }
 

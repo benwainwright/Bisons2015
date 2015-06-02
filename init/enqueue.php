@@ -84,7 +84,7 @@ function admin_js_and_css($hook) {
     wp_enqueue_script( 'google_maps_api' );        
     wp_enqueue_script('jquery-ui-datepicker');
     wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
-    wp_register_style( 'custom_edit_css', get_template_directory_uri() . "/stylesheets/style-admin.php?post-type=".$post_type, false, '1.2.7');
+    wp_register_style( 'custom_edit_css', get_template_directory_uri() . "/stylesheets/style-admin.php?post-type=".$post_type, false, '1.2.8');
     wp_enqueue_style( 'custom_edit_css' );
 	
 	// Chosen - jQuery plugin to create more user query list boxes

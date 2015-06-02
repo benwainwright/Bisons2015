@@ -219,3 +219,20 @@ padding: 0.3em;
 background-color: #FAE5E3;
 border: 1px solid #D45F57;
 }
+
+span.dd_none {
+	color:#909090;
+}
+
+span.dd_subCancelled, span.memForm_No {
+	color:#FF0000;
+	font-weight:bold;
+}
+
+span.dd_subActive, span.dd_paidSingle, span.memForm_Yes {
+	color:#00CC00;
+}
+
+table.memberData th {
+ width:40%;
+}

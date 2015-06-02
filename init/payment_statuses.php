@@ -2,15 +2,14 @@
 global $payment_statuses;
 
 $payment_statuses = array(
-    0   =>  "Unpaid",
-    1   =>  "Already paid/manual payment",
-    2   =>  "Pending (Single payment)",
-    3   =>  "Failed (Single payment)",
-    4   =>  "Paid (Single payment)",
-    5   =>  "Cancelled (Single payment)",
-    7   =>  "Subscription created, awaiting payments",
-    8   =>  "Subscription created, payments successful",
-    9   =>  "Subscription cancelled",
-    10  =>  "Payments returned",
-    11  =>  "Subscription ended"
+    0   =>  array("None", 'none'),
+    2   =>  array("Pending", 'pendingSingle'),
+    3   =>  array("Failed", 'failedSingle'),
+    4   =>  array("Paid in full", 'paidSingle'),
+    5   =>  array("Cancelled", 'cancelledSingle'),
+    7   =>  array("Created, awaiting payments", 'subCreatedAwaiting'),
+    8   =>  array("Active", 'subActive'),
+    9   =>  array("Cancelled", 'subCancelled'),
+    10  =>  array("Payments returned", 'payReturned'),
+    11  =>  array("Subscription ended", 'subEnded')
 );
