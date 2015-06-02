@@ -11,11 +11,6 @@ foreach ( $data['bills'] as $bill )
 		'post_type' => 'GCLBillLog'
 	);
 
-	// Look for membership forms that match the source id. If not look for forms that match the id
-	$mem_form = get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'gcl_sub_id', 'meta_value' => $bill['source_id'] ) ) ;
-	$mem_form = is_a( $mem_form[0], 'WP_Post') ? $mem_form : get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'gcl_sub_id', 'meta_value' => $bill['id'] ) );
-
-
 
 	$hook_log['post_author'] = $mem_form[0]->post_author;
 	$mem_form = $mem_form[0]->ID;

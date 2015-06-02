@@ -2,12 +2,17 @@
 
 // Load official GoCardless library
 include_once( __DIR__ . '/../GoCardless/init.php' );
+include_once( __DIR__ . '/../helper_functions/getMembersShipFormFromGCLID.php');
 
 $webhook = file_get_contents('php://input');
 $webhook_array = json_decode( $webhook, true );
 
 if (GoCardless::validate_webhook( $webhook_array['payload'] )) {
     $data = $webhook_array['payload'];
+
+	$mem_form = getMembershipFormFromGCLID($bill['source_id'] );
+	$mem_form = $mem_form ? $mem_form :  getMembershipFormFromGCLID($bill['id']  );
+
 
 	// Include appropriate resource handler
 	include_once( __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
