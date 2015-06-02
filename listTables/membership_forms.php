@@ -48,6 +48,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				$data[] = array(
 					'memForm'   => get_the_id(),
 					'DD_sub_id' => $gclSubID,
+					'lastModified' => get_the_modified_date('U'),
 					'dd_status' => $gclSubID ? get_post_meta(get_the_id(), 'payment_status', true) : 0,
 					'user_id'   => $user->data->ID,
 					'type'      => get_post_meta( get_the_id(), 'joiningas', true ),
@@ -66,7 +67,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 					'type'     => 'N/A',
 					'fullname' => $user->first_name . ' ' . $user->last_name,
 					'age'      => 'Unknown',
-					'email'    => $user->data->user_email
+					'email'    => $user->data->user_email,
+					'lastModified' =>strtotime($user->user_registered)
 				);
 			}
 
@@ -87,6 +89,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			'fullname' => 'Name',
 			'type'     => 'Type',
 			'memForm'  => 'Joined',
+			'lastModified' => 'Last Modified',
 			'dd_status'=> 'Payment',
 			'age'      => 'Age',
 			'email'    => 'Email'
@@ -113,6 +116,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		$columns = array(
 			'memForm'     => array( 'memForm', false ),
 			'dd_status'     => array( 'dd_status', false ),
+			'lastModified'     => array( 'lastModified', false ),
 			'type'     => array( 'type', false ),
 			'fullname' => array( 'fullname', false ),
 			'age'      => array( 'age', false ),
@@ -206,6 +210,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			case 'fullname':
 			case 'age':
 			case 'email':
+			case 'lastModified':
 				return $item [ $column_name ];
 			default:
 				new dBug ( $item );
@@ -266,6 +271,11 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		$views['supporters'] = "<a href='{$url }' {$class} >Supporters <span class='count'>($count)</span></a>";
 
 		return $views;
+
+	}
+
+	function column_lastModified ( $item ) {
+		return date('M j, Y', $item [ 'lastModified' ]);
 
 	}
 
