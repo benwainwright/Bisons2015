@@ -1,6 +1,7 @@
 <div class="wrap">
-	<h2>Member Details</h2>
 	<?php if (isset($_GET['user_id'])) : ?>
+		<h2>Member Details</h2>
+		<p>Information below is held on behalf of the club and should remain confidential.</p>
 		<?php
 
 		// Get bills table
@@ -296,7 +297,6 @@
 
 	<?php else : ?>
 	<h2>Players <a class='add-new-h2' href='<?php echo admin_url( 'admin.php?page=add-player' ) ?>'>Add Player</a></h2>
-	<p>The table below contains all the membership forms that have been submitted via the website this season. If it is hard to read because of the number of columns, you can turn some of them off - just click on 'screen options' (look at the top right hand corner) and choose the columns you want to see.</p>
 	<?php
 	$formsTable = new Membership_Forms_Table(array ( 'screen' => 'playerList', 'singular' => 'player', 'plural' => 'players' ));
 	$formsTable->prepare_items();
