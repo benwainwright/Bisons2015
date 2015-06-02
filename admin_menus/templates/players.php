@@ -86,7 +86,7 @@
 
 			$nextOfKin = array(
 				'Name'              => get_post_meta( get_the_id(), 'nokfirstname', true ) . ' ' . get_post_meta( get_the_id(), 'noksurname', true ),
-				'Relationship'      => get_post_meta( get_the_id(), 'nokfirstname', true ),
+				'Relationship'      => get_post_meta( get_the_id(), 'nokrelationship', true ),
 				'Contact Number'    => get_post_meta( get_the_id(), 'nokcontactnumber', true ),
 				'Address'           => get_post_meta( get_the_id(), 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
 			);
