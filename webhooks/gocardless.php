@@ -5,13 +5,9 @@ include_once( __DIR__ . '/../GoCardless/init.php' );
 
 $webhook = file_get_contents('php://input');
 $webhook_array = json_decode( $webhook, true );
-$webhook_valid = GoCardless::validate_webhook( $webhook_array['payload'] );
 
-if (TRUE == $webhook_valid)
-
-{
+if (GoCardless::validate_webhook( $webhook_array['payload'] )) {
     $data = $webhook_array['payload'];
-
 
 	// Include appropriate resource handler
 	include_once( __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
