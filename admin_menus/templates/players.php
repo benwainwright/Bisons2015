@@ -215,8 +215,10 @@
 
 					}
 
-					$paymentInfo['Last Payment'] = date('M j, Y', $paymentInfo['Last Payment']);
-
+					if ( $paymentInfo['Last Payment'] > 0 ) {
+						$age = how_long_ago(date('m/d/Y', $paymentInfo['Last Payment']));
+						$paymentInfo['Last Payment'] = date('M j, Y', $paymentInfo['Last Payment']) . " ($age)";
+					}
 						if ($paymentInfo['Total Refunded'] > 0) {
 							$paymentInfo['Net Total'] = money_format('%n', $paymentInfo['Total Paid'] - $paymentInfo['Total Refunded']);
 							$paymentInfo['Total Refunded'] = money_format('%n', (int)$paymentInfo['Total Refunded'] );
