@@ -315,12 +315,12 @@
 			case -1: break;
 
 			case 'bulk_email':
-				include_once( __DIR__ . '/../snippets/bulk_email_form.php');
+				include_once( __DIR__ . '/../../snippets/bulk_email_form.php');
 				break;
 
 			default:
 				if (! isset ( $_POST['confirm_action'] ) )
-					include_once( __DIR__ . '/../snippets/action_are_you_sure.php');
+					include_once( __DIR__ . '/../../snippets/action_are_you_sure.php');
 				break;
 		}
 	}
