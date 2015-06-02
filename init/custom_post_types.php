@@ -205,7 +205,19 @@ function create_post_types() {
         'exclude_from_search' => true,
         'has_archive' => false,
     ) );
-	
+
+	register_post_type ( 'GCLSubLog', array(
+		'public' => false,
+		'exclude_from_search' => true,
+		'has_archive' => false,
+	) );
+
+	register_post_type ( 'GCLPreAuthLog', array(
+		'public' => false,
+		'exclude_from_search' => true,
+		'has_archive' => false,
+	) );
+
 	register_post_type ( 'attendance_registers' , array(
         'labels' => array (
             'name' => __( 'Attendance Registers', 'bisonsrfc' ),
