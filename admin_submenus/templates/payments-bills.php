@@ -1,11 +1,11 @@
 <?php
 $billsTable = new GCLBillsTable();
 $billsTable->prepare_items();
-
 ?>
+
 <div class="wrap">
 	<h2>Bills</h2>
-	<?php if ( isset ($_GET['user_id'])) : ?>
+	<?php if ( isset ( $_GET['user_id'] ) ) : ?>
 
 		<?php
 
@@ -26,18 +26,18 @@ $billsTable->prepare_items();
 		?>
 		<table>
 			<body>
-				<tr>
-					<th>Number of Payments</th>
-					<td><?php echo $numberPayments ?></td>
-				</tr>
-				<tr>
-					<th>Total Paid</th>
-					<td><?php echo $totalPaid ?></td>
-				</tr>
-				<tr>
-					<th>Last Payment</th>
-					<td><?php echo $lastPayment ?></td>
-				</tr>
+			<tr>
+				<th>Number of Payments</th>
+				<td><?php echo $numberPayments ?></td>
+			</tr>
+			<tr>
+				<th>Total Paid</th>
+				<td><?php echo $totalPaid ?></td>
+			</tr>
+			<tr>
+				<th>Last Payment</th>
+				<td><?php echo $lastPayment ?></td>
+			</tr>
 			</body>
 		</table>
 	<?php endif ?>

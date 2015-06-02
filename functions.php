@@ -18,6 +18,15 @@ add_action( 'after_setup_theme', 'style_bisons_editor' );
 // Load official GoCardless library
 include_once('GoCardless/init.php');
 
+if ( is_admin() ) {
+
+	foreach ( glob( __DIR__ . '/admin_menus/*.php') as $filename )
+	{ include_once($filename); }
+
+	foreach ( glob( __DIR__ . '/admin_submenus/*.php') as $filename )
+	{ include_once($filename); }
+}
+
 foreach ( glob( __DIR__ . '/wp-cron/*.php')  as $filename )
 { include_once($filename); }
 
