@@ -1,5 +1,5 @@
 <?php
-add_action('init', 'myStartSession', 1);
+add_action( 'init', 'myStartSession', 1 );
 
 function myStartSession() {
       

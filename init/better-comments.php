@@ -1,6 +1,6 @@
 <?php
 function better_comments($comment, $args, $depth) {
- $GLOBALS['comment'] = $comment;
+	$GLOBALS['comment'] = $comment;
 ?>
  <li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
  <div id="comment-<?php comment_ID(); ?>" class="comment-body">

@@ -1,5 +1,5 @@
-<?php 
-$register_statuses = array (
+<?php
+$register_statuses = array(
 	'p'	=> 'Present',
 	'a' => 'Absent',
 	'c'	=> 'Coaching',

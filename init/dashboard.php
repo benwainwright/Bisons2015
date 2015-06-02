@@ -1,4 +1,4 @@
-<?php 
+<?php
 function add_dashboard_widgets()
 {
     wp_add_dashboard_widget(

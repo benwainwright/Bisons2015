@@ -1,4 +1,4 @@
-<?php 
+<?php
 global $match_events;
 
 $match_events = array (
