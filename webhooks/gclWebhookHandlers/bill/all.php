@@ -13,8 +13,6 @@ foreach ( $data['bills'] as $bill )
 
 
 	$hook_log['post_author'] = $mem_form[0]->post_author;
-	$mem_form = $mem_form[0]->ID;
-
 
 	// Log webhook
 	$id = wp_insert_post( $hook_log );
