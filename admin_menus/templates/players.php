@@ -107,9 +107,16 @@
 		}
 
 		else {
+
 			$user = get_user_by('id', $_GET['user_id']);
-			$name = $user->user_firstname . ' ' . $user->user_lastname;
-			$email = $user->data->user_email;
+
+			$personalDetails = array(
+				'Name'              => $user->user_firstname . ' ' . $user->user_lastname,
+				'Email'             => $user->data->user_email,
+			);
+
+			$paymentInfo['Membership Status'] = 'Not Joined';
+
 			$gcl_sub_id = false;
 		}
 
