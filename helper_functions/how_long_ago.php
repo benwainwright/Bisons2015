@@ -9,13 +9,13 @@
 function how_long_ago($datetime) {
 
     // Convert input into a UNIX time
-    strtotime($datetime);
+    $result = strtotime($datetime);
 
     // Get current time
     $now = time();
 
     // How many seconds different
-    $gap = time() - $result;
+    $gap = $now - $result;
 
     // Set default suffix
     $suffix = ' second'; // Default suffix
