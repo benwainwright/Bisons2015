@@ -3,8 +3,7 @@
 
 $options = get_option('other-settings-page');
 
-
-if ( $options['gcl-prod-app-id']
+if (   $options['gcl-prod-app-id']
     && $options['gcl-prod-app-secret']
     && $options['gcl-prod-merchant-id']
     && $options['gcl-prod-access-token']
@@ -28,6 +27,7 @@ if ( $options['gcl-prod-app-id']
         );
     }
     else {
+
         // Set your sandbox environment developer credentials
         $account_details = array(
           'app_id'        => $options['gcl-sandbox-app-id'],
