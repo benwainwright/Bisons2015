@@ -12,7 +12,15 @@ if (GoCardless::validate_webhook( $webhook_array['payload'] )) {
 
 	$mem_form = getMembershipFormFromGCLID($bill['source_id'] );
 	$mem_form = $mem_form ? $mem_form :  getMembershipFormFromGCLID($bill['id']  );
-	$mem_form = $mem_form[0]->ID;
+
+	if ( is_array ($mem_form) ) {
+		$mem_form = $mem_form[0]->ID;
+	}
+
+	else {
+		$mem_form = $mem_form->ID;
+	}
+
 
 
 	// Include appropriate resource handler
