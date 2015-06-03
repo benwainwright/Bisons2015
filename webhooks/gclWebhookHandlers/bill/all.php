@@ -12,13 +12,13 @@ foreach ( $data['bills'] as $bill )
 	);
 
 
-	$hook_log['post_author'] = $mem_form[0]->post_author;
+	$hook_log['post_author'] = $mem_form->post_author;
 
 	// Log webhook
 	$id = wp_insert_post( $hook_log );
 
 	update_post_meta($id, 'resource', $resource);
-	update_post_meta($id, 'membership_form_id', $mem_form);
+	update_post_meta($id, 'membership_form_id', $mem_form->ID);
 	update_post_meta($id, 'source_id', $bill['source_id']);
 	update_post_meta($id, 'status', $bill['status']);
 	update_post_meta($id, 'amount', $bill['amount']);

@@ -14,9 +14,7 @@ foreach ( $data['subscriptions'] as $subscription )
 	// Look for membership forms that match the source id. If not look for forms that match the id
 
 
-	$hook_log['post_author'] = $mem_form[0]->post_author;
-	$mem_form = $mem_form[0]->ID;
-
+	$hook_log['post_author'] = $mem_form->post_author;
 
 	// Log webhook
 	$id = wp_insert_post( $hook_log );
