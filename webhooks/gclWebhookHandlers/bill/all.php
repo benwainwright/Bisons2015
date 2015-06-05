@@ -17,7 +17,7 @@ foreach ( $data['bills'] as $bill )
 	// Log webhook
 	$id = wp_insert_post( $hook_log );
 
-	update_post_meta($id, 'resource', $resource);
+	update_post_meta($id, 'id', $bill['source_id']);
 	update_post_meta($id, 'membership_form_id', $mem_form->ID);
 	update_post_meta($id, 'source_id', $bill['source_id']);
 	update_post_meta($id, 'status', $bill['status']);

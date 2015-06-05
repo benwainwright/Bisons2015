@@ -23,7 +23,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 			$query->the_post();
 			global $post;
 			$row = array();
-
+			$row['resourceID'] = get_post_meta(get_the_id(), 'id',true);
 			$row['date'] = get_the_date();
 			$row['user'] = get_the_author();
 			$row['userID'] = $post->post_author;
@@ -50,6 +50,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 	{
 		return array(
 			'cb'                      => '<input type="checkbox" />',
+			'resourceID'              => 'ID',
 			'date'                    => 'Date',
 			'user'                    => 'User',
 			'source_id'               => 'Source ID',
@@ -132,6 +133,8 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 			case 'source_type':
 				return ucwords ( $item [ $column_name ] );
+
+			case 'resourceID':
 
 			case 'date':
 
