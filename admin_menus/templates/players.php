@@ -245,7 +245,8 @@
 						</table>
 
 			<?php
-			if ($gcl_sub_id && $paymentInfo['Number of Payments'] > 0) {
+
+			if ( ! $billsTable->isEmpty() ) {
 				$billsTable->display();
 			} ?>
 

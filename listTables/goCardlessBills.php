@@ -109,6 +109,9 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 	}
 
+	public function isEmpty() {
+		return count( $this->items ) == 0 ? true : false;
+	}
 	function column_default( $item, $column_name )
 	{
 
