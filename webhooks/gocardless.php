@@ -2,38 +2,52 @@
 
 // Load official GoCardless library
 include_once( __DIR__ . '/../GoCardless/init.php' );
-include_once( __DIR__ . '/../helper_functions/getMembersShipFormFromGCLID.php');
 
 $webhook = file_get_contents('php://input');
-$webhook_array = json_decode( $webhook, true );
+$webhookArray = json_decode( $webhook, true );
 
-if (GoCardless::validate_webhook( $webhook_array['payload'] )) {
-    $data = $webhook_array['payload'];
+if (GoCardless::validate_webhook( $webhookArray['payload'] )) {
 
-	$mem_form = getMembershipFormFromGCLID($bill['source_id'] );
-	$mem_form = $mem_form ? $mem_form :  getMembershipFormFromGCLID($bill['id']  );
+    $data = $webhookArray['payload'];
 
-	if ( is_array ($mem_form) ) {
-		$mem_form = $mem_form[0];
-	}
-
-	// Include appropriate resource handler
-	include_once( __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
-
-	// If action handler exists, include it
-	$handler =  __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/' . $data['action'] . '.php';
-	if ( file_exists( $handler ) )
+	// loop through each resource
+	foreach ( $data[$data['resource_type'] . 's'] as $resource )
 	{
-		include_once( $handler );
 
-		// Success header
-		header('HTTP/1.1 200 OK');
+		// Determine associated membership form
+		$sourceQuery = array (  'posts_per_page'   => 1,
+								'post_type' => 'membership_form',
+		                        'meta_key' => 'gcl_sub_id',
+		                        'meta_value' => $resource['source_id']);
+
+		$idQuery = array ( 'post_type' => 'membership_form',
+		                   'posts_per_page'   => 1,
+		                   'meta_key' => 'gcl_sub_id',
+		                   'meta_value' => $resource['id']);
+
+
+		$mem_form = get_posts ( $sourceQuery );
+		$mem_form = count ( $mem_form ) > 0 ? $mem_form : get_posts( $idQuery );
+		$mem_form = is_array ( $mem_form ) ? $mem_form[0] : $mem_form;
+
+		// Include appropriate resource handler
+		include_once(  __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
+
+
+		// If action handler exists, include it
+		if ( file_exists( $resourceHandler = __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/' . $data['action'] . '.php' ) ) {
+			include_once( $resourceHandler );
+		}
 	}
 
-	header('Content-type: application/json');
-	echo $return ? json_encode( $return ) : '';
-} 
-else 
-{
-    header('HTTP/1.1 403 Invalid signature');
+
+	// Success header
+	header( 'HTTP/1.1 200 OK' );
+	header( 'Content-type: application/json' );
+	wp_send_json_success($return);
+}
+
+else {
+	wp_send_json_error();
+	header( 'HTTP/1.1 403 Invalid signature' );
 }
