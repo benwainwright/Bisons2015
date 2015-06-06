@@ -11,14 +11,13 @@ $hook_log = array(
 
 $hook_log['post_author'] = $mem_form->post_author;
 
-
-print_r($hook_log);
 // Log webhook
 $id = wp_insert_post( $hook_log );
 
 update_post_meta($id, 'id', $resource['source_id']);
 update_post_meta($id, 'membership_form_id', $mem_form->ID);
 update_post_meta($id, 'source_id', $resource['source_id']);
+update_post_meta($id, 'action', $data['action']);
 update_post_meta($id, 'status', $resource['status']);
 update_post_meta($id, 'amount', $resource['amount']);
 update_post_meta($id, 'amount_minus_fees', $resource['amount_minus_fees']);

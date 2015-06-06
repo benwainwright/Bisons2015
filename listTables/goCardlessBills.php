@@ -28,6 +28,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 			$row['user'] = get_the_author();
 			$row['userID'] = $post->post_author;
 			$row['source_id'] = get_post_meta(get_the_id(), 'source_id',true);
+			$row['action'] = get_post_meta(get_the_id(), 'action',true);
 			$row['status'] = get_post_meta(get_the_id(), 'status',true);
 			$row['amount'] = get_post_meta(get_the_id(), 'amount',true);
 			$row['amount_minus_fees'] = get_post_meta(get_the_id(), 'amount_minus_fees',true);
@@ -112,6 +113,12 @@ class GCLBillsTable extends WP_List_Table_Copy
 	public function isEmpty() {
 		return count( $this->items ) == 0 ? true : false;
 	}
+
+	public function column_status($item)
+	{
+		return ucwords ( $item['status'] === $item['action'] ?
+			$item [ 'status' ] : $item['action'] . '(' . $item['status'] . ')' );
+	}
 	function column_default( $item, $column_name )
 	{
 
@@ -129,10 +136,6 @@ class GCLBillsTable extends WP_List_Table_Copy
 				return $return;
 			break;
 
-
-			case 'status':
-				return ucwords ( $item [ $column_name ] );
-			break;
 
 			case 'source_type':
 				return ucwords ( $item [ $column_name ] );
