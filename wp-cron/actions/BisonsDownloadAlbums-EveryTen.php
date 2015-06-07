@@ -1,6 +1,7 @@
 <?php
-function cronDownloadAlbums()
+function BisonsDownloadAlbums()
 {
+
 	$flickr = new Flikr( $GLOBALS['api_settings'], 'json', false, 0);
 
 	$options = get_option('social-media-settings-page');

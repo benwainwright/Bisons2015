@@ -33,8 +33,10 @@ function activateSchedules()
 }
 
 foreach( glob( __DIR__ . '/actions/*.php') as $hook ) {
-	$name = pathinfo( $hook )['filename'];
-	add_action( $name, $name );
+
+	$name = explode('-', pathinfo( $hook )['filename'])[0];
+
+	add_action( $name , $name );
 }
 
 add_action( 'after_switch_theme', 'activateSchedules' );

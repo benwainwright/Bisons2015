@@ -1,6 +1,4 @@
 <?php
-// Create 'every ten minutes' option
-
 function scheduleEveryTen( $schedules )
 {
 	$schedules['scheduleEveryTen'] = array(
