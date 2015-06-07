@@ -27,8 +27,13 @@ if ( is_admin() ) {
 	{ include_once($filename); }
 }
 
-foreach ( glob( __DIR__ . '/wp-cron/*.php')  as $filename )
+foreach ( glob( __DIR__ . '/wp-cron/schedules/*.php')  as $filename )
 { include_once($filename); }
+
+foreach ( glob( __DIR__ . '/wp-cron/actions/*.php')  as $filename )
+{ include_once($filename); }
+
+include_once(  __DIR__ . '/wp-cron/activateSchedules.php');
 
 foreach ( glob( __DIR__ . '/init/*.php')  as $filename )
 { include_once($filename); }
