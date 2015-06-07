@@ -76,7 +76,7 @@ class Flikr extends API_Wrapper {
         $parameters['method'] = $method;
         $parameters['api_key'] = $this->keys['key'];
         $parameters['format'] = 'json';
-        $this->raw_response  = $this->send_curl_request ( "GET", $this->endpoint, $parameters,  false, 0, false, true, 'text' );
+        $this->raw_response  = $this->sendHTTPRequest ( "GET", $this->endpoint, $parameters,  false, 0, false, true, 'text' );
         $this->response = json_decode ( preg_replace("/^jsonFlickrApi\((.*)\)$/", "$1", $this->raw_response ) );
         return $this->response;
     }

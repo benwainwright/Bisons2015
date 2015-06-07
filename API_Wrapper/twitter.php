@@ -27,7 +27,6 @@ class Twitter extends API_Wrapper {
         return true;
     }
 
-    
     /**
      * Send a request to the Twitter API. Currently only supports APP only authentication
      * @param string $method which API method
@@ -56,7 +55,7 @@ class Twitter extends API_Wrapper {
         $url = $this->endpoint.$method.".".$this->response_format;
 
         // Send cURL request and save it
-        $this->response = $this->send_curl_request($http_request_type, $url, $parameters, $headers );
+        $this->response = $this->sendHTTPRequest($http_request_type, $url, $parameters, $headers );
 
         // Send cURL request and return it
         return $this->response;
@@ -89,11 +88,12 @@ class Twitter extends API_Wrapper {
      */
     private function request_bearer_token() {
 
-
         $signed = $this->sign_request();
-        $response = $this->send_curl_request( "POST", $this->urls['oath2-token-endpoint'], $signed['parameters'], $signed['headers'], 900, false, 'json' );
 
-        $this->bearer_token = $response->access_token;
+	    if ( ! $this->bearer_token = get_transient('bb_twitter_bearer_token') ) {
+		    $this->bearer_token = $this->sendHTTPRequest( "POST", $this->urls['oath2-token-endpoint'], $signed['parameters'], $signed['headers'], 900, false, 'json' )->access_token;
+	    }
+
         return true;
     }
 
@@ -114,7 +114,7 @@ class Twitter extends API_Wrapper {
             'Content-type: application/x-www-form-urlencoded;charset=UTF-8');
 
         $parameters = array('access_token' => $this->bearer_token);
-        $response = $this->curl( $parameters, "POST", $headers, $this->urls['oath2-token-endpoint'], 'json' );
+        $response = $this->sendHTTPRequest(   "POST", $this->urls['oath2-token-endpoint'], $paramters, $headers, 0, false, false, 'json' );
         $this->bearer_token = false;
         return true;
 

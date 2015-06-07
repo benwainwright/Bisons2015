@@ -99,7 +99,7 @@ class API_Wrapper {
             return $parameterstring;
         } else return false;
     }
-    
+
     /**
      * This function checks for the existence of the following dir/file structure      
      * <requestType>/<url-SHA1-Hash>/<parameters-query-string-SHA1-Hash>/<headers-query-string-SHA1-Hash>/<responseFormat>
@@ -108,42 +108,53 @@ class API_Wrapper {
      * 
      * If not, dir/file structure is created, $this->curl() is called and the response is stored in the cache file
      */
-     
-    protected function send_curl_request ( $requesttype, $url = false, $parameters = false,  $headers = false, $timeout = false, $debug = FALSE, $cache = TRUE, $response_format = 'json'  )
+
+    protected function sendHTTPRequest ( $requestType, $url = false, $parameters = false,  $headers = false, $timeout = false, $debug = FALSE, $cache = TRUE, $response_format = 'json'  )
     {
         
         $timeout = $timeout ? $timeout : $this->default_cache_timeout; // Pull default cache timeout from class attributes if none specified
-        
-        
-        if ( $cache ) // If the timeout has not been set to zero
-        {
-            $this->init_cache( );                                           // Create cache directory if there isn't one
-            $url = $url ? $url : $this->endpoint;                           // Pull URL from class attributes if not passed
-            $parameterstring = $this->build_query_string ( $parameters );   // Build parameter and header strings
-            $headerstring = $this->build_query_string ( $headers );
-            
-            // Create a directory tree based on MD5 hashes of url and parameter/header query strings
-            if( ! file_exists ( $requesttypedir = $this->cachedir . '/' . $requesttype ) ) mkdir (  $requesttypedir );
-            if( ! file_exists ( $urlsdir = $requesttypedir . '/' . sha1 ( $url ) ) ) mkdir ( $urlsdir );
-            if( ! file_exists ( $parametersdir = $parameterstring ? $urlsdir . '/' . sha1 ( $parameterstring ) : $urlsdir . '/' . 'noparams' ) ) mkdir (  $parametersdir );        
-            if( ! file_exists ( $cachedir =  $headerstring ? $parametersdir . '/' . sha1 ( $headerstring ) : $parametersdir . '/' . 'noheaders' ) ) mkdir (  $cachedir );
-                   
-            $cachefile = $cachedir . '/' . $response_format;                                                          // Build cachefile name
-            if ( file_exists( $cachefile ) ) $fileage = time( ) - filemtime ( $cachefile );                           // If the cachefile exists, determine how old it is. If not set fileage to zero
-            else $fileage = false;     
-            if ( $fileage < $timeout && $fileage !== false && $_GET['flushcache'] != 'true') $output = file_get_contents ( $cachefile );              // If file age is less than timeout, read the file contents into output variable;
-            
-            // Otherwise send the request and store the output in the cachefile
-            else
-            {
-                $fh = fopen ( $cachefile, 'w');
-                $output = $this->curl ( $requesttype, $url, $parameters, $headers, 'json', $debug );
-                fwrite ( $fh,  $output );
-                fclose ( $fh );
-            }
-        }
-        else $output = $this->curl ( $requesttype, $url, $parameters, $headers, 'json', $debug );  // If Timeout HAS been set to zero, skip all the caching code, send the request and store it in the $output variable      
-        
+
+	    $url = $url ? $url : $this->endpoint;                           // Pull URL from class attributes if not passed
+	    $parameterString = $this->build_query_string ( $parameters );   // Build parameter and header strings
+	    $headerString = $this->build_query_string ( $headers );
+		$hash = md5($requestType . ':' . $parameterString . ':' . $headerString);
+
+	    if ( ! ( $output = get_transient("bb_http_$hash") ) ) {
+
+		    $args = array(
+			    'method'    =>  $requestType
+		    );
+
+		    switch ( $requestType ) {
+			    case "GET":
+					$url .= "?$parameterString";
+				    break;
+
+			    case "POST":
+					$args['body'] = $parameters;
+				    break;
+		    }
+
+		    if ( $headers ) {
+			    $args['headers'] = $headers;
+		    }
+
+
+		    $this->wpRemoteRequestResponse = wp_remote_request($url, $args);
+
+		    if ( is_wp_error($this->wpRemoteRequestResponse)) {
+
+			    $error_message = $this->wpRemoteRequestResponse->get_error_message();
+			    echo "Something went wrong: $error_message";
+		    }
+
+		    else {
+			    $output = $this->wpRemoteRequestResponse['body'];
+			    set_transient("bb_http_$hash",$output,$timeout);
+		    }
+
+	    }
+
         switch ( $response_format ) // Decode and return $output depending on $response_format
         {
             case "json": return json_decode( $output );
@@ -166,23 +177,23 @@ class API_Wrapper {
      */
     protected function curl ($requesttype, $url = false, $parameters = false,  $headers = false, $response_format = 'json', $debug = FALSE) {
 
-       
+
         $url = $url ? $url : $this->endpoint;                           // If the endpoint hasn't been set, use the class base_url
         $curl = curl_init ( );                                           // Initialize curl
         $headers = is_array ($headers) ? $headers : array ( $headers );   // Make sure headers are sent as an array
         $parameterstring = $this->build_query_string ( $parameters );    // Build paramstring
 
         // Set options
-        $options = array 
+        $options = array
         (
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_SSL_VERIFYPEER => 1,
             CURLOPT_RETURNTRANSFER => 1
         );
-               
+
 
         // Set options for different request types
-        switch ( $requesttype ) 
+        switch ( $requesttype )
         {
 
             case ( "POST" ):
@@ -198,9 +209,9 @@ class API_Wrapper {
         }
 
         curl_setopt_array( $curl, $options );
-        
+
         if ( $debug ) {
-            $fp = fopen( dirname ( __FILE__ ) .'/curllog.txt', 'a+' ); 
+            $fp = fopen( dirname ( __FILE__ ) .'/curllog.txt', 'a+' );
             curl_setopt($curl, CURLOPT_VERBOSE, 1);
             curl_setopt($curl, CURLOPT_STDERR, $fp);
         }
