@@ -140,6 +140,8 @@ class API_Wrapper {
 		    }
 
 
+			new dBug($args);
+
 		    $this->wpRemoteRequestResponse = wp_remote_request($url, $args);
 
 		    if ( is_wp_error($this->wpRemoteRequestResponse)) {
@@ -150,6 +152,9 @@ class API_Wrapper {
 
 		    else {
 			    $output = $this->wpRemoteRequestResponse['body'];
+
+			    new dBug($this->wpRemoteRequestResponse);
+			    exit();
 			    set_transient("bb_http_$hash",$output,$timeout);
 		    }
 
