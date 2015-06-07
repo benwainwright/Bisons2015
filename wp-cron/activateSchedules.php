@@ -15,8 +15,6 @@ function activateSchedules()
 		$hook = explode('-', pathinfo( $hook )['filename']);
 		$name = $hook[0];
 		$schedule = $hook[1];
-		new dBug($name);
-		new dBug($schedule);
 
 		$timestamp = wp_next_scheduled( $name );
 
