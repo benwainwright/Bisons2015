@@ -44,12 +44,8 @@ class Twitter extends API_Wrapper {
         // If a bearer token hasn't been requested, get one
         if( ! $this->bearer_token ) {
             $this->request_bearer_token();
+	        $headers = array( 'Authorization: Bearer '.$this->bearer_token );
         }
-
-        // Authenticate the request
-        $headers = array(
-            'Authorization: Bearer '.$this->bearer_token
-        );
         
         // Set url using the method passed into the function
         $url = $this->endpoint.$method.".".$this->response_format;
@@ -91,6 +87,7 @@ class Twitter extends API_Wrapper {
         $signed = $this->sign_request();
 
 	    if ( ! $this->bearer_token = get_transient('bb_twitter_bearer_token') ) {
+		    $this->bearer_token = true;
 		    $this->bearer_token = $this->sendHTTPRequest( "POST", $this->urls['oath2-token-endpoint'], $signed['parameters'], $signed['headers'], 900, false, 'json' )->access_token;
 	    }
 
