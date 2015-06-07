@@ -10,8 +10,8 @@ $GLOBALS['api_settings'] = array
     'twitter' => array
     (
     
-            'key'        =>     'FQ7EgKDLQ8C8SRN5Rjy9aQ',
-            'secret'     =>     'PLN35HxzSvOhebJYqOkYoAoeToIr2PsTLZ6l0sy4nbA',
+            'key'        =>     'lB8BfVEvmm2vRbJTLXYsOyJC5',
+            'secret'     =>     'QekOaR14nnaSmIcNN6L1LMgNTvSGJr1ntWr7pDHWFAyrblP8Bn',
             'urls'       =>      array(
                                 'endpoint' => 'https://api.twitter.com/1.1/',
                                 'oath2-token-endpoint'    => 'https://api.twitter.com/oauth2/token',
@@ -30,13 +30,7 @@ $GLOBALS['api_settings'] = array
             'key'        =>      'f23fefb66bd6da001c9d1546dd765689',
             'secret'     =>      'd0d4ae6bcc95c0c0',
             'urls'       =>      array( 'endpoint' => 'https://api.flickr.com/services/rest/' )   
-    ),
-    
-    'interface' => array
-    (
-        
     )
-
 );
 
 $GLOBALS['under_construction_whitelist'] = array
