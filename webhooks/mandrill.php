@@ -21,7 +21,7 @@ foreach ($post_data as $key => $value)
 }
 
 // Get settings from Wordpress database
-$options = get_option('other-settings-page');
+$options = get_option('api-settings-page');
 $webhook_key = $options['mandrill-settings-webhook-key'];
 
 // Generate signature

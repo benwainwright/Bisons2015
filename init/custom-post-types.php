@@ -71,7 +71,6 @@ function create_post_types() {
             ),
         'public' => true,
         'has_archive' => true,
-        'menu_position' => 5,
         'menu_icon' => 'dashicons-calendar',
         'supports' => array('comments', 'revisions', 'title', 'editor', 'thumbnail')
         )
@@ -154,7 +153,7 @@ function create_post_types() {
      */
     register_post_type( 'photos', array(
         'labels' => array(
-            'name' => __( 'Photo Album', 'bisonsrfc' ),
+            'name' => __( 'Photo Albums', 'bisonsrfc' ),
             'singular_name' => __( 'Photo Album', 'bisonsrfc' ),
             'add_new_item' => __( 'Add new Photo Album', 'bisonsrfc' ),
             'edit_item' => __( 'Edit Photo Album', 'bisonsrfc' ),
@@ -163,7 +162,8 @@ function create_post_types() {
         ),
 	    'public' => true,
 	    'exclude_from_search' => false,
-	    'has_archive' => true
+	    'has_archive' => true,
+	    'menu_icon' => 'dashicons-format-gallery'
 	    
 	    )
     );

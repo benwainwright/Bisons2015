@@ -8,8 +8,7 @@ function addPlayersMenu() {
 								'committee_perms',
 								'players',
 								'includeMembershipFormsTemplate',
-								'dashicons-groups',
-								8 );
+								'dashicons-groups');
 	add_action( "load-$membership_form_hook", 'Membership_Forms_Table_Add_Options' );
 }
 add_action('admin_menu', 'addPlayersMenu');

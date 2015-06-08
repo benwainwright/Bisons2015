@@ -1,7 +1,7 @@
 <?php
 /************************* Insert Menu *******************/
 function addFixturesMenu() {
-	$fixtures_menu_hook = add_menu_page ( 'Fixtures', 'Fixtures', 'committee_perms', 'fixturelist', 'includeFixturesTemplate', 'dashicons-flag', 4);
+	$fixtures_menu_hook = add_menu_page ( 'Fixtures', 'Fixtures', 'committee_perms', 'fixturelist', 'includeFixturesTemplate', 'dashicons-flag');
 	add_action( "load-$fixtures_menu_hook", 'Fixtures_Table_Add_Options' );
 }
 add_action('admin_menu', 'addFixturesMenu');

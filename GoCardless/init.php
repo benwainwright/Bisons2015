@@ -1,7 +1,7 @@
 <?php
 
 
-$options = get_option('other-settings-page');
+$options = get_option('api-settings-page');
 
 if (   $options['gcl-prod-app-id']
     && $options['gcl-prod-app-secret']
