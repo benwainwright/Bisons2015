@@ -140,21 +140,15 @@ class API_Wrapper {
 		    }
 
 
-			new dBug($args);
-
 		    $this->wpRemoteRequestResponse = wp_remote_request($url, $args);
 
 		    if ( is_wp_error($this->wpRemoteRequestResponse)) {
-
 			    $error_message = $this->wpRemoteRequestResponse->get_error_message();
 			    echo "Something went wrong: $error_message";
 		    }
 
 		    else {
 			    $output = $this->wpRemoteRequestResponse['body'];
-
-			    new dBug($this->wpRemoteRequestResponse);
-			    exit();
 			    set_transient("bb_http_$hash",$output,$timeout);
 		    }
 

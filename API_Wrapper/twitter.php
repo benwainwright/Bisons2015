@@ -17,13 +17,13 @@ class Twitter extends API_Wrapper {
     private $bearer_token;
 
     
-    function __construct( $settings, $response_format = 'json', $cachedir = false, $default_cache_timeout = 600 ) {
+    function __construct( $settings, $responseFormat = 'json', $cacheDirectory = false, $defaultCacheTimeout = 600 ) {
 
         $this->keys['key'] = $settings['twitter']['key'];
         $this->keys['secret'] = $settings['twitter']['secret'];;
         $this->urls = $settings['twitter']['urls'];
         $this->endpoint = $this->urls['endpoint'];
-        parent::__construct ( $response_format, $cachedir, $default_cache_timeout );
+        parent::__construct ( $responseFormat, $cacheDirectory, $defaultCacheTimeout );
         return true;
     }
 
@@ -38,13 +38,10 @@ class Twitter extends API_Wrapper {
          
     public function request ($method, $parameters = false, $http_request_type = "GET", $timeout = 0 ) {
 
-        if ( ! $timeout )
-            $timeout = $http_request_type == "POST" ? 0 : $this->default_cache_timeout;
-        
         // If a bearer token hasn't been requested, get one
         if( ! $this->bearer_token ) {
             $this->request_bearer_token();
-	        $headers = array( 'Authorization: Bearer '.$this->bearer_token );
+	        $headers = array( 'Authorization' => 'Bearer '.$this->bearer_token );
         }
         
         // Set url using the method passed into the function
@@ -59,14 +56,14 @@ class Twitter extends API_Wrapper {
 
     private function sign_request ()
     {
-        $encodedkey = urlencode($this->keys['key']);
-        $encodedsecret = urlencode($this->keys['secret']);
-        $credentials = base64_encode($encodedkey.':'.$encodedsecret);
+        $encodedKey = urlencode($this->keys['key']);
+        $encodedSecret = urlencode($this->keys['secret']);
+        $credentials = base64_encode($encodedKey.':'.$encodedSecret);
 
         // Step 2: Get token
         $headers = array(
-            'Authorization: Basic '.$credentials,
-            'Content-type: application/x-www-form-urlencoded;charset=UTF-8');
+            'Authorization' => 'Basic '.$credentials,
+            'Content-type' => 'application/x-www-form-urlencoded;charset=UTF-8');
 
         $parameters = array('grant_type' => 'client_credentials');
         return array ( 'headers' => $headers, 'parameters' => $parameters );
@@ -107,8 +104,8 @@ class Twitter extends API_Wrapper {
 
         // Step 2: Send token
         $headers = array(
-            'Authorization: Basic '.$credentials,
-            'Content-type: application/x-www-form-urlencoded;charset=UTF-8');
+            'Authorization' => 'Basic '.$credentials,
+            'Content-type' => 'application/x-www-form-urlencoded;charset=UTF-8');
 
         $parameters = array('access_token' => $this->bearer_token);
         $response = $this->sendHTTPRequest(   "POST", $this->urls['oath2-token-endpoint'], $paramters, $headers, 0, false, false, 'json' );

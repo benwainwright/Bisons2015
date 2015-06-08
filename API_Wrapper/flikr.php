@@ -13,12 +13,12 @@ include_once('api-wrapper.php');
 
 class Flikr extends API_Wrapper {
     
-    function __construct( $settings, $response_format = 'json', $cachedir = false, $default_cache_timeout = 1800 ) {
+    function __construct( $settings, $responseFormat = 'json', $cacheDirectory = false, $defaultCacheTimeout = 1800 ) {
         $this->keys['key'] = $settings['flikr']['key'];
         $this->keys['secret'] = $settings['flikr']['secret'];;
         $this->urls = $settings['flikr']['urls'];
         $this->endpoint = $this->urls['endpoint'];
-        parent::__construct ( $response_format, $cachedir, $default_cache_timeout );
+        parent::__construct ( $responseFormat, $cacheDirectory, $defaultCacheTimeout );
         return true;
     }
     
