@@ -13,12 +13,12 @@ include_once('api-wrapper.php');
 
 class Flikr extends API_Wrapper {
     
-    function __construct( $settings, $response_format = 'json', $cachedir = false, $default_cache_timeout = 1800 ) {
+    function __construct( $settings, $responseFormat = 'json', $cacheDirectory = false, $defaultCacheTimeout = 1800 ) {
         $this->keys['key'] = $settings['flikr']['key'];
         $this->keys['secret'] = $settings['flikr']['secret'];;
         $this->urls = $settings['flikr']['urls'];
         $this->endpoint = $this->urls['endpoint'];
-        parent::__construct ( $response_format, $cachedir, $default_cache_timeout );
+        parent::__construct ( $responseFormat, $cacheDirectory, $defaultCacheTimeout );
         return true;
     }
     
@@ -76,7 +76,7 @@ class Flikr extends API_Wrapper {
         $parameters['method'] = $method;
         $parameters['api_key'] = $this->keys['key'];
         $parameters['format'] = 'json';
-        $this->raw_response  = $this->send_curl_request ( "GET", $this->endpoint, $parameters,  false, 0, false, true, 'text' );
+        $this->raw_response  = $this->sendHTTPRequest ( "GET", $this->endpoint, $parameters,  false, 0, false, true, 'text' );
         $this->response = json_decode ( preg_replace("/^jsonFlickrApi\((.*)\)$/", "$1", $this->raw_response ) );
         return $this->response;
     }

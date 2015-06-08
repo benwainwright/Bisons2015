@@ -40,3 +40,12 @@ foreach( glob( __DIR__ . '/actions/*.php') as $hook ) {
 }
 
 add_action( 'after_switch_theme', 'activateSchedules' );
+
+function deActivateSchedules()
+{
+	foreach( glob( __DIR__ . '/actions/*.php') as $hook ) {
+		$name = explode('-', pathinfo( $hook )['filename'])[0];
+		wp_clear_scheduled_hook($name);
+	}
+}
+add_action( 'switch_theme', 'deActivateSchedules');

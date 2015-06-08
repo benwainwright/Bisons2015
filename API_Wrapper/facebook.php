@@ -9,13 +9,13 @@ class Facebook extends API_Wrapper
     private $access_type;
     private $access_token;
     
-    function __construct( $settings, $response_format = 'json', $cachedir = false, $default_cache_timeout = false ) {
+    function __construct( $settings, $responseFormat = 'json', $cacheDirectory = false, $defaultCacheTimeout = false ) {
 
         $this->keys['key'] = $settings['facebook']['key'];
         $this->keys['secret'] = $settings['facebook']['secret'];;
         $this->urls = $settings['facebook']['urls'];
         $this->endpoint = $this->urls['endpoint'];
-        parent::__construct ( $response_format, $cachedir, $default_cache_timeout );
+        parent::__construct ( $responseFormat, $cacheDirectory, $defaultCacheTimeout );
         return true;
     }
     
@@ -33,7 +33,7 @@ class Facebook extends API_Wrapper
         $url .= $edge ? '/' . $edge : '';
         
         // Send curl request and return response
-        $this->response = $this->send_curl_request ( "GET", $url, $parameters );
+        $this->response = $this->sendHTTPRequest ( "GET", $url, $parameters );
         //new dBug ($this->response);
         return $this->response;
         
@@ -51,7 +51,7 @@ class Facebook extends API_Wrapper
         );
         
         // Send curl request and store response in class attributes
-        $this->response = $this->send_curl_request ( "GET", $this->endpoint . 'oauth/access_token' , $parameters, false, 900, false, true, 'text' );
+        $this->response = $this->sendHTTPRequest ( "GET", $this->endpoint . 'oauth/access_token' , $parameters, false, 900, false, true, 'text' );
         
    
         // Store and return the actual access token
