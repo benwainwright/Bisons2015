@@ -60,7 +60,7 @@ function header_css_and_js($hook) {
 
     wp_register_script( 'respond', get_template_directory_uri() . '/scripts/respond.js', false, '1.0.0', true);
     wp_enqueue_script( 'respond');
-    $othersettings = get_option( 'other-settings-page' );
+    $othersettings = get_option( 'api-settings-page' );
     $id = $othersettings['analytics-id'];
     wp_register_script( 'googleanalytics', get_template_directory_uri() . "/scripts/analytics.js.php?id=$id", null, null, true );
     wp_enqueue_script('googleanalytics');
