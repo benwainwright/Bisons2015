@@ -20,6 +20,11 @@ include_once('GoCardless/init.php');
 
 if ( is_admin() ) {
 
+	include_once( __DIR__ . '/settings_api/fieldCallbacks.php');
+
+	foreach ( glob( __DIR__ . '/settings_api/pages/*.php') as $filename )
+	{ include_once($filename); }
+
 	foreach ( glob( __DIR__ . '/admin_menus/*.php') as $filename )
 	{ include_once($filename); }
 

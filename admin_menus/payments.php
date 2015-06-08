@@ -7,8 +7,7 @@ function add_fees_menu() {
 					'committee_perms',
 					'payment',
 					'includeFeesTemplate',
-					'dashicons-cart',
-					11 );
+					'dashicons-cart');
 }
 add_action('admin_menu', 'add_fees_menu');
 
