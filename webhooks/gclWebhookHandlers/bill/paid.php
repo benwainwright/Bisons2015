@@ -1,4 +1,6 @@
 <?php
+
+delete_post_meta( $mem_form->ID, 'retries');
 update_post_meta($mem_form->ID, 'last_payment', $date );
 update_post_meta($the_post, 'mem_status', 'Active' );
 
