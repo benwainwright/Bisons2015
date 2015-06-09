@@ -18,6 +18,22 @@ add_action( 'after_setup_theme', 'style_bisons_editor' );
 // Load official GoCardless library
 include_once('GoCardless/init.php');
 
+
+include_once(  __DIR__ . '/wp-cron/activateSchedules.php');
+
+// Classes
+include_once('classes/Wordpress_Form.php');
+include_once('classes/WP_List_table_copy.php');
+
+foreach ( glob( __DIR__ . '/listTables/*.php')  as $filename )
+{ include_once($filename); }
+
+foreach ( glob( __DIR__ . '/helper_functions/*.php')  as $filename )
+{ include_once($filename); }
+
+foreach ( glob( __DIR__ . '/init/*.php')  as $filename )
+{ include_once($filename); }
+
 if ( is_admin() ) {
 
 	include_once( __DIR__ . '/settings_api/fieldCallbacks.php');
@@ -38,13 +54,6 @@ foreach ( glob( __DIR__ . '/wp-cron/schedules/*.php')  as $filename )
 foreach ( glob( __DIR__ . '/wp-cron/actions/*.php')  as $filename )
 { include_once($filename); }
 
-include_once(  __DIR__ . '/wp-cron/activateSchedules.php');
-
-foreach ( glob( __DIR__ . '/init/*.php')  as $filename )
-{ include_once($filename); }
-
-foreach ( glob( __DIR__ . '/helper_functions/*.php')  as $filename )
-{ include_once($filename); }
 
 // Get flash message from querystring if there is one
 if (isset ( $_GET['nonce'] ) )
@@ -58,14 +67,6 @@ include_once('Mandrill/Mandrill.php');
 $mandrill = new Mandrill('ZzbBwttWRHJ41GL4BZmmsQ');
 
 
-// Classes
-include_once('classes/Wordpress_Form.php');
-include_once('classes/WP_List_table_copy.php');
-
-// List tables
-include_once('listTables/fixtures.php');
-include_once('listTables/emails.php');
-include_once('listTables/goCardlessBills.php');
 
 // Feeds
 include_once('feeds/ical-all.php');

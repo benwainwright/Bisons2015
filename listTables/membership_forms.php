@@ -17,14 +17,47 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	private $noPayment;
 
 	function __construct( $args = array()) {
-		// Get users from Wordpress database
+
+		// Get attendance data
+		$players = getAttendance();
+
+		// Get users
 		$users = get_users();
-
-
 
 		// Create table data array
 		$data = array();
+
 		foreach ( $users as $user ) {
+
+			// Construct attendance data
+			$training = 0;
+			$watching = 0;
+			$coaching = 0;
+			$absent   = 0;
+
+			foreach ( $players[ $user->ID ]['register'] as $session ) {
+				switch ( $session ) {
+
+					case 'p':
+						$training ++;
+						break;
+
+					case 'w':
+						$watching ++;
+						break;
+
+					case 'c':
+						$coaching ++;
+						break;
+
+					case 'a':
+						$absent ++;
+						break;
+				}
+			}
+			$totalPossible = $training + $watching + $coaching + $absent;
+			$present = $training + $watching + $coaching;
+
 			// Get membership form information and insert it into data array
 			$membership_form = new WP_Query ( array(
 				'post_type'      => 'membership_form',
@@ -49,6 +82,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 					'memForm'   => get_the_id(),
 					'DD_sub_id' => $gclSubID,
 					'lastModified' => get_the_modified_date('U'),
+					'presentPercent'  => (int) ( 100 / $totalPossible ) * $present,
 					'dd_status' => $gclSubID ? get_post_meta(get_the_id(), 'payment_status', true) : 0,
 					'user_id'   => $user->data->ID,
 					'type'      => get_post_meta( get_the_id(), 'joiningas', true ),
@@ -71,12 +105,9 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 					'lastModified' =>strtotime($user->user_registered)
 				);
 			}
-
-
 		}
 
 		$this->rawData = $data;
-
 
 		parent::__construct($args);
 
@@ -84,41 +115,60 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />',
-
-			'fullname' => 'Name',
-			'type'     => 'Type',
-			'memForm'  => 'Joined',
-			'lastModified' => 'Last Modified',
-			'dd_status'=> 'Payment',
-			'age'      => 'Age',
-			'email'    => 'Email'
+			'cb'                => '<input type="checkbox" />',
+			'fullname'          => 'Name',
+			'presentPercent'    => 'Attendance',
+			'type'              => 'Type',
+			'memForm'           => 'Joined',
+			'lastModified'      => 'Last Modified',
+			'dd_status'         => 'Payment',
+			'age'               => 'Age',
+			'email'             => 'Email'
 		);
 
 		return $columns;
 	}
 
 	function usort_reorder( $a, $b ) {
-		// If no sort, default to date
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
+
+		// If no sort, default to name
+		$orderBy = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
 
 		// If no order, default to asc
 		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
-		// Determine sort order
-		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
+		$result = null;
+
+		if ( is_int($a[$orderBy])) {
+
+			$result = ($a[$orderBy] === $b[$orderBy]) ? 0 : null;
+
+			$result = ($a[$orderBy] < $b[$orderBy]) ? -1 : 1;
+
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'desc';
+
+		}
+
+		else {
+			// Determine sort order
+			$result = strcasecmp( $a[ $orderBy ], $b[ $orderBy ] );
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+
+		}
 
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : - $result;
+
 	}
 
 	function get_sortable_columns() {
 		$columns = array(
+			'fullname' => array( 'fullname', false ),
 			'memForm'     => array( 'memForm', false ),
 			'dd_status'     => array( 'dd_status', false ),
+			'presentPercent' => array( 'presentPercent', false ),
 			'lastModified'     => array( 'lastModified', false ),
 			'type'     => array( 'type', false ),
-			'fullname' => array( 'fullname', false ),
 			'age'      => array( 'age', false ),
 			'email'    => array( 'email', false ),
 		);
@@ -205,7 +255,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	function column_default( $item, $column_name ) {
 
 		switch ( $column_name ) {
-
+			case 'presentPercent':
+				return $item [ $column_name ] . '&#37;';
 			case 'type':
 			case 'fullname':
 			case 'age':

@@ -104,7 +104,16 @@
 				'Last Payment'           => 0
 			);
 
+			$attendance = getAttendance()[$_GET['user_id']]['stats'];
 
+			$totalPoss = $attendance['training'] + $attendance['coaching'] + $attendance['watching'] + $attendance['absent'];
+			$sessionsPresent = $attendance['training'] + $attendance['coaching'] + $attendance['watching'];
+
+			$attendanceInfo = array(
+				'Total Possible Sessions'   => $totalPoss,
+				'Sessions Present'          => $sessionsPresent,
+				'Attendance Percentage'     => (100/$totalPoss)*$sessionsPresent . '&#37;'
+			);
 
 		}
 
@@ -244,6 +253,20 @@
 							</tbody>
 						</table>
 
+			<h3>Attendance</h3>
+			<table class='widefat memberData'>
+				<tbody>
+				<?php foreach ( $attendanceInfo as $label => $data ) : ?>
+					<?php if ($data) : ?>
+						<tr>
+							<th><?php echo $label?></th>
+							<th><?php echo $data?></th>
+						</tr>
+					<?php endif ?>
+				<?php endforeach ?>
+				</tbody>
+			</table>
+
 			<?php
 
 			if ( ! $billsTable->isEmpty() ) {
@@ -358,8 +381,9 @@
 
 
 	<?php else : ?>
-	<h2>Players <a class='add-new-h2' href='<?php echo admin_url( 'admin.php?page=add-player' ) ?>'>Add Player</a></h2>
-	<?php
+	<h2>Players <a class='add-new-h2' href='<?php echo admin_url( 'admin.php?page=add-player' ) ?>'>Add Player</a>  <a class='add-new-h2' href='<?php echo admin_url( 'post-new.php?post_type=attendance_registers' ) ?>'>Record Attendance</a></h2>
+	<p>Please note that at this time, some of the information in this database (specifically attendance and Direct Debit information) is not yet accurate because historical information (prior to implementing this feature) has not yet been recorded</p>
+		<?php
 	$formsTable = new Membership_Forms_Table(array ( 'screen' => 'playerList', 'singular' => 'player', 'plural' => 'players' ));
 	$formsTable->prepare_items();
 

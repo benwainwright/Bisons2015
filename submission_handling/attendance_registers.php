@@ -54,8 +54,8 @@ foreach( $users as $user ) {
 $date = strtotime( $_POST['reg-date'] );
 update_post_meta($post, 'reg-date', esc_attr($date));
 
-// Instantiate register in order to save results to cache
-new RegisterListTable(true);
+// Load new register into cache
+getAttendance(true);
 
 if ( $_POST['newPlayerNumber'] > 0 )
 {
