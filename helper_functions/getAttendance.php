@@ -1,8 +1,7 @@
 <?php
 
-function getAttendance($noCache = false)
-{
-	//if ( (! $players = get_transient('bisons_attendance')) || $noCache) {
+function getAttendance($noCache = false) {
+	if ( ( ! $players = get_transient( 'bisons_attendance' ) ) || $noCache ) {
 		$query = new WP_Query( array( 'post_type' => 'attendance_registers', 'posts_per_page' => - 1 ) );
 
 		while ( $query->have_posts() ) {
@@ -29,17 +28,16 @@ function getAttendance($noCache = false)
 		}
 
 
-
-		foreach ($players as $userID => $player) {
-
-
-			$players[$userID]['stats']['training'] = 0;
-			$players[$userID]['stats']['watching'] = 0;
-			$players[$userID]['stats']['coaching'] = 0;
-			$players[$userID]['stats']['absent'] = 0;
+		foreach ( $players as $userID => $player ) {
 
 
-			foreach( $player['register'] as $session ) {
+			$players[ $userID ]['stats']['training'] = 0;
+			$players[ $userID ]['stats']['watching'] = 0;
+			$players[ $userID ]['stats']['coaching'] = 0;
+			$players[ $userID ]['stats']['absent']   = 0;
+
+
+			foreach ( $player['register'] as $session ) {
 				switch ( $session ) {
 
 					case 'p':
@@ -62,8 +60,9 @@ function getAttendance($noCache = false)
 		}
 
 
-		//set_transient('bisons_attendance', $players, 60 * 60 * 24);
+		set_transient( 'bisons_attendance', $players, 60 * 60 * 24 );
 
 
-	return $players;
+		return $players;
+	}
 }
