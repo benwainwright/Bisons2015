@@ -11,21 +11,32 @@ wp_enqueue_style('chosen_css');
             	<th><label for="register_date">Date</label></th>
                 <td>
                     <input type='date' class="required" name='reg-date' value='<?php echo get_post_meta( $post->ID, 'reg-date', true) ? date('Y-m-d', get_post_meta( $post->ID, 'reg-date', true) ) : date('Y-m-d');     ?>' />
+	                <span class="description">The date of the training session.</span>
+
                 </td>
             </tr>
 
-				
+            <?php if (is_edit_page('new')) :?>
+            <tr class='smallFormRow'>
+	            <th><label for="register_newPlayerCount">Number of New Players</label></th>
+	            <td>
+		            <input class='small-text required' type='number' name='newPlayerNumber' value='<?php echo get_post_meta( $post->ID, 'newPlayerNumber', true) ?>' />
+		            <span class="description">Input a number other than zero to display 'add player' input boxes above once you have saved.</span>
+
+	            </td>
+            </tr>
+			<?php endif ?>
 			<tr>
             <th><label for="players_present">Present</label></th>
 			<td>
 			<?php $selected = get_post_meta ( $post->ID, 'players_present', false ) ?>
 			
 			    <select class='register_listbox' id='players_present' multiple="multiple" name="players_present[]">
-			    	<option value='new'>New Player(s)...</option>
 					<?php $users = get_users(); foreach ($users as $user) : ?>
 					<option <?php if ( array_search ($user->data->ID, $selected) !== false ) echo "selected='selected' " ?>value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
 			        <?php endforeach; ?>
 			    </select>
+				<span class="description">Players that attended and took part in the session.</span>
 			</td>
 			</tr>
 			<tr>
@@ -35,11 +46,11 @@ wp_enqueue_style('chosen_css');
 			<?php $selected = get_post_meta ( $post->ID, 'players_watching', false ) ?>
 
 			    <select class='register_listbox' id='players_watching' multiple="multiple" name="players_watching[]">
-			    	<option value='new'>New Player(s)...</option>
 					<?php $users = get_users(); foreach ($users as $user) : ?>
 					<option <?php if ( array_search ($user->data->ID, $selected) !== false ) echo "selected='selected' " ?>value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
 			        <?php endforeach; ?>
 			    </select>
+				<span class="description">Players that attended and didn't take part in the session.</span>
 			</td>
 			</tr>
 			<tr>
@@ -49,11 +60,11 @@ wp_enqueue_style('chosen_css');
 			<?php $selected = get_post_meta ( $post->ID, 'players_coaching', false ) ?>
 
 			    <select class='register_listbox' id='players_coaching' multiple="multiple" name="players_coaching[]">
-			    	<option value='new'>New Player(s)...</option>
 					<?php $users = get_users(); foreach ($users as $user) : ?>
 					<option <?php if ( array_search ($user->data->ID, $selected) !== false ) echo "selected='selected' " ?>value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
 			        <?php endforeach; ?>
 			    </select>
+				<span class="description">Players that were involved in coaching the session.</span>
 			</td>
 			</tr>
 

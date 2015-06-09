@@ -300,15 +300,16 @@ function add_custom_forms ( $post ) {
 
 
 	
-    if (  isset ( $_GET['add_player'] ) )
-	{
+    for($i = 0; $i < $_GET['newPlayerNumber']; $i++) {
+
 	    add_meta_box(
-	        'attendance_register_add_new_player',
+	        'attendance_register_add_new_player' . $i,
 	        'Add New Player(s)...',
 	        'register_add_new_player',
 	        'attendance_registers',
 	        'advanced',
-	        'high'
+	        'high',
+	        array('index' => $i)
 	    );
 	}
 
@@ -418,7 +419,7 @@ function membership_fee_postform ( $post ) { include_once( dirname(__FILE__) . '
 function team_edit_box ( $post ) { include_once( dirname(__FILE__) . '/../postforms/teams.php'); } 
 function photo_album_meta ( $post ) { include_once( dirname(__FILE__) . '/../postforms/photo_albums.php'); }
 function register_postform ( $post ) { include_once( dirname(__FILE__) . '/../postforms/register.php'); }
-function register_add_new_player ( $post ) { include_once( dirname(__FILE__) . '/../postforms/new_player.php'); }
+function register_add_new_player ( $post, $metabox ) { include( dirname(__FILE__) . '/../postforms/new_player.php'); }
 
 
 // Include custom post types in main blog
