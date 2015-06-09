@@ -19,7 +19,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	function __construct( $args = array()) {
 
 		// Get attendance data
-		$players = getAttendance();
+		$attendance = getAttendance();
 
 		// Get users
 		$users = get_users();
@@ -29,34 +29,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 		foreach ( $users as $user ) {
 
-			// Construct attendance data
-			$training = 0;
-			$watching = 0;
-			$coaching = 0;
-			$absent   = 0;
-
-			foreach ( $players[ $user->ID ]['register'] as $session ) {
-				switch ( $session ) {
-
-					case 'p':
-						$training ++;
-						break;
-
-					case 'w':
-						$watching ++;
-						break;
-
-					case 'c':
-						$coaching ++;
-						break;
-
-					case 'a':
-						$absent ++;
-						break;
-				}
-			}
-			$totalPossible = $training + $watching + $coaching + $absent;
-			$present = $training + $watching + $coaching;
+			$totalPossible = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'] + $attendance[$user->ID]['stats']['absent'];
+			$present = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'];
 
 			// Get membership form information and insert it into data array
 			$membership_form = new WP_Query ( array(
