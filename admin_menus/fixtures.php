@@ -3,6 +3,7 @@
 function addFixturesMenu() {
 	$fixtures_menu_hook = add_menu_page ( 'Fixtures', 'Fixtures', 'committee_perms', 'fixturelist', 'includeFixturesTemplate', 'dashicons-flag');
 	add_action( "load-$fixtures_menu_hook", 'Fixtures_Table_Add_Options' );
+	add_action('load-'.$fixtures_menu_hook, 'addHelpTabs');
 }
 add_action('admin_menu', 'addFixturesMenu');
 
@@ -17,6 +18,8 @@ function Fixtures_Table_Add_Options() {
 	add_screen_option( $option, $args );
 }
 add_filter('set-screen-option', 'Fixtures_Table_Add_Options', 10, 3);
+
+
 
 
 /****************** Set Screen Options *******************/

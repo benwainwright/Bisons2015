@@ -6,10 +6,16 @@ $bill = GoCardless_Bill::find( $resource['source_id'] );
 
 // Retry the bill three times if possible
 if ( $retries < 3 && $bill->can_be_retried() ) {
+
 	$bill->retry();
-	send_mandrill_template($mem_form->post_author, 'payment-failed-1', false, false, 'Payment Failed', 'membership@bisonsrfc.co.uk');
+
+	if( 0 === $retries ) {
+		send_mandrill_template($mem_form->post_author, 'payment-failed-1', false, false, 'Payment Failed', 'membership@bisonsrfc.co.uk');
+	}
+
 	$retries++;
 	update_post_meta( $mem_form->ID, 'retries', $retries);
+
 }
 
 // Downgrade membership
