@@ -69,6 +69,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				);
 			} else {
 				$data[] = array(
+					'presentPercent'  => (int) ( 100 / $totalPossible ) * $present,
 					'dd_status'=> 0,
 					'memForm'  => false,
 					'user_id'  => $user->data->ID,
