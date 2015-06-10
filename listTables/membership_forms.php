@@ -56,7 +56,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 					'memForm'   => get_the_id(),
 					'DD_sub_id' => $gclSubID,
 					'lastModified' => get_the_modified_date('U'),
-					'presentPercent'  => (int) ( 100 / $totalPossible ) * $present,
+					'presentPercent'  => round(( 100 / $totalPossible ) * $present),
 					'dd_status' => $gclSubID ? get_post_meta(get_the_id(), 'payment_status', true) : 0,
 					'user_id'   => $user->data->ID,
 					'type'      => get_post_meta( get_the_id(), 'joiningas', true ),
@@ -69,7 +69,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				);
 			} else {
 				$data[] = array(
-					'presentPercent'  => (int) ( 100 / $totalPossible ) * $present,
+					'presentPercent' => round(( 100 / $totalPossible ) * $present),
 					'dd_status'=> 0,
 					'memForm'  => false,
 					'user_id'  => $user->data->ID,
