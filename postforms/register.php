@@ -5,6 +5,7 @@ wp_enqueue_style('chosen_css');
 ?>
 
 <div id='custom-form'>
+	<p>Please <a href='<?php echo admin_url('admin.php?page=add-player') ?>'>add any new players</a> to the database before recording the register to ensure their attendance is recorded also.</p>
     <table class="form-table">
         <tbody>
             <tr class='smallFormRow'>
@@ -16,16 +17,6 @@ wp_enqueue_style('chosen_css');
                 </td>
             </tr>
 
-            <?php if (is_edit_page('new')) :?>
-            <tr class='smallFormRow'>
-	            <th><label for="register_newPlayerCount">Number of New Players</label></th>
-	            <td>
-		            <input class='small-text required' type='number' name='newPlayerNumber' value='<?php echo get_post_meta( $post->ID, 'newPlayerNumber', true) ?>' />
-		            <span class="description">Input a number other than zero to display 'add player' input boxes above once you have saved.</span>
-
-	            </td>
-            </tr>
-			<?php endif ?>
 			<tr>
             <th><label for="players_present">Present</label></th>
 			<td>
