@@ -41,7 +41,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			$present = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'];
 
 			$row = array(
-				'Joined'    => get_user_meta($user->ID, 'joined', true),
+				'joined'    => get_user_meta($user->ID, 'joined', true),
 				'user_id'   => $user->data->ID,
 				'DD_sub_id' => get_user_meta($user->ID, 'gcl_sub_id', true ),
 				'lastModified' => get_user_meta($user->ID, 'lastModified', true),
@@ -126,7 +126,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	function get_sortable_columns() {
 		$columns = array(
 			'fullname' => array( 'fullname', false ),
-			'memForm'     => array( 'memForm', false ),
+			'joined'     => array( 'joined', false ),
 			'dd_status'     => array( 'dd_status', false ),
 			'presentPercent' => array( 'presentPercent', false ),
 			'lastModified'     => array( 'lastModified', false ),
@@ -157,7 +157,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				$this->paidRows[] = $row;
 			}
 
-			if ( $row['memForm'] == false) {
+			if ( $row['joined'] == false) {
 				$this->notJoinedRows[] = $row;
 			}
 
@@ -299,9 +299,9 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		return "<span class='dd_$statusStub'>$status</span>";
 	}
 
-	function column_memForm ( $item )
+	function column_joined ( $item )
 	{
-		$return = $item [ 'memForm' ] ? 'Yes' : 'No';
+		$return = $item [ 'joined' ] ? 'Yes' : 'No';
 
 		return "<span class='memForm_$return'>$return</span>";
 	}
