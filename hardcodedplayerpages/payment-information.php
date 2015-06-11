@@ -2,9 +2,7 @@
 
 // Get inserted data from query
 $data = $wp_query->query['bisons_data'];
-$form_id = $data['form_details']['form_id'];
-$date = $data['form_details']['date'];
-$disabled = $data['form_details']['disabled'];
+$form_user = $data['form_details']['form_user'];
 
 
 // Enqueue form Javascript
@@ -140,7 +138,7 @@ wp_enqueue_script('formvalidation');
                 <option>Single Payment</option>
             </select>
         </div>
-      <?php if ( get_post_meta ( $form_id, 'joiningas', true ) == 'Player' ) : ?>
+      <?php if ( get_user_meta($form_user, 'joiningas', true ) == 'Player' ) : ?>
       <div id="playerfees" class='playersonly'>
         <div id="playermempaymonthly" style="display:none" >
             <label class="smalllabel" for="playermembershiptypemonthly">Membership Type</label>

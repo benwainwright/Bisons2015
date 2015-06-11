@@ -11,93 +11,85 @@
 		$billsTable->prepare_items();
 
 
-		// Get membership form
-		$membership_form = new WP_Query ( array(
-			'post_type'      => 'membership_form',
-			'posts_per_page' => 1,
-			'orderby'        => 'date',
-			'order'          => 'ASC',
-			'author'         => $_GET['user_id']
-		) );
 
-		if ( $membership_form->have_posts() ) {
-			$membership_form->the_post();
+
+		if ( get_user_meta( $_GET['user_id'], 'joined', true) ) {
 
 			$streetAddy = array();
-			if (get_post_meta( get_the_id(), 'streetaddyl1', true)) $streetAddy[] = get_post_meta( get_the_id(), 'streetaddyl1', true);
-			if (get_post_meta( get_the_id(), 'streetaddyl2', true)) $streetAddy[] = get_post_meta( get_the_id(), 'streetaddyl2', true);
-			if (get_post_meta( get_the_id(), 'streetaddytown', true)) $streetAddy[] = get_post_meta( get_the_id(), 'streetaddytown', true);
-			if (get_post_meta( get_the_id(), 'postcode', true)) $streetAddy[] = get_post_meta( get_the_id(), 'postcode', true);
+			if (get_user_meta( $_GET['user_id'], 'streetaddyl1', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'streetaddyl1', true);
+			if (get_user_meta( $_GET['user_id'], 'streetaddyl2', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'streetaddyl2', true);
+			if (get_user_meta( $_GET['user_id'], 'streetaddytown', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'streetaddytown', true);
+			if (get_user_meta( $_GET['user_id'], 'postcode', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'postcode', true);
 
-			$dob = get_post_meta( get_the_id(), 'dob-month', true ) . '/' .
-			       get_post_meta( get_the_id(), 'dob-day', true ) . '/' .
-			       get_post_meta( get_the_id(), 'dob-year', true );
+			$dob = get_user_meta( $_GET['user_id'], 'dob-month', true ) . '/' .
+			       get_user_meta( $_GET['user_id'], 'dob-day', true ) . '/' .
+			       get_user_meta( $_GET['user_id'], 'dob-year', true );
 
 
-			for ($i = 1; $i <= get_post_meta( get_the_id(), 'condsdisablities_rowcount', true ); $i++) {
+			for ($i = 1; $i <= get_user_meta( $_GET['user_id'], 'condsdisablities_rowcount', true ); $i++) {
 				$medCons[]	= array(
-					'Condition'      => get_post_meta( get_the_id(), "condsdisablities_name_row$i", true ),
-					'Medication'      => get_post_meta( get_the_id(), "condsdisablities_drugname_row$i", true ),
-					'Dose' => get_post_meta( get_the_id(), "condsdisablities_drugdose_freq_row$i", true )
+					'Condition'      => get_user_meta( $_GET['user_id'], "condsdisablities_name_row$i", true ),
+					'Medication'      => get_user_meta( $_GET['user_id'], "condsdisablities_drugname_row$i", true ),
+					'Dose' => get_user_meta( $_GET['user_id'], "condsdisablities_drugdose_freq_row$i", true )
 				);
 			}
 
-			for ($i = 1; $i <= get_post_meta( get_the_id(), 'allergies_rowcount', true ); $i++) {
+			for ($i = 1; $i <= get_user_meta( $_GET['user_id'], 'allergies_rowcount', true ); $i++) {
 				$allergies[]	= array(
-					'Condition'      => get_post_meta( get_the_id(), "allergies_name_row$i", true ),
-					'Medication'      => get_post_meta( get_the_id(), "allergies_drugname_row$i", true ),
-					'Dose' =>       get_post_meta( get_the_id(), "allergies_drugdose_freq_row$i", true )
+					'Condition'      => get_user_meta( $_GET['user_id'], "allergies_name_row$i", true ),
+					'Medication'      => get_user_meta( $_GET['user_id'], "allergies_drugname_row$i", true ),
+					'Dose' =>       get_user_meta( $_GET['user_id'], "allergies_drugdose_freq_row$i", true )
 				);
 			}
 
-			for ($i = 1; $i <= get_post_meta( get_the_id(), 'allergies_rowcount', true ); $i++) {
+			for ($i = 1; $i <= get_user_meta( $_GET['user_id'], 'allergies_rowcount', true ); $i++) {
 				$injuries[]	= array(
-					'What'        => get_post_meta( get_the_id(), "injuries_name_row$i", true ),
-					'When'        => get_post_meta( get_the_id(), "injuries_when_row$i", true ),
-					'Treatment'   => get_post_meta( get_the_id(), "injuries_treatmentreceived_row$i", true ),
-					'Who Treated' => get_post_meta( get_the_id(), "injuries_who_row$i", true ),
-					'Status'      => get_post_meta( get_the_id(), "injuries_status_row$i", true ),
+					'What'        => get_user_meta( $_GET['user_id'], "injuries_name_row$i", true ),
+					'When'        => get_user_meta( $_GET['user_id'], "injuries_when_row$i", true ),
+					'Treatment'   => get_user_meta( $_GET['user_id'], "injuries_treatmentreceived_row$i", true ),
+					'Who Treated' => get_user_meta( $_GET['user_id'], "injuries_who_row$i", true ),
+					'Status'      => get_user_meta( $_GET['user_id'], "injuries_status_row$i", true ),
 				);
 			}
 
 			$personalDetails = array(
-				'Name'              => get_post_meta( get_the_id(), 'firstname', true ) . ' ' . get_post_meta( get_the_id(), 'surname', true ),
-				'Email'             => get_post_meta( get_the_id(), 'email_addy', true ),
-				'Gender'            => get_post_meta( get_the_id(), 'othergender', true ) ? get_post_meta( get_the_id(), 'othergender', true ) : get_post_meta( get_the_id(), 'gender', true ),
+				'Name'              => get_user_meta( $_GET['user_id'], 'firstname', true ) . ' ' . get_user_meta( $_GET['user_id'], 'surname', true ),
+				'Email'             => get_user_meta( $_GET['user_id'], 'email_addy', true ),
+				'Gender'            => get_user_meta( $_GET['user_id'], 'othergender', true ) ? get_user_meta( $_GET['user_id'], 'othergender', true ) : get_user_meta( $_GET['user_id'], 'gender', true ),
 				'Date of Birth'     => reformat_date($dob, 'jS \of F Y'),
 				'Age'               => getage($dob),
-				'Contact Number'    => get_post_meta( get_the_id(), 'contact_number', true),
+				'Contact Number'    => get_user_meta( $_GET['user_id'], 'contact_number', true),
 				'Street Address'    => implode('<br />', $streetAddy)
 			);
 
 			$otherInfo = array(
-				'Other sports'               =>  get_post_meta( get_the_id(), 'othersports', true ),
-				'Training hours a week'      =>  get_post_meta( get_the_id(), 'hoursaweektrain', true ),
-				'Previously played at'       =>  get_post_meta( get_the_id(), 'playedbefore', true ) == 'Yes' ? get_post_meta( get_the_id(), 'whereandseasons', true ) : 'No',
-				'Height'                     =>  get_post_meta( get_the_id(), 'height', true ),
-				'Weight'                     =>  get_post_meta( get_the_id(), 'weight', true ),
-				'Referral Source'            =>  get_post_meta( get_the_id(), 'howdidyouhear', true ),
-				'Skills'                     =>  get_post_meta( get_the_id(), 'whatcanyoubring', true ),
+				'Other sports'               =>  get_user_meta( $_GET['user_id'], 'othersports', true ),
+				'Training hours a week'      =>  get_user_meta( $_GET['user_id'], 'hoursaweektrain', true ),
+				'Previously played at'       =>  get_user_meta( $_GET['user_id'], 'playedbefore', true ) == 'Yes' ? get_user_meta( $_GET['user_id'], 'whereandseasons', true ) : 'No',
+				'Height'                     =>  get_user_meta( $_GET['user_id'], 'height', true ),
+				'Weight'                     =>  get_user_meta( $_GET['user_id'], 'weight', true ),
+				'Referral Source'            =>  get_user_meta( $_GET['user_id'], 'howdidyouhear', true ),
+				'Skills'                     =>  get_user_meta( $_GET['user_id'], 'whatcanyoubring', true ),
 			);
 
-			$gcl_sub_id = get_post_meta( get_the_id(), 'gcl_sub_id', true );
+			$gcl_sub_id = get_user_meta( $_GET['user_id'], 'gcl_sub_id', true );
 
 			$nokAddy = array();
-			if ( get_post_meta( get_the_id(), 'nokstreetaddy', true ) ) $nokAddy[] = get_post_meta( get_the_id(), 'nokstreetaddy', true );
-			if ( get_post_meta( get_the_id(), 'nokpostcode', true ) ) $nokAddy[] = get_post_meta( get_the_id(), 'nokpostcode', true );
+			if ( get_user_meta( $_GET['user_id'], 'nokstreetaddy', true ) ) $nokAddy[] = get_user_meta( $_GET['user_id'], 'nokstreetaddy', true );
+			if ( get_user_meta( $_GET['user_id'], 'nokpostcode', true ) ) $nokAddy[] = get_user_meta( $_GET['user_id'], 'nokpostcode', true );
 
 			$nextOfKin = array(
-				'Name'              => get_post_meta( get_the_id(), 'nokfirstname', true ) . ' ' . get_post_meta( get_the_id(), 'noksurname', true ),
-				'Relationship'      => get_post_meta( get_the_id(), 'nokrelationship', true ),
-				'Contact Number'    => get_post_meta( get_the_id(), 'nokcontactnumber', true ),
-				'Address'           => get_post_meta( get_the_id(), 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
+				'Name'              => get_user_meta( $_GET['user_id'], 'nokfirstname', true ) . ' ' . get_user_meta( $_GET['user_id'], 'noksurname', true ),
+				'Relationship'      => get_user_meta( $_GET['user_id'], 'nokrelationship', true ),
+				'Contact Number'    => get_user_meta( $_GET['user_id'], 'nokcontactnumber', true ),
+				'Address'           => get_user_meta( $_GET['user_id'], 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
 			);
 
 			global $payment_statuses;
 
 			$paymentInfo = array(
-				'Subscription Status'        =>  $payment_statuses[get_post_meta( get_the_id(), 'payment_status', true)][0],
-				'Membership Type'         => get_post_meta( get_the_id(), 'joiningas', true),
+				'Subscription Status'        =>  $payment_statuses[get_user_meta( $_GET['user_id'], 'payment_status', true)][0],
+				'Membership Type'         => get_user_meta( $_GET['user_id'], 'joiningas', true),
 				'Number of Payments'    =>  0,
 				'Total Paid'            =>  0,
 				'Total Refunded'        =>  0,

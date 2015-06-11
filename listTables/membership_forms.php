@@ -33,62 +33,46 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 		foreach ( $users as $user ) {
 
+
+
+
 			$totalPossible = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'] + $attendance[$user->ID]['stats']['absent'];
+
 			$present = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'];
 
-			// Get membership form information and insert it into data array
-			$membership_form = new WP_Query ( array(
-				'post_type'      => 'membership_form',
-				'posts_per_page' => 1,
-				'orderby'        => 'date',
-				'order'          => 'ASC',
-				'author'         => $user->data->ID
-			) );
+			$row = array(
+				'Joined'    => get_user_meta($user->ID, 'joined', true),
+				'user_id'   => $user->data->ID,
+				'DD_sub_id' => get_user_meta($user->ID, 'gcl_sub_id', true ),
+				'lastModified' => get_user_meta($user->ID, 'lastModified', true),
+				'presentPercent'  => $totalPossible ? round(( 100 / $totalPossible ) * $present) : 0,
+				'dd_status' => $gclSubID ? get_user_meta($user->ID, 'payment_status', true) : 0,
+				'fullname' => $user->first_name . ' ' . $user->last_name,
+				'type'      => get_user_meta($user->ID, 'joiningas', true ) ? get_user_meta($user->ID, 'joiningas', true ) : 'N/A',
+				'email'    => $user->data->user_email,
+			);
 
 
-			if ( $membership_form->have_posts() ) {
 
-				$membership_form->the_post();
+			if ( get_user_meta($user->ID, 'joined', true) ) {
 
-				$gclSubID = get_post_meta( get_the_id(), 'gcl_sub_id', true );
+				$row['age'] = getage( get_user_meta($user->ID, 'dob-day',
+						true ) . '/' . get_user_meta($user->ID, 'dob-month',
+						true ) . '/' . get_user_meta($user->ID, 'dob-year', true ) );
 
-				$hasItCancelledQuery = new WP_Query ( array(
-
-				));
-
-				$data[] = array(
-					'memForm'   => get_the_id(),
-					'DD_sub_id' => $gclSubID,
-					'lastModified' => get_the_modified_date('U'),
-					'presentPercent'  => round(( 100 / $totalPossible ) * $present),
-					'dd_status' => $gclSubID ? get_post_meta(get_the_id(), 'payment_status', true) : 0,
-					'user_id'   => $user->data->ID,
-					'type'      => get_post_meta( get_the_id(), 'joiningas', true ),
-					'fullname'  => get_post_meta( get_the_id(), 'firstname', true ) . ' ' . get_post_meta( get_the_id(),
-							'surname', true ),
-					'age'       => getage( get_post_meta( get_the_id(), 'dob-day',
-							true ) . '/' . get_post_meta( get_the_id(), 'dob-month',
-							true ) . '/' . get_post_meta( get_the_id(), 'dob-year', true ) ),
-					'email'     => get_post_meta( get_the_id(), 'email_addy', true ),
-				);
 			} else {
-				$data[] = array(
-					'presentPercent' => round(( 100 / $totalPossible ) * $present),
-					'dd_status'=> 0,
-					'memForm'  => false,
-					'user_id'  => $user->data->ID,
-					'type'     => 'N/A',
-					'fullname' => $user->first_name . ' ' . $user->last_name,
-					'age'      => 'Unknown',
-					'email'    => $user->data->user_email,
-					'lastModified' =>strtotime($user->user_registered)
-				);
+				$row['age'] = 'Unknown';
+				$row['lastModified'] = strtotime($user->user_registered);
 			}
+
+			$data[] = $row;
 		}
 
 		$this->rawData = $data;
 
+
 		parent::__construct($args);
+
 
 	}
 
@@ -98,7 +82,6 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			'fullname'          => 'Name',
 			'presentPercent'    => 'Attendance',
 			'type'              => 'Type',
-			'memForm'           => 'Joined',
 			'lastModified'      => 'Last Modified',
 			'dd_status'         => 'Payment',
 			'age'               => 'Age',
