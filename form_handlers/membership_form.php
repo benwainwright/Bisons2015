@@ -45,7 +45,7 @@ if ( ! isset ( $_POST['edit_details'] ) )
                         'interval_unit'    => 'month',
                         'currency'         => 'GBP',
                         'user'             => $user,
-                        'state'            => $post . "+DD",
+                        'state'            => "DD",
                     ); 
                    
                    if ( $description = get_post_meta( $feeid, 'fee-description', true ) ) 
@@ -72,7 +72,7 @@ if ( ! isset ( $_POST['edit_details'] ) )
                         'name'             => get_post_meta( $feeid, 'fee-name', true ),
                         'currency'         => 'GBP',
                         'user'             => $user, 
-                        'state'            => $post . "+SP",                       
+                        'state'            => "SP",
                   );
                   
                   if ( $description = get_post_meta( $feeid, 'fee-description', true ) ) 

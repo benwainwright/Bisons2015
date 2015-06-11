@@ -38,13 +38,8 @@ if ( isset ( $_GET['resource_id'] ) )
         
     if ( $confirmed_resource )
     {
-        
-        $state = explode ('+', $_GET['state']);
-        $the_post = $state[0];
-        $type = $state[1];
-        $post_author = get_post_field ( 'post_author', $the_post );
-        
-        switch ( $type )
+
+        switch ( $state )
         {
             
             case "DD": 
@@ -66,7 +61,7 @@ if ( isset ( $_GET['resource_id'] ) )
         // If user is a guest player, upgrade them
         if ( check_user_role( 'guest_player' ) )
         {
-            $user = new WP_User($post_author);
+            $user = new WP_User($form_user);
             $user->remove_role( 'guest_player');
             $user->add_role( 'player');
         }
