@@ -8,29 +8,17 @@ $form_user = ( isset ( $_GET['player_id'] ) && current_user_can ('committee_perm
                 ? $_GET['player_id'] : get_current_user_id();
 
 
-// Check whether a membership form has been filled out.
-$current_form = new WP_Query ( array (
-    'post_type' => 'membership_form',
-    'posts_per_page' => 1,
-    'orderby'   => 'date',
-    'order'     => 'ASC',
-    'author'    => $form_user
-));
 
-// If a membership form exists, load it from Wordpress
-if ( $current_form->have_posts() ) 
+// If a membership form exists, load it from WordPress
+if ( get_user_meta($form_user, 'joined', true) )
 {
     // Get the data from the current membership form
-    while ( $current_form->have_posts() ) 
     {
-        $current_form->the_post();
-        $form_id = get_the_id();
 
         
         // Insert form id and date into query for template use
         $form = array( 
-            'date' => get_the_date(),
-            'form_id'  => $form_id 
+            'form_user'  => $form_user
         );
         
         /***************************************************************

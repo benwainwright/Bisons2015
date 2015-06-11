@@ -16,63 +16,56 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	private $noPayment;
 
+	private static $plural;
+
+	private static $singular;
+
 	function __construct( $args = array()) {
-		// Get users from Wordpress database
+
+		// Get attendance data
+		$attendance = getAttendance();
+
+		// Get users
 		$users = get_users();
-
-
 
 		// Create table data array
 		$data = array();
+
 		foreach ( $users as $user ) {
-			// Get membership form information and insert it into data array
-			$membership_form = new WP_Query ( array(
-				'post_type'      => 'membership_form',
-				'posts_per_page' => 1,
-				'orderby'        => 'date',
-				'order'          => 'ASC',
-				'author'         => $user->data->ID
-			) );
 
 
-			if ( $membership_form->have_posts() ) {
 
-				$membership_form->the_post();
 
-				$gclSubID = get_post_meta( get_the_id(), 'gcl_sub_id', true );
+			$totalPossible = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'] + $attendance[$user->ID]['stats']['absent'];
 
-				$hasItCancelledQuery = new WP_Query ( array(
+			$present = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'];
 
-				));
+			$row = array(
+				'Joined'    => get_user_meta($user->ID, 'joined', true),
+				'user_id'   => $user->data->ID,
+				'DD_sub_id' => get_user_meta($user->ID, 'gcl_sub_id', true ),
+				'lastModified' => get_user_meta($user->ID, 'lastModified', true),
+				'presentPercent'  => $totalPossible ? round(( 100 / $totalPossible ) * $present) : 0,
+				'dd_status' => $gclSubID ? get_user_meta($user->ID, 'payment_status', true) : 0,
+				'fullname' => $user->first_name . ' ' . $user->last_name,
+				'type'      => get_user_meta($user->ID, 'joiningas', true ) ? get_user_meta($user->ID, 'joiningas', true ) : 'N/A',
+				'email'    => $user->data->user_email,
+			);
 
-				$data[] = array(
-					'memForm'   => get_the_id(),
-					'DD_sub_id' => $gclSubID,
-					'lastModified' => get_the_modified_date('U'),
-					'dd_status' => $gclSubID ? get_post_meta(get_the_id(), 'payment_status', true) : 0,
-					'user_id'   => $user->data->ID,
-					'type'      => get_post_meta( get_the_id(), 'joiningas', true ),
-					'fullname'  => get_post_meta( get_the_id(), 'firstname', true ) . ' ' . get_post_meta( get_the_id(),
-							'surname', true ),
-					'age'       => getage( get_post_meta( get_the_id(), 'dob-day',
-							true ) . '/' . get_post_meta( get_the_id(), 'dob-month',
-							true ) . '/' . get_post_meta( get_the_id(), 'dob-year', true ) ),
-					'email'     => get_post_meta( get_the_id(), 'email_addy', true ),
-				);
+
+
+			if ( get_user_meta($user->ID, 'joined', true) ) {
+
+				$row['age'] = getage( get_user_meta($user->ID, 'dob-day',
+						true ) . '/' . get_user_meta($user->ID, 'dob-month',
+						true ) . '/' . get_user_meta($user->ID, 'dob-year', true ) );
+
 			} else {
-				$data[] = array(
-					'dd_status'=> 0,
-					'memForm'  => false,
-					'user_id'  => $user->data->ID,
-					'type'     => 'N/A',
-					'fullname' => $user->first_name . ' ' . $user->last_name,
-					'age'      => 'Unknown',
-					'email'    => $user->data->user_email,
-					'lastModified' =>strtotime($user->user_registered)
-				);
+				$row['age'] = 'Unknown';
+				$row['lastModified'] = strtotime($user->user_registered);
 			}
 
-
+			$data[] = $row;
 		}
 
 		$this->rawData = $data;
@@ -80,45 +73,64 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 		parent::__construct($args);
 
+
 	}
 
 	function get_columns() {
 		$columns = array(
-			'cb'       => '<input type="checkbox" />',
-
-			'fullname' => 'Name',
-			'type'     => 'Type',
-			'memForm'  => 'Joined',
-			'lastModified' => 'Last Modified',
-			'dd_status'=> 'Payment',
-			'age'      => 'Age',
-			'email'    => 'Email'
+			'cb'                => '<input type="checkbox" />',
+			'fullname'          => 'Name',
+			'presentPercent'    => 'Attendance',
+			'type'              => 'Type',
+			'lastModified'      => 'Last Modified',
+			'dd_status'         => 'Payment',
+			'age'               => 'Age',
+			'email'             => 'Email'
 		);
 
 		return $columns;
 	}
 
 	function usort_reorder( $a, $b ) {
-		// If no sort, default to date
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
+
+		// If no sort, default to name
+		$orderBy = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
 
 		// If no order, default to asc
 		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
-		// Determine sort order
-		$result = strcmp( $a[ $orderby ], $b[ $orderby ] );
+		$result = null;
+
+		if ( is_int($a[$orderBy])) {
+
+			$result = ($a[$orderBy] === $b[$orderBy]) ? 0 : null;
+
+			$result = ($a[$orderBy] < $b[$orderBy]) ? -1 : 1;
+
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'desc';
+
+		}
+
+		else {
+			// Determine sort order
+			$result = strcasecmp( $a[ $orderBy ], $b[ $orderBy ] );
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+
+		}
 
 		// Send final sort direction to usort
 		return ( $order === 'asc' ) ? $result : - $result;
+
 	}
 
 	function get_sortable_columns() {
 		$columns = array(
+			'fullname' => array( 'fullname', false ),
 			'memForm'     => array( 'memForm', false ),
 			'dd_status'     => array( 'dd_status', false ),
+			'presentPercent' => array( 'presentPercent', false ),
 			'lastModified'     => array( 'lastModified', false ),
 			'type'     => array( 'type', false ),
-			'fullname' => array( 'fullname', false ),
 			'age'      => array( 'age', false ),
 			'email'    => array( 'email', false ),
 		);
@@ -205,7 +217,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	function column_default( $item, $column_name ) {
 
 		switch ( $column_name ) {
-
+			case 'presentPercent':
+				return $item [ $column_name ] . '&#37;';
 			case 'type':
 			case 'fullname':
 			case 'age':

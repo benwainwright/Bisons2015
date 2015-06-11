@@ -4,23 +4,14 @@ if (!INCLUDED) exit;
 // Don't post membership form if the reason we are submitting is because we are entering edit modes
 if ( ! isset ( $_POST['edit_details'] ) )
 {
-   // Setup new post array
-    $post = array(
-        'post_title'    => $_POST['firstname'].' '.$_POST['surname'].' '.date('Y'),
-        'post_type'     => 'membership_form',
-        'post_status'   => 'publish',
-    );
-    
-    if ( current_user_can ('committee_perms') )
-    {
-        $post['post_author'] = $_POST['form_belongs_to'];
-    }
-    
-        // If a form ID has been submitted as part of the form data, then we must just be editing, if not, create a new one
-        $post = $_POST['form_id'] ? $_POST['form_id'] : wp_insert_post( $post );
+
+
+	$form_user = ( isset ( $_POST['form_belongs_to'] ) && current_user_can ('committee_perms') )
+		? $_POST['form_belongs_to'] : get_current_user_id();
+
         
-      // If there is no form_id, therefore it is a newly submitted form
-      if ( ! $_POST['form_id'] )
+      // No GCL sub so create one
+      if ( ! get_user_meta($form_user, 'gcl_sub_id') )
       {
           
           $user = array(
@@ -145,9 +136,9 @@ if ( ! isset ( $_POST['edit_details'] ) )
             {
                 case "Date of Birth":
 
-                $olddobday = get_post_meta($post, 'dob-day', true);
-                $olddobmonth = get_post_meta($post, 'dob-month', true ); 
-                $olddobyear = get_post_meta($post, 'dob-year', true );
+                $olddobday = get_user_meta($form_user, 'dob-day', true);
+                $olddobmonth = get_user_meta($form_user, 'dob-month', true ); 
+                $olddobyear = get_user_meta($form_user, 'dob-year', true );
                 
                 if( $_POST['dob-day'] != $olddobday
                  || $_POST['dob-month'] != $olddobmonth
@@ -158,16 +149,16 @@ if ( ! isset ( $_POST['edit_details'] ) )
                     if ( $_POST['form_id'] ) $infotable .= "<td>$olddobday/$olddobmonth/$olddobyear</td>";
                     $infotable .= '<td>'.$_POST['dob-day'].'/'.$_POST['dob-month'].'/'.$_POST['dob-year'].'</td>';
                     $infotable .= "</tr>";
-                    update_post_meta($post, 'dob-day', $_POST['dob-day']);
-                    update_post_meta($post, 'dob-month', $_POST['dob-month']);
-                    update_post_meta($post, 'dob-year', $_POST['dob-year']);
+                    update_user_meta($form_user, 'dob-day', $_POST['dob-day']);
+                    update_user_meta($form_user, 'dob-month', $_POST['dob-month']);
+                    update_user_meta($form_user, 'dob-year', $_POST['dob-year']);
                 }                        
                 break;
                 
                 
                 default:
 
-                if ( $_POST[$fieldname] != ($oldfield = get_post_meta($post, $fieldname, true) ) ) 
+                if ( $_POST[$fieldname] != ($oldfield = get_user_meta($form_user, $fieldname, true) ) ) 
                 {
                     
                     if ( $label == $email_addy) wp_update_user( array ('user_email' => $_POST['email_addy'] ) );
@@ -175,58 +166,58 @@ if ( ! isset ( $_POST['edit_details'] ) )
                     if ( $_POST['form_id'] ) $infotable .= "<td>".str_replace("\n", "<br />", $oldfield)."</td>";
                     $infotable .= '<td>'.str_replace("\n", "<br />", $_POST[$fieldname]).'</td>';
                     $infotable .= "</tr>";
-                    update_post_meta($post, $fieldname, $_POST[$fieldname]);
+                    update_user_meta($form_user, $fieldname, $_POST[$fieldname]);
                 }
             }
         }
            
-        if ( $_POST['fainting'] != get_post_meta($post, 'fainting', true) ||
-             $_POST['dizzyturns'] != get_post_meta($post, 'dizzyturns', true) ||
-             $_POST['breathlessness'] != get_post_meta($post, 'breathlessness', true) ||
-             $_POST['bloodpressure'] != get_post_meta($post, 'bloodpressure', true) ||
-             $_POST['diabetes'] != get_post_meta($post, 'diabetes', true) ||
-             $_POST['palpitations'] != get_post_meta($post, 'palpitations', true) ||
-             $_POST['chestpain'] != get_post_meta($post, 'chestpain', true) ||
-             $_POST['suddendeath'] != get_post_meta($post, 'suddendeath', true) ||
-             $_POST['smoking'] != get_post_meta($post, 'suddendeath', true) )
+        if ( $_POST['fainting'] != get_user_meta($form_user, 'fainting', true) ||
+             $_POST['dizzyturns'] != get_user_meta($form_user, 'dizzyturns', true) ||
+             $_POST['breathlessness'] != get_user_meta($form_user, 'breathlessness', true) ||
+             $_POST['bloodpressure'] != get_user_meta($form_user, 'bloodpressure', true) ||
+             $_POST['diabetes'] != get_user_meta($form_user, 'diabetes', true) ||
+             $_POST['palpitations'] != get_user_meta($form_user, 'palpitations', true) ||
+             $_POST['chestpain'] != get_user_meta($form_user, 'chestpain', true) ||
+             $_POST['suddendeath'] != get_user_meta($form_user, 'suddendeath', true) ||
+             $_POST['smoking'] != get_user_meta($form_user, 'suddendeath', true) )
         {
             $conditions = array();
             
             
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Fainting';
-            update_post_meta($post, 'fainting', $_POST['fainting']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Fainting';
+            update_user_meta($form_user, 'fainting', $_POST['fainting']);
             if ( $_POST['fainting'] == 'on' ) $conditions[] = 'Fainting';
             
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Dizzy Turns';
-            update_post_meta($post, 'dizzyturns', $_POST['dizzyturns']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Dizzy Turns';
+            update_user_meta($form_user, 'dizzyturns', $_POST['dizzyturns']);
             if ( $_POST['dizzyturns'] == 'on' ) $conditions[] = 'Dizzy Turns';
 
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Breathlessness or being more easily tired than teammates';
-            update_post_meta($post, 'breathlessness', $_POST['breathlessness']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Breathlessness or being more easily tired than teammates';
+            update_user_meta($form_user, 'breathlessness', $_POST['breathlessness']);
             if ( $_POST['breathlessness'] == 'on' ) $conditions[] = 'Breathlessness or being more easily tired than teammates';
 
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'History of high blood pressure';
-            update_post_meta($post, 'bloodpressure', $_POST['bloodpressure']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'History of high blood pressure';
+            update_user_meta($form_user, 'bloodpressure', $_POST['bloodpressure']);
             if ( $_POST['bloodpressure'] == 'on' ) $conditions[] = 'History of high blood pressure';
 
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Diabetes';
-            update_post_meta($post, 'diabetes', $_POST['diabetes']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Diabetes';
+            update_user_meta($form_user, 'diabetes', $_POST['diabetes']);
             if ( $_POST['diabetes'] == 'on' ) $conditions[] = 'Diabetes';
 
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Palpatations';
-            update_post_meta($post, 'palpitations', $_POST['palpitations']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Palpatations';
+            update_user_meta($form_user, 'palpitations', $_POST['palpitations']);
             if ( $_POST['palpitations'] == 'on' ) $conditions[] = 'Palpatations';
 
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Chest pain or tightness';
-            update_post_meta($post, 'chestpain', $_POST['chestpain']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Chest pain or tightness';
+            update_user_meta($form_user, 'chestpain', $_POST['chestpain']);
             if ( $_POST['chestpain'] == 'on' ) $conditions[] = 'Chest Pain';
 
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Sudden death in immediate family of anyone under 50';
-            update_post_meta($post, 'suddendeath', $_POST['suddendeath']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Sudden death in immediate family of anyone under 50';
+            update_user_meta($form_user, 'suddendeath', $_POST['suddendeath']);
             if ( $_POST['suddendeath'] == 'on' ) $conditions[] = 'suddendeath';
 
-            if ( get_post_meta($post, 'fainting', true) == 'on') $oldconditions[] = 'Smoking';
-            update_post_meta($post, 'smoking', $_POST['smoking']);
+            if ( get_user_meta($form_user, 'fainting', true) == 'on') $oldconditions[] = 'Smoking';
+            update_user_meta($form_user, 'smoking', $_POST['smoking']);
             if ( $_POST['smoking'] == 'on' ) $conditions[] = 'Smoking';
 
             $conditionsstring = "";
@@ -249,9 +240,9 @@ if ( ! isset ( $_POST['edit_details'] ) )
 
         for ( $i = 1; isset( $_POST['condsdisablities_name_row' . $i] ); $i++ )
         {
-            if ( $_POST['condsdisablities_name_row' . $i] != get_post_meta($post, 'condsdisablities_name_row' . $i, true) ||
-                 $_POST['condsdisablities_drugname_row' . $i] != get_post_meta($post, 'condsdisablities_drugname_row' . $i, true) ||
-                 $_POST['condsdisablities_drugdose_freq_row' . $i] != get_post_meta($post, 'condsdisablities_drugdose_freq_row' . $i, true) ) 
+            if ( $_POST['condsdisablities_name_row' . $i] != get_user_meta($form_user, 'condsdisablities_name_row' . $i, true) ||
+                 $_POST['condsdisablities_drugname_row' . $i] != get_user_meta($form_user, 'condsdisablities_drugname_row' . $i, true) ||
+                 $_POST['condsdisablities_drugdose_freq_row' . $i] != get_user_meta($form_user, 'condsdisablities_drugdose_freq_row' . $i, true) ) 
                  $newinfotable = "<h2>Conditions or Disabilities</h2><table><thead><tr><td>Condition</td><td>Medication</td><td>Dose</td></tr></thead><tbody>";
          }
 
@@ -264,11 +255,11 @@ if ( ! isset ( $_POST['edit_details'] ) )
                 
                 if ( $_POST['condsdisablities_name_row' . $i] != '' )
                 {
-                    update_post_meta($post, 'condsdisablities_name_row' . $realcount, $_POST['condsdisablities_name_row' . $i]);
-                    update_post_meta($post, 'condsdisablities_drugname_row' . $realcount, $_POST['condsdisablities_drugname_row' . $i]);
-                    update_post_meta($post, 'condsdisablities_drugdose_freq_row' . $realcount, $_POST['condsdisablities_drugdose_freq_row' . $i]);
-                    update_post_meta($post, 'condsdisablities_rowcount', $realcount);                
-                    $newinfotable .= $newinfotable ? "<tr><td>".get_post_meta($post, 'condsdisablities_name_row' . $realcount, true)."</td><td>".get_post_meta($post, 'condsdisablities_drugname_row' . $realcount, true)."</td><td>".get_post_meta($post, 'condsdisablities_drugdose_freq_row' . $realcount, true)."</td></tr>": null;                 
+                    update_user_meta($form_user, 'condsdisablities_name_row' . $realcount, $_POST['condsdisablities_name_row' . $i]);
+                    update_user_meta($form_user, 'condsdisablities_drugname_row' . $realcount, $_POST['condsdisablities_drugname_row' . $i]);
+                    update_user_meta($form_user, 'condsdisablities_drugdose_freq_row' . $realcount, $_POST['condsdisablities_drugdose_freq_row' . $i]);
+                    update_user_meta($form_user, 'condsdisablities_rowcount', $realcount);                
+                    $newinfotable .= $newinfotable ? "<tr><td>".get_user_meta($form_user, 'condsdisablities_name_row' . $realcount, true)."</td><td>".get_user_meta($form_user, 'condsdisablities_drugname_row' . $realcount, true)."</td><td>".get_user_meta($form_user, 'condsdisablities_drugdose_freq_row' . $realcount, true)."</td></tr>": null;                 
                     $realcount++;
                 }
                 $i++;  
@@ -279,9 +270,9 @@ if ( ! isset ( $_POST['edit_details'] ) )
   
         for ( $i = 1; isset( $_POST['allergies_name_row' . $i] ); $i++ )
         {
-            if ( $_POST['allergies_name_row' . $i] != get_post_meta($post, 'allergies_name_row' . $i, true) ||
-                 $_POST['allergies_drugname_row' . $i] != get_post_meta($post, 'allergies_drugname_row' . $i, true) ||
-                 $_POST['allergies_drugdose_freq_row' . $i] != get_post_meta($post, 'allergies_drugdose_freq_row' . $i, true) ) $newinfotable2 = "<h2>Allergies</h2><table><thead><tr><td>Allergy</td><td>Medication</td><td>Dose</td></tr></thead><tbody>";
+            if ( $_POST['allergies_name_row' . $i] != get_user_meta($form_user, 'allergies_name_row' . $i, true) ||
+                 $_POST['allergies_drugname_row' . $i] != get_user_meta($form_user, 'allergies_drugname_row' . $i, true) ||
+                 $_POST['allergies_drugdose_freq_row' . $i] != get_user_meta($form_user, 'allergies_drugdose_freq_row' . $i, true) ) $newinfotable2 = "<h2>Allergies</h2><table><thead><tr><td>Allergy</td><td>Medication</td><td>Dose</td></tr></thead><tbody>";
          }
         
         if ($_POST['allergiesyesno'] == "Yes")
@@ -292,11 +283,11 @@ if ( ! isset ( $_POST['edit_details'] ) )
             {
                 if ( $_POST['allergies_name_row' . $i] != '' )
                 {
-                    update_post_meta($post, 'allergies_name_row' . $realcount, $_POST['allergies_name_row' . $i]);
-                    update_post_meta($post, 'allergies_drugname_row' . $realcount, $_POST['allergies_drugname_row' . $i]);
-                    update_post_meta($post, 'allergies_drugdose_freq_row' . $realcount, $_POST['allergies_drugdose_freq_row' . $i]);
-                    update_post_meta($post, 'allergies_rowcount', $realcount);
-                    $newinfotable2 .= $newinfotable2 ? "<tr><td>".get_post_meta($post, 'allergies_name_row' . $realcount, true)."</td><td>".get_post_meta($post, 'allergies_drugname_row' . $realcount, true)."</td><td>".get_post_meta($post, 'allergies_drugdose_freq_row' . $realcount, true)."</td></tr>": null;
+                    update_user_meta($form_user, 'allergies_name_row' . $realcount, $_POST['allergies_name_row' . $i]);
+                    update_user_meta($form_user, 'allergies_drugname_row' . $realcount, $_POST['allergies_drugname_row' . $i]);
+                    update_user_meta($form_user, 'allergies_drugdose_freq_row' . $realcount, $_POST['allergies_drugdose_freq_row' . $i]);
+                    update_user_meta($form_user, 'allergies_rowcount', $realcount);
+                    $newinfotable2 .= $newinfotable2 ? "<tr><td>".get_user_meta($form_user, 'allergies_name_row' . $realcount, true)."</td><td>".get_user_meta($form_user, 'allergies_drugname_row' . $realcount, true)."</td><td>".get_user_meta($form_user, 'allergies_drugdose_freq_row' . $realcount, true)."</td></tr>": null;
                     $realcount++;
                 }
                 $i++;
@@ -307,11 +298,11 @@ if ( ! isset ( $_POST['edit_details'] ) )
         
         for ( $i = 1; isset( $_POST['injuries_name_row' . $i] ); $i++ )
         {
-            if ( $_POST['injuries_name_row' . $i] != get_post_meta($post, 'injuries_name_row' . $i, true) ||
-                 $_POST['injuries_when_row' . $i] != get_post_meta($post, 'injuries_when_row' . $i, true) ||
-                 $_POST['injuries_treatmentreceived_row' . $i] != get_post_meta($post, 'injuries_treatmentreceived_row' . $i, true) || 
-                 $_POST['injuries_who_row' . $i] != get_post_meta($post, 'injuries_who_row' . $i, true) ||
-                 $_POST['injuries_status_row' . $i] != get_post_meta($post, 'injuries_status_row' . $i, true) ) $newinfotable3 = "<h2>Injuries</h2><table><thead><tr><td>Injury</td><td>When</td><td>What treatment</td><td>Who treated</td><td>Injury status</td></tr></thead><tbody>";
+            if ( $_POST['injuries_name_row' . $i] != get_user_meta($form_user, 'injuries_name_row' . $i, true) ||
+                 $_POST['injuries_when_row' . $i] != get_user_meta($form_user, 'injuries_when_row' . $i, true) ||
+                 $_POST['injuries_treatmentreceived_row' . $i] != get_user_meta($form_user, 'injuries_treatmentreceived_row' . $i, true) || 
+                 $_POST['injuries_who_row' . $i] != get_user_meta($form_user, 'injuries_who_row' . $i, true) ||
+                 $_POST['injuries_status_row' . $i] != get_user_meta($form_user, 'injuries_status_row' . $i, true) ) $newinfotable3 = "<h2>Injuries</h2><table><thead><tr><td>Injury</td><td>When</td><td>What treatment</td><td>Who treated</td><td>Injury status</td></tr></thead><tbody>";
         }
          
         if ($_POST['injuredyesno'] == "Yes")
@@ -322,13 +313,13 @@ if ( ! isset ( $_POST['edit_details'] ) )
             {
                 if ( $_POST['injuries_name_row' . $i] != '' )
                 {
-                    update_post_meta($post, 'injuries_name_row' . $realcount, $_POST['injuries_name_row' . $i]);
-                    update_post_meta($post, 'injuries_when_row' . $realcount, $_POST['injuries_when_row' . $i]);
-                    update_post_meta($post, 'injuries_treatmentreceived_row' . $realcount, $_POST['injuries_treatmentreceived_row' . $i]);
-                    update_post_meta($post, 'injuries_who_row' . $realcount, $_POST['injuries_who_row' . $i]);
-                    update_post_meta($post, 'injuries_status_row' . $realcount, $_POST['injuries_status_row' . $i]);
-                    update_post_meta($post, 'injuries_rowcount', $realcount);
-                    $newinfotable3 .= $newinfotable3 ? "<tr><td>".get_post_meta($post, 'injuries_name_row' . $realcount, true)."</td><td>".get_post_meta($post, 'injuries_when_row' . $realcount, true)."</td><td>".get_post_meta($post, 'injuries_treatmentreceived_row' . $i, true)."</td><td>".get_post_meta($post, 'injuries_who_row' . $realcount, true)."</td><td>".get_post_meta($post, 'injuries_status_row' . $realcount, true)."</td></tr>": null;
+                    update_user_meta($form_user, 'injuries_name_row' . $realcount, $_POST['injuries_name_row' . $i]);
+                    update_user_meta($form_user, 'injuries_when_row' . $realcount, $_POST['injuries_when_row' . $i]);
+                    update_user_meta($form_user, 'injuries_treatmentreceived_row' . $realcount, $_POST['injuries_treatmentreceived_row' . $i]);
+                    update_user_meta($form_user, 'injuries_who_row' . $realcount, $_POST['injuries_who_row' . $i]);
+                    update_user_meta($form_user, 'injuries_status_row' . $realcount, $_POST['injuries_status_row' . $i]);
+                    update_user_meta($form_user, 'injuries_rowcount', $realcount);
+                    $newinfotable3 .= $newinfotable3 ? "<tr><td>".get_user_meta($form_user, 'injuries_name_row' . $realcount, true)."</td><td>".get_user_meta($form_user, 'injuries_when_row' . $realcount, true)."</td><td>".get_user_meta($form_user, 'injuries_treatmentreceived_row' . $i, true)."</td><td>".get_user_meta($form_user, 'injuries_who_row' . $realcount, true)."</td><td>".get_user_meta($form_user, 'injuries_status_row' . $realcount, true)."</td></tr>": null;
                     $realcount++;
                 }
                 $i++;
@@ -336,21 +327,21 @@ if ( ! isset ( $_POST['edit_details'] ) )
 
             for ( $i = 1; isset( $_POST['injuries_name_row' . $i] ) && $_POST['injuries_name_row' . $i] != ''; $i++ )
             {
-                update_post_meta($post, 'injuries_name_row' . $i, $_POST['injuries_name_row' . $i]);
-                update_post_meta($post, 'injuries_when_row' . $i, $_POST['injuries_when_row' . $i]);
-                update_post_meta($post, 'injuries_treatmentreceived_row' . $i, $_POST['injuries_treatmentreceived_row' . $i]);
-                update_post_meta($post, 'injuries_who_row' . $i, $_POST['injuries_who_row' . $i]);
-                update_post_meta($post, 'injuries_status_row' . $i, $_POST['injuries_status_row' . $i]);
-                update_post_meta($post, 'injuries_rowcount', $i);
-                $newinfotable3 .= $newinfotable3 ? "<tr><td>".get_post_meta($post, 'injuries_name_row' . $i, true)."</td><td>".get_post_meta($post, 'injuries_when_row' . $i, true)."</td><td>".get_post_meta($post, 'injuries_treatmentreceived_row' . $i, true)."</td><td>".get_post_meta($post, 'injuries_who_row' . $i, true)."</td><td>".get_post_meta($post, 'injuries_status_row' . $i, true)."</td></tr>": null;
+                update_user_meta($form_user, 'injuries_name_row' . $i, $_POST['injuries_name_row' . $i]);
+                update_user_meta($form_user, 'injuries_when_row' . $i, $_POST['injuries_when_row' . $i]);
+                update_user_meta($form_user, 'injuries_treatmentreceived_row' . $i, $_POST['injuries_treatmentreceived_row' . $i]);
+                update_user_meta($form_user, 'injuries_who_row' . $i, $_POST['injuries_who_row' . $i]);
+                update_user_meta($form_user, 'injuries_status_row' . $i, $_POST['injuries_status_row' . $i]);
+                update_user_meta($form_user, 'injuries_rowcount', $i);
+                $newinfotable3 .= $newinfotable3 ? "<tr><td>".get_user_meta($form_user, 'injuries_name_row' . $i, true)."</td><td>".get_user_meta($form_user, 'injuries_when_row' . $i, true)."</td><td>".get_user_meta($form_user, 'injuries_treatmentreceived_row' . $i, true)."</td><td>".get_user_meta($form_user, 'injuries_who_row' . $i, true)."</td><td>".get_user_meta($form_user, 'injuries_status_row' . $i, true)."</td></tr>": null;
             }
         }
         $infotable .= $newinfotable3 ? $newinfotable3.'</tbody></table>' : null;
         
 
         
-        update_post_meta($post, 'current', 'true');
-        update_post_meta($post, 'memtype', $_POST['memtype']);
+        update_user_meta($form_user, 'current', 'true');
+        update_user_meta($form_user, 'memtype', $_POST['memtype']);
   
         if ( $infotable ) 
         {
@@ -363,7 +354,7 @@ if ( ! isset ( $_POST['edit_details'] ) )
             $email_options = get_option('email-settings-page');
             $subject = $email_options['newmember-information-email-subject '];
             $content = wpautop ( $email_options['member-information-email-content'] );
-            $content = preg_replace("/(.*)@@name@@(.*)/", "$1".get_post_meta($post, 'firstname', true).' '.get_post_meta($post, 'surname', true)."$2", $content);       
+            $content = preg_replace("/(.*)@@name@@(.*)/", "$1".get_user_meta($form_user, 'firstname', true).' '.get_user_meta($form_user, 'surname', true)."$2", $content);       
             $content = preg_replace("/(.*)@@updatetable@@(.*)/", "$1$infotable$2", $content);
 
             send_bison_mail( false, $subject, $content, false, $email_options['member-email-send-to-text'] );

@@ -9,28 +9,13 @@ if ( sizeof ( $_POST['user_id'] ) > 0 )
     
     
     foreach ($_POST['user_id'] as $id) {
-    
-        // Reset vars
-        $firstName = null;
-        $lastName = null;
-        $email = null;
-        
+
         $user_ids[] = $id;
-        
-        $membership_form = new WP_Query( array('post_type' => 'membership_form', 'posts_per_page' => 1, 'orderby' => 'date', 'order' => 'ASC', 'author' => $id ));
         $userInfo = get_userdata($id);
-        
-        while ($membership_form->have_posts()) 
-        {
-            $membership_form->the_post();
-            $firstName = get_post_meta(get_the_id(), 'firstname', true);
-            $lastName = get_post_meta(get_the_id(), 'surname', true);
-            $email = get_post_meta(get_the_id(), 'email_addy', true);
-        }
-        $firstName = $firstName ? $firstName : $userInfo->user_firstname;
-        $lastName = $lastName ? $lastName : $userInfo->user_lastname;
+	    $firstName = $userInfo->user_firstname;
+	    $lastName = $userInfo->user_lastname;
+	    $email = $userInfo->user_email;
         $name = $firstName . ' ' . $lastName;
-        $email = $email ? $email : $userInfo->data->user_email;
         $emailstring = "$name &lt;$email&gt;";
         $emails[] = $emailstring;
     }

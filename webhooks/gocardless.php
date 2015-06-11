@@ -14,25 +14,14 @@ if (GoCardless::validate_webhook( $webhookArray['payload'] )) {
 	foreach ( $data[$data['resource_type'] . 's'] as $resource )
 	{
 
-		// Determine associated membership form
-		$sourceQuery = array (  'posts_per_page'   => 1,
-								'post_type' => 'membership_form',
-		                        'meta_key' => 'gcl_sub_id',
-		                        'meta_value' => $resource['source_id']);
+		if ( count ( $user = get_users(array('meta_key' => 'gcl_sub_id', $resource['source_id']))) == 0) {
+			$user = get_users(array('meta_key' => 'gcl_sub_id', $resource['id']));
+		}
 
-		$idQuery = array ( 'post_type' => 'membership_form',
-		                   'posts_per_page'   => 1,
-		                   'meta_key' => 'gcl_sub_id',
-		                   'meta_value' => $resource['id']);
-
-
-		$mem_form = get_posts ( $sourceQuery );
-		$mem_form = count ( $mem_form ) > 0 ? $mem_form : get_posts( $idQuery );
-		$mem_form = is_array ( $mem_form ) ? $mem_form[0] : $mem_form;
+		$user = $user[0];
 
 		// Include appropriate resource handler
 		include_once(  __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
-
 
 		// If action handler exists, include it
 		if ( file_exists( $resourceHandler = __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/' . $data['action'] . '.php' ) ) {
