@@ -111,13 +111,6 @@ if (isset ( $_POST['nonce'] ) )
     include_once('form_handlers/' . $_POST['wp_form_id']. '.php');
 }
 
-include_once('listTables/players_no_mem_form.php');
-
-if (isset ( $_POST['nonce'] ) )
-{
-	if ( wp_verify_nonce ( $_POST['nonce'],  'bulk-'.Players_No_Mem_form::$plural )  && $_POST['action'] != '-1' )
-    include_once ('list_table_bulk_actions/' . $_POST['action'] . '.php' );
-}
 
 
 include_once('listTables/membership_forms.php');
