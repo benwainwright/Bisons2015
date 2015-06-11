@@ -6,6 +6,8 @@ function getAttendance($noCache = false) {
 
 	if ( false === $players || $noCache ) {
 
+
+		$players = array();
 		$query = new WP_Query( array( 'post_type' => 'attendance_registers', 'posts_per_page' => - 1 ) );
 
 		while ( $query->have_posts() ) {
@@ -14,24 +16,23 @@ function getAttendance($noCache = false) {
 			$date = get_post_meta( get_the_id(), 'reg-date', true );
 
 			foreach ( get_post_meta( get_the_id(), 'players_present', false ) as $player ) {
-				$players[ $player ]['register'][ $date ] = 'p';
+				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'p');
 			}
 
 			foreach ( get_post_meta( get_the_id(), 'players_watching', false ) as $player ) {
-				$players[ $player ]['register'][ $date ] = 'w';
+				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'w');
 			}
 
 			foreach ( get_post_meta( get_the_id(), 'players_coaching', false ) as $player ) {
-				$players[ $player ]['register'][ $date ] = 'c';
+				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'c');
 			}
 
 			foreach ( get_post_meta( get_the_id(), 'players_absent', false ) as $player ) {
-				$players[ $player ]['register'][ $date ] = 'a';
+				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'a');
 			}
 
 		}
-
-
+		
 		foreach ( $players as $userID => $player ) {
 
 
@@ -42,7 +43,7 @@ function getAttendance($noCache = false) {
 
 
 			foreach ( $player['register'] as $session ) {
-				switch ( $session ) {
+				switch ( $session['mark'] ) {
 
 					case 'p':
 						$players[ $userID ]['stats']['training'] ++;
@@ -66,6 +67,7 @@ function getAttendance($noCache = false) {
 
 		set_transient( 'bisons_attendance', $players, 60 * 60 * 24 );
 	}
+
 
 	return $players;
 
