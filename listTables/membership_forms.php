@@ -16,6 +16,10 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	private $noPayment;
 
+	private static $plural;
+
+	private static $singular;
+
 	function __construct( $args = array()) {
 
 		// Get attendance data

@@ -164,16 +164,16 @@ class Fixtures_Table extends WP_List_Table_Copy {
 
 		if (is_array($seasons) && count($seasons) > 0) :?>
 		<div class="alignleft actions">
-			<form action='<?php echo admin_url('admin.php?page=fixturelist') ?>' method="GET">
-				<input type="hidden" name="page" value="fixturelist" />
-				<select name="season">
+			<form id='fixtures_filter_form' name="fixtures_filter_form" action='<?php echo admin_url('admin.php?page=fixturelist') ?>' method="GET">
+				<input form='fixtures_filter_form' type="hidden" name="page" value="fixturelist" />
+				<select form='fixtures_filter_form' name="season">
 					<option value="all">All Seasons</option>
 					<option <?php selected($_GET['season'], 'current') ?>value="current">Current</option>
 					<?php foreach ($seasons as $season) : ?>
 					<option <?php selected($_GET['season'], $season->slug) ?>value="<?php echo $season->slug ?>"><?php echo $season->name ?></option>
 					<?php endforeach ?>
 				</select>
-				<button class="button action">Filter</button>
+				<button type='submit' form='fixtures_filter_form' class="button action">Filter</button>
 			</form>
 		</div>
 		<?php endif;
@@ -250,14 +250,20 @@ class Fixtures_Table extends WP_List_Table_Copy {
 
 	function column_cb($item) {
 		return sprintf(
-			'<input type="checkbox" name="id[]" value="%s" />', $item['id']
+			'<input form=\'fixtures_form\' type="checkbox" name="fixture_id[]" value="%s" />', $item['id']
 		);
 	}
 
 	function get_bulk_actions() {
-		$actions = array(
-			'set_season'    => 'Set Season',
-		);
+
+		$seasons = get_terms('seasons');
+		$actions = array();
+
+		foreach($seasons as $season) {
+			$actions['set_season_' . $season->slug] = 'Mark as ' . $season->name;
+		}
+
+		$actions['set_season_current'] = 'Mark as current season';
 		return $actions;
 	}
 

@@ -124,8 +124,17 @@ include_once('listTables/membership_forms.php');
 
 if (isset ( $_POST['action'] ) )
 {
-	if ( file_exists ( __DIR__ . '/list_table_bulk_actions/' . $_POST['action'] . '.php' ) && wp_verify_nonce ( $_POST['_wpnonce'], 'bulk-'.Membership_Forms_Table::$plural ) && $_POST['action'] != '-1')
-    include_once ('list_table_bulk_actions/' . $_POST['action'] . '.php' );
+	if ( strpos($_POST['action'], 'set_season_') !== false) {
+
+		$season = explode('set_season_', $_POST['action'])[1];
+		include_once ('list_table_bulk_actions/set_season_as.php' );
+
+	}
+
+	else if ( file_exists( __DIR__ . '/list_table_bulk_actions/' . $_POST['action'] . '.php' ) && $_POST['action'] != '-1' ) {
+		include_once ('list_table_bulk_actions/' . $_POST['action'] . '.php' );
+	}
+
 }
     
 
