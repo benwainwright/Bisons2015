@@ -46,7 +46,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				'DD_sub_id' => get_user_meta($user->ID, 'gcl_sub_id', true ),
 				'lastModified' => get_user_meta($user->ID, 'lastModified', true),
 				'presentPercent'  => $totalPossible ? round(( 100 / $totalPossible ) * $present) : 0,
-				'dd_status' => $gclSubID ? get_user_meta($user->ID, 'payment_status', true) : 0,
+				'dd_status' => get_user_meta($user->ID, 'gcl_sub_id', true ) ? get_user_meta($user->ID, 'payment_status', true) : 0,
 				'fullname' => $user->first_name . ' ' . $user->last_name,
 				'type'      => get_user_meta($user->ID, 'joiningas', true ) ? get_user_meta($user->ID, 'joiningas', true ) : 'N/A',
 				'email'    => $user->data->user_email,
