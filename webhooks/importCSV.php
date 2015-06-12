@@ -18,8 +18,12 @@ foreach($bills as $index => $billRow) {
 
 	$bill = GoCardless_Bill::find($billRow['Bill ID']);
 
+	new dBug($bill);
+
 	if ( count ( $user = get_users(array('meta_key' => 'gcl_sub_id', $bill->source_id))) == 0) {
+
 		$user = get_users(array('meta_key' => 'gcl_sub_id', $bill->id));
+
 	}
 
 	if ($user) {
