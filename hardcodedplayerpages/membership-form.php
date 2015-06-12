@@ -596,6 +596,40 @@ if ( ! $disabled )
                   <?php foreach ($supporterfees[ 'single_payments' ] as $fee) : ?><li><strong><?php echo $fee['name'] ?></strong><br />A single payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?>. <?php echo $fee['description'] ?></li><?php endforeach ?>
                    </ul>
               </div>
+		  <div id="payWhenDiv">
+			  <label class="smalllabel" for="payWhen">Payment Date</label>
+			  <select class="required" name="payWhen" id="payWhen">
+				  <option value="first">First day of the month</option>
+				  <option value="last">Last day of the month</option>
+				  <option value="lastWorkingDay">Last working day of the month</option>
+				  <option value="specificDay">Specific day</option>
+				  <option value="specificWeekday">Specific weekday</option>
+			  </select>
+		  </div>
+		  <div id='payDateDiv' style="display:none">
+			  <label class="smalllabel" for="dayOfMonth">Day of Month</label>
+			  <select class="required" name="dayOfMonth">
+				  <?php for ($i = 1; $i <= 31; $i++) : ?>
+					  <option><?php echo $i ?></option>
+				  <?php endfor ?>
+			  </select>
+		  </div>
+
+		  <div id='payWeekDayDiv'  style="display:none">
+			  <label class="smalllabel" for="weekDay">Weekday</label>
+			  <select class="required" name="whichWeekDay">
+				  <option value="1">1st</option>
+				  <option value="2">2nd</option>
+				  <option value="3">3rd</option>
+				  <option value="4">4th</option>
+				  <option value="5">5th</option>
+			  </select>
+			  <select class="required" name="weekDay">
+				  <?php for ($i = 0; $i <= 6; $i++) : ?>
+					  <option><?php echo jddayofweek($i, 1) ?></option>
+				  <?php endfor ?>
+			  </select>
+		  </div>
 	</div>
     </fieldset>
     <?php endif ?>

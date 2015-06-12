@@ -38,14 +38,15 @@ if ( ! isset ( $_POST['edit_details'] ) )
                   $amount = get_post_meta( $feeid, 'fee-amount', true );
                   $amount_in_pounds = pence_to_pounds ( $amount, false );               
                   $setup_fee = pence_to_pounds ( get_post_meta( $feeid, 'initial-payment', true ), false );
-                  $subscription_details = array(
-                        'amount'           => $amount_in_pounds,
-                        'name'             => get_post_meta( $feeid, 'fee-name', true ),
-                        'interval_length'  => 1,
-                        'interval_unit'    => 'month',
-                        'currency'         => 'GBP',
-                        'user'             => $user,
-                        'state'            => "DD",
+
+                  $preAuthDetails = array(
+                        'pre_authorization ' => $amount_in_pounds,
+                        'name'               => get_post_meta( $feeid, 'fee-name', true ),
+                        'interval_length'    => 1,
+                        'interval_unit'      => 'month',
+                        'currency'           => 'GBP',
+                        'user'               => $user,
+                        'state'              => "DD",
                     ); 
                    
                    if ( $description = get_post_meta( $feeid, 'fee-description', true ) ) 
@@ -125,8 +126,11 @@ if ( ! isset ( $_POST['edit_details'] ) )
             'How many cigarettes per day?' => 'howmanycigsperday',
             'How did you hear about the Bisons?' => 'howdidyouhear',
             'What can you bring to the Bisons' => 'whatcanyoubring',
-            'Top Size'  => 'topsize'
-
+            'Top Size'  => 'topsize',
+	        'Payment Date' => 'payWhen',
+            'DayOfMonth' => 'Day Of Month',
+            'weekDay' => 'Weekday',
+	        'whichWeekDay' => 'Which weekday?'
         );
         
 
