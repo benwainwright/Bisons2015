@@ -41,8 +41,29 @@ jQuery(document).ready(function() {
     
     
 	jQuery('.adminNotBlankaddNew').last().change( adminNotBlankAddNew );
-	
-	
+
+
+    jQuery('#payWhen').change(function() {
+
+        switch( jQuery(this).val()) {
+
+            case 'specificDay':
+                jQuery('#payDateDiv').show();
+                jQuery('#payWeekDayDiv').hide();
+                break;
+
+
+            case 'specificWeekday':
+                jQuery('#payDateDiv').hide();
+                jQuery('#payWeekDayDiv').show();
+                break;
+
+            default:
+                jQuery('#payDateDiv').hide();
+                jQuery('#payWeekDayDiv').hide();
+        }
+
+    });
 
     jQuery('#allDay').click(function() {
         
