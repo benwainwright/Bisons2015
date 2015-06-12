@@ -26,6 +26,8 @@ foreach($bills as $index => $billRow) {
 
 	}
 
+	new dBug($user);
+
 	if ($user) {
 
 		// Create webhook log
