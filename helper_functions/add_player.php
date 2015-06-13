@@ -16,7 +16,7 @@ function add_player($email, $firstname, $surname, $username = false, $password =
 
     // Assign roles
     $user = new WP_User($user_id);
-    $user -> set_role('guest_player');
+    $user -> set_role('player');
 
     // Prepare email data
     $emailopt = get_option('email-settings-page');

@@ -39,32 +39,23 @@ if ( isset ( $_GET['resource_id'] ) )
             
             case "DD": 
                 
-                update_user_meta($formUser, 'payment_type', "Direct Debit" );
-                $resource = GoCardless_Subscription::find($_GET['resource_id']);
-                update_user_meta($formUser, 'payment_status', 7 );  // DD created, not yet taken payments
-                
+                $resource = GoCardless_PreAuthorization::find($_GET['resource_id']);
+	            update_user_meta($formUser, 'payMethod', 'dd' );  // Single payment pending
+
             break;
             
             case "SP": 
                 update_user_meta($formUser, 'payment_type', "Single Payment" );
                 $resource = GoCardless_Bill::find($_GET['resource_id']);
-                update_user_meta($formUser, 'payment_status', 2 );  // Single payment pending
+                update_user_meta($formUser, 'singlePaymentID', $_GET['resource_id'] );  // Single payment pending
+	            update_user_meta($formUser, 'payMethod', 'single' );  // Single payment pending
+
             break;
             
         }
-        
-        // If user is a guest player, upgrade them
-        if ( check_user_role( 'guest_player' ) )
-        {
-            $user = new WP_User($formUser);
-            $user->remove_role( 'guest_player');
-            $user->add_role( 'player');
-        }
-        update_user_meta($formUser, 'gcl_sub_id', $_GET['resource_id'] );
-        update_user_meta($formUser, 'gcl_sub_uri', $_GET['resource_uri'] );
+
 	    update_user_meta($formUser, 'GCLUserID', $bill->user_id );
         update_user_meta($formUser, 'mem_name', $resource->name );
-        update_user_meta($formUser, 'mem_status', 'Active' );
     }
     
 }
