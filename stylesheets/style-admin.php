@@ -232,16 +232,16 @@ background-color: #FAE5E3;
 border: 1px solid #D45F57;
 }
 
-span.dd_none {
+span.dd_None {
 	color:#909090;
 }
 
-span.dd_Cancelled, span.dd_None {
+span.dd_Cancelled {
 	color:#FF0000;
 	font-weight:bold;
 }
 
-span.dd_Active, span.dd_paidSingle, span.memForm_Yes {
+span.dd_Active, span.dd_Paid_In_Full {
 	color:#00CC00;
 }
 

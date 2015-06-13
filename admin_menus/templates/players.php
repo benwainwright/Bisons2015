@@ -109,7 +109,7 @@
 			}
 
 			$paymentInfo = array(
-				'Subscription Status'        =>  $dd_status,
+				'Subscription Status'        =>  ucwords($dd_status),
 				'Membership Type'            => get_user_meta( $_GET['user_id'], 'joiningas', true),
 				'Successful Payments'        =>  0,
 				'Total Paid'                 =>  0,

@@ -41,6 +41,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			$present       = $attendance[ $user->ID ]['stats']['training'] + $attendance[ $user->ID ]['stats']['coaching'] + $attendance[ $user->ID ]['stats']['watching'];
 
 
+
 			if ( get_user_meta( $user->ID, 'payMethod', true ) == 'single' ) {
 
 				// Work out if there is single payment for the current season
@@ -311,7 +312,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	function column_dd_status( $item ) {
 		$status = ucwords ( $item['dd_status'] );
-		return "<span class='dd_$status'>$status</span>";
+		$class = str_replace(' ', '_', $status);
+		return "<span class='dd_$class'>$status</span>";
 	}
 
 	function column_joined( $item ) {
