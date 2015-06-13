@@ -236,12 +236,12 @@ span.dd_none {
 	color:#909090;
 }
 
-span.dd_subCancelled, span.memForm_No {
+span.dd_Cancelled, span.dd_None {
 	color:#FF0000;
 	font-weight:bold;
 }
 
-span.dd_subActive, span.dd_paidSingle, span.memForm_Yes {
+span.dd_Active, span.dd_paidSingle, span.memForm_Yes {
 	color:#00CC00;
 }
 

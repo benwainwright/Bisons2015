@@ -11,7 +11,6 @@
 		$billsTable->prepare_items();
 
 
-		new dBug(get_user_meta($_GET['user_id']));
 
 		if ( get_user_meta( $_GET['user_id'], 'joined', true) ) {
 
