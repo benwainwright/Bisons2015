@@ -66,7 +66,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				'DD_sub_id'      => get_user_meta( $user->ID, 'gcl_sub_id', true ),
 				'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
 				'presentPercent' => $totalPossible ? round( ( 100 / $totalPossible ) * $present ) : 0,
-				'dd_status'      => $dd_status,
+				'dd_status'      => $dd_status ? $dd_status : 'None',
 				'fullname'       => $user->first_name . ' ' . $user->last_name,
 				'type'           => get_user_meta( $user->ID, 'joiningas', true ) ? get_user_meta( $user->ID,
 					'joiningas', true ) : 'N/A',
@@ -87,7 +87,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 			$data[] = $row;
 		}
-		
+
 		$this->rawData = $data;
 
 
@@ -310,8 +310,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	}
 
 	function column_dd_status( $item ) {
-		$status = $item['dd_status'];
-
+		$status = ucwords ( $item['dd_status'] );
 		return "<span class='dd_$status'>$status</span>";
 	}
 
