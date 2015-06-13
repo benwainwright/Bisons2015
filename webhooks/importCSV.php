@@ -24,10 +24,11 @@ foreach($bills as $index => $billRow) {
 
 	}
 
+	$user = $user[0];
 
 	if ($user) {
 
-		$date = date( 'Y-m-d H:i:s', isset ( $bill->paid_at ) ? $bill->paid_at : time() );
+		$date = date( 'Y-m-d H:i:s', isset ( $bill->paid_at ) ? strtotime($bill->paid_at) : time() );
 
 		// Create webhook log
 		$hook_log = array(
@@ -50,10 +51,7 @@ foreach($bills as $index => $billRow) {
 		update_post_meta($id, 'amount_minus_fees', $bill->amount_minus_fees);
 		update_post_meta($id, 'source_type', $bill->source_type);
 
-		new dBug($bill);
-		new dBug($user);
 
-		return;
 
 	}
 
