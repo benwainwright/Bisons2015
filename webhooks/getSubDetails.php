@@ -81,7 +81,6 @@ while ( $query->have_posts() ) {
 			echo "<br />";
 		}
 
-		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) && ! get_user_meta( $id, 'singlePaymentID', true ) ) {
 
 			if ( null !== $source || get_post_meta( get_the_id(), 'amount', true ) < 15 ) {
 				update_user_meta( $id, 'payMethod', 'dd' );
@@ -102,5 +101,5 @@ while ( $query->have_posts() ) {
 				update_user_meta( $id, 'GCLStatusChangeDate', get_the_date('U') );
 			}
 		}
-	}
+	
 }
