@@ -105,12 +105,12 @@
 			}
 
 			$paymentInfo = array(
-				'Subscription Status'        =>  $payment_statuses[get_user_meta( $_GET['user_id'], 'payment_status', true)][0],
-				'Membership Type'         => get_user_meta( $_GET['user_id'], 'joiningas', true),
-				'Successful Payments'    =>  0,
-				'Total Paid'            =>  0,
-				'Total Refunded'        =>  0,
-				'Last Bill'           => 0
+				'Subscription Status'        =>  $dd_status,
+				'Membership Type'            => get_user_meta( $_GET['user_id'], 'joiningas', true),
+				'Successful Payments'        =>  0,
+				'Total Paid'                 =>  0,
+				'Total Refunded'             =>  0,
+				'Last Bill'                  => 0
 			);
 
 			$attendance = getAttendance()[$_GET['user_id']]['stats'];
