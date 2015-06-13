@@ -74,13 +74,19 @@ while ( $query->have_posts() ) {
 
 
 	if( null !== $source ) {
+		echo "1";
 		update_user_meta( $id, 'payMethod', 'dd' );
+		echo "2";
 		update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
+		echo "3";
 	}
 
 	} else {
 
+		echo "4";
 		update_user_meta( $id, 'singlePaymentID', get_post_meta( get_the_id(), 'id', true ) );
+		echo "5";
 		update_user_meta( $id, 'payMethod', 'single' );
+		echo "6";
 	}
 }
