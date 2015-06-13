@@ -49,7 +49,10 @@ foreach($bills as $index => $billRow) {
 		update_post_meta($id, 'amount', $bill->amount);
 		update_post_meta($id, 'amount_minus_fees', $bill->amount_minus_fees);
 		update_post_meta($id, 'source_type', $bill->source_type);
+		return;
 
+		new dBug($bill);
+		new dBug($user);
 	}
 
 }
