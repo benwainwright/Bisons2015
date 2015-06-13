@@ -172,7 +172,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 		foreach ($this->rawData as $key => $row) {
 
-			if ( $row['dd_status'] == 8 || $row['dd_status'] == 7 ||  $row['dd_status'] == 4 ) {
+			if ( $row['dd_status'] == 'Paid in Full' || $row['dd_status'] == 'active' ) {
 				$this->paidRows[] = $row;
 			}
 
@@ -180,11 +180,11 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				$this->notJoinedRows[] = $row;
 			}
 
-			if ( $row['dd_status'] == 3 || $row['dd_status'] == 5 ||  $row['dd_status'] == 9 ) {
+			if ( $row['dd_status'] == 'cancelled' ) {
 				$this->cancelledRows[] = $row;
 			}
 
-			if ( $row['dd_status'] == 0 ) {
+			if ( $row['dd_status'] == 'None' || $row['dd_status'] == 'cancelled' || $row['dd_status'] == 'expired' || $row['dd_status'] == 'inactive') {
 				$this->noPayment[] = $row;
 			}
 
@@ -312,10 +312,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	}
 
 	function column_dd_status( $item ) {
-		global $payment_statuses;
-		$status = $payment_statuses[$item['dd_status']][0];
-		$statusStub = $payment_statuses[$item['dd_status']][1];
-		return "<span class='dd_$statusStub'>$status</span>";
+		$status = $item['dd_status'];
+		return "<span class='dd_$status'>$status</span>";
 	}
 
 	function column_joined ( $item )
