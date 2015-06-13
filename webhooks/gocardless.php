@@ -13,9 +13,6 @@ if (GoCardless::validate_webhook( $webhookArray['payload'] )) {
 	// loop through each resource
 	foreach ( $data[$data['resource_type'] . 's'] as $resource )
 	{
-		// Determine user
-		$bill = GoCardless_Bill::find($resource['id']);
-		$user = get_users(array('meta_key' => 'GCLUserID', $bill->user_id))[0];
 
 		// Include appropriate resource handler
 		include_once(  __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
