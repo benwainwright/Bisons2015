@@ -14,12 +14,22 @@ while ($query->have_posts()) {
 		update_user_meta($id, 'payMethod', 'dd' );
 
 		if ('subscription' === get_post_meta( get_the_id(), 'source_type', true) ) {
-			$source = GoCardless_Subscription::find( $bill->source_id);
+
+			try {
+				$source = GoCardless_Subscription::find( $bill->source_id );
+			} catch( GoCardless_ApiException $e ) {
+				new dBug($e);
+			}
 		}
 
 		else {
 			if ('pre_authorization' === get_post_meta( get_the_id(), 'source_type', true) ) {
+				try{
 				$source = GoCardless_PreAuthorization::find( $bill->source_id);
+				} catch( GoCardless_ApiException $e ) {
+					new dBug($e);
+				}
+
 			}
 		}
 
