@@ -6,12 +6,14 @@ while ( $query->have_posts() ) {
 
 	$query->the_post();
 
-	delete_post_meta(get_the_id(), 'GCLsubscriptionStatus');
-	delete_post_meta(get_the_id(), 'payMethod');
-	delete_post_meta(get_the_id(), 'singlePaymentID');
-
-
 	$id = get_the_author_meta( 'ID' );
+
+
+	delete_user_meta($id, 'GCLsubscriptionStatus');
+	delete_user_meta($id, 'payMethod');
+	delete_user_meta($id, 'singlePaymentID');
+
+
 
 
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
