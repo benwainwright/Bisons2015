@@ -24,9 +24,11 @@ foreach($bills as $index => $billRow) {
 
 	}
 
-	new dBug($user->user_nicename);
-
+	new dBug($user);
+	/*
 	if ($user) {
+
+		$date = date( 'Y-m-d H:i:s', isset ( $bill->paid_at ) ? $bill->paid_at : time() );
 
 		// Create webhook log
 		$hook_log = array(
@@ -51,6 +53,7 @@ foreach($bills as $index => $billRow) {
 
 	}
 	echo "$index.";
+	*/
 }
 
 
