@@ -34,7 +34,7 @@ while ($query->have_posts()) {
 		else {
 			if ('pre_authorization' === get_post_meta( get_the_id(), 'source_type', true) ) {
 				try{
-				$source = GoCardless_PreAuthorization::find( get_post_meta( get_the_id(), 'source_id', true));
+					$source = GoCardless_PreAuthorization::find( get_post_meta( get_the_id(), 'source_id', true));
 				} catch( GoCardless_ApiException $e ) {
 
 
@@ -51,6 +51,8 @@ while ($query->have_posts()) {
 
 			}
 		}
+
+		new dBug($source);
 
 		update_user_meta($id, 'GCLsubscriptionStatus', $source->status);
 	}
