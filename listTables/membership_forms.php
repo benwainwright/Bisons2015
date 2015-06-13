@@ -20,7 +20,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	private static $singular;
 
-	function __construct( $args = array()) {
+	function __construct( $args = array() ) {
 
 		// Get attendance data
 		$attendance = getAttendance();
@@ -34,54 +34,52 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		foreach ( $users as $user ) {
 
 
-
 			// Work out attendance statistics
-			$totalPossible = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'] + $attendance[$user->ID]['stats']['absent'];
-			$present = $attendance[$user->ID]['stats']['training'] + $attendance[$user->ID]['stats']['coaching'] + $attendance[$user->ID]['stats']['watching'];
+			$totalPossible = $attendance[ $user->ID ]['stats']['training'] + $attendance[ $user->ID ]['stats']['coaching'] + $attendance[ $user->ID ]['stats']['watching'] + $attendance[ $user->ID ]['stats']['absent'];
+			$present       = $attendance[ $user->ID ]['stats']['training'] + $attendance[ $user->ID ]['stats']['coaching'] + $attendance[ $user->ID ]['stats']['watching'];
 
 
-			if ( get_user_meta($user->ID, 'payMethod', true) == 'single' ) {
+			if ( get_user_meta( $user->ID, 'payMethod', true ) == 'single' ) {
 
 				// Work out if there is single payment for the current season
-				$userSinglePaymentID = get_user_meta($user->ID, 'singlePaymentID', true);
-				$query = new WP_Query( array ( 'post_type' => 'GCLBillLog', 'meta_query' => 'id', 'meta_value' => $userSinglePaymentID, 'tax_query' => wp_excludePostsWithTermTaxQuery('seasons') ) );
-				$dd_status = $query->have_post() ? 'Paid in Full' : 'None';
-
-			}
-
-			else {
-
-
-				$dd_status = get_user_meta($user->ID, 'GCLsubscriptionStatus', true);
-
-			}
-
-			if ( get_user_meta($user->ID, 'joined', true) )
-
-			$row = array(
-				'joined'    => get_user_meta($user->ID, 'joined', true),
-				'user_id'   => $user->data->ID,
-				'DD_sub_id' => get_user_meta($user->ID, 'gcl_sub_id', true ),
-				'lastModified' => get_user_meta($user->ID, 'lastModified', true),
-				'presentPercent'  => $totalPossible ? round(( 100 / $totalPossible ) * $present) : 0,
-				'dd_status' => $dd_status,
-				'fullname' => $user->first_name . ' ' . $user->last_name,
-				'type'      => get_user_meta($user->ID, 'joiningas', true ) ? get_user_meta($user->ID, 'joiningas', true ) : 'N/A',
-				'email'    => $user->data->user_email,
-			);
-
-
-
-
-			if ( get_user_meta($user->ID, 'joined', true) ) {
-
-				$row['age'] = getage( get_user_meta($user->ID, 'dob-day',
-						true ) . '/' . get_user_meta($user->ID, 'dob-month',
-						true ) . '/' . get_user_meta($user->ID, 'dob-year', true ) );
+				$userSinglePaymentID = get_user_meta( $user->ID, 'singlePaymentID', true );
+				$query               = new WP_Query( array( 'post_type'  => 'GCLBillLog',
+				                                            'meta_query' => 'id',
+				                                            'meta_value' => $userSinglePaymentID,
+				                                            'tax_query'  => wp_excludePostsWithTermTaxQuery( 'seasons' )
+				) );
+				$dd_status           = $query->have_post() ? 'Paid in Full' : 'None';
 
 			} else {
-				$row['age'] = 'Unknown';
-				$row['lastModified'] = strtotime($user->user_registered);
+
+
+				$dd_status = get_user_meta( $user->ID, 'GCLsubscriptionStatus', true );
+
+			}
+
+			if ( get_user_meta( $user->ID, 'joined', true ) ) {
+
+				$row = array(
+					'joined'         => get_user_meta( $user->ID, 'joined', true ),
+					'user_id'        => $user->data->ID,
+					'DD_sub_id'      => get_user_meta( $user->ID, 'gcl_sub_id', true ),
+					'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
+					'presentPercent' => $totalPossible ? round( ( 100 / $totalPossible ) * $present ) : 0,
+					'dd_status'      => $dd_status,
+					'fullname'       => $user->first_name . ' ' . $user->last_name,
+					'type'           => get_user_meta( $user->ID, 'joiningas', true ) ? get_user_meta( $user->ID,
+						'joiningas', true ) : 'N/A',
+					'email'          => $user->data->user_email,
+				);
+
+
+				$row['age'] = getage( get_user_meta( $user->ID, 'dob-day',
+						true ) . '/' . get_user_meta( $user->ID, 'dob-month',
+						true ) . '/' . get_user_meta( $user->ID, 'dob-year', true ) );
+
+			} else {
+				$row['age']          = 'Unknown';
+				$row['lastModified'] = strtotime( $user->user_registered );
 			}
 
 			$data[] = $row;
@@ -90,21 +88,21 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		$this->rawData = $data;
 
 
-		parent::__construct($args);
+		parent::__construct( $args );
 
 
 	}
 
 	function get_columns() {
 		$columns = array(
-			'cb'                => '<input type="checkbox" />',
-			'fullname'          => 'Name',
-			'presentPercent'    => 'Attendance',
-			'type'              => 'Type',
-			'lastModified'      => 'Last Modified',
-			'dd_status'         => 'Payment',
-			'age'               => 'Age',
-			'email'             => 'Email'
+			'cb'             => '<input type="checkbox" />',
+			'fullname'       => 'Name',
+			'presentPercent' => 'Attendance',
+			'type'           => 'Type',
+			'lastModified'   => 'Last Modified',
+			'dd_status'      => 'Payment',
+			'age'            => 'Age',
+			'email'          => 'Email'
 		);
 
 		return $columns;
@@ -120,20 +118,18 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 		$result = null;
 
-		if ( is_int($a[$orderBy])) {
+		if ( is_int( $a[ $orderBy ] ) ) {
 
-			$result = ($a[$orderBy] === $b[$orderBy]) ? 0 : null;
+			$result = ( $a[ $orderBy ] === $b[ $orderBy ] ) ? 0 : null;
 
-			$result = ($a[$orderBy] < $b[$orderBy]) ? -1 : 1;
+			$result = ( $a[ $orderBy ] < $b[ $orderBy ] ) ? - 1 : 1;
 
 			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'desc';
 
-		}
-
-		else {
+		} else {
 			// Determine sort order
 			$result = strcasecmp( $a[ $orderBy ], $b[ $orderBy ] );
-			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+			$order  = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
 		}
 
@@ -144,14 +140,14 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	function get_sortable_columns() {
 		$columns = array(
-			'fullname' => array( 'fullname', false ),
-			'joined'     => array( 'joined', false ),
-			'dd_status'     => array( 'dd_status', false ),
+			'fullname'       => array( 'fullname', false ),
+			'joined'         => array( 'joined', false ),
+			'dd_status'      => array( 'dd_status', false ),
 			'presentPercent' => array( 'presentPercent', false ),
-			'lastModified'     => array( 'lastModified', false ),
-			'type'     => array( 'type', false ),
-			'age'      => array( 'age', false ),
-			'email'    => array( 'email', false ),
+			'lastModified'   => array( 'lastModified', false ),
+			'type'           => array( 'type', false ),
+			'age'            => array( 'age', false ),
+			'email'          => array( 'email', false ),
 		);
 
 		return $columns;
@@ -164,19 +160,19 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		usort( $this->rawData, array( &$this, 'usort_reorder' ) );
 
 		// Compiled filtered rows
-		$this->paidRows = array();
-		$this->cancelledRows = array();
-		$this->notJoinedRows = array();
+		$this->paidRows       = array();
+		$this->cancelledRows  = array();
+		$this->notJoinedRows  = array();
 		$this->supportersRows = array();
-		$this->noPayment = array();
+		$this->noPayment      = array();
 
-		foreach ($this->rawData as $key => $row) {
+		foreach ( $this->rawData as $key => $row ) {
 
 			if ( $row['dd_status'] == 'Paid in Full' || $row['dd_status'] == 'active' ) {
 				$this->paidRows[] = $row;
 			}
 
-			if ( $row['joined'] == false) {
+			if ( $row['joined'] == false ) {
 				$this->notJoinedRows[] = $row;
 			}
 
@@ -184,7 +180,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				$this->cancelledRows[] = $row;
 			}
 
-			if ( $row['dd_status'] == 'None' || $row['dd_status'] == 'cancelled' || $row['dd_status'] == 'expired' || $row['dd_status'] == 'inactive') {
+			if ( $row['dd_status'] == 'None' || $row['dd_status'] == 'cancelled' || $row['dd_status'] == 'expired' || $row['dd_status'] == 'inactive' ) {
 				$this->noPayment[] = $row;
 			}
 
@@ -218,7 +214,6 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			default:
 				$this->data = $this->rawData;
 		}
-
 
 
 		$total_items      = count( $this->data );
@@ -263,68 +258,68 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 
 	function get_views() {
-		$views = array();
-		$current = ( !empty($_REQUEST['filter']) ? $_REQUEST['filter'] : 'all');
+		$views   = array();
+		$current = ( ! empty( $_REQUEST['filter'] ) ? $_REQUEST['filter'] : 'all' );
 
 		//All link
-		$class = ($current == 'all' ? ' class="current"' :'');
-		$url = remove_query_arg('filter');
-		$count = count ( $this->rawData );
+		$class        = ( $current == 'all' ? ' class="current"' : '' );
+		$url          = remove_query_arg( 'filter' );
+		$count        = count( $this->rawData );
 		$views['all'] = "<a href='{$url }' {$class} >All <span class='count'>($count)</span></a>";
 
 		// Paid
-		$class = ($current == 'paid' ? ' class="current"' :'');
-		$url = add_query_arg('filter', 'paid');
-		$count = count ( $this->paidRows );
+		$class         = ( $current == 'paid' ? ' class="current"' : '' );
+		$url           = add_query_arg( 'filter', 'paid' );
+		$count         = count( $this->paidRows );
 		$views['paid'] = "<a href='{$url }' {$class} >Paid <span class='count'>($count)</span></a>";
 
 		// Not joined link
-		$class = ($current == 'notjoined' ? ' class="current"' :'');
-		$url = add_query_arg('filter', 'notjoined');
-		$count = count ( $this->notJoinedRows );
+		$class               = ( $current == 'notjoined' ? ' class="current"' : '' );
+		$url                 = add_query_arg( 'filter', 'notjoined' );
+		$count               = count( $this->notJoinedRows );
 		$views['not_joined'] = "<a href='{$url }' {$class} >Not Joined <span class='count'>($count)</span></a>";
 
 		// No Payment
-		$class = ($current == 'nopayment' ? ' class="current"' :'');
-		$url = add_query_arg('filter', 'nopayment');
-		$count = count ( $this->noPayment );
+		$class               = ( $current == 'nopayment' ? ' class="current"' : '' );
+		$url                 = add_query_arg( 'filter', 'nopayment' );
+		$count               = count( $this->noPayment );
 		$views['no_payment'] = "<a href='{$url }' {$class} >No Payment <span class='count'>($count)</span></a>";
 
 		// Cancelled DD link
-		$class = ($current == 'cancelleddd' ? ' class="current"' :'');
-		$url = add_query_arg('filter', 'cancelleddd');
-		$count = count ( $this->cancelledRows );
+		$class                = ( $current == 'cancelleddd' ? ' class="current"' : '' );
+		$url                  = add_query_arg( 'filter', 'cancelleddd' );
+		$count                = count( $this->cancelledRows );
 		$views['cancelleddd'] = "<a href='{$url }' {$class} >Cancelled DD <span class='count'>($count)</span></a>";
 
 		// Supporters
-		$class = ($current == 'supporters' ? ' class="current"' :'');
-		$url = add_query_arg('filter', 'supporters');
-		$count = count ( $this->supportersRows );
+		$class               = ( $current == 'supporters' ? ' class="current"' : '' );
+		$url                 = add_query_arg( 'filter', 'supporters' );
+		$count               = count( $this->supportersRows );
 		$views['supporters'] = "<a href='{$url }' {$class} >Supporters <span class='count'>($count)</span></a>";
 
 		return $views;
 
 	}
 
-	function column_lastModified ( $item ) {
-		return date('M j, Y', $item [ 'lastModified' ]);
+	function column_lastModified( $item ) {
+		return date( 'M j, Y', $item ['lastModified'] );
 
 	}
 
 	function column_dd_status( $item ) {
 		$status = $item['dd_status'];
+
 		return "<span class='dd_$status'>$status</span>";
 	}
 
-	function column_joined ( $item )
-	{
-		$return = $item [ 'joined' ] ? 'Yes' : 'No';
+	function column_joined( $item ) {
+		$return = $item ['joined'] ? 'Yes' : 'No';
 
 		return "<span class='memForm_$return'>$return</span>";
 	}
 
-	function column_fullname ( $item ) {
-		return "<a href=' " . admin_url("admin.php?page=players&user_id={$item[ 'user_id' ]}'") . ">" .$item ['fullname'] . "</a>";
+	function column_fullname( $item ) {
+		return "<a href=' " . admin_url( "admin.php?page=players&user_id={$item[ 'user_id' ]}'" ) . ">" . $item ['fullname'] . "</a>";
 	}
 
 	function column_cb( $item ) {
