@@ -54,7 +54,6 @@ class GCLBillsTable extends WP_List_Table_Copy
 			'resourceID'              => 'ID',
 			'date'                    => 'Date',
 			'user'                    => 'User',
-			'source_id'               => 'Source ID',
 			'status'                  => 'Status',
 			'amount'                  => 'Amount',
 			'amount_minus_fees'       => 'Amount minus fees',
@@ -144,7 +143,6 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 			case 'date':
 
-			case 'source_id':
 				return $item [ $column_name ];
 			break;
 
