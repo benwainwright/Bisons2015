@@ -54,7 +54,6 @@ class GCLBillsTable extends WP_List_Table_Copy
 			'resourceID'              => 'ID',
 			'date'                    => 'Date',
 			'user'                    => 'User',
-			'source_id'               => 'Source ID',
 			'status'                  => 'Status',
 			'amount'                  => 'Amount',
 			'amount_minus_fees'       => 'Amount minus fees',
@@ -126,7 +125,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 		{
 			case 'amount': case 'amount_minus_fees':
 				setlocale(LC_MONETARY, 'en_GB.UTF-8');
-				return money_format( '%n', $item [ $column_name ]);
+				return money_format( '%n', (int) $item [ $column_name ]);
 			break;
 
 			case 'user':
@@ -144,7 +143,6 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 			case 'date':
 
-			case 'source_id':
 				return $item [ $column_name ];
 			break;
 

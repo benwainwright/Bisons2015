@@ -49,7 +49,8 @@ $committee_perms = array(
             'modify_options' => false,
             'use_wiki' => true,
             'see_dashboard' => true,
-            'attribute_post' => false
+            'attribute_post' => false,
+			'modify_gcl_user_id' => false,
 );
 
 $committee_admin_perms = array(
@@ -102,7 +103,8 @@ $committee_admin_perms = array(
             'modify_options' => false,
             'use_wiki' => true,
             'see_dashboard' => true,
-            'attribute_post' => false
+            'attribute_post' => false,
+            'modify_gcl_user_id' => false,
 
 );
 
@@ -156,7 +158,8 @@ $player_perms = array(
             'modify_options' => false,
             'use_wiki' => false,
             'see_dashboard' => false,
-            'attribute_post' => false
+            'attribute_post' => false,
+            'modify_gcl_user_id' => false,
             
 
 );
@@ -211,7 +214,7 @@ $guest_player_perms = array(
             'modify_options' => false,
             'use_wiki' => false,
             'see_dashboard' => false,
-            'attribute_post' => false
-            
+            'attribute_post' => false,
+            'modify_gcl_user_id' => false,
 
 );
