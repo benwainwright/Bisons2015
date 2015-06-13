@@ -14,7 +14,7 @@ while ( $query->have_posts() ) {
 
 }
 
-$query = new WP_Query( array( 'post_type' => 'GCLBillLog', 'posts_per_page' => - 1 ) );
+$query = new WP_Query( array( 'post_type' => 'GCLBillLog', 'posts_per_page' => - 1, 'orderby' => 'date', 'order' => 'DESC' ) );
 
 while ( $query->have_posts() ) {
 
