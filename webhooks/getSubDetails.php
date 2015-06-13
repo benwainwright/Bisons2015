@@ -27,7 +27,17 @@ while ($query->have_posts()) {
 				try{
 				$source = GoCardless_PreAuthorization::find( $bill->source_id);
 				} catch( GoCardless_ApiException $e ) {
-					new dBug($e);
+
+
+					$error = array(
+						'code' => $e->getCode,
+						'error' => $e->getMessage(),
+						'file'  => $e->getFile(),
+						'line'  => $e->getLine(),
+						'trace'  => $e->getTrace()
+					);
+
+					new dBug($error);
 				}
 
 			}
