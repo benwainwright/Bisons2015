@@ -72,6 +72,13 @@ while ( $query->have_posts() ) {
 
 		}
 
+		if ($id == 2) {
+			new dBug(get_post_meta( get_the_id(), 'id', true ) );
+			new dBug(get_post_meta( get_the_id(), 'source_id', true ) );
+			new dBug(get_post_meta( get_the_id(), 'status', true ) );
+			new dBug($source);
+		}
+
 		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) && ! get_user_meta( $id, 'singlePaymentID', true ) ) {
 
 			if ( null !== $source || get_post_meta( get_the_id(), 'amount', true ) < 15 ) {
