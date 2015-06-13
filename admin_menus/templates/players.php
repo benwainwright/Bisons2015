@@ -105,7 +105,7 @@
 				new dBug($queryArray);
 				new dBug($query);
 
-				$dd_status = ( $query->have_post() ) ? 'Paid in Full' : 'None';
+				$dd_status = $query->post_count ? 'Paid in Full' : 'None';
 
 			} else {
 
