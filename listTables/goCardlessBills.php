@@ -63,17 +63,33 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 	function usort_reorder( $a, $b )
 	{
-		// If no sort, default to date
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'datae';
+		// If no sort, default to name
+		$orderBy = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
 
 		// If no order, default to asc
-		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
-		// Determine sort order
-		$result = strcmp( $a[$orderby], $b[$orderby] );
+		$result = null;
+
+		if ( is_int($a[$orderBy])) {
+
+			$result = ($a[$orderBy] === $b[$orderBy]) ? 0 : null;
+
+			$result = ($a[$orderBy] < $b[$orderBy]) ? -1 : 1;
+
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'desc';
+
+		}
+
+		else {
+			// Determine sort order
+			$result = strcasecmp( $a[ $orderBy ], $b[ $orderBy ] );
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+
+		}
 
 		// Send final sort direction to usort
-		return ( $order === 'asc' ) ? $result : -$result;
+		return ( $order === 'asc' ) ? $result : - $result;
 	}
 
 	function get_sortable_columns()
