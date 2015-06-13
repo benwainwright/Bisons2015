@@ -72,7 +72,7 @@ while ( $query->have_posts() ) {
 		}
 
 
-		if ( null !== $source ) {
+		if ( null !== $source || get_post_meta( get_the_id(), 'amount', true ) < 15 ) {
 			update_user_meta( $id, 'payMethod', 'dd' );
 			update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
 		} else {
