@@ -8,7 +8,7 @@ $query = new WP_Query( array( 'post_type' => 'GCLBillLog', 'posts_per_page' => 1
 if ($query->have_posts()) {
 	$query->the_post();
 
-	if ( isset ( $bill['paid_at'] ) ) {
+	if ( isset ( $bill->paid_at ) ) {
 		update_post_meta( get_the_id(), 'paid_at', strtotime( $resource['paid_at'] . ' UTC'));
 	}
 
