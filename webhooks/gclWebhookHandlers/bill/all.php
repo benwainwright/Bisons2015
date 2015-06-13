@@ -33,7 +33,7 @@ else {
 	// Log webhook
 	$id = wp_insert_post( $hook_log );
 
-	update_post_meta( $id, 'id', $resource['source_id'] );
+	update_post_meta( $id, 'id', $resource['id'] );
 	update_post_meta( $id, 'source_id', $resource['source_id'] );
 	update_post_meta( $id, 'action', $data['action'] );
 	update_post_meta( $id, 'status', $resource['status'] );
