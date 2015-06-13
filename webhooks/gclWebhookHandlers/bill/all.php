@@ -7,7 +7,7 @@ $query = new WP_Query(
 	array( 'post_type'      => 'GCLBillLog',
 	       'posts_per_page' => 1,
 	       'meta_key'       => 'id',
-		   'meta_value'     => $bill->ID) );
+		   'meta_value'     => $bill->id) );
 
 if ($query->have_posts()) {
 	$query->the_post();
@@ -18,6 +18,8 @@ if ($query->have_posts()) {
 
 	update_post_meta( get_the_id(), 'action', $data['action'] );
 	update_post_meta( get_the_id(), 'status', $resource['status'] );
+	$action = 'log_updated';
+	$id = get_the_id();
 }
 
 else {
@@ -43,7 +45,13 @@ else {
 	update_post_meta( $id, 'amount', $resource['amount'] );
 	update_post_meta( $id, 'amount_minus_fees', $resource['amount_minus_fees'] );
 	update_post_meta( $id, 'source_type', $resource['source_type'] );
+	$action = 'log_created';
+}
 
-	$return = array( 'log_post_id' => $id );
 
+if ($id > 0) {
+
+	$return = array(
+		'action' => $action
+	);
 }
