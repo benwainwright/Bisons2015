@@ -16,6 +16,8 @@ while ( $query->have_posts() ) {
 
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
 
+		echo "test-1<br />";
+
 		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) ){
 
 			echo "test<br />";
