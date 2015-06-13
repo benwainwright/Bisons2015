@@ -9,14 +9,14 @@ while ($query->have_posts()) {
 	$id = get_the_author_meta('ID');
 
 
-	if ( get_post_meta( get_the_id(), 'source_id', true) ) {
+	if ( get_post_meta( get_the_id(), 'source_id', true) && !get_user_meta( $id, 'GCLsubscriptionStatus', true) ) {
 
 		update_user_meta($id, 'payMethod', 'dd' );
 
 		if ('subscription' === get_post_meta( get_the_id(), 'source_type', true) ) {
 
 			try {
-				$source = GoCardless_Subscription::find( $bill->source_id );
+				$source = GoCardless_Subscription::find( get_post_meta( get_the_id(), 'source_id', true) );
 			} catch( GoCardless_ApiException $e ) {
 
 
@@ -34,7 +34,7 @@ while ($query->have_posts()) {
 		else {
 			if ('pre_authorization' === get_post_meta( get_the_id(), 'source_type', true) ) {
 				try{
-				$source = GoCardless_PreAuthorization::find( $bill->source_id);
+				$source = GoCardless_PreAuthorization::find( get_post_meta( get_the_id(), 'source_id', true));
 				} catch( GoCardless_ApiException $e ) {
 
 
