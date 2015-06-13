@@ -22,14 +22,15 @@ while ( $query->have_posts() ) {
 
 	$id = get_the_author_meta( 'ID' );
 
-
+	$source = null;
+	
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
 
 
 		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) ) {
 
 
-			$source = null;
+
 
 			if ( 'subscription' === get_post_meta( get_the_id(), 'source_type', true ) ) {
 
