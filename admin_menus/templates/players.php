@@ -90,7 +90,7 @@
 			$paymentInfo = array(
 				'Subscription Status'        =>  $payment_statuses[get_user_meta( $_GET['user_id'], 'payment_status', true)][0],
 				'Membership Type'         => get_user_meta( $_GET['user_id'], 'joiningas', true),
-				'Number of Payments'    =>  0,
+				'Successful Payments'    =>  0,
 				'Total Paid'            =>  0,
 				'Total Refunded'        =>  0,
 				'Last Payment'           => 0
@@ -158,11 +158,11 @@
 							case "withdrawn":
 							case "paid":
 
-								$paymentInfo['Number of Payments']++;
+								$paymentInfo['Successful Payments']++;
 								$paymentInfo['Total Paid'] += get_post_meta(get_the_id(), 'amount', true);
 
 								if (get_the_date(('U')) > $paymentInfo['Last Payment']) {
-									$paymentInfo['Last Payment'] = get_the_date('U');
+									$paymentInfo['Last Bill'] = get_the_date('U');
 								}
 
 								break;
