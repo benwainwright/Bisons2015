@@ -87,10 +87,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 			$data[] = $row;
 		}
-
-		new dBug( $data );
-		exit;
-
+		
 		$this->rawData = $data;
 
 
