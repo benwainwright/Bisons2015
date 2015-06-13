@@ -18,14 +18,13 @@ foreach($bills as $index => $billRow) {
 
 	$bill = GoCardless_Bill::find($billRow['Bill ID']);
 
-	if ( count ( $user = get_users(array('meta_key' => 'gcl_sub_id', $bill->source_id))) == 0) {
+	if ( count ( $user = get_users(array('meta_key' => 'gcl_sub_id', 'meta_value' => $bill->source_id))) == 0) {
 
-		$user = get_users(array('meta_key' => 'gcl_sub_id', $bill->id));
+		$user = get_users(array('meta_key' => 'gcl_sub_id', 'meta_value' => $bill->id));
 
 	}
 
-	new dBug($user);
-	/*
+
 	if ($user) {
 
 		$date = date( 'Y-m-d H:i:s', isset ( $bill->paid_at ) ? $bill->paid_at : time() );
@@ -52,8 +51,7 @@ foreach($bills as $index => $billRow) {
 		update_post_meta($id, 'source_type', $bill->source_type);
 
 	}
-	echo "$index.";
-	*/
+
 }
 
 
