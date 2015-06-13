@@ -29,8 +29,7 @@ while ( $query->have_posts() ) {
 
 		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) || ( get_user_meta( $id, 'GCLsubscriptionStatus', true ) && ( get_the_date('U') > get_user_meta( $id, 'GCLStatusChangeDate', true ) ) ) ) {
 
-
-
+			echo "Getting Source: ";
 
 			if ( 'subscription' === get_post_meta( get_the_id(), 'source_type', true ) ) {
 
@@ -77,6 +76,7 @@ while ( $query->have_posts() ) {
 			new dBug(get_post_meta( get_the_id(), 'source_id', true ) );
 			new dBug(get_post_meta( get_the_id(), 'status', true ) );
 			new dBug($source);
+			echo "<br />";
 		}
 
 		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) && ! get_user_meta( $id, 'singlePaymentID', true ) ) {
