@@ -27,7 +27,7 @@ while ( $query->have_posts() ) {
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
 
 
-		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) ) {
+		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) || ( get_user_meta( $id, 'GCLsubscriptionStatus', true ) && ( get_the_date('U') > get_user_meta( $id, 'GCLStatusChangeDate', true ) ) ) ) {
 
 
 
@@ -77,10 +77,12 @@ while ( $query->have_posts() ) {
 			if ( null !== $source || get_post_meta( get_the_id(), 'amount', true ) < 15 ) {
 				update_user_meta( $id, 'payMethod', 'dd' );
 				update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
+				update_user_meta( $id, 'GCLStatusChangeDate', get_the_date('U') );
 			} else {
 
 				update_user_meta( $id, 'singlePaymentID', get_post_meta( get_the_id(), 'id', true ) );
 				update_user_meta( $id, 'payMethod', 'single' );
+				update_user_meta( $id, 'GCLStatusChangeDate', get_the_date('U') );
 			}
 		}
 	}
