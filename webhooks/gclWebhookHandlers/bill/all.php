@@ -4,6 +4,23 @@
 $bill = GoCardless_Bill::find($resource['id']);
 $user = get_users(array('meta_key' => 'GCLUserID', $bill->user_id))[0];
 
+
+// If there is a source ID, lookup the status of the subscription/preauth
+if ( isset ($resource['source_type'])  ) {
+
+	if ('subscription' === $resource['source_type'] ) {
+		$source = GoCardless_Subscription::find( $resource['source_id']);
+	}
+
+	else {
+		if ('pre_authorization' === $resource['source_type']) {
+			$source = GoCardless_PreAuthorization::find( $resource['source_id']);
+		}
+	}
+
+	update_user_meta($user->ID, 'GCLsubscriptionStatus', $source->status);
+}
+
 // Check if bill already exists
 $query = new WP_Query(
 	array( 'post_type'      => 'GCLBillLog',
