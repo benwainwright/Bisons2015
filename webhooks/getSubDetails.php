@@ -23,7 +23,7 @@ while ( $query->have_posts() ) {
 	$id = get_the_author_meta( 'ID' );
 
 	$source = null;
-	
+
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
 
 
@@ -72,14 +72,16 @@ while ( $query->have_posts() ) {
 
 		}
 
+		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) && ! get_user_meta( $id, 'singlePaymentID', true ) ) {
 
-		if ( null !== $source || get_post_meta( get_the_id(), 'amount', true ) < 15 ) {
-			update_user_meta( $id, 'payMethod', 'dd' );
-			update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
-		} else {
+			if ( null !== $source || get_post_meta( get_the_id(), 'amount', true ) < 15 ) {
+				update_user_meta( $id, 'payMethod', 'dd' );
+				update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
+			} else {
 
-			update_user_meta( $id, 'singlePaymentID', get_post_meta( get_the_id(), 'id', true ) );
-			update_user_meta( $id, 'payMethod', 'single' );
+				update_user_meta( $id, 'singlePaymentID', get_post_meta( get_the_id(), 'id', true ) );
+				update_user_meta( $id, 'payMethod', 'single' );
+			}
 		}
 	}
 }
