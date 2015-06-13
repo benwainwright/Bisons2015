@@ -87,10 +87,7 @@ foreach($currentCommittee as $oldCommitteeMember) {
 		                               'tax_query' => wp_excludePostsWithTermTaxQuery('seasons') ) );
 
 
-		while ($query->have_posts()) {
-			$query->the_post();
-			new dBug(wp_set_object_terms(get_the_id(), (int) $termId, 'seasons'));
-		}
+
 
 	}
 
