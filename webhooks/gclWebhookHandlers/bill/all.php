@@ -3,7 +3,11 @@
 
 
 // Check if bill already exists
-$query = new WP_Query( array( 'post_type' => 'GCLBillLog', 'posts_per_page' => 1 ) );
+$query = new WP_Query(
+	array( 'post_type'      => 'GCLBillLog',
+	       'posts_per_page' => 1,
+	       'meta_key'       => 'id',
+		   'meta_value'     => $bill->ID) );
 
 if ($query->have_posts()) {
 	$query->the_post();
@@ -14,7 +18,6 @@ if ($query->have_posts()) {
 
 	update_post_meta( get_the_id(), 'action', $data['action'] );
 	update_post_meta( get_the_id(), 'status', $resource['status'] );
-
 }
 
 else {
