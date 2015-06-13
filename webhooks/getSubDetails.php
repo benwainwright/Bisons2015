@@ -8,12 +8,19 @@ while ( $query->have_posts() ) {
 
 	$id = get_the_author_meta( 'ID' );
 
-
-
 	delete_user_meta($id, 'GCLsubscriptionStatus');
 	delete_user_meta($id, 'payMethod');
 	delete_user_meta($id, 'singlePaymentID');
 
+}
+
+$query = new WP_Query( array( 'post_type' => 'GCLBillLog', 'posts_per_page' => - 1 ) );
+
+while ( $query->have_posts() ) {
+
+	$query->the_post();
+
+	$id = get_the_author_meta( 'ID' );
 
 
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
@@ -62,7 +69,6 @@ while ( $query->have_posts() ) {
 				}
 			}
 		}
-
 
 	}
 
