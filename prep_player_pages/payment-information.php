@@ -18,7 +18,7 @@ if ( get_user_meta($form_user, 'joined', true) )
         
         // Insert form id and date into query for template use
         $form = array( 
-            'form_user'  => $form_user
+            'formUser'  => $form_user
         );
         
         /***************************************************************

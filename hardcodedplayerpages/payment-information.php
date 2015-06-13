@@ -2,7 +2,7 @@
 
 // Get inserted data from query
 $data = $wp_query->query['bisons_data'];
-$form_user = $data['form_details']['form_user'];
+$form_user = $data['form_details']['formUser'];
 
 
 // Enqueue form Javascript
