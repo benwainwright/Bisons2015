@@ -73,7 +73,7 @@ function send_mandrill_template($user, $template, $data, $tags = false, $subject
     }
 
     // Prepare message settings
-    $message = array('from_email' => $replyemail ? $replyemail : $emailopt['new-user-email-replyto-address'], 'from_name' => $emailopt['new-user-email-replyto-name'], 'to' => $to, 'headers' => array('Reply-To' => $emailopt['new-user-email-replyto-name']), 'important' => false, 'track_opens' => true, 'track_clicks' => true, 'inline_css' => true, 'url_strip_qs' => false, 'preserve_recipients' => false, 'view_content_link' => true, 'tracking_domain' => 'bisonsrfc.co.uk', 'global_merge_vars' => $merge_vars, 'tags' => $tags);
+    $message = array('from_email' => $replyemail ? $replyemail : $emailopt['new-user-email-replyto-address'], 'from_name' => $emailopt['new-user-email-replyto-name'], 'to' => $to, 'headers' => array('Reply-To' => $emailopt['new-user-email-replyto-name']), 'important' => false, 'track_opens' => true, 'track_clicks' => true, 'inline_css' => true, 'url_strip_qs' => false, 'preserve_recipients' => false, 'view_content_link' => true, 'tracking_domain' => 'bisonsrfc.co.uk', 'global_merge_vars' => $merge_vars);
 
     
     // Convert strings to arrays
