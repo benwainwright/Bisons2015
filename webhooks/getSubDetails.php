@@ -26,34 +26,16 @@ while ( $query->have_posts() ) {
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
 
 
-		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) ){
+		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) ) {
 
 
+			$source = null;
 
-		$source = null;
-
-		if ( 'subscription' === get_post_meta( get_the_id(), 'source_type', true ) ) {
-
-
-			try {
-				$source = GoCardless_Subscription::find( get_post_meta( get_the_id(), 'source_id', true ) );
-			} catch ( GoCardless_ApiException $e ) {
+			if ( 'subscription' === get_post_meta( get_the_id(), 'source_type', true ) ) {
 
 
-				$error = array(
-					'code'  => $e->getCode,
-					'error' => $e->getMessage(),
-					'file'  => $e->getFile(),
-					'line'  => $e->getLine(),
-					'trace' => $e->getTrace()
-				);
-
-				new dBug( $error );
-			}
-		} else {
-			if ( 'pre_authorization' === get_post_meta( get_the_id(), 'source_type', true ) ) {
 				try {
-					$source = GoCardless_PreAuthorization::find( get_post_meta( get_the_id(), 'source_id', true ) );
+					$source = GoCardless_Subscription::find( get_post_meta( get_the_id(), 'source_id', true ) );
 				} catch ( GoCardless_ApiException $e ) {
 
 
@@ -67,26 +49,36 @@ while ( $query->have_posts() ) {
 
 					new dBug( $error );
 				}
+			} else {
+				if ( 'pre_authorization' === get_post_meta( get_the_id(), 'source_type', true ) ) {
+					try {
+						$source = GoCardless_PreAuthorization::find( get_post_meta( get_the_id(), 'source_id', true ) );
+					} catch ( GoCardless_ApiException $e ) {
+
+
+						$error = array(
+							'code'  => $e->getCode,
+							'error' => $e->getMessage(),
+							'file'  => $e->getFile(),
+							'line'  => $e->getLine(),
+							'trace' => $e->getTrace()
+						);
+
+						new dBug( $error );
+					}
+				}
 			}
+
 		}
 
-	}
 
+		if ( null !== $source ) {
+			update_user_meta( $id, 'payMethod', 'dd' );
+			update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
+		} else {
 
-	if( null !== $source ) {
-		echo "1";
-		update_user_meta( $id, 'payMethod', 'dd' );
-		echo "2";
-		update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
-		echo "3";
-	}
-
-	} else {
-
-		echo "4";
-		update_user_meta( $id, 'singlePaymentID', get_post_meta( get_the_id(), 'id', true ) );
-		echo "5";
-		update_user_meta( $id, 'payMethod', 'single' );
-		echo "6";
+			update_user_meta( $id, 'singlePaymentID', get_post_meta( get_the_id(), 'id', true ) );
+			update_user_meta( $id, 'payMethod', 'single' );
+		}
 	}
 }
