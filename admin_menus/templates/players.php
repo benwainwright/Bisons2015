@@ -182,6 +182,10 @@
 					if ( $paymentInfo['Last Payment'] > 0 ) {
 						$age = human_time_diff(time(), date('m/d/Y', $paymentInfo['Last Payment'])) . ' ago';
 						$paymentInfo['Last Payment'] = date('M j, Y', $paymentInfo['Last Payment']) . " ($age)";
+					if ( $paymentInfo['Last Bill'] > 0 ) {
+
+						$age = human_time_diff(time(), $paymentInfo['Last Bill']) . ' ago';
+						$paymentInfo['Last Bill'] = date('g:i a, jS \o\f M Y', $paymentInfo['Last Bill']) . " ($age)";
 					}
 						if ($paymentInfo['Total Refunded'] > 0) {
 							$paymentInfo['Net Total'] = money_format('%n', $paymentInfo['Total Paid'] - $paymentInfo['Total Refunded']);
