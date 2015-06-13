@@ -1,6 +1,8 @@
 <?php
 
-
+// Determine user
+$bill = GoCardless_Bill::find($resource['id']);
+$user = get_users(array('meta_key' => 'GCLUserID', $bill->user_id))[0];
 
 // Check if bill already exists
 $query = new WP_Query(
@@ -24,6 +26,8 @@ if ($query->have_posts()) {
 
 else {
 
+	$date = date( 'Y-m-d H:i:s');
+
 	// Create new webhook log
 	$hook_log = array(
 		'post_status' => 'publish',
@@ -33,7 +37,6 @@ else {
 
 	$hook_log['post_author'] = $user->ID;
 
-	$date = date( 'Y-m-d H:i:s');
 
 	// Log webhook
 	$id = wp_insert_post( $hook_log );
@@ -52,6 +55,7 @@ else {
 if ($id > 0) {
 
 	$return = array(
+		'type'   => 'bill',
 		'action' => $action
 	);
 }
