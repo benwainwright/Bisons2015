@@ -24,9 +24,40 @@ foreach($bills as $index => $billRow) {
 
 	}
 
+
+
 	$user = $user[0];
 
+
+
 	if ($user) {
+
+		if ($billRow['Gross'] > 30) {
+			update_user_meta($user->ID, 'singlePaymentID', $bill->id);
+			update_user_meta($user->ID, 'payMethod', 'single' );
+
+		}
+
+		else {
+			update_user_meta($user->ID, 'payMethod', 'dd' );
+
+			if (! get_user_meta(update_user_meta($user->ID, 'GCLsubscriptionStatus', 'single' ))) {
+
+				if ('subscription' === $bill->source_type ) {
+					$source = GoCardless_Subscription::find( $bill->source_id);
+				}
+
+				else {
+					if ('pre_authorization' === $bill->source_type) {
+						$source = GoCardless_PreAuthorization::find( $bill->source_id);
+					}
+				}
+
+				update_user_meta($user->ID, 'GCLsubscriptionStatus', $source->status);
+				
+			}
+
+		}
 
 		$date = date( 'Y-m-d H:i:s', isset ( $bill->paid_at ) ? strtotime($bill->paid_at) : time() );
 
