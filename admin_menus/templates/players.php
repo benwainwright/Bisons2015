@@ -179,9 +179,6 @@
 
 					}
 
-					if ( $paymentInfo['Last Payment'] > 0 ) {
-						$age = human_time_diff(time(), date('m/d/Y', $paymentInfo['Last Payment'])) . ' ago';
-						$paymentInfo['Last Payment'] = date('M j, Y', $paymentInfo['Last Payment']) . " ($age)";
 					if ( $paymentInfo['Last Bill'] > 0 ) {
 
 						$age = human_time_diff(time(), $paymentInfo['Last Bill']) . ' ago';
