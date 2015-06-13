@@ -93,7 +93,7 @@
 				'Successful Payments'    =>  0,
 				'Total Paid'            =>  0,
 				'Total Refunded'        =>  0,
-				'Last Payment'           => 0
+				'Last Bill'           => 0
 			);
 
 			$attendance = getAttendance()[$_GET['user_id']]['stats'];
@@ -165,7 +165,7 @@
 								$paymentInfo['Successful Payments']++;
 								$paymentInfo['Total Paid'] += get_post_meta(get_the_id(), 'amount', true);
 
-								if (get_the_date(('U')) > $paymentInfo['Last Payment']) {
+								if (get_the_date(('U')) > $paymentInfo['Last Bill']) {
 									$paymentInfo['Last Bill'] = get_the_date('U');
 								}
 
@@ -213,7 +213,7 @@
 							</tbody>
 						</table>
 
-			<?php if ( $totalPoss > 0 ) ?>
+			<?php if ( $totalPoss > 0 ) : ?>
 			<h3>Attendance</h3>
 			<table class='widefat memberData'>
 				<tbody>
