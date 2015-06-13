@@ -99,13 +99,17 @@
 			$attendance = getAttendance()[$_GET['user_id']]['stats'];
 
 			$totalPoss = $attendance['training'] + $attendance['coaching'] + $attendance['watching'] + $attendance['absent'];
-			$sessionsPresent = $attendance['training'] + $attendance['coaching'] + $attendance['watching'];
 
-			$attendanceInfo = array(
-				'Total Possible Sessions'   => $totalPoss,
-				'Sessions Present'          => $sessionsPresent,
-				'Attendance Percentage'     => (100/$totalPoss)*$sessionsPresent . '&#37;'
-			);
+			if ( $totalPoss > 0 ) {
+
+				$sessionsPresent = $attendance['training'] + $attendance['coaching'] + $attendance['watching'];
+				$attendanceInfo = array(
+					'Total Possible Sessions'   => $totalPoss,
+					'Sessions Present'          => $sessionsPresent,
+					'Attendance Percentage'     => (100/$totalPoss)*$sessionsPresent . '&#37;'
+				);
+			}
+
 
 		}
 
@@ -209,6 +213,7 @@
 							</tbody>
 						</table>
 
+			<?php if ( $totalPoss > 0 ) ?>
 			<h3>Attendance</h3>
 			<table class='widefat memberData'>
 				<tbody>
@@ -222,7 +227,7 @@
 				<?php endforeach ?>
 				</tbody>
 			</table>
-
+			<?php endif ?>
 			<?php
 
 			if ( ! $billsTable->isEmpty() ) {
