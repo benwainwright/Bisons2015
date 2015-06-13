@@ -88,14 +88,24 @@
 
 				// Work out if there is single payment for the current season
 				$userSinglePaymentID = get_user_meta( $_GET['user_id'], 'singlePaymentID', true );
-				$query               = new WP_Query( array(
+
+				$taxQuery = wp_excludePostsWithTermTaxQuery( 'seasons' );
+
+				$queryArray = array(
 					'post_type'  => 'GCLBillLog',
 					'meta_query' => 'id',
 					'meta_value' => $userSinglePaymentID,
-					'tax_query'  => wp_excludePostsWithTermTaxQuery( 'seasons' )
-				) );
+					'tax_query'  => $taxQuery
+				);
 
-				$dd_status           = $query->have_post() ? 'Paid in Full' : 'None';
+				$query  = new WP_Query( $queryArray );
+
+				new dBug($userSinglePaymentID);
+				new dBug($taxQuery);
+				new dBug($queryArray);
+				new dBug($query);
+
+				$dd_status = $query->have_post() ? 'Paid in Full' : 'None';
 
 			} else {
 
