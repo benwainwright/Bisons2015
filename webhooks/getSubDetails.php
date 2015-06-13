@@ -16,6 +16,8 @@ while ( $query->have_posts() ) {
 
 $query = new WP_Query( array( 'post_type' => 'GCLBillLog', 'posts_per_page' => - 1, 'orderby' => 'date', 'order' => 'DESC' ) );
 
+$active = false;
+
 while ( $query->have_posts() ) {
 
 	$query->the_post();
@@ -27,9 +29,6 @@ while ( $query->have_posts() ) {
 	if ( get_post_meta( get_the_id(), 'source_id', true ) ) {
 
 
-		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) || ( get_user_meta( $id, 'GCLsubscriptionStatus', true ) && ( get_the_date('U') > get_user_meta( $id, 'GCLStatusChangeDate', true ) ) ) ) {
-
-			echo "Getting Source: ";
 
 			if ( 'subscription' === get_post_meta( get_the_id(), 'source_type', true ) ) {
 
@@ -69,7 +68,10 @@ while ( $query->have_posts() ) {
 				}
 			}
 
+		if ($source->status == 'active') {
+			$active = true;
 		}
+
 
 		if ($id == 2) {
 			new dBug(get_post_meta( get_the_id(), 'id', true ) );
@@ -83,7 +85,15 @@ while ( $query->have_posts() ) {
 
 			if ( null !== $source || get_post_meta( get_the_id(), 'amount', true ) < 15 ) {
 				update_user_meta( $id, 'payMethod', 'dd' );
-				update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
+
+				if ( $active ) {
+					update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
+				}
+
+				else {
+					update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
+				}
+
 				update_user_meta( $id, 'GCLStatusChangeDate', get_the_date('U') );
 			} else {
 
