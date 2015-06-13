@@ -34,6 +34,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		foreach ( $users as $user ) {
 
 
+			$row = array();
+
 			// Work out attendance statistics
 			$totalPossible = $attendance[ $user->ID ]['stats']['training'] + $attendance[ $user->ID ]['stats']['coaching'] + $attendance[ $user->ID ]['stats']['watching'] + $attendance[ $user->ID ]['stats']['absent'];
 			$present       = $attendance[ $user->ID ]['stats']['training'] + $attendance[ $user->ID ]['stats']['coaching'] + $attendance[ $user->ID ]['stats']['watching'];
@@ -43,10 +45,11 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 				// Work out if there is single payment for the current season
 				$userSinglePaymentID = get_user_meta( $user->ID, 'singlePaymentID', true );
-				$query               = new WP_Query( array( 'post_type'  => 'GCLBillLog',
-				                                            'meta_query' => 'id',
-				                                            'meta_value' => $userSinglePaymentID,
-				                                            'tax_query'  => wp_excludePostsWithTermTaxQuery( 'seasons' )
+				$query               = new WP_Query( array(
+					'post_type'  => 'GCLBillLog',
+					'meta_query' => 'id',
+					'meta_value' => $userSinglePaymentID,
+					'tax_query'  => wp_excludePostsWithTermTaxQuery( 'seasons' )
 				) );
 				$dd_status           = $query->have_post() ? 'Paid in Full' : 'None';
 
@@ -57,33 +60,36 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 			}
 
-			if ( get_user_meta( $user->ID, 'joined', true ) ) {
+			$row = array(
+				'joined'         => get_user_meta( $user->ID, 'joined', true ),
+				'user_id'        => $user->data->ID,
+				'DD_sub_id'      => get_user_meta( $user->ID, 'gcl_sub_id', true ),
+				'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
+				'presentPercent' => $totalPossible ? round( ( 100 / $totalPossible ) * $present ) : 0,
+				'dd_status'      => $dd_status,
+				'fullname'       => $user->first_name . ' ' . $user->last_name,
+				'type'           => get_user_meta( $user->ID, 'joiningas', true ) ? get_user_meta( $user->ID,
+					'joiningas', true ) : 'N/A',
+				'email'          => $user->data->user_email,
+			);
 
-				$row = array(
-					'joined'         => get_user_meta( $user->ID, 'joined', true ),
-					'user_id'        => $user->data->ID,
-					'DD_sub_id'      => get_user_meta( $user->ID, 'gcl_sub_id', true ),
-					'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
-					'presentPercent' => $totalPossible ? round( ( 100 / $totalPossible ) * $present ) : 0,
-					'dd_status'      => $dd_status,
-					'fullname'       => $user->first_name . ' ' . $user->last_name,
-					'type'           => get_user_meta( $user->ID, 'joiningas', true ) ? get_user_meta( $user->ID,
-						'joiningas', true ) : 'N/A',
-					'email'          => $user->data->user_email,
-				);
+			if ( get_user_meta( $user->ID, 'joined', true ) ) {
 
 
 				$row['age'] = getage( get_user_meta( $user->ID, 'dob-day',
 						true ) . '/' . get_user_meta( $user->ID, 'dob-month',
 						true ) . '/' . get_user_meta( $user->ID, 'dob-year', true ) );
-
 			} else {
 				$row['age']          = 'Unknown';
 				$row['lastModified'] = strtotime( $user->user_registered );
 			}
 
+
 			$data[] = $row;
 		}
+
+		new dBug( $data );
+		exit;
 
 		$this->rawData = $data;
 
