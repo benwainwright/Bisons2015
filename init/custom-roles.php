@@ -32,7 +32,8 @@ function create_team_roles() {
     $admin->add_cap( 'view_committee_area' );  
     $admin->add_cap( 'use_wiki' );
     $admin->add_cap( 'see_dashboard' );  
-    $admin->add_cap( 'attribute_post' );  
+    $admin->add_cap( 'attribute_post' );
+	$admin->add_cap( 'modify_gcl_user_id' );
 }
 
 /*
@@ -53,8 +54,7 @@ function remove_team_roles() {
     $admin->remove_cap( 'use_wiki' );
     $admin->remove_cap( 'see_dashboard' );
     $admin->remove_cap( 'attribute_post' );
-
-
+	$admin->remove_cap( 'modify_gcl_user_id' );
 }
 add_action('after_switch_theme', 'create_team_roles');
 add_action('switch_theme', 'remove_team_roles');

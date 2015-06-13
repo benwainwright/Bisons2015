@@ -90,7 +90,7 @@
 			$paymentInfo = array(
 				'Subscription Status'        =>  $payment_statuses[get_user_meta( $_GET['user_id'], 'payment_status', true)][0],
 				'Membership Type'         => get_user_meta( $_GET['user_id'], 'joiningas', true),
-				'Number of Payments'    =>  0,
+				'Successful Payments'    =>  0,
 				'Total Paid'            =>  0,
 				'Total Refunded'        =>  0,
 				'Last Payment'           => 0
@@ -124,48 +124,7 @@
 		}
 
 
-		?>
-		<?php if (isset($_GET['addBills']) ): ?>
-			<form method="POST">
-				<?php for ($i = 0; $i < $_GET['addBills']; $i++) { ?>
-					<div>
-					<?php
-				if($_POST) {
-					$date = date( 'Y-m-d H:i:s', strtotime($_POST['date_' . $i]));
-
-					// Create webhook log
-					$hook_log = array(
-						'post_status' => 'publish',
-						'post_date' => $date,
-						'post_type' => 'GCLBillLog'
-					);
-
-
-					$hook_log['post_author'] = $_GET['user_id'];
-
-					// Log webhook
-					$id = wp_insert_post( $hook_log );
-
-					$mem_form = getMembershipFormFromGCLID($gcl_sub_id );
-					$mem_form = $mem_form ? $mem_form :  getMembershipFormFromGCLID($gcl_sub_id );
-					$mem_form = $mem_form->ID;
-
-					new dBug($id);
-					update_post_meta($id, 'membership_form_id', $mem_form);
-					update_post_meta($id, 'source_id', $gcl_sub_id);
-					update_post_meta($id, 'status', 'paid');
-					update_post_meta($id, 'amount', (double) $_POST['amount_' . $i ]);
-					update_post_meta($id, 'amount_minus_fees', (0.99 * (double) $_POST['amount_' . $i]));
-					update_post_meta($id, 'source_type', 'subscription');
-
-				} ?>
-					<input type="date" name="date_<?php echo $i ?>" />
-					<input type="text" name="amount_<?php echo $i ?>" />
-					</div>
-				<?php } ?>
-				<button type="submit">Submit</button>
-			</form>
-		<?php endif ?>
+	?>
 		<div class="wrap">
 			<h2><?php echo $name ?></h2>
 			<h3>Personal Details</h3>
@@ -195,13 +154,15 @@
 						$query->the_post();
 
 						switch ( get_post_meta(get_the_id(), 'status', true ) ) {
+
+							case "withdrawn":
 							case "paid":
 
-								$paymentInfo['Number of Payments']++;
+								$paymentInfo['Successful Payments']++;
 								$paymentInfo['Total Paid'] += get_post_meta(get_the_id(), 'amount', true);
 
 								if (get_the_date(('U')) > $paymentInfo['Last Payment']) {
-									$paymentInfo['Last Payment'] = get_the_date('U');
+									$paymentInfo['Last Bill'] = get_the_date('U');
 								}
 
 								break;
@@ -212,13 +173,16 @@
 							case "refunded": case "chargedback":
 								$paymentInfo['Total Refunded'] += get_post_meta(get_the_id(), 'amount', true);
 							break;
+
+
 						}
 
 					}
 
-					if ( $paymentInfo['Last Payment'] > 0 ) {
-						$age = human_time_diff(time(), date('m/d/Y', $paymentInfo['Last Payment'])) . ' ago';
-						$paymentInfo['Last Payment'] = date('M j, Y', $paymentInfo['Last Payment']) . " ($age)";
+					if ( $paymentInfo['Last Bill'] > 0 ) {
+
+						$age = human_time_diff(time(), $paymentInfo['Last Bill']) . ' ago';
+						$paymentInfo['Last Bill'] = date('g:i a, jS \o\f M Y', $paymentInfo['Last Bill']) . " ($age)";
 					}
 						if ($paymentInfo['Total Refunded'] > 0) {
 							$paymentInfo['Net Total'] = money_format('%n', $paymentInfo['Total Paid'] - $paymentInfo['Total Refunded']);

@@ -67,6 +67,7 @@ if ( isset ( $_GET['resource_id'] ) )
         }
         update_user_meta($form_user, 'gcl_sub_id', $_GET['resource_id'] );
         update_user_meta($form_user, 'gcl_sub_uri', $_GET['resource_uri'] );
+	    update_user_meta($form_user, 'GCLUserID', $bill->user_id );
         update_user_meta($form_user, 'mem_name', $resource->name );
         update_user_meta($form_user, 'mem_status', 'Active' );
     }

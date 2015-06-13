@@ -28,12 +28,10 @@ class GCLBillsTable extends WP_List_Table_Copy
 			$row['user'] = get_the_author();
 			$row['userID'] = $post->post_author;
 			$row['source_id'] = get_post_meta(get_the_id(), 'source_id',true);
-			$row['action'] = get_post_meta(get_the_id(), 'action',true);
 			$row['status'] = get_post_meta(get_the_id(), 'status',true);
 			$row['amount'] = get_post_meta(get_the_id(), 'amount',true);
 			$row['amount_minus_fees'] = get_post_meta(get_the_id(), 'amount_minus_fees',true);
 			$row['source_type'] = get_post_meta(get_the_id(), 'source_type',true);
-
 			$data[] = $row;
 		}
 
@@ -54,7 +52,6 @@ class GCLBillsTable extends WP_List_Table_Copy
 			'resourceID'              => 'ID',
 			'date'                    => 'Date',
 			'user'                    => 'User',
-			'source_id'               => 'Source ID',
 			'status'                  => 'Status',
 			'amount'                  => 'Amount',
 			'amount_minus_fees'       => 'Amount minus fees',
@@ -64,17 +61,33 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 	function usort_reorder( $a, $b )
 	{
-		// If no sort, default to date
-		$orderby = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'datae';
+		// If no sort, default to name
+		$orderBy = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
 
 		// If no order, default to asc
-		$order = ( ! empty($_GET['order'] ) ) ? $_GET['order'] : 'asc';
+		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
 
-		// Determine sort order
-		$result = strcmp( $a[$orderby], $b[$orderby] );
+		$result = null;
+
+		if ( is_int($a[$orderBy])) {
+
+			$result = ($a[$orderBy] === $b[$orderBy]) ? 0 : null;
+
+			$result = ($a[$orderBy] < $b[$orderBy]) ? -1 : 1;
+
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'desc';
+
+		}
+
+		else {
+			// Determine sort order
+			$result = strcasecmp( $a[ $orderBy ], $b[ $orderBy ] );
+			$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
+
+		}
 
 		// Send final sort direction to usort
-		return ( $order === 'asc' ) ? $result : -$result;
+		return ( $order === 'asc' ) ? $result : - $result;
 	}
 
 	function get_sortable_columns()
@@ -116,8 +129,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 	public function column_status($item)
 	{
-		return ucwords ( $item['status'] === $item['action'] ?
-			$item [ 'status' ] : $item['action'] . '(' . $item['status'] . ')' );
+		return ucwords ( $item['status'] );
 	}
 	function column_default( $item, $column_name )
 	{
@@ -126,7 +138,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 		{
 			case 'amount': case 'amount_minus_fees':
 				setlocale(LC_MONETARY, 'en_GB.UTF-8');
-				return money_format( '%n', $item [ $column_name ]);
+				return money_format( '%n', (int) $item [ $column_name ]);
 			break;
 
 			case 'user':
@@ -144,7 +156,6 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 			case 'date':
 
-			case 'source_id':
 				return $item [ $column_name ];
 			break;
 
