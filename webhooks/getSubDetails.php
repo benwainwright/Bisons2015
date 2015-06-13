@@ -18,9 +18,18 @@ while ($query->have_posts()) {
 			try {
 				$source = GoCardless_Subscription::find( $bill->source_id );
 			} catch( GoCardless_ApiException $e ) {
-				new dBug($e);
-			}
-		}
+
+
+				$error = array(
+					'code' => $e->getCode,
+					'error' => $e->getMessage(),
+					'file'  => $e->getFile(),
+					'line'  => $e->getLine(),
+					'trace'  => $e->getTrace()
+				);
+
+				new dBug($error);
+			}		}
 
 		else {
 			if ('pre_authorization' === get_post_meta( get_the_id(), 'source_type', true) ) {
