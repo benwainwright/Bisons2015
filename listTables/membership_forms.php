@@ -51,7 +51,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 					'meta_value' => $userSinglePaymentID,
 					'tax_query'  => wp_excludePostsWithTermTaxQuery( 'seasons' )
 				) );
-				$dd_status           = $query->have_post() ? 'Paid in Full' : 'None';
+				$dd_status           = $query->post_count() ? 'Paid in Full' : 'None';
 
 			} else {
 

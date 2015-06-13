@@ -100,11 +100,6 @@
 
 				$query  = new WP_Query( $queryArray );
 
-				new dBug($userSinglePaymentID);
-				new dBug($taxQuery);
-				new dBug($queryArray);
-				new dBug($query);
-
 				$dd_status = $query->post_count ? 'Paid in Full' : 'None';
 
 			} else {
