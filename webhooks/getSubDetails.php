@@ -18,7 +18,7 @@ while ( $query->have_posts() ) {
 
 		if ( ! get_user_meta( $id, 'GCLsubscriptionStatus', true ) ){
 
-			echo "test";
+			echo "test<br />";
 
 		update_user_meta( $id, 'payMethod', 'dd' );
 
@@ -26,7 +26,7 @@ while ( $query->have_posts() ) {
 
 		if ( 'subscription' === get_post_meta( get_the_id(), 'source_type', true ) ) {
 
-			echo "test2";
+			echo "test2<br />";
 
 			try {
 				$source = GoCardless_Subscription::find( get_post_meta( get_the_id(), 'source_id', true ) );
@@ -60,10 +60,10 @@ while ( $query->have_posts() ) {
 
 					new dBug( $error );
 				}
-				echo "test3";
+				echo "test3<br />";
 			}
 		}
-			echo "test4";
+			echo "test4<br />";
 		new dBug( $source );
 
 		update_user_meta( $id, 'GCLsubscriptionStatus', $source->status );
@@ -73,10 +73,10 @@ while ( $query->have_posts() ) {
 
 	} else {
 
-		echo "test5";
+		echo "test5<br />";
 		update_user_meta( $user->ID, 'singlePaymentID', get_post_meta( get_the_id(), 'id', true ) );
 		update_user_meta( $id, 'payMethod', 'single' );
 	}
-	echo "test6";
+	echo "test6<br />";
 }
-echo "test7";
+echo "test7<br />";
