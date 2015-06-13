@@ -7,7 +7,7 @@ function custom_taxonomies() {
      */
     register_taxonomy(
         'seasons',
-        'fixtures',
+        array('fixtures', 'GCLBillLog', 'GCLSubLog', 'GCLPreAuthLog', 'attendance_registers', 'email_log', 'events'),
         array(
         	'public' => false,
             'hierarchical' => false,

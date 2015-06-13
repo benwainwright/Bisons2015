@@ -72,7 +72,8 @@ function create_post_types() {
         'public' => true,
         'has_archive' => true,
         'menu_icon' => 'dashicons-calendar',
-        'supports' => array('comments', 'revisions', 'title', 'editor', 'thumbnail')
+        'supports' => array('comments', 'revisions', 'title', 'editor', 'thumbnail'),
+        'taxonomies' => array('seasons'),
         )
     );
     
@@ -168,12 +169,7 @@ function create_post_types() {
 	    )
     );
     
-    
-    register_post_type ( 'membership_form', array(
-        'public' => false, 
-        'exclude_from_search' => true,
-        'has_archive' => false,
-    ) );
+
     
     register_post_type ( 'membership_fee', array(
         'labels' => array (
@@ -198,24 +194,29 @@ function create_post_types() {
         'public' => false, 
         'exclude_from_search' => true,
         'has_archive' => false,
+        'taxonomies' => array('seasons'),
     ) );
     
     register_post_type ( 'GCLBillLog', array(
         'public' => false, 
         'exclude_from_search' => true,
         'has_archive' => false,
+        'taxonomies' => array('seasons'),
     ) );
 
 	register_post_type ( 'GCLSubLog', array(
 		'public' => false,
 		'exclude_from_search' => true,
 		'has_archive' => false,
+		'taxonomies' => array('seasons'),
 	) );
 
 	register_post_type ( 'GCLPreAuthLog', array(
 		'public' => false,
 		'exclude_from_search' => true,
 		'has_archive' => false,
+		'taxonomies' => array('seasons'),
+
 	) );
 
 	register_post_type ( 'attendance_registers' , array(
@@ -233,6 +234,8 @@ function create_post_types() {
         'hierarchical' => true,
         'menu_position' => 8,
         'supports' => false,
+        'taxonomies' => array('seasons'),
+
 
         )
 

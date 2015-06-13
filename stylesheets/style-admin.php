@@ -56,6 +56,18 @@ $bigicon = isset($icons_for_default_pages[ $_GET['post-type'] ]) ?
 <?php endif; ?>
 <?php } ?>
 
+li {
+list-style:disc;
+margin-left:2em;
+}
+
+li.containList {
+list-style:none;
+}
+
+li li {
+list-style:circle;
+}
 
 .fixture-reports-results-list li {
 list-style:none;
