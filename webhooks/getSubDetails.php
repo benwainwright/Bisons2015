@@ -28,7 +28,7 @@ while ( $query->have_posts() ) {
 
 		update_user_meta( $id, 'payMethod', 'dd' );
 
-
+		$source = null;
 
 		if ( 'subscription' === get_post_meta( get_the_id(), 'source_type', true ) ) {
 
