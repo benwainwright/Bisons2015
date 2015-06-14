@@ -65,7 +65,6 @@
 
 	</header>
 
-	<div id="bodyWrapper">
 
 	<div id="menu">
 
