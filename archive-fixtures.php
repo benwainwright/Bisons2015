@@ -31,8 +31,8 @@ $results = array();
 // Handle a lack of fixtures
 
 if(! have_posts() ) : ?>
-    <p>Normally this page contains the details of all the upcoming fixtures for this season. It looks like the committee haven't uploaded them yet, try back later. Alternatively, check the <a href="#">fixture archive</a>.</p>
-<?php endif;
+    <p>Details of this seasons fixtures have not been released yet. Check out results from previous seasons using the links below.</p>
+<?php else :
 
 // Loop over fixtures
 while( have_posts()) : the_post();
@@ -325,14 +325,23 @@ if( $first_fixture ) : ?>
 
 <?php endif; ?>
 		<?php
+		endif;
 		$seasons = get_terms ( array ( 'seasons' ) );
 		if ( is_array( $seasons ) ) : ?>
 		<h3>Previous Seasons</h3>
-		<ul class="fa-ul">
-			<?php foreach ( $seasons as $season ) : ?>
-			<li><span class='fa-li fa fa-folder'></span><a href='<?php echo site_url('/seasons/' . $season->slug) ?>'><?php echo $season->name ?></a></li>	
-			<?php endforeach ?>
-		</ul>
+			<table>
+			<tbody>
+		<tr>
+			<?php for ($i = 0; $i < count($seasons); $i++ ) : ?>
+			<td><span class='fa-li fa fa-folder'></span><a href='<?php echo site_url('/seasons/' . $seasons[$i]->slug) ?>'><?php echo $seasons[$i]->name ?></a></td>
+		<?php if ($i % 2 && $i != count($seasons) -1) : ?>
+		</tr>
+		<tr>
+		<?php endif ?>
+			<?php endfor ?>
+		</tr>
+			</tbody>
+				</table>
 		<?php endif ?>
 		</div>
     </div>
