@@ -43,7 +43,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			$present       = $attendance[ $user->ID ]['stats']['training'] + $attendance[ $user->ID ]['stats']['coaching'] + $attendance[ $user->ID ]['stats']['watching'];
 
 
-			$
+
 			$dd_status = getDDStatus($user->ID);
 
 			$row = array(
