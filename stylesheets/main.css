@@ -270,6 +270,21 @@ label.error:before {
 
 #cardnumber { max-width: 230px; }
 
+html #wrapper th {
+    color: black;
+    background-color: white;
+    line-height: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+html #wrapper .verticalTable th {
+    color: white;
+    background-color: #2E2E2E;
+    line-height: 1.2em;
+    padding:0.5em;
+}
+
 fieldset legend { font-weight: bold; margin:0.5em; position:absolute; top:-34px; left:5px; color:#2E2E2E;}
 fieldset p {  margin: 0.5em 0 1.5em 0;}
 #wrapper fieldset p.info { color: white; }
