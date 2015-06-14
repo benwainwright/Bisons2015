@@ -15,15 +15,16 @@
 			<th>Status</th>
 			<td><?php echo $d['paymentInfo']['Subscription Status'] ?></td>
 		</tr>
-
+		<?php if ($d['paymentInfo']['Total Paid'] > 0 ) : ?>
 		<tr>
 			<th>Amount</th>
 			<td><?php echo money_format( '%n', (int) $d['paymentInfo']['Total Paid']) ?></td>
 		</tr>
+		<?php endif ?>
 	</tbody>
 </table>
 
-
+<p>Although you have filled in a membership form, it appears that you don't have an active payment subscription. Use the form below to set one up.</p>
 
 <?php $q = $d['query']; if ($q->have_posts()) : ?>
 
@@ -32,7 +33,7 @@
 	<thead>
 		<tr>
 			<th>Date</th>
-			<th>Amount</th>
+			<th>Amount Paid</th>
 			<th>Status</th>
 		</tr>
 	</thead>
