@@ -9,7 +9,7 @@
     <header>
         <h2>Player's Area</h2>
 		
-		
+
     <ul class='pageMenu'>
     <?php if ( current_user_can('edit_post', get_the_id()) ) { ?>
         <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=player-page'>Add</a></li>
@@ -18,7 +18,15 @@
     </ul>		
     </header>
     
-    
+        <?php
+        $status = getDDStatus(get_current_user_id());
+
+         if (get_user_meta(get_current_user_id(), 'joined', true) && ( $status == 'None' || $status == 'cancelled' || $status == 'cancelled') ) : ?>
+	        <p class="flashmessage">Although you have submitted a membership form you still need to organise payment. Click <a href="<?php echo site_url('payment-information') ?>">here</a> to sort get that sorted!</p>
+        <?php elseif ( ! get_user_meta(get_current_user_id(), 'joined', true) ) : ?>
+	        <p class="flashmessage">Looks like you are not yet a club member. Click <a href="<?php echo site_url('membership-form') ?>">here</a> to go straight to our online membership form!</p>
+		<?php endif ?>
+
             <?php
             $committee_profiles = new WP_Query ( array(
                  'post_type' => 'committee-profile',
