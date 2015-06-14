@@ -346,4 +346,6 @@ if ( $_POST['injuredyesno'] == "Yes" ) {
 	}
 }
 
+update_user_meta($formUser, 'lastModified', time());
+
 update_user_meta( $formUser, 'memtype', $_POST['memtype'] );
