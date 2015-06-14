@@ -83,7 +83,7 @@
 				'Address'           => get_user_meta( $_GET['user_id'], 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
 			);
 
-	``			$attendance = getAttendance()[$_GET['user_id']]['stats'];
+			$attendance = getAttendance()[$_GET['user_id']]['stats'];
 
 			$totalPoss = $attendance['training'] + $attendance['coaching'] + $attendance['watching'] + $attendance['absent'];
 
