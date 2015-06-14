@@ -9,9 +9,7 @@
 		// Get bills table
 		$billsTable = new GCLBillsTable(array ( 'screen' => 'playerDetails', 'singular' => 'player', 'plural' => 'players' ));
 		$billsTable->prepare_items();
-
-		new dBug(get_user_meta($_GET['user_id']));
-
+		
 
 		if ( get_user_meta( $_GET['user_id'], 'joined', true) ) {
 
@@ -110,7 +108,7 @@
 			}
 
 			$paymentInfo = array(
-				'Subscription Status'        =>  ucwords($dd_status),
+				'Subscription Status'        =>  ucwords($dd_status ? $dd_status : 'None'),
 				'Membership Type'            => get_user_meta( $_GET['user_id'], 'joiningas', true),
 				'Successful Payments'        =>  0,
 				'Total Paid'                 =>  0,
