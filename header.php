@@ -40,8 +40,9 @@
 
 	</head>
 	<body <?php body_class() ?>>
-		
-	
+	<div id="bodyWrapper">
+
+
 	<header id="mainheader">
 	    <div id="col">
 
