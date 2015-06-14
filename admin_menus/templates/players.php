@@ -84,29 +84,7 @@
 				'Address'           => get_user_meta( $_GET['user_id'], 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
 			);
 
-			if ( get_user_meta( $_GET['user_id'], 'payMethod', true ) == 'single' ) {
-
-				// Work out if there is single payment for the current season
-				$userSinglePaymentID = get_user_meta( $_GET['user_id'], 'singlePaymentID', true );
-
-				$taxQuery = wp_excludePostsWithTermTaxQuery( 'seasons' );
-
-				$queryArray = array(
-					'post_type'  => 'GCLBillLog',
-					'meta_query' => 'id',
-					'meta_value' => $userSinglePaymentID,
-					'tax_query'  => $taxQuery
-				);
-
-				$query  = new WP_Query( $queryArray );
-
-				$dd_status = $query->post_count ? 'Paid in Full' : 'None';
-
-			} else {
-
-				$dd_status = get_user_meta( $_GET['user_id'], 'GCLsubscriptionStatus', true );
-
-			}
+			$dd_status = getDDStatus($_GET['user_id']);
 
 			$paymentInfo = array(
 				'Subscription Status'        =>  ucwords($dd_status),
