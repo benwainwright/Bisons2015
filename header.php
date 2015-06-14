@@ -64,7 +64,8 @@
                     </div>
 
 	</header>
-        <div id="menu">
+
+	<div id="menu">
 
         <?php get_template_part('menu'); ?>
 

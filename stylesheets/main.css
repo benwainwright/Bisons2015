@@ -517,7 +517,14 @@ color: #2E2E2E;
 }
 
 /* Footer */
-footer { clear:both; padding:1.5em; }
+footer {
+    bottom: 0;
+    height: 40px;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    padding:1em;
+}
 
 div.comprofile { clear:both; background-color:#F7F7F7; margin-bottom:2em; padding:1em; }
 div.comprofile img { max-width:40%; }
