@@ -79,7 +79,7 @@
             foreach($page_groups as $group) { ?>
                 <h3><?php echo $group->name; ?></h3>
                 <p><?php echo $group->description ?></p>
-                <table>
+                <table class="verticalTable">
                     <tbody>
 
                     <?php $page_list = new WP_Query(array(
@@ -93,8 +93,8 @@
                         $post = get_post();
                         $link = get_post_meta(get_the_id(), 'link', true);
                         ?> <tr>
-                        <td class="left-col"><span class='<?php echo $link ? 'fa fa-external-link-square' : 'fa fa-file' ?>'><a href='<?php echo $link ? $link : get_permalink(); ?>' title='<?php echo get_the_title(); ?>'><?php echo get_the_title(); ?></a></span>
-                        </td>
+                        <th class="left-col"><span class='<?php echo $link ? 'fa fa-external-link-square' : 'fa fa-file' ?>'><a href='<?php echo $link ? $link : get_permalink(); ?>' title='<?php echo get_the_title(); ?>'><?php echo get_the_title(); ?></a></span>
+                        </th>
                         <td><?php echo get_post_meta(get_the_id(), 'description', true) ?>
 </td>
 
