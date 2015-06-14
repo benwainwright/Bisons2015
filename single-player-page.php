@@ -15,8 +15,8 @@ $pagename = $post->post_name;
         <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
     <?php endif ?>
         <?php if ( have_posts() ) : 
-                if( file_exists( dirname( __FILE__  ) . '/hardcodedplayerpages/' . $pagename . '.php' ) ) :
-                    get_template_part( 'hardcodedplayerpages/' . $pagename );
+                if( file_exists( dirname( __FILE__  ) . '/player-pages/' . $pagename . '.php' ) ) :
+                    get_template_part( 'player-pages/' . $pagename );
                 else :
                     while ( have_posts() ) : the_post(); ?>
                     <header>
