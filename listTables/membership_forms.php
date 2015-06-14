@@ -41,8 +41,10 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			$present       = $attendance[ $user->ID ]['stats']['training'] + $attendance[ $user->ID ]['stats']['coaching'] + $attendance[ $user->ID ]['stats']['watching'];
 
 
+			new dBug(get_user_meta($user->ID));
 
 			if ( get_user_meta( $user->ID, 'payMethod', true ) == 'single' ) {
+
 
 				// Work out if there is single payment for the current season
 				$userSinglePaymentID = get_user_meta( $user->ID, 'singlePaymentID', true );
