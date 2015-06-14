@@ -24,7 +24,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 			global $post;
 			$row = array();
 			$row['resourceID'] = get_post_meta(get_the_id(), 'id',true);
-			$row['date'] = get_the_date();
+			$row['date'] = get_the_date('U');
 			$row['user'] = get_the_author();
 			$row['userID'] = $post->post_author;
 			$row['source_id'] = get_post_meta(get_the_id(), 'source_id',true);
@@ -62,7 +62,7 @@ class GCLBillsTable extends WP_List_Table_Copy
 	function usort_reorder( $a, $b )
 	{
 		// If no sort, default to name
-		$orderBy = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'fullname';
+		$orderBy = ( ! empty( $_GET['orderby'] ) ) ? $_GET['orderby'] : 'date';
 
 		// If no order, default to asc
 		$order = ( ! empty( $_GET['order'] ) ) ? $_GET['order'] : 'asc';
@@ -151,13 +151,16 @@ class GCLBillsTable extends WP_List_Table_Copy
 
 			case 'source_type':
 				return ucwords ( $item [ $column_name ] );
-
-			case 'resourceID':
+			break;
 
 			case 'date':
+				return date( 'jS \o\f F, Y', (int) $item [ $column_name ]);
+			break;
 
+			case 'resourceID':
 				return $item [ $column_name ];
 			break;
+
 
 			default:
 				new dBug ( $item );
