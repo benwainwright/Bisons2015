@@ -84,17 +84,6 @@
 				'Address'           => get_user_meta( $_GET['user_id'], 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
 			);
 
-			$dd_status = getDDStatus($_GET['user_id']);
-
-			$paymentInfo = array(
-				'Subscription Status'        =>  ucwords($dd_status),
-				'Membership Type'            => get_user_meta( $_GET['user_id'], 'joiningas', true),
-				'Successful Payments'        =>  0,
-				'Total Paid'                 =>  0,
-				'Total Refunded'             =>  0,
-				'Last Bill'                  => 0
-			);
-
 			$attendance = getAttendance()[$_GET['user_id']]['stats'];
 
 			$totalPoss = $attendance['training'] + $attendance['coaching'] + $attendance['watching'] + $attendance['absent'];
@@ -121,7 +110,6 @@
 				'Email'             => $user->data->user_email,
 			);
 
-			$paymentInfo['Membership Status'] = 'Not Joined';
 
 			$gcl_sub_id = false;
 		}
@@ -143,44 +131,10 @@
 				<?php endforeach ?>
 				</tbody>
 			</table>
-				<?php
-					$args = array('post_type' => 'GCLBillLog', 'author' => $_GET['user_id'], 'posts_per_page' => -1);
-					$query = new WP_Query($args);
 
+			<?php
 
-					setlocale(LC_MONETARY, 'en_GB.UTF-8');
-
-					while ($query->have_posts())
-					{
-
-						$currentBiggest = 0;
-						$query->the_post();
-
-						switch ( get_post_meta(get_the_id(), 'status', true ) ) {
-
-							case "withdrawn":
-							case "paid":
-
-								$paymentInfo['Successful Payments']++;
-								$paymentInfo['Total Paid'] += get_post_meta(get_the_id(), 'amount', true);
-
-								if (get_the_date(('U')) > $paymentInfo['Last Bill']) {
-									$paymentInfo['Last Bill'] = get_the_date('U');
-								}
-
-								break;
-
-							case "failed":
-								break;
-
-							case "refunded": case "chargedback":
-								$paymentInfo['Total Refunded'] += get_post_meta(get_the_id(), 'amount', true);
-							break;
-
-
-						}
-
-					}
+				$paymentInfo = getPaymentInfo($_GET['user_id']);
 
 					if ( $paymentInfo['Last Bill'] > 0 ) {
 
