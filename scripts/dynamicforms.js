@@ -78,7 +78,10 @@ jQuery(document).ready(function () {
 
 
     jQuery('input, select, textarea').focus(function () {
+
+        var fieldset = jQuery(this).parent().parent();
         jQuery(this).siblings('.forminfo').show();
+        jQuery(this).siblings('.forminfo').appendTo(fieldset);
         jQuery(this).addClass('focusedinput');
         jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
         jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
@@ -151,10 +154,10 @@ jQuery(document).ready(function () {
 
     jQuery('#gender').change(function () {
         if (jQuery(this).val() == 'Other') {
-            jQuery('#othergender').show();
+            jQuery('#othergender').css('display', 'table')
         }
         else {
-            jQuery('#othergender').hide();
+            jQuery('#othergender').hide('display', 'none');
         }
     });
 

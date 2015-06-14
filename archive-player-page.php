@@ -4,7 +4,7 @@
     <div id="pagecol" class='ajaxcol'>
         <div class='page'>   
 <?php if ( isset ( $GLOBALS['bisons_flash_message'] ) ) : ?>
-        <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
+        <p id="flashmessage"><i class="fa fa-bell-o"></class="fa fa-bell-o"i><?php echo $GLOBALS['bisons_flash_message'] ?></p>
     <?php endif ?>    
     <header>
         <h2>Player's Area</h2>
@@ -22,7 +22,7 @@
         $status = getDDStatus(get_current_user_id());
 
          if (get_user_meta(get_current_user_id(), 'joined', true) && ( $status == 'None' || $status == 'cancelled' || $status == 'cancelled') ) : ?>
-	        <p class="flashmessage">Although you have submitted a membership form you still need to organise payment. Click <a href="<?php echo site_url('payment-information') ?>">here</a> to sort get that sorted!</p>
+	        <p class="flashmessage"><i class='fa fa-bell-o'></i>Although you have submitted a membership form you still need to organise payment. Click <a href="<?php echo site_url('your-subs') ?>">here</a> to sort get that sorted!</p>
         <?php elseif ( ! get_user_meta(get_current_user_id(), 'joined', true) ) : ?>
 	        <p class="flashmessage">Looks like you are not yet a club member. Click <a href="<?php echo site_url('membership-form') ?>">here</a> to go straight to our online membership form!</p>
 		<?php endif ?>
@@ -79,7 +79,7 @@
             foreach($page_groups as $group) { ?>
                 <h3><?php echo $group->name; ?></h3>
                 <p><?php echo $group->description ?></p>
-                <table>
+                <table class="verticalTable">
                     <tbody>
 
                     <?php $page_list = new WP_Query(array(
@@ -93,8 +93,8 @@
                         $post = get_post();
                         $link = get_post_meta(get_the_id(), 'link', true);
                         ?> <tr>
-                        <td class="left-col"><span class='<?php echo $link ? 'fa fa-external-link-square' : 'fa fa-file' ?>'><a href='<?php echo $link ? $link : get_permalink(); ?>' title='<?php echo get_the_title(); ?>'><?php echo get_the_title(); ?></a></span>
-                        </td>
+                        <th class="left-col"><span class='<?php echo $link ? 'fa fa-external-link-square' : 'fa fa-file' ?>'><a href='<?php echo $link ? $link : get_permalink(); ?>' title='<?php echo get_the_title(); ?>'><?php echo get_the_title(); ?></a></span>
+                        </th>
                         <td><?php echo get_post_meta(get_the_id(), 'description', true) ?>
 </td>
 

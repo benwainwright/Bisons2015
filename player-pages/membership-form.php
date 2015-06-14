@@ -146,7 +146,7 @@ if ( ! isset ( $form_id ) )
             <input type="text" class="smalltextbox required" name="othergender" value='<?php echo get_user_meta($formUser, 'othergender', true) ?>' />
             <p class="forminfo">As a fully inclusive rugby club, we completely recognise that a gender designation of 'male' or 'female' is far too simplistic for the real world. However, because we are a rugby team, we are bound by <a href='http://www.rfu.com/' title='RFU Website'>RFU</a> regulations which unfortunately are categorised in simple male/female terms. Please be aware therefore that only a person who self-identifies as 'male' in some way can play in 'male' rugby. Likewise, only a person who self-identifies as 'female' in some way can play in 'female' rugby.</p>
         </div>
-        <div>
+        <div class="noBackground">
             <label class="smalllabel" for="dob">Date of Birth</label>
              <div class="inlinediv">
              <select class="norightmargin required" id="dob-day" name="dob-day">
@@ -261,7 +261,7 @@ if ( ! isset ( $form_id ) )
 	            <?php selectOptionFromMeta($formUser, 'sameaddress', 'No') ?>
             </select>
         </div>
-        <div id="nokaddygroup"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'sameaddress', true) == "No") { ?> style="display:block"<?php } ?>>
+        <div class='fieldGroup' id="nokaddygroup"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'sameaddress', true) == "No") { ?> style="display:block"<?php } ?>>
             <div>
                 <label for="nokstreetaddy">Street address</label>
                 <textarea class='required' name="nokstreetaddy" id="nokstreetaddy"><?php if ( get_user_meta($formUser, 'joined', true ) == true ) { echo get_user_meta($formUser, 'nokstreetaddy', true); } ?></textarea>
