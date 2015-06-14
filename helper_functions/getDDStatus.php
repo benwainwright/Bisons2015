@@ -17,7 +17,7 @@ function getDDStatus($id) {
 
 		$query  = new WP_Query( $queryArray );
 
-		$dd_status = $query->post_count ? 'Paid in Full' : 'None';
+		$dd_status = $query->post_count ? 'Paid in Full' : 'Unpaid';
 
 	} else {
 
