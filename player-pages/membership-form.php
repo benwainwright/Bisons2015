@@ -76,10 +76,6 @@ if ( ! isset ( $form_id ) )
 <?php global $gocardless_url; if ( isset ( $gocardless_url ) ) : ?>
 <p class="flashmessage">In a moment, you will be redirected to a direct debit mandate form at GoCardless. Once you have finished setting up your payment information, you will be returned to this site. See you in a bit!</p>
 <script type='text/javascript'> setTimeout(function(){ document.location = '<?php echo $gocardless_url ?>'; }, 3000); </script>
-
-<?php elseif ( get_user_meta($formUser, 'joined', true ) == true && ! get_user_meta($formUser, 'gcl_sub_id', true ) ) : ?>
-<p class="flashmessage">It looks like you submitted a membership form but were interrupted before you could setup a Direct Debit. Click <a href='<?php echo home_url('players-area/payment-information/') ?>'>here</a> to set one up.</p>
-
 <?php endif ?>
 <?php if ( isset ( $confirmed_resource ) ) : ?>
 <p class="flashmessage">Congratulations! Your direct debit (or full payment) has now been setup - you should receive an email from GoCardless (our payment processor) very shortly. 

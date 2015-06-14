@@ -16,6 +16,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	private $noPayment;
 
+	private $lastMonth;
+
 	private static $plural;
 
 	private static $singular;
@@ -43,31 +45,14 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 
 
-			if ( get_user_meta( $user->ID, 'payMethod', true ) == 'single' ) {
-
-
-				// Work out if there is single payment for the current season
-				$userSinglePaymentID = get_user_meta( $user->ID, 'singlePaymentID', true );
-				$query               = new WP_Query( array(
-					'post_type'  => 'GCLBillLog',
-					'meta_query' => 'id',
-					'meta_value' => $userSinglePaymentID,
-					'tax_query'  => wp_excludePostsWithTermTaxQuery( 'seasons' )
-				) );
-				$dd_status           = $query->post_count ? 'Paid in Full' : 'None';
-
-			} else {
-
-
-				$dd_status = get_user_meta( $user->ID, 'GCLsubscriptionStatus', true );
-
-			}
+			$dd_status = getDDStatus($user->ID);
 
 			$row = array(
 				'joined'         => get_user_meta( $user->ID, 'joined', true ),
 				'user_id'        => $user->data->ID,
 				'DD_sub_id'      => get_user_meta( $user->ID, 'gcl_sub_id', true ),
 				'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
+				'lastAttended'   => $attendance[ $user->ID ]['lastAttended'],
 				'presentPercent' => $totalPossible ? round( ( 100 / $totalPossible ) * $present ) : 0,
 				'dd_status'      => $dd_status ? $dd_status : 'None',
 				'fullname'       => $user->first_name . ' ' . $user->last_name,
@@ -91,6 +76,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			$data[] = $row;
 		}
 
+
 		$this->rawData = $data;
 
 
@@ -106,6 +92,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			'presentPercent' => 'Attendance',
 			'type'           => 'Type',
 			'lastModified'   => 'Last Modified',
+			'lastAttended'   => 'Last Attended',
 			'dd_status'      => 'Payment',
 			'age'            => 'Age',
 			'email'          => 'Email'
@@ -151,6 +138,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			'dd_status'      => array( 'dd_status', false ),
 			'presentPercent' => array( 'presentPercent', false ),
 			'lastModified'   => array( 'lastModified', false ),
+			'lastAttended'   => array( 'lastAttended', false ),
 			'type'           => array( 'type', false ),
 			'age'            => array( 'age', false ),
 			'email'          => array( 'email', false ),
@@ -193,6 +181,10 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			if ( $row['type'] == 'Supporter' ) {
 				$this->supportersRows[] = $row;
 			}
+
+			if ( $row['lastAttended'] > ( time() - 60*60*24*7*4)) {
+				$this->lastMonth[] = $row;
+			}
 		}
 
 		// If requested, swap them into the main data array
@@ -216,6 +208,11 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			case "supporters":
 				$this->data = $this->supportersRows;
 				break;
+
+			case "lastMonth":
+				$this->data = $this->lastMonth;
+				break;
+
 
 			default:
 				$this->data = $this->rawData;
@@ -244,7 +241,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			case 'age':
 			case 'email':
 			case 'lastModified':
-				return $item [ $column_name ];
+			case 'lastAttended':
+				return $item [ $column_name ]  > 0 ? date( 'M jS, Y', (int) $item [ $column_name ]) : 'Never';
 			default:
 				new dBug ( $item );
 		}
@@ -302,6 +300,12 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		$url                 = add_query_arg( 'filter', 'supporters' );
 		$count               = count( $this->supportersRows );
 		$views['supporters'] = "<a href='{$url }' {$class} >Supporters <span class='count'>($count)</span></a>";
+
+		// Attended in the last month
+		$class               = ( $current == 'lastMonth' ? ' class="current"' : '' );
+		$url                 = add_query_arg( 'filter', 'lastMonth' );
+		$count               = count( $this->lastMonth );
+		$views['lastMonth'] = "<a href='{$url }' {$class} >Attended in last month <span class='count'>($count)</span></a>";
 
 		return $views;
 

@@ -32,9 +32,12 @@ function getAttendance($noCache = false) {
 			}
 
 		}
+
+
 		
 		foreach ( $players as $userID => $player ) {
 
+			$highestDate = 0;
 
 			$players[ $userID ]['stats']['training'] = 0;
 			$players[ $userID ]['stats']['watching'] = 0;
@@ -43,17 +46,21 @@ function getAttendance($noCache = false) {
 
 
 			foreach ( $player['register'] as $session ) {
+
 				switch ( $session['mark'] ) {
 
 					case 'p':
+						$highestDate = $session['date'] > $highestDate ? $session['date'] : $highestDate;
 						$players[ $userID ]['stats']['training'] ++;
 						break;
 
 					case 'w':
+						$highestDate = $session['date'] > $highestDate ? $session['date'] : $highestDate;
 						$players[ $userID ]['stats']['watching'] ++;
 						break;
 
 					case 'c':
+						$highestDate = $session['date'] > $highestDate ? $session['date'] : $highestDate;
 						$players[ $userID ]['stats']['coaching'] ++;
 						break;
 
@@ -62,6 +69,8 @@ function getAttendance($noCache = false) {
 						break;
 				}
 			}
+
+			$players[ $userID ]['lastAttended'] = $highestDate;
 		}
 
 
