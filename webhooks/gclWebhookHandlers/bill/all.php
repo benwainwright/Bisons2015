@@ -33,9 +33,10 @@ if ( null !== $source ) {
 	echo "6\n";
 	update_user_meta($user->ID, 'GCLsubscriptionStatus', $source->status);
 }
+echo "7\n";
+
 // Check if bill already exists
 $query = new WP_Query(
-	echo "7\n";
 	array( 'post_type'      => 'GCLBillLog',
 	       'posts_per_page' => 1,
 	       'meta_key'       => 'id',
