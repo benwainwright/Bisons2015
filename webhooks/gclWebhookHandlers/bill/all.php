@@ -44,7 +44,7 @@ if ($query->have_posts()) {
 	$action = 'log_updated';
 	$id = get_the_id();
 
-	$data = array(
+	$postMeta = array(
 		'action' =>  $data['action'],
 		'status' =>  $resource['status']
 	);
@@ -77,7 +77,7 @@ else {
 	update_post_meta( $id, 'source_type', $resource['source_type'] );
 	$action = 'log_created';
 
-	$data = array(
+	$postMeta = array(
 		'action'            =>  $data['action'],
 		'status'            =>  $resource['status'],
 		'id'                =>  $resource['id'],
@@ -96,6 +96,6 @@ if ($id > 0) {
 		'type'      => 'bill',
 		'action'    => $action,
 		'post_id'   => $id,
-		'data'      => $data
+		'data'      => $postMeta
 	);
 }
