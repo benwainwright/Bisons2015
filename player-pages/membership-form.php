@@ -81,9 +81,9 @@ if ( ! isset ( $form_id ) )
 <p class="flashmessage">Congratulations! Your direct debit (or full payment) has now been setup - you should receive an email from GoCardless (our payment processor) very shortly. 
 <?php endif ?>           
 <?php if ( get_user_meta($formUser, 'joined', true ) == true ) : ?>
-<p><strong>Please note that it is your responsibility to ensure that the information supplied below (particularly medical information) remains up to date</strong>. You can return to this form and make changes at any time; to do so, scroll down to the bottom and click 'Edit Details'. When you have finished, click 'Save Changes' and the committee will be notified of any changes you have made.</p>
+<p class='flashmessage'><i class='fa fa-bell-o'></i>Please note that it is your responsibility to ensure that the information supplied below (particularly medical information) remains up to date. You can return to this form and make changes at any time. </p>
 <?php else: ?>
-<p>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
+<p class='flashmessage'><i class='fa fa-bell-o'></i>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
 <?php endif; ?>
 <ul class='invalidformerrors'>
     <?php foreach ( $errors as $error ) : ?>
@@ -94,19 +94,22 @@ if ( ! isset ( $form_id ) )
     
     <?php if  ( current_user_can ('committee_perms') ) : ?>
     <fieldset>
-        <legend>Select Player</legend>
-        <?php if ( isset ( $_GET['player_id' ] ) ) : ?>
-        <p class='info'>This is NOT YOUR MEMBERSHIP form. You can fill in someone else's form below or use the dropdown box below to return to your membership form.</p>
-        <input type='hidden' name='form_belongs_to' value='<?php echo $_GET['player_id' ] ?>' />
-        <?php else : ?>
-        <p class='info'>This is your own membership form. As a committee member, you can use the dropdown box below to select and edit the membership form of another player.</p>
-        <?php endif ?>
+        <legend>Active Player</legend>
+		<div>
+			<label>Select</label>
         <select id='committeeSelectPlayer'>
             <option value='me'>Me</option>
         <?php $users = get_users(); foreach ($users as $user) : ?>
             <option value='<?php echo $user->data->ID."'"; if ( isset ( $_GET['player_id' ] ) ) { if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } } ?>><?php echo $user->data->display_name ?></option>
         <?php endforeach ?>
         </select>
+        </div>
+        <?php if ( isset ( $_GET['player_id' ] ) ) : ?>
+        <p class='info'>This is NOT YOUR MEMBERSHIP form. You can fill in someone else's form below or use the dropdown box below to return to your membership form.</p>
+        <?php echo $_GET['player_id' ] ?>' />
+        <?php else : ?>
+	        <p class='info'>This is your own membership form. As a committee member, you can use this dropdown box to select and edit the membership form of other players.</p>
+        <?php endif ?>
     </fieldset>
     <?php endif ?>
     <fieldset>
