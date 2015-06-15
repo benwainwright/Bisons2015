@@ -254,7 +254,7 @@ form button.smallbutton {padding: 0.4em 2em; font-size: 1em; margin: 0.3em 0 0 1
 .fullWidthImage { width:100%; }
 
 ul.invalidformerrors { border: 1px dashed #F55151; background: #F7E4E4; padding: 0.3em; margin: 1em 3em 0 3em; display:none; }
-label.error {   padding-left: 1.5em; color: white; text-align:right;   color: #F55151; background-color: #FFCCCC; }
+label.error {   padding-left: 1.5em; color: white; text-align:right; width:auto;  color: #F55151; background-color: #FFCCCC; }
 label.error:before {
         position:relative;
         font-family: FontAwesome;
@@ -267,10 +267,10 @@ label.error:before {
 #cardnumber { max-width: 230px; }
 
 
-fieldset legend { font-weight: bold;   margin: 0 0 -0.8em 0.2em;color:#2E2E2E;}
-fieldset p {  margin: 0.5em 0 1.5em 0;}
+fieldset legend { font-weight: bold;   margin: 0 0 -0.8em 0em;color:#2E2E2E;}
+fieldset p {  margin: 0;}
 #wrapper fieldset p.info { }
-fieldset { margin: 2em 0 0 0; padding: 1em 0;  position:relative; color:#2E2E2E; }
+fieldset { margin: 0.5em 0 0 0; padding: 1em 0;  position:relative; color:#2E2E2E; }
 
 fieldset, input, textarea, select, button  { border:0}
 fieldset textarea { height: 110px; }
@@ -291,8 +291,8 @@ fieldset label { display:table-cell; background-color:#2E2E2E; color:white; padd
 form input, form textarea, form select {  height:100%; display:table-cell; font-size:1em; border:0; padding:0.5em; width:100%}
 form input, form textarea { background:#F7F7F7; }
 
-#wrapper fieldset .forminfo, p.paymentreceived { margin-top:1em; display:none; padding: 0.5em;  color: #FF5ABB; font-style:italic }
-#wrapper p.flashmessage { padding: 0.8em;  margin:0; background-color: #C0FACE; }
+#wrapper fieldset .forminfo, p.paymentreceived { width:auto; margin-top:0em; display:none; padding: 0.8em;  background-color: #C0FACE; font-style:italic }
+#wrapper p.flashmessage { padding: 0.8em;  margin:0 0 1em 0; background-color: #C0FACE; width:auto;}
 #wrapper fieldset .formerror { color: white; display:inline-block; padding:0.3em 0.3em 0.3em 0; margin:0;  font-style:italic; }
 #wrapper fieldset .formerrorlight { font-weight: normal; margin: 1em 0; color: #D45F57; border: 1px solid; padding:0.3em 0.7em 0.3em 0.3em; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; background-color: #FAE5E3;}
 #wrapper fieldset .formerror:before { content: '\f456'; display: inline-block; -webkit-font-smoothing: antialiased; font: normal 32px/1 'Genericons'; vertical-align: middle; margin-right: 5px; color:#FF2E2E}
