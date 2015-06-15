@@ -43,6 +43,12 @@ if ($query->have_posts()) {
 	update_post_meta( get_the_id(), 'status', $resource['status'] );
 	$action = 'log_updated';
 	$id = get_the_id();
+
+	$data = array(
+		'action' =>  $data['action'],
+		'status' =>  $resource['status']
+	);
+
 }
 
 else {
@@ -70,13 +76,26 @@ else {
 	update_post_meta( $id, 'amount_minus_fees', $resource['amount_minus_fees'] );
 	update_post_meta( $id, 'source_type', $resource['source_type'] );
 	$action = 'log_created';
+
+	$data = array(
+		'action'            =>  $data['action'],
+		'status'            =>  $resource['status'],
+		'id'                =>  $resource['id'],
+		'source_id'         =>  $resource['source_id'],
+		'amount'            =>  $resource['amount'],
+		'amount_minus_fees' =>  $resource['amount_minus_fees'],
+		'source_type'       =>  $resource['source_type']
+	);
+
 }
 
 
 if ($id > 0) {
 
-	$return = array(
-		'type'   => 'bill',
-		'action' => $action
+	$return[] = array(
+		'type'      => 'bill',
+		'action'    => $action,
+		'post_id'   => $id,
+		'data'      => $data
 	);
 }
