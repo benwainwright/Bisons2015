@@ -21,9 +21,10 @@ include_once('GoCardless/init.php');
 
 include_once(  __DIR__ . '/wp-cron/activateSchedules.php');
 
-// Classes
-include_once('classes/Wordpress_Form.php');
-include_once('classes/WP_List_table_copy.php');
+include_once( __DIR__ . '/htmlDOM/simple_html_dom.php');
+
+foreach ( glob( __DIR__ . '/classes/*.php')  as $filename )
+{ include_once($filename); }
 
 foreach ( glob( __DIR__ . '/listTables/*.php')  as $filename )
 { include_once($filename); }
