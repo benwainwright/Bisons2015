@@ -1,7 +1,10 @@
 <?php $d = $wp_query->query['bisons_data']; ?>
 
 <header>
-<h2>Subscription Information</h2>
+	<h2>Subscription Information</h2>
+	<ul class="pageMenu">
+		<li><a class="fa fa-arrow-circle-left fa-lg" href="<?php echo site_url('players-area') ?>">Player's Area</a></li>
+	</ul>
 </header>
 
 <p>Please find below details of all payments made via the online membership system. If you have any questions about any of this information, please do not hesitate to contact a member of the committee.</p>

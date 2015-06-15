@@ -71,6 +71,9 @@ if ( ! isset ( $form_id ) )
 
 <header>
 <h2>Bristol Bisons RFC Membership Form </h2>
+	<ul class="pageMenu">
+		<li><a class="fa fa-arrow-circle-left fa-lg" href="<?php echo site_url('players-area') ?>">Player's Area</a></li>
+	</ul>
 </header>
 
 <?php global $gocardless_url; if ( isset ( $gocardless_url ) ) : ?>

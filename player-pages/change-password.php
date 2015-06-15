@@ -1,4 +1,9 @@
-<h2>Change Your Password</h2>
+<header>
+	<h2>Change Password</h2>
+	<ul class="pageMenu">
+		<li><a class="fa fa-arrow-circle-left fa-lg" href="<?php echo site_url('players-area') ?>">Player's Area</a></li>
+	</ul>
+</header>
 <p>You can use the form below to change your password. Once this is done, you will be logged out and will need to log back in with your new password.</p>
 <?php
 wp_enqueue_script('dynamicforms');
