@@ -32,7 +32,7 @@
         $status = getDDStatus(get_current_user_id());
 
          if (get_user_meta(get_current_user_id(), 'joined', true) && ( $status == 'None' || $status == 'cancelled' || $status == 'cancelled') ) : ?>
-	        <p class="flashmessage"><i class='fa fa-bell-o'></i>Although you have submitted a membership form you still need to organise payment. Click <a href="<?php echo site_url('your-subs') ?>">here</a> to sort get that sorted!</p>
+	        <p class="flashmessage"><i class='fa fa-bell-o'></i>Although you have submitted a membership form you still need to organise payment. Click the 'subs' link about to get it sorted!</p>
         <?php elseif ( ! get_user_meta(get_current_user_id(), 'joined', true) ) : ?>
 	        <p class="flashmessage"><i class='fa fa-bell-o'></i>Looks like you are not yet a club member. Click <a href="<?php echo site_url('membership-form') ?>">here</a> to go straight to our online membership form!</p>
 		<?php endif ?>
