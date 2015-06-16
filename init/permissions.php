@@ -51,6 +51,7 @@ $committee_perms = array(
             'see_dashboard' => true,
             'attribute_post' => false,
 			'modify_gcl_user_id' => false,
+			'needs_two_factor_for_restricted_areas' => true
 );
 
 $committee_admin_perms = array(
@@ -105,6 +106,7 @@ $committee_admin_perms = array(
             'see_dashboard' => true,
             'attribute_post' => false,
             'modify_gcl_user_id' => false,
+            'needs_two_factor_for_restricted_areas' => true
 
 );
 
@@ -160,6 +162,7 @@ $player_perms = array(
             'see_dashboard' => false,
             'attribute_post' => false,
             'modify_gcl_user_id' => false,
+            'needs_two_factor_for_restricted_areas' => false
             
 
 );
@@ -216,5 +219,6 @@ $guest_player_perms = array(
             'see_dashboard' => false,
             'attribute_post' => false,
             'modify_gcl_user_id' => false,
+            'needs_two_factor_for_restricted_areas' => false
 
 );

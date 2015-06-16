@@ -1,0 +1,11 @@
+#login h1 { margin:0.5em; line-height:1.2em;}
+#login p { margin:0.5em; text-align:left; }
+#login img { float:right; margin:0.3em;  }
+body.login div#login h1 a {
+    background-image: url(../images/pinkbisonsvg.svg);
+    padding-bottom: 30px;
+    padding-bottom: 30px;
+    background-size: 150px;
+    width: 150px;
+    height: 100px;
+}

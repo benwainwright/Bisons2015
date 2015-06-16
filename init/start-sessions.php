@@ -1,5 +1,8 @@
 <?php
 add_action( 'init', 'myStartSession', 1 );
+add_action('wp_logout', 'myEndSession');
+add_action('wp_login', 'myEndSession');
+
 
 function myStartSession() {
       
@@ -8,4 +11,8 @@ function myStartSession() {
         session_start();
           
     }
+}
+
+function myEndSession() {
+	session_destroy ();
 }

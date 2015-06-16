@@ -20,6 +20,6 @@ function remove_lost_your_password($text)
 { return str_replace( array('Lost your password?', 'Lost your password'), '', trim($text, '?') );  }
  add_filter( 'gettext', 'remove_lost_your_password'  );
  
-function custom_login_message() { $message = "You have tried to reach a page that can only be accessed by a current club member. <strong>Note - Only certain users need to use a Google Authenticator code. If you do not have one, just leave this box blank.</strong>"; return $message; }
+function custom_login_message() { $message = "You have tried to reach a page that can only be accessed by a current club member."; return $message; }
 add_filter('login_message', 'custom_login_message');
  

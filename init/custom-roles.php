@@ -34,6 +34,7 @@ function create_team_roles() {
     $admin->add_cap( 'see_dashboard' );  
     $admin->add_cap( 'attribute_post' );
 	$admin->add_cap( 'modify_gcl_user_id' );
+	$admin->add_cap( 'needs_two_factor_for_restricted_areas' );
 }
 
 /*
