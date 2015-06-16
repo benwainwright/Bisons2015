@@ -39,9 +39,11 @@
 		<?php wp_head(); ?>
 
 	</head>
-	<body <?php body_class() ?>>
-		
+
+	<body>
 	<div id="bodyWrapper">
+
+
 	<header id="mainheader">
 	    <div id="col">
 
@@ -63,7 +65,8 @@
                     </div>
 
 	</header>
-        <div id="menu">
+
+	<div id="menu">
 
         <?php get_template_part('menu'); ?>
 

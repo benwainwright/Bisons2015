@@ -16,3 +16,4 @@ $cpform->add_password_input ( 'change_password', 'oldpass', 'Old password', 'not
 $cpform->add_password_input ( 'change_password', 'newpass', 'New password', 'notempty');
 $cpform->add_password_input ( 'change_password', 'newpassconfirm', 'Confirm new password', 'notempty');
 $cpform->form_output();
+?>
