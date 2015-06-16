@@ -16,7 +16,7 @@ function redirect_restricted_areas( $query )
           'committee-page'  => 'view_committee_area'
     );
       
-      
+
     // If not viewing login page and the main query is being handled
     if ( ! $on_login_page && !is_admin() && $query->is_main_query() )
     {
