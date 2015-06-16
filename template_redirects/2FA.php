@@ -27,9 +27,9 @@ $version = get_bloginfo( 'version' ); ?>
 
 	$ga = new PHPGangsta_GoogleAuthenticator();
 
-	if ( ! $secret = get_option( '2FA_secret' ) ) {
+	if ( ! $secret = current_user_meta('2FA_secret') {
 		$secret = $ga->createSecret();
-		update_option( '2FA_secret', $secret );
+		update_user_meta( get_current_user_id(), '2FA_secret', $secret );
 	};
 
 	$user  = wp_get_current_user();
@@ -41,7 +41,7 @@ $version = get_bloginfo( 'version' ); ?>
 	}
 	$googleURL = 'https://chart.googleapis.com/chart?chs=120x120&chld=M|0&cht=qr&chl=' . $urlencoded . '';
 
-	$isSetup = get_option( '2FA_setup' );
+	$isSetup = current_user_meta( '2FA_setup' );
 
 
 	if ( isset( $_POST['OTP'] ) ) {
@@ -50,7 +50,7 @@ $version = get_bloginfo( 'version' ); ?>
 
 		if ( $didVerify && ! $isSetup ) {
 
-			update_option( '2FA_setup', true );
+			update_user_meta( get_current_user_id(), '2FA_setup', $secret );
 
 		} elseif ( $didVerify ) {
 			$_SESSION['bisons_skip2FA'] = true;
