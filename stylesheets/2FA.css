@@ -9,3 +9,8 @@ body.login div#login h1 a {
     width: 150px;
     height: 100px;
 }
+
+#login_error {
+
+    margin-top: 1em;
+}
