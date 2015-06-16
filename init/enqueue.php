@@ -7,7 +7,8 @@
 function header_css_and_js($hook) {
 
     // CSS
-    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '8.0.0');
+
+    wp_register_style('main_css_file', $GLOBALS['blog_info']['template_url'].'/stylesheets/main.css', false, '8.0.3');
     wp_enqueue_style('main_css_file');
     
 
@@ -53,7 +54,7 @@ function header_css_and_js($hook) {
     wp_enqueue_script( 'main_scripts_file' );
 	
 	
-    wp_register_script( 'ajax_scripts', get_template_directory_uri() . '/scripts/AJAX.js', null, '1.0.5', true );
+    wp_register_script( 'ajax_scripts', get_template_directory_uri() . '/scripts/AJAX.js.php', null, '1.0.5', true );
     wp_enqueue_script( 'ajax_scripts' );
     wp_register_script( 'hideaddybar', get_template_directory_uri() . '/scripts/hideaddressbar.js', null, '1.0.0', true );
     wp_enqueue_script( 'hideaddybar' );

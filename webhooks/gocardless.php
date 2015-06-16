@@ -15,11 +15,11 @@ if (GoCardless::validate_webhook( $webhookArray['payload'] )) {
 	{
 
 		// Include appropriate resource handler
-		include_once(  __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
+		include(  __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/all.php');
 
 		// If action handler exists, include it
 			if ( file_exists( $resourceHandler = __DIR__ . '/gclWebhookHandlers/' . $data['resource_type'] . '/' . $data['action'] . '.php' ) ) {
-			include_once( $resourceHandler );
+				include ( $resourceHandler );
 		}
 	}
 
