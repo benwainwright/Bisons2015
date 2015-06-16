@@ -80,8 +80,16 @@ jQuery(document).ready(function () {
     jQuery('input, select, textarea').focus(function () {
 
         var fieldset = jQuery(this).parent().parent();
-        jQuery(this).siblings('.forminfo').show();
-        jQuery(this).siblings('.forminfo').appendTo(fieldset);
+        var text = jQuery(this).siblings('.forminfo').html();
+
+
+        if(text) {
+            console.log(fieldset.find('fieldsetInfo'));
+            if (fieldset.find('.fieldsetInfo').length == 0) {
+                jQuery('<div class="fieldsetInfo"></div>').appendTo(fieldset);
+            }
+            jQuery(this).parent().parent().find('.fieldsetInfo').html(text).show();
+        }
         jQuery(this).addClass('focusedinput');
         jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
         jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
@@ -89,7 +97,7 @@ jQuery(document).ready(function () {
     });
 
     jQuery('input, select, textarea').focusout(function () {
-        jQuery(this).siblings('.forminfo').hide();
+        jQuery(this).parent().parent().find('.fieldsetInfo').hide();
         jQuery(this).removeClass('focusedinput');
         jQuery(this).siblings('label').removeClass('focusedinput');
         jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
