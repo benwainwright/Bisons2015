@@ -18,6 +18,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	private $lastMonth;
 
+	private $committeeMembers;
+
 	private static $plural;
 
 	private static $singular;
@@ -48,6 +50,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			$dd_status = getDDStatus($user->ID);
 
 			$row = array(
+
+				'roles'          => $user->roles,
 				'joined'         => get_user_meta( $user->ID, 'joined', true ),
 				'user_id'        => $user->data->ID,
 				'DD_sub_id'      => get_user_meta( $user->ID, 'gcl_sub_id', true ),
@@ -185,6 +189,15 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			if ( $row['lastAttended'] > ( time() - 60*60*24*7*4)) {
 				$this->lastMonth[] = $row;
 			}
+
+			$committee = false;
+			foreach ($row['roles'] as $role) {
+				$committee = $role == 'committee_member' ? true : $committee;
+			}
+
+			if ($committee) {
+				$this->committeeMembers[] = $row;
+			}
 		}
 
 		// If requested, swap them into the main data array
@@ -213,6 +226,11 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				$this->data = $this->lastMonth;
 				break;
 
+			case "committee":
+				$this->data = $this->committeeMembers;
+				break;
+
+
 
 			default:
 				$this->data = $this->rawData;
@@ -240,6 +258,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			case 'fullname':
 			case 'age':
 			case 'email':
+				return $item [ $column_name ];
 			case 'lastModified':
 			case 'lastAttended':
 				return $item [ $column_name ]  > 0 ? date( 'M jS, Y', (int) $item [ $column_name ]) : 'Never';
@@ -250,14 +269,18 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	function get_bulk_actions() {
 		$actions = array(
-
 			'bulk_email'      => 'Send Email',
 			'reset_pass'      => 'Reset Passwords',
 			'download_csv'    => 'Download CSV',
-			'printable_forms' => 'Download Printable Membership Data'
+			'printable_forms' => 'Download Printable Membership Data',
+			'reset_2fa'       => 'Reset Two Factor',
 		);
 
-		return $actions;
+		if (! current_user_can('reset_2fa')) {
+			unset($actions['reset_2fa']);
+		}
+
+			return $actions;
 	}
 
 
@@ -300,6 +323,12 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		$url                 = add_query_arg( 'filter', 'supporters' );
 		$count               = count( $this->supportersRows );
 		$views['supporters'] = "<a href='{$url }' {$class} >Supporters <span class='count'>($count)</span></a>";
+
+		// Committee
+		$class               = ( $current == 'committee' ? ' class="current"' : '' );
+		$url                 = add_query_arg( 'filter', 'committee' );
+		$count               = count( $this->committeeMembers );
+		$views['committee'] = "<a href='{$url }' {$class} >Committee <span class='count'>($count)</span></a>";
 
 		// Attended in the last month
 		$class               = ( $current == 'lastMonth' ? ' class="current"' : '' );

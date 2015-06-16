@@ -16,21 +16,20 @@ function redirect_restricted_areas( $query )
           'committee-page'  => 'view_committee_area'
     );
       
-      
+
     // If not viewing login page and the main query is being handled
     if ( ! $on_login_page && !is_admin() && $query->is_main_query() )
     {
           // If the query is an object, get the current post type
           if ( is_object ( $query ) && isset ( $query->query['post_type'] ) ) 
                 $current_post_type = $query->query['post_type'];
-          
+
+
+
           // For each pair in the array
           foreach ( $restricted_area_permissions as $type => $permission )
           {
-                  // If the user has the permission and the current page 
-                  // is a single pageOR the archive for that post type
-                  // 
-          		if ( ( ! current_user_can( $permission ) ) 
+          		if ( ( ! current_user_can( $permission ) )
           		&& ( ( $query->is_single && $current_post_type == $type ) 
           		|| $query->is_post_type_archive ( $type)  ) )     
                 {
@@ -40,9 +39,24 @@ function redirect_restricted_areas( $query )
                         
                     // Stop script execution
                     exit ( );
-                }       
-          }      
+                }
+
+	          // If on a restricted page with a user requiring 2FA and
+	          // no skip session cookie
+	          else if ( ( ( $query->is_single && $current_post_type == $type ) ||
+	                 $query->is_post_type_archive  ) &&
+	               current_user_can( 'needs_two_factor_for_restricted_areas' )  &&
+	               ! $_SESSION['bisons_skip2FA'] ) {
+
+		          wp_redirect ( site_url( '2FA.php?next=' . urlencode($_SERVER['REQUEST_URI']) ) );
+		          exit();
+
+	          }
+          }
     }
+
+
+
 }
 
 add_action ( 'pre_get_posts', 'redirect_restricted_areas' );
@@ -55,6 +69,14 @@ function block_from_dashboard()
         $url = wp_login_url( add_query_arg ( array() ) );
         wp_redirect( $url );
         exit ( );
+
+    } elseif ( is_admin() && is_main_query() && ! $_SESSION['bisons_skip2FA'] ) {
+
+	    wp_redirect ( site_url( '2FA.php?next=' . urlencode($_SERVER['REQUEST_URI']) ) );
+	    exit();
+
     }
+
+
 }
 add_action ( 'init', 'block_from_dashboard'); 
