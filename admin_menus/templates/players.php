@@ -9,8 +9,7 @@
 		// Get bills table
 		$billsTable = new GCLBillsTable(array ( 'screen' => 'playerDetails', 'singular' => 'player', 'plural' => 'players' ));
 		$billsTable->prepare_items();
-
-
+		
 
 		if ( get_user_meta( $_GET['user_id'], 'joined', true) ) {
 
