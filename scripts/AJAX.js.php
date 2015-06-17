@@ -1,4 +1,11 @@
+<?php
 
+if(!session_id()) {
+
+	session_start();
+
+}
+?>
 // Menubar clicks redraw page with AJAX
 jQuery('#menu li a').click(function () {
     if (jQuery(this).attr('class') != 'loginout'
