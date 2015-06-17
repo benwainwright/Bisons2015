@@ -26,7 +26,7 @@ foreach ( $bills as $index => $billRow ) {
 	}
 
 
-	$user = ($user[0];
+	$user = ($user[0]);
 
 	if (null !== $user) {
 		$date = date( 'Y-m-d H:i:s', isset ( $bill->paid_at ) ? strtotime( $bill->paid_at ) : time() );
