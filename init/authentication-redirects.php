@@ -41,6 +41,7 @@ function redirect_restricted_areas( $query )
                     exit ( );
                 }
 
+
 	          // If on a restricted page with a user requiring 2FA and
 	          // no skip session cookie
 	          else if ( ( ( $query->is_single && $current_post_type == $type ) ||
@@ -70,12 +71,12 @@ function block_from_dashboard()
         wp_redirect( $url );
         exit ( );
 
-    } elseif ( is_admin() && is_main_query() && ! $_SESSION['bisons_skip2FA'] ) {
+    } /* elseif ( is_admin() && is_main_query() && ! $_SESSION['bisons_skip2FA'] ) {
 
 	    wp_redirect ( site_url( '2FA.php?next=' . urlencode($_SERVER['REQUEST_URI']) ) );
 	    exit();
 
-    }
+    } */
 
 
 }
