@@ -45,7 +45,7 @@ if ( ! get_user_meta( $formUser, 'GCLUserID' ) ) {
 			$setup_fee        = pence_to_pounds( get_post_meta( $feeid, 'initial-payment', true ), false );
 
 			$preAuthDetails = array(
-				'max_amount'     => '200.00',
+				'max_amount'      => '200.00',
 				'name'            => get_post_meta( $feeid, 'fee-name', true ),
 				'interval_length' => 1,
 				'interval_unit'   => 'month',
@@ -131,9 +131,9 @@ $singlelinefields = array(
 	'What can you bring to the Bisons'    => 'whatcanyoubring',
 	'Top Size'                            => 'topsize',
 	'Payment Date'                        => 'payWhen',
-	'DayOfMonth'                          => 'Day Of Month',
-	'weekDay'                             => 'Weekday',
-	'whichWeekDay'                        => 'Which weekday?'
+	'Day Of Month'                        => 'DayOfMonth',
+	'Weekday'                             => 'weekDay',
+	'Which Weekday'                       => 'whichWeekDay'
 );
 
 
@@ -346,6 +346,6 @@ if ( $_POST['injuredyesno'] == "Yes" ) {
 	}
 }
 
-update_user_meta($formUser, 'lastModified', time());
+update_user_meta( $formUser, 'lastModified', time() );
 
 update_user_meta( $formUser, 'memtype', $_POST['memtype'] );
