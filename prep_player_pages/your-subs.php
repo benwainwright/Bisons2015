@@ -13,6 +13,8 @@ $form_user = ( isset ( $_GET['player_id'] ) && current_user_can( 'committee_perm
 // If a membership form exists, load it from WordPress
 if ( get_user_meta( $form_user, 'joined', true ) ) {
 
+	new dBug(get_user_meta($form_user));
+
 	$data['joined'] = true;
 	$data['payMethod'] = get_user_meta( $form_user, 'payMethod', true ) ? get_user_meta( $form_user, 'payMethod', true ) : false;
 	$data['payStatus'] = getDDStatus($form_user);
@@ -20,8 +22,9 @@ if ( get_user_meta( $form_user, 'joined', true ) ) {
 	$data['query']  = new WP_Query(array ( 'post_type' => 'GCLBillLog', 'posts_per_page' => 10, 'author' => $form_user));
 	$data['paymentInfo'] = getPaymentInfo($form_user);
 	$data['subName'] = get_user_meta($form_user, 'mem_name', true) ?  get_user_meta($form_user, 'mem_name', true) : 'None';
-
-
+	$data['payWhen'] = get_user_meta($form_user, 'payWhen', true);
+	$data['nextPaymentDate'] = date('jS M, Y', getNextPaymentDate(get_current_user_id()));
+	$data['dayOfMonth'] = get_user_meta($form_user, 'dayOfMonth', true);
 } else {
 
 	// If nomembership form found, redirect to the membership form with a flash message

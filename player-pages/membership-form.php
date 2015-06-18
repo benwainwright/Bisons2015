@@ -569,7 +569,6 @@ if ( ! isset ( $form_id ) )
 			  <select class="required" name="payWhen" id="payWhen">
 				  <option value="first">First day of the month</option>
 				  <option value="last">Last day of the month</option>
-				  <option value="lastWorkingDay">Last working day of the month</option>
 				  <option value="specificDay">Specific day</option>
 				  <option value="specificWeekday">Specific weekday</option>
 			  </select>
@@ -586,11 +585,11 @@ if ( ! isset ( $form_id ) )
 		  <div id='payWeekDayDiv'  style="display:none">
 			  <label class="smalllabel" for="weekDay">Weekday</label>
 			  <select class="required" name="whichWeekDay">
-				  <option value="1">1st</option>
-				  <option value="2">2nd</option>
-				  <option value="3">3rd</option>
-				  <option value="4">4th</option>
-				  <option value="5">5th</option>
+				  <option>1st</option>
+				  <option>2nd</option>
+				  <option>3rd</option>
+				  <option>4th</option>
+				  <option>5th</option>
 			  </select>
 			  <select class="required" name="weekDay">
 				  <?php for ($i = 0; $i <= 6; $i++) : ?>

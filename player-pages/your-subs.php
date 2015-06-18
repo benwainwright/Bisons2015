@@ -24,6 +24,19 @@
 			<td><?php echo money_format( '%n', (int) $d['paymentInfo']['Total Paid']) ?></td>
 		</tr>
 		<?php endif ?>
+		<tr>
+			<th>Type</th>
+			<td><?php echo $d['payWhen'] ?></td>
+		</tr>
+		<tr>
+			<th>Day of Month</th>
+			<td><?php echo $d['dayOfMonth'] ?></td>
+		</tr>
+
+		<tr>
+			<th>Next Payment Date</th>
+			<td><?php echo $d['nextPaymentDate'] ?></td>
+		</tr>
 	</tbody>
 </table>
 
