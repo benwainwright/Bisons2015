@@ -88,11 +88,6 @@ if ( ! isset ( $form_id ) )
 <?php else: ?>
 <p class='flashmessage'><i class='fa fa-bell-o'></i>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
 <?php endif; ?>
-<ul class='invalidformerrors'>
-    <?php foreach ( $errors as $error ) : ?>
-    <li><?php echo $error ?></li>
-    <?php endforeach ?>
-</ul>
 <form id='membershipform_payment' method="post" role="form">
     
     <?php if  ( current_user_can ('committee_perms') ) : ?>
@@ -109,7 +104,7 @@ if ( ! isset ( $form_id ) )
         </div>
         <?php if ( isset ( $_GET['player_id' ] ) ) : ?>
         <p class='info'>This is NOT YOUR MEMBERSHIP form. You can fill in someone else's form below or use the dropdown box below to return to your membership form.</p>
-        <?php echo $_GET['player_id' ] ?>' />
+
         <?php else : ?>
 	        <p class='info'>This is your own membership form. As a committee member, you can use this dropdown box to select and edit the membership form of other players.</p>
         <?php endif ?>
@@ -617,13 +612,7 @@ I have read and fully understand the club <a href='<?php echo $GLOBALS['blog_inf
             <label class='checkboxlabel' for='physicalsport'><input class='required'  type="checkbox" name="physicalsport" id="physicalsport"<?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I understand that Rugby is a contact sport, and like all contact sports, players may be exposed to the risk of physical injury. Should injury occur, I understand that the club cannot accept responsibility for any injuries which arise.</label>
         </div>
-        <div>
-            <?php if ( $disabled ) : ?>
-            <button type='submit' name='edit_details' /><?php if (get_user_meta($formUser, 'joined', true ) == true ) { echo "Edit Details"; } ?>
-            <?php else : ?>
-            <button type='submit'><?php if (get_user_meta($formUser, 'joined', true ) == true ) { echo "Save Changes"; } else { echo "Submit"; } ?></button>
-            <?php endif ?>       
-         </div>
+	    <button type='submit'><?php if (get_user_meta($formUser, 'joined', true ) == true ) { echo "Save Changes"; } else { echo "Submit"; } ?></button>
     </fieldset>
     <?php if (get_user_meta($formUser, 'joined', true ) == true ) { ?><input type='hidden' name='form_id' value='<?php echo $form_id ?>' /><?php } ?>
     <input type='hidden' name='wp_form_id' value='membership_form' />
