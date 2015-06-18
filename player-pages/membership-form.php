@@ -1,6 +1,6 @@
 <?php
     wp_enqueue_script('dynamicforms');
-    wp_enqueue_script('formvalidation-membership-form');
+    wp_enqueue_script('formvalidation-membership');
 
 
 
