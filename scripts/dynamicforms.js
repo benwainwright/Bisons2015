@@ -1,3 +1,78 @@
+function addRowToTableWhenFull() {
+    var lastRow = jQuery(this).parent().parent().parent().find('tr:last');
+        var clonedRow = jQuery(lastRow).clone();
+        var full = true;
+
+        clonedRow.find('input').each(function(element){
+
+            if(jQuery(this).val() == '') {
+                full = false;
+            }
+
+            else {
+                jQuery(this).val('');
+                jQuery(this).removeClass();
+            }
+
+        });
+
+        if(full) {
+
+            lastRow.keydown(null);
+            clonedRow.insertAfter(lastRow);
+            var clonedInputs = clonedRow.find('input');
+            clonedInputs.keydown(addRowToTableWhenFull);
+            clonedInputs.focus(setInputAsFocused);
+            clonedInputs.focusout(setInputAsUnfocused);
+
+        }
+}
+
+var setInputAsFocused = function () {
+
+
+
+    var text = jQuery(this).siblings('.forminfo').html();
+
+    if(text) {
+        var sb = jQuery('#statusBar');
+        display = sb.css('display');
+
+        sb.data('prevDisplay', display);
+        sb.data('prevHTML', sb.html());
+        sb.addClass('statusBarInfo').html(text).show();
+    }
+
+    jQuery(this).addClass('focusedinput');
+    jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
+    jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
+}
+
+function setInputAsUnfocused() {
+
+        var sb = jQuery('#statusBar');
+
+        if(sb.hasClass('statusBarInfo')) {
+            sb.removeClass('statusBarInfo');
+        }
+        jQuery(this).parent().parent().find('.fieldsetInfo');
+
+        html = sb.data('prevHTML');
+
+        if(html) {
+            sb.html(html);
+        }
+
+        if (sb.find('li').length = 0 ) {
+            sb.hide();
+        }
+
+        jQuery(this).removeClass('focusedinput');
+        jQuery(this).siblings('label').removeClass('focusedinput');
+        jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
+}
+
+
 jQuery(document).ready(function () {
 
     jQuery('#committeeSelectPlayer').change(function () {
@@ -77,31 +152,11 @@ jQuery(document).ready(function () {
     });
 
 
-    jQuery('input, select, textarea').focus(function () {
-
-        var fieldset = jQuery(this).parent().parent();
-        var text = jQuery(this).siblings('.forminfo').html();
+    jQuery('input, select, textarea').focus(setInputAsFocused);
+    jQuery('input, select, textarea').focusout(setInputAsUnfocused);
 
 
-        if(text) {
-            console.log(fieldset.find('fieldsetInfo'));
-            if (fieldset.find('.fieldsetInfo').length == 0) {
-                jQuery('<div class="fieldsetInfo"></div>').appendTo(fieldset);
-            }
-            jQuery(this).parent().parent().find('.fieldsetInfo').html(text).show();
-        }
-        jQuery(this).addClass('focusedinput');
-        jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
-        jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
-
-    });
-
-    jQuery('input, select, textarea').focusout(function () {
-        jQuery(this).parent().parent().find('.fieldsetInfo').hide();
-        jQuery(this).removeClass('focusedinput');
-        jQuery(this).siblings('label').removeClass('focusedinput');
-        jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
-    });
+    jQuery('table.autoAddRow').find('tbody tr:last input').keydown(addRowToTableWhenFull);
 
     jQuery('#joiningas').change(function () {
         if (jQuery(this).val() == 'Supporter') {
@@ -239,19 +294,6 @@ jQuery(document).ready(function () {
 
     jQuery('#conddisablefieldset').find('.addrow').click(function () {
 
-        var rownum = jQuery('#conddisablefieldset').find('tbody').find('tr').length + 1;
-
-        var row = '<tr><td><input class="required tableInputs" name="condsdisablities_name_row' + rownum + '" type=\'text\' /></td><td>'
-            + '<input class="required tableInputs" name="condsdisablities_drugname_row' + rownum + '" type=\'text\' /></td><td> '
-            + '<input class="required tableInputs" name="condsdisablities_drugdose_freq_row' + rownum + '" type=\'text\' /></td>'
-            + '</tr>';
-        jQuery('#conddisablefieldset').find('tbody').append(row);
-
-        if (jQuery('#conddisablefieldset').find('tbody').find('tr').length > 1) {
-            jQuery('#conddisablefieldset').find('.removerow').show();
-        }
-
-        return false;
     });
 
     jQuery('#conddisablefieldset').find('.removerow').click(function () {
