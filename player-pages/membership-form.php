@@ -123,7 +123,7 @@ if ( ! isset ( $form_id ) )
                 <?php selectOptionFromMeta($formUser, 'joiningas', 'Player') ?>
 	            <?php selectOptionFromMeta($formUser, 'joiningas', 'Supporter') ?>
             </select>
-            <p class='forminfo'>Please note that a supporter membership is specifically for those that want to support the team but do not want to play any rugby. If you will be playing with us, pleae make sure you choose 'player' here because we will need to take some details of your medical history for you as part of our duty of care.</p>
+            <p class='forminfo'>Please note that a supporter membership is specifically for those that want to support the team but do not want to play any rugby. If you will be playing with us, please make sure you choose 'player' here because we will need to take some details of your medical history for you as part of our duty of care.</p>
         </div>
     </fieldset>
     
