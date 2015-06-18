@@ -323,21 +323,24 @@ if ( ! isset ( $form_id ) )
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'condsdisablities_rowcount', true) + 1; $i++ ) : ?>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'condsdisablities_rowcount', true); $i++ ) : ?>
                 <tr class='clonerow'>
-                    <td><input class='tableInputs' placeholder="Condition Name" name="condsdisablities_name[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_name_row' . $i, true); } ?>" /></td>
-                    <td><input class='tableInputs' placeholder="Medication Name"   name="condsdisablities_drugname[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugname_row' . $i, true); } ?>" /></td>
-                    <td><input class='tableInputs' placeholder="Dose and Frequency" name="condsdisablities_drugdose[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugdose_freq_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="condsdisablities_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_name_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="condsdisablities_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugname_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="condsdisablities_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugdose_freq_row' . $i, true); } ?>" /></td>
                 </tr>
                 <?php endfor; ?>
             </tbody>
         </table>
-
+        <?php if ( ! $disabled ) { ?>
+        <button class="smallbutton removerow"<?php if ( get_user_meta($formUser, 'condsdisablities_rowcount', true) > 1 ) { ?> style='display:inline'<?php } ?>>Remove Row</button>
+        <button class="smallbutton addrow">Add Row</button>
+        <?php } ?>
     </fieldset>
     <fieldset id="allergiesfieldset"<?php if (get_user_meta($formUser, 'allergiesyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Allergies</legend>
-        <p class="info">Please enter the details of your allergy, and any medication (e.g. tablets, inhalers, creams) you use for each, making sure to give drug names.  <em>When you fill an empty row, a new one will be added.</em></p>
-        <table id="allergiestable" class='center autoAddRow'>
+        <p class="info">Please enter the details of your allergy, and any medication (e.g. tablets, inhalers, creams) you use for each, making sure to give drug names.</p>
+        <table id="allergiestable" class='center'>
             <thead>
                 <tr>
                     <th>Allergy</th>
@@ -346,20 +349,24 @@ if ( ! isset ( $form_id ) )
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'allergies_rowcount', true) + 1; $i++ ) : ?>
-                <tr>
-                    <td><input class='tableInputs' name="allergies_name[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_name_row' . $i, true); } ?>" /></td>
-                    <td><input class='tableInputs' name="allergies_drugname[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugname_row' . $i, true); } ?>" /></td>
-                    <td><input class='tableInputs' name="allergies_drugdose_freq[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugdose_freq_row' . $i, true); } ?>" /></td>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'allergies_rowcount', true); $i++ ) : ?>
+                <tr class='clonerow'>
+                    <td><input class='required tableInputs' name="allergies_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_name_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="allergies_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugname_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="allergies_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugdose_freq_row' . $i, true); } ?>" /></td>
                 </tr>
                 <?php endfor; ?>
             </tbody>
         </table>
+        <?php if ( ! $disabled ) { ?>
+        <button class="smallbutton removerow"<?php if ( get_user_meta($formUser, 'allergies_rowcount', true) > 1 ) { ?> style='display:inline'<?php } ?>>Remove Row</button>
+        <button class="smallbutton addrow">Add Row</button>
+        <?php } ?>
     </fieldset>
         <fieldset id="injuriesfieldset"<?php if (get_user_meta($formUser, 'injuredyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Injuries</legend>
-        <p class="info">Please list any injuries (e.g. concussion), indicating when they happened, who treated you (e.g. your doctor) and the current status of your injuries (e.g. whether they are fully recovered or not). <em>When you fill an empty row, a new one will be added.</em></p>
-        <table id="injuriestable" class='center autoAddRow'>
+        <p class="info">Please list any injuries (e.g. concussion), indicating when they happened, who treated you (e.g. your doctor) and the current status of your injuries (e.g. whether they are fully recovered or not).</p>
+        <table id="injuriestable" class='center'>
             <thead>
                 <tr>
                     <th>Injury</th>
@@ -370,18 +377,22 @@ if ( ! isset ( $form_id ) )
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'injuries_rowcount', true) + 1; $i++ ) : ?>
-                <tr>
-                    <td><input class='required tableInputs' name="injuries_name[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_name_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_when[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_when_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_treatmentreceived[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_treatmentreceived_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_who[]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_who_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_status[]]" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_status_row' . $i, true); } ?>" /></td>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'injuries_rowcount', true); $i++ ) : ?>
+                <tr class='clonerow'>
+                    <td><input class='required tableInputs' name="injuries_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_name_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_when_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_when_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_treatmentreceived_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_treatmentreceived_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_who_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_who_row' . $i, true); } ?>" /></td>
+                    <td><input class='required tableInputs' name="injuries_status_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_status_row' . $i, true); } ?>" /></td>
+
                 </tr>
                 <?php endfor; ?>
             </tbody>
         </table>
-
+        <?php if ( ! $disabled ) { ?>
+        <button class="smallbutton removerow"<?php if ( get_user_meta($formUser, 'injuries_rowcount', true) > 1 ) { ?> style='display:inline'<?php } ?>>Remove Row</button>
+        <button class="smallbutton addrow">Add Row</button>
+        <?php } ?>
     </fieldset>
 
     <fieldset>
