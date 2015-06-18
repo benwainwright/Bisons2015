@@ -67,7 +67,7 @@ html {
 
 #wrapper ul.pageMenu li {
     display: inline-block;
-    margin: 0 0.5em;
+    margin: 0.5em;
 }
 
 #wrapper ul.pageMenu {
@@ -618,9 +618,6 @@ td.large-cell {
     background: #f7f7f7;
     margin: 1em auto;
     padding: 1em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
     border: 1px solid #EBEBEB;
 }
 
@@ -825,17 +822,11 @@ ul.documentlist {
     font-size: 1.1em;
     text-align: center;
     color: white;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
     background: #2E2E2E;
     line-height: 1.5em;
     max-width: 500px;
     margin: 1em auto 3.5em auto;
     padding: 1em;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
 }
 
 .infosmall:before {
@@ -939,6 +930,17 @@ form select, form button, form input, form textarea, form label {
     -webkit-box-sizing: border-box; /* For legacy WebKit based browsers */
     -moz-box-sizing: border-box; /* For legacy (Firefox <29) Gecko based browsers */
     box-sizing: border-box;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+
+html form input[type='checkbox'] {
+    -webkit-appearance: checkbox;
+}
+
+form input[type='checkbox'] {
+
+    -webkit-appearance:inherit;
 }
 
 form select {
@@ -1027,7 +1029,6 @@ form button.smallbutton {
     position:fixed;
     bottom:0;
     font-style:italic;
-    padding-top: 1em;
     left:0;
     right:0;
     -webkit-box-shadow: 0px -1px 4px 0px rgba(0,0,0,0.33);
@@ -1056,8 +1057,12 @@ width: auto;
     color:#F55151;
 }
 
-#fixedError li {
-    list-style:none;
+#statusBar .errorSubheading {
+    margin-left: 1em;
+    font-size: 0.8em;
+    font-style:normal;
+    color: #B5B5B5;
+    margin-bottom: 0;
 }
 
 ul.invalidformerrors {
@@ -1115,6 +1120,7 @@ fieldset input, fieldset textarea, fieldset select {
     background: white;
     display: inline-block;
     margin: 0 0.3em 0 0;
+
 }
 
 fieldset input.norightmargin, fieldset textarea.norightmargin, fieldset select.norightmargin {
@@ -1257,9 +1263,6 @@ form input, form textarea {
     color: #D45F57;
     border: 1px solid;
     padding: 0.3em 0.7em 0.3em 0.3em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
     background-color: #FAE5E3;
 }
 
@@ -1297,9 +1300,6 @@ form input, form textarea {
     color: #D45F57;
     border: 1px solid;
     padding: 0.3em 0.7em 0.3em 0.3em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
     background-color: #FAE5E3;
     display: inline-block;
 }
@@ -1354,9 +1354,6 @@ fieldset table input {
     color: #D45F57;
     border: 1px solid;
     padding: 0.3em;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
     background-color: #FAE5E3;
 }
 
@@ -1456,9 +1453,6 @@ table.photosets .photosetsMeta ul {
 table.photosets .photosetsMeta {
     border: 1px solid #B3B3B3;
     background: #f7f7f7;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
 }
 
 .photosets td, .photogallery td, .playerprofiles {
@@ -1594,9 +1588,6 @@ div.metaBox.nextEvent h4 {
 
 #wrapper .metaBox ul.extra {
     background-color: #454545;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
     margin-bottom: 1em;
 }
 
@@ -2057,9 +2048,6 @@ html #wrapper li.score {
 
 #wrapper .photogallery td, #wrapper .photogallery th {
     background: none;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
     vertical-align: middle;
 }
 
