@@ -131,9 +131,9 @@ $singlelinefields = array(
 	'What can you bring to the Bisons'    => 'whatcanyoubring',
 	'Top Size'                            => 'topsize',
 	'Payment Date'                        => 'payWhen',
-	'DayOfMonth'                          => 'Day Of Month',
-	'weekDay'                             => 'Weekday',
-	'whichWeekDay'                        => 'Which weekday?'
+	'Day Of Month'                        => 'DayOfMonth',
+	'Weekday'                             => 'weekDay',
+	'Which Weekday'                       => 'whichWeekDay'
 );
 
 
