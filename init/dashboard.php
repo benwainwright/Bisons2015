@@ -6,6 +6,12 @@ function add_dashboard_widgets()
         'Bisons Custom Theme',
         'display_bisons_info'
     );
+
+	wp_add_dashboard_widget(
+		'server-time-widget',
+		'Server Time',
+		'display_server_time'
+	);
     /*
     wp_add_dashboard_widget(
         'bisons-fixtures-widget',
@@ -20,6 +26,11 @@ function display_bisons_info()
     <p>This website runs on a purpose built theme with quite a lot of customisation. For more details about how to use various aspects of the site, checkout the <a href='/committee-area/'>committee area</a>.</p>
  
 <?php }
+
+function display_server_time() {
+
+	echo '<p>The server time is' . date('g:i:s a').'</p>'
+}
 
 $taxonomy = get_terms ( array ( 'seasons' ) );
 foreach ($taxonomy as $tax) 
