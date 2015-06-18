@@ -88,6 +88,10 @@ if ( ! isset ( $form_id ) )
 <?php else: ?>
 <p class='flashmessage'><i class='fa fa-bell-o'></i>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
 <?php endif; ?>
+<div id="statusBar">
+	<ul class='errors'>
+	</ul>
+</div>
 <form id='membershipform_payment' method="post" role="form">
     
     <?php if  ( current_user_can ('committee_perms') ) : ?>
