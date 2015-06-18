@@ -30,18 +30,38 @@ function addRowToTableWhenFull() {
 
 var setInputAsFocused = function () {
 
-
-
     var text = jQuery(this).siblings('.forminfo').html();
-
+    var sb = jQuery('#statusBar');
+    
+    // If there is text in a forminfo, put it into the status bar
     if(text) {
-        var sb = jQuery('#statusBar');
         display = sb.css('display');
 
         sb.data('prevDisplay', display);
         sb.data('prevHTML', sb.html());
         sb.addClass('statusBarInfo').html(text).show();
     }
+
+    // Get dimensions of focused element
+    var windowHeight = jQuery(window).height();
+    var sbHeight = sb.outerHeight();
+    var elementHeight = jQuery(this).outerHeight();
+    var sbTopPosition = windowHeight - sbHeight;
+    var elementTopRelativeToDocument = jQuery(this).offset().top;
+    var elementBottomRelativeToWindow =  jQuery(this).offset().top - jQuery(window).scrollTop();
+
+    var statusBarIsVisible = sb.css('display') == 'block';
+
+    // If the element is hidden behind the statusbar, scroll up a bit
+    if (statusBarIsVisible && elementBottomRelativeToWindow > sbTopPosition) {
+
+        var scroll = elementTopRelativeToDocument - windowHeight + sbHeight + elementHeight + 10;
+
+        $('html, body').animate({
+            scrollTop: scroll
+        }, 500);
+    }
+
 
     jQuery(this).addClass('focusedinput');
     jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
