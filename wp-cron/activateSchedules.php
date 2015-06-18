@@ -14,22 +14,13 @@ function activateSchedules()
 
 		$hook = explode('-', pathinfo( $hook )['filename']);
 		$name = $hook[0];
-
 		$schedule = $hook[1];
-
-		$schedules = wp_get_schedules();
-
-		$time = isset($schedules[$schedule]['startTime']) ?
-			strtotime('tomorrow', strtotime('midnight')) + 1 + $schedules[$schedule]['startTime'] :
-			time();
-
 		$timestamp = wp_next_scheduled( $name );
 
 		if ( ! $timestamp || $timestamp < time() ) {
-			wp_schedule_event( $time, 'schedule' . $schedule, $name );
+			wp_schedule_event( time(), 'schedule' . $schedule, $name );
 		}
 	}
-
 }
 
 foreach( glob( __DIR__ . '/actions/*.php') as $hook ) {
