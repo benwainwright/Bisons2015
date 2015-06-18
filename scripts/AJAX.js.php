@@ -9,9 +9,9 @@ if(!session_id()) {
 // Menubar clicks redraw page with AJAX
 jQuery('#menu li a').click(function () {
     if (jQuery(this).attr('class') != 'loginout'
-	<?php if (  ! $_SESSION['bisons_skip2FA']) : ?>
+	<?php if (isset($_SESSION['bisons_skip2FA'])) : if (  ! $_SESSION['bisons_skip2FA']) : ?>
 	&& jQuery(this).attr('href') != '/players-area/'
-	<?php endif ?> ) {
+	<?php endif; endif ?> ) {
 
 
         var nua = navigator.userAgent;
