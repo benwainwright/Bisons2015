@@ -29,8 +29,6 @@ $image_url = wp_get_attachment_url( $image_id );
                   } 
                   ?>
                   <div class='eventMeta'>
-                  <ul>
-                   </ul>
                   <?php if (is_single()) { ?>
                   	<h4><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="summary"><?php the_title(); ?></span></a></h4>
                   	<ul class='extra'>
