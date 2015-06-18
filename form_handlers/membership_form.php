@@ -280,69 +280,74 @@ if ( $_POST['fainting'] != get_user_meta( $formUser, 'fainting', true ) ||
 
 }
 
-
 if ( $_POST['medconsdisabyesno'] == "Yes" ) {
-	$i         = 1;
-	$realCount = 1;
-	while ( isset( $_POST[ 'condsdisablities_name_row' . $i ] ) ) {
 
-		if ( $_POST[ 'condsdisablities_name_row' . $i ] != '' ) {
-			update_user_meta( $formUser, 'condsdisablities_name_row' . $realCount,
-				$_POST[ 'condsdisablities_name_row' . $i ] );
-			update_user_meta( $formUser, 'condsdisablities_drugname_row' . $realCount,
-				$_POST[ 'condsdisablities_drugname_row' . $i ] );
-			update_user_meta( $formUser, 'condsdisablities_drugdose_freq_row' . $realCount,
-				$_POST[ 'condsdisablities_drugdose_freq_row' . $i ] );
-			update_user_meta( $formUser, 'condsdisablities_rowcount', $realCount );
-			$realCount ++;
+	foreach ( $_POST[ 'condsdisablities_name' ] as $key => $value ) {
+
+		if ($value != '') {
+			update_user_meta( $formUser, 'condsdisablities_name_row' . $key, $value );
 		}
-		$i ++;
 	}
+
+	foreach ( $_POST[ 'condsdisablities_drugname' ] as $key => $value ) {
+		if ($value != '') {
+			update_user_meta( $formUser, 'condsdisablities_drugname_row' . $key, $value );
+		}
+	}
+
+	foreach ( $_POST[ 'condsdisablities_drugdose' ] as $key => $value ) {
+		if ($value != '') {
+			update_user_meta( $formUser, 'condsdisablities_drugdose_freq_row' . $key, $value );
+		}
+	}
+
+	update_user_meta( $formUser, 'condsdisablities_rowcount', count ( $_POST[ 'condsdisablities_name' ] ) );
 }
 
 
 if ( $_POST['allergiesyesno'] == "Yes" ) {
-	$i         = 1;
-	$realCount = 1;
-	while ( isset( $_POST[ 'allergies_name_row' . $i ] ) ) {
-		if ( $_POST[ 'allergies_name_row' . $i ] != '' ) {
-			update_user_meta( $formUser, 'allergies_name_row' . $realCount, $_POST[ 'allergies_name_row' . $i ] );
-			update_user_meta( $formUser, 'allergies_drugname_row' . $realCount,
-				$_POST[ 'allergies_drugname_row' . $i ] );
-			update_user_meta( $formUser, 'allergies_drugdose_freq_row' . $realCount,
-				$_POST[ 'allergies_drugdose_freq_row' . $i ] );
-			update_user_meta( $formUser, 'allergies_rowcount', $realCount );
-			$realCount ++;
-		}
-		$i ++;
+	foreach ( $_POST[ 'condsdisablities_name' ] as $key => $value ) {
+		update_user_meta( $formUser, 'allergies_name_row' . $key, $value );
 	}
+
+	foreach ( $_POST[ 'condsdisablities_drugname' ] as $key => $value ) {
+		update_user_meta( $formUser, 'allergies_drugname_row' . $key, $value );
+	}
+
+	foreach ( $_POST[ 'condsdisablities_drugdose_freq' ] as $key => $value ) {
+		update_user_meta( $formUser, 'allergies_drugdose_freq_row' . $key, $value );
+	}
+
+	update_user_meta( $formUser, 'allergies_drugdose_rowcount', count ( $_POST[ 'condsdisablities_name' ] ) );
+
 }
 
 
 if ( $_POST['injuredyesno'] == "Yes" ) {
-	$i         = 1;
-	$realCount = 1;
-	while ( isset( $_POST[ 'injuries_name_row' . $i ] ) ) {
-		if ( $_POST[ 'injuries_name_row' . $i ] != '' ) {
-			update_user_meta( $formUser, 'injuries_name_row' . $realCount, $_POST[ 'injuries_name_row' . $i ] );
-			update_user_meta( $formUser, 'injuries_when_row' . $realCount, $_POST[ 'injuries_when_row' . $i ] );
-			update_user_meta( $formUser, 'injuries_treatmentreceived_row' . $realCount,
-				$_POST[ 'injuries_treatmentreceived_row' . $i ] );
-			update_user_meta( $formUser, 'injuries_who_row' . $realCount, $_POST[ 'injuries_who_row' . $i ] );
-			update_user_meta( $formUser, 'injuries_status_row' . $realCount, $_POST[ 'injuries_status_row' . $i ] );
-			update_user_meta( $formUser, 'injuries_rowcount', $realCount );
-		}
-		$i ++;
-	}
 
-	for ( $i = 1; isset( $_POST[ 'injuries_name_row' . $i ] ) && $_POST[ 'injuries_name_row' . $i ] != ''; $i ++ ) {
-		update_user_meta( $formUser, 'injuries_name_row' . $i, $_POST[ 'injuries_name_row' . $i ] );
-		update_user_meta( $formUser, 'injuries_when_row' . $i, $_POST[ 'injuries_when_row' . $i ] );
-		update_user_meta( $formUser, 'injuries_treatmentreceived_row' . $i,
-			$_POST[ 'injuries_treatmentreceived_row' . $i ] );
-		update_user_meta( $formUser, 'injuries_who_row' . $i, $_POST[ 'injuries_who_row' . $i ] );
-		update_user_meta( $formUser, 'injuries_status_row' . $i, $_POST[ 'injuries_status_row' . $i ] );
-		update_user_meta( $formUser, 'injuries_rowcount', $i );
+	if ( $_POST['allergiesyesno'] == "Yes" ) {
+		foreach ( $_POST[ 'allergies_name' ] as $key => $value ) {
+			update_user_meta( $formUser, 'allergies_name_row' . $key, $value );
+		}
+
+		foreach ( $_POST[ 'injuries_name' ] as $key => $value ) {
+			update_user_meta( $formUser, 'injuries_name_row' . $key, $value );
+		}
+
+		foreach ( $_POST[ 'injuries_when' ] as $key => $value ) {
+			update_user_meta( $formUser, 'injuries_when_row' . $key, $value );
+		}
+
+		foreach ( $_POST[ 'injuries_who' ] as $key => $value ) {
+			update_user_meta( $formUser, 'injuries_who_row' . $key, $value );
+		}
+
+		foreach ( $_POST[ 'injuries_status' ] as $key => $value ) {
+			update_user_meta( $formUser, 'injuries_status_row' . $key, $value );
+		}
+
+		update_user_meta( $formUser, 'injuries_rowcount', count ( $_POST[ 'condsdisablities_name' ] ) );
+
 	}
 }
 
