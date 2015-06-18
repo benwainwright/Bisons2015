@@ -8,7 +8,8 @@ function getNextPaymentDate($userId) {
 	$specDay = (int) get_user_meta($userId, 'dayOfMonth', true);
 	$specDay = $specDay > $daysInThisMonth ? $daysInThisMonth : $specDay;
 	$whichWeekdayPos = get_user_meta($userId, 'whichWeekDay', true);
-	$whichWeekday = get_user_meta($userId, 'weekday', true);
+	$whichWeekday = get_user_meta($userId, 'weekDay', true);
+
 	$payWhen = get_user_meta($userId, 'payWhen', true);
 
 	if ($currentMonth == 12) {
@@ -18,6 +19,7 @@ function getNextPaymentDate($userId) {
 	else {
 		$firstDayOfNextMonth = mktime( 0, 0, 0, $currentMonth + 1, 1 );
 	}
+	
 	switch( $payWhen ){
 
 		case "first":
@@ -35,12 +37,16 @@ function getNextPaymentDate($userId) {
 			}
 			break;
 
-		case "specificWeekday":
-			$nextPaymentDate = strtotime($whichWeekdayPos . ' ' . $whichWeekday . ' of  ' . date('F') . ' ' . date('Y'));
+		case "specificWeekDay":
+			$dateString = $whichWeekdayPos . ' ' . $whichWeekday . ' of  ' . date('F') . ' ' . date('Y');
+			$nextPaymentDate = strtotime($dateString);
 			if($nextPaymentDate < time()) {
-				$nextPaymentDate = strtotime($whichWeekdayPos . ' ' . $whichWeekday . ' of ' . date('F', $firstDayOfNextMonth) . ' ' . (date('Y') + 1));
+				$dateString = $whichWeekdayPos . ' ' . $whichWeekday . ' of ' . date('F', $firstDayOfNextMonth) . ' ' . ($currentMonth == 12 ? date('Y') + 1 : date('Y'));
+				$nextPaymentDate = strtotime($dateString);
 			}
-			break;
+
+
+
 	}
 
 	return $nextPaymentDate;
