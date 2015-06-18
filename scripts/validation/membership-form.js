@@ -1,5 +1,5 @@
 jQuery(document).ready(function () {
-    jQuery('form').validate({
+    jQuery('#membershipform_payment').validate({
         onfocusout: function (element) {
             jQuery(element).valid();
         },
@@ -8,9 +8,15 @@ jQuery(document).ready(function () {
             DateofBirth: "dob-day dob-month dob-year"
         },
 
-        errorLabelContainer: '#statusBar',
-        wrapper: 'ul',
-        errorElement: 'errorElement'
+        errorContainer: '#statusBar',
+        errorLabelContainer: '#statusBar ul.errors',
+        wrapper: 'li',
+        errorElement: 'label',
+
+        messages: {
+            firstname:"The 'first name' field cannot be blank",
+            surname: "The 'surname' field cannot be blank"
+        }
 
     });
 
