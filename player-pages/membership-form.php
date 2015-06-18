@@ -89,8 +89,6 @@ if ( ! isset ( $form_id ) )
 <p class='flashmessage'><i class='fa fa-bell-o'></i>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
 <?php endif; ?>
 <div id="statusBar">
-	<ul class='errors'>
-	</ul>
 </div>
 <form id='membershipform_payment' method="post" role="form">
     
@@ -323,7 +321,7 @@ if ( ! isset ( $form_id ) )
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'condsdisablities_rowcount', true); $i++ ) : ?>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'condsdisablities_rowcount', true) +1; $i++ ) : ?>
                 <tr class='clonerow'>
                     <td><input placeholder="Condition or Disability" class='tableInputs' name="condsdisablities_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_name_row' . $i, true); } ?>" /></td>
                     <td><input placeholder="Medication" class='tableInputs' name="condsdisablities_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugname_row' . $i, true); } ?>" /></td>
@@ -336,7 +334,7 @@ if ( ! isset ( $form_id ) )
     <fieldset id="allergiesfieldset"<?php if (get_user_meta($formUser, 'allergiesyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Allergies</legend>
         <p class="info">Please enter the details of your allergy, and any medication (e.g. tablets, inhalers, creams) you use for each, making sure to give drug names.</p>
-        <table id="allergiestable" class='center'>
+        <table id="allergiestable" class='center autoAddRow'>
             <thead>
                 <tr>
                     <th>Allergy</th>
@@ -345,7 +343,7 @@ if ( ! isset ( $form_id ) )
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'allergies_rowcount', true); $i++ ) : ?>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'allergies_rowcount', true) + 1; $i++ ) : ?>
                 <tr class='clonerow'>
                     <td><input placeholder="Allergy" class='tableInputs' name="allergies_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_name_row' . $i, true); } ?>" /></td>
                     <td><input placeholder="Medication" class='tableInputs' name="allergies_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugname_row' . $i, true); } ?>" /></td>
@@ -358,7 +356,7 @@ if ( ! isset ( $form_id ) )
         <fieldset id="injuriesfieldset"<?php if (get_user_meta($formUser, 'injuredyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Injuries</legend>
         <p class="info">Please list any injuries (e.g. concussion), indicating when they happened, who treated you (e.g. your doctor) and the current status of your injuries (e.g. whether they are fully recovered or not).</p>
-        <table id="injuriestable" class='center'>
+        <table id="injuriestable" class='center autoAddRow'>
             <thead>
                 <tr>
                     <th>Injury</th>
@@ -369,7 +367,7 @@ if ( ! isset ( $form_id ) )
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'injuries_rowcount', true); $i++ ) : ?>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'injuries_rowcount', true) +1; $i++ ) : ?>
                 <tr class='clonerow'>
                     <td><input placeholder="Injury" class='tableInputs' name="injuries_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_name_row' . $i, true); } ?>" /></td>
                     <td><input placeholder="When" class='tableInputs' name="injuries_when_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_when_row' . $i, true); } ?>" /></td>
