@@ -10,11 +10,20 @@ $form_user = ( isset ( $_GET['player_id'] ) && current_user_can( 'committee_perm
 	? $_GET['player_id'] : get_current_user_id();
 
 
+
+if ($_POST) {
+
+	update_user_meta($form_user, 'dayOfMonth', $_POST['dayOfMonth']);
+	update_user_meta($form_user, 'payWhen', $_POST['payWhen']);
+	update_user_meta($form_user, 'whichWeekDay', $_POST['whichWeekDay']);
+	update_user_meta($form_user, 'weekDay', $_POST['weekDay']);
+}
+
+
 // If a membership form exists, load it from WordPress
 if ( get_user_meta( $form_user, 'joined', true ) ) {
 
-	new dBug(get_user_meta($form_user));
-
+	$data['user'] = $form_user;
 	$data['joined'] = true;
 	$data['payMethod'] = get_user_meta( $form_user, 'payMethod', true ) ? get_user_meta( $form_user, 'payMethod', true ) : false;
 	$data['payStatus'] = getDDStatus($form_user);
