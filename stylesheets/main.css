@@ -413,7 +413,6 @@ table a img {
 .post img.alignright, .page img.alignright {
     float: right;
     margin-left: 1em;
-    margin-top: 0.5em
 }
 
 .post header a, .page header a {
@@ -928,7 +927,6 @@ td.scorecell {
 
 /* Forms */
 form {
-    padding: 0 1em 1em 0;
     clear: both;
 }
 
@@ -937,7 +935,7 @@ form select, form label, form input, form textarea {
     vertical-align: middle;
 }
 
-form select, form button, form input, form textarea {
+form select, form button, form input, form textarea, form label {
     -webkit-box-sizing: border-box; /* For legacy WebKit based browsers */
     -moz-box-sizing: border-box; /* For legacy (Firefox <29) Gecko based browsers */
     box-sizing: border-box;
@@ -997,20 +995,21 @@ form input[type='checkbox'] {
     -moz-box-shadow: none;
     box-shadow: none;
     height: auto;
+    vertical-align: initial;
+    margin-right: 10px;
 }
+
 
 form button {
     padding: 0.6em 2em;
     font-size: 1.2em;
-    margin: 0.5em 0.3em;
-    border: 1px solid #A6A6A6;
-    border: 1px solid #CCCCCC;
-    background-color: #f7f7f7;
+    margin: 1.5em 0;
+    background-color: #2E2E2E;
+    color:white;
 }
 
-fieldset button {
-    background-color: white;
-}
+
+
 
 form button.smallbutton {
     padding: 0.4em 2em;
@@ -1022,6 +1021,45 @@ form button.smallbutton {
     width: 100%;
 }
 
+#statusBar {
+    background-color: #f7f7f7;
+    z-index:1000;
+    position:fixed;
+    bottom:0;
+    font-style:italic;
+    padding-top: 1em;
+    left:0;
+    right:0;
+    -webkit-box-shadow: 0px -1px 4px 0px rgba(0,0,0,0.33);
+    -moz-box-shadow: 0px -1px 4px 0px rgba(0,0,0,0.33);
+    box-shadow: 0px -1px 4px 0px rgba(0,0,0,0.33);
+    display:none
+}
+
+#statusBar.statusBarInfo   {
+
+width: auto;
+    line-height: 1.3em;
+    margin-top: 0em;
+    display: none;
+    padding: 0.8em;
+    background-color: #C0FACE;
+    font-style: italic
+
+}
+
+#statusBar li {
+    list-style:none;
+}
+
+#statusBar li label.error {
+    color:#F55151;
+}
+
+#fixedError li {
+    list-style:none;
+}
+
 ul.invalidformerrors {
     border: 1px dashed #F55151;
     background: #F7E4E4;
@@ -1030,14 +1068,7 @@ ul.invalidformerrors {
     display: none;
 }
 
-label.error {
-    padding-left: 1.5em;
-    color: white;
-    text-align: right;
-    width: auto;
-    color: #F55151;
-    background-color: #FFCCCC;
-}
+
 
 label.error:before {
     position: relative;
@@ -1128,7 +1159,7 @@ fieldset select {
     border-radius: 0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
-    background: #f7f7f7 url("../images/down-arrow.png") no-repeat 95% 50%;
+    background: #f7f7f7 url("../images/down-arrow.png") no-repeat 98% 50%;
 }
 
 p.formoutputlabel {
@@ -1138,7 +1169,7 @@ p.formoutputlabel {
 }
 
 fieldset table th {
-    padding: 0;
+    padding: 0.5em;
     margin: 0;
     font-weight: 300;
     border: 0;
@@ -1146,10 +1177,16 @@ fieldset table th {
 
 fieldset table {
     margin: 0;
+    border-collapse:collapse;
+    border:0;
+}
+
+fieldset table input {
+    padding:0.5em;
 }
 
 fieldset table td {
-    padding: 0.2em 0.4em;
+    padding: 0;
     border: 0;
 }
 
@@ -1159,15 +1196,34 @@ fieldset label {
     color: white;
     padding: 0.5em;
     width: 200px;
+    font-weight: bold;
+}
+
+fieldset .checkboxesContainer {
+    margin: 0;
+    text-align: left;
+    background-color: #2E2E2E;
+    padding:0 0 1em 1em;
+    -webkit-box-sizing: border-box; /* For legacy WebKit based browsers */
+    -moz-box-sizing: border-box; /* For legacy (Firefox <29) Gecko based browsers */
+    box-sizing: border-box;
+}
+
+fieldset .checkboxesContainer label {
+    line-height: 1.5em;
+    padding:1em 1em 0 0;
+    vertical-align: top;
+    float:left;
+    width: auto;
+
 }
 
 form input, form textarea, form select {
-    height: 100%;
     display: table-cell;
     font-size: 1em;
     border: 0;
     padding: 0.5em;
-    width: 100%
+    width: 100%;
 }
 
 form input, form textarea {
@@ -1178,15 +1234,7 @@ form input, form textarea {
     display: none;
 }
 
-#wrapper fieldset .fieldsetInfo {
-    width: auto;
-    line-height: 1.3em;
-    margin-top: 0em;
-    display: none;
-    padding: 0.8em;
-    background-color: #C0FACE;
-    font-style: italic
-}
+
 
 #wrapper p.flashmessage {
     padding: 0.8em;
@@ -1285,7 +1333,6 @@ form input, form textarea {
 }
 
 fieldset table input {
-    font-size: 0.8em;
     text-align: center;
 }
 
@@ -1483,7 +1530,7 @@ div.metaBox {
     width: 60%;
     float: right;
     position: relative;
-    margin: 0.5em 0 5px 5px;
+    margin: 0 0 5px 5px;
     overflow: hidden;
 }
 
@@ -2155,7 +2202,6 @@ html .albumThumb img {
         clear: both;
         max-width: 100%;
         width: 100%;
-        text-align: center;
     }
 
     #wrapper input[type=checkbox] {
@@ -2168,13 +2214,12 @@ html .albumThumb img {
 
     #wrapper input, #wrapper select, #wrapper textarea {
         margin: 0;
-        padding-left: 10px;
-        padding-right: 10px;
     }
 
     #wrapper label {
         margin: 0;
         padding: 8px;
+        text-align:left;
     }
 
     fieldset div .inlinediv select {
@@ -2187,8 +2232,7 @@ html .albumThumb img {
     }
 
     #wrapper .info {
-        margin: 0;
-        text-align: center;
+        margin: 0 0 1em 0 ;
     }
 
     html #wrapper .formerror, html #wrapper .forminfo {
@@ -2208,6 +2252,12 @@ html .albumThumb img {
         text-align: center;
     }
 
+
+    #wrapper input {
+        float:none;
+        text-align:left;
+    }
+
     .linked-posts-col {
         max-width: none;
     }
@@ -2218,12 +2268,9 @@ html .albumThumb img {
 
     tr {
         margin: 0 0 1em 0;
-        border: 1px solid #DFDFDF;
     }
 
-    td, th {
-        margin: 0.2em;
-    }
+
 
     thead tr {
         position: absolute;
@@ -2282,8 +2329,6 @@ html .albumThumb img {
     #wrapper td.homeawaycol {
         font-size: 1.4em;
     }
-}
-
 }
 
 @media screen and (min-width: 701px) and (max-width: 750px) {
@@ -2566,8 +2611,8 @@ html .albumThumb img {
         -moz-opacity: 0.90;
         -khtml-opacity: 0.90;
         opacity: 0.90;
-        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha"(Opacity=90);
-        filter: progid:DXImageTransform.Microsoft.Alpha(opacity=90);
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+        filter: "progid:DXImageTransform.Microsoft.Alpha(opacity=90)";
         filter: alpha(opacity=90);
     }
 
@@ -2647,7 +2692,7 @@ html .albumThumb img {
     }
 
     #maincol, .page {
-        margin: 80px 0 10px 0 !important;
+        margin: 100px 0 10px 0 !important;
     }
 
     header {
