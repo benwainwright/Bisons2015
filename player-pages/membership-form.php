@@ -313,8 +313,8 @@ if ( ! isset ( $form_id ) )
 
     <fieldset id="conddisablefieldset"<?php if (get_user_meta($formUser, 'medconsdisabyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Conditions or disabilities</legend>
-        <table id="conditionsdisabilitiestable" class='center'>
         <p class="info">Please enter the details of your condition or disability, and any medication (e.g. tablets, inhalers or creams) you take for each condition, making sure to give drug names.  <em>When you fill an empty row, a new one will be added.</em></p>
+        <table id="conditionsdisabilitiestable" class='center autoAddRow'>
             <thead>
                 <tr>
                     <th>Condition or disability</th>
