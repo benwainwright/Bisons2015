@@ -45,7 +45,7 @@ if ( ! get_user_meta( $formUser, 'GCLUserID' ) ) {
 			$setup_fee        = pence_to_pounds( get_post_meta( $feeid, 'initial-payment', true ), false );
 
 			$preAuthDetails = array(
-				'max_amount'     => '200.00',
+				'max_amount'      => '200.00',
 				'name'            => get_post_meta( $feeid, 'fee-name', true ),
 				'interval_length' => 1,
 				'interval_unit'   => 'month',
