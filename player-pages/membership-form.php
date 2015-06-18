@@ -433,6 +433,7 @@ if ( ! isset ( $form_id ) )
         <label for="suddendeath"><input type="checkbox" name="suddendeath" <?php if ( get_user_meta($formUser, 'suddendeath', true) == "on") { ?> checked="checked"<?php } ?>  />Sudden death in immediate family of anyone under 50</label>
         <label for="smoking"><input type="checkbox" id="smoking" name="smoking" <?php if ( get_user_meta($formUser, 'smoking', true) == "on") { ?> checked="checked"<?php } ?>  />Smoking </label>
 	    </div>
+		    <div id="howmanycigs"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'smoking', true) == "On") { ?> style="display:block"<?php } ?>>
             <label class="smalllabel" for="howmanycigsperday">How many cigarettes do you smoke per day?</label>
             <input type="number" class="smalltextbox required" name="howmanycigsperday" id="weight" value='<?php echo get_user_meta($formUser, 'howmanycigsperday', true) ?>' />
         </div>
