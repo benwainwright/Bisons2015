@@ -138,7 +138,7 @@ if ( ! isset ( $form_id ) )
             <input type="text" class="smalltextbox required min2chars" name="surname" id="surname" value='<?php echo $userData->user_lastname ?>'/>
         </div>
         <div>
-            <label>Gender</label>
+            <label for="gender">Gender</label>
             <select class="required" name='gender' id='gender'>
                 <option value="">Choose...</option>
                 <option<?php selected( get_user_meta($formUser, 'gender', true), 'Male') ?>>Male</option>
@@ -422,22 +422,17 @@ if ( ! isset ( $form_id ) )
     <fieldset>
         <legend>Cardiac Questionairre</legend>
         <p class="info">Please tick each box that applies to you.</p>
-        <div>
-        <label><input type="checkbox" name="fainting" <?php if ( get_user_meta($formUser, 'fainting', true) == "on") { ?> checked="checked"<?php } ?> />Fainting</label>
-        <label><input type="checkbox" name="dizzyturns" <?php if ( get_user_meta($formUser, 'dizzyturns', true) == "on") { ?> checked="checked"<?php } ?>  />Dizzy Turns</label>
-        <label><input type="checkbox" name="breathlessness" <?php if ( get_user_meta($formUser, 'breathlessness', true) == "on") { ?> checked="checked"<?php } ?>  />Breathlessness or more easily tired than team-mates</label>
-        <label><input type="checkbox" name="bloodpressure" <?php if ( get_user_meta($formUser, 'bloodpressure', true) == "on") { ?> checked="checked"<?php } ?>  />History of high blood pressure</label>
-        </div>
-        <div>
-        <label><input type="checkbox" name="diabetes" <?php if ( get_user_meta($formUser, 'diabetes', true) == "on") { ?> checked="checked"<?php } ?>  />Diabetes</label>
-        <label><input type="checkbox" name="palpitations" <?php if ( get_user_meta($formUser, 'palpitations', true) == "on") { ?> checked="checked"<?php } ?>  />Palpitations</label>
-        <label><input type="checkbox" name="chestpain" <?php if ( get_user_meta($formUser, 'chestpain', true) == "on") { ?> checked="checked"<?php } ?>  />Chest Pain or Tightness</label>
-        <label><input type="checkbox" name="suddendeath" <?php if ( get_user_meta($formUser, 'suddendeath', true) == "on") { ?> checked="checked"<?php } ?>  />Sudden death in immediate family of anyone under 50</label>
-        </div>
-        <div>
-        <label><input type="checkbox" id="smoking" name="smoking" <?php if ( get_user_meta($formUser, 'smoking', true) == "on") { ?> checked="checked"<?php } ?>  />Smoking </label>
-        </div>
-        <div id="howmanycigs"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'smoking', true) == "On") { ?> style="display:block"<?php } ?>>
+	    <div class="checkboxesContainer">
+        <label for="fainting"><input type="checkbox" name="fainting" <?php if ( get_user_meta($formUser, 'fainting', true) == "on") { ?> checked="checked"<?php } ?> />Fainting</label>
+        <label for="dizzyturns"><input type="checkbox" name="dizzyturns" <?php if ( get_user_meta($formUser, 'dizzyturns', true) == "on") { ?> checked="checked"<?php } ?>  />Dizzy Turns</label>
+        <label for="breathlessness"><input type="checkbox" name="breathlessness" <?php if ( get_user_meta($formUser, 'breathlessness', true) == "on") { ?> checked="checked"<?php } ?>  />Breathlessness or more easily tired than team-mates</label>
+        <label for="bloodpressure"><input type="checkbox" name="bloodpressure" <?php if ( get_user_meta($formUser, 'bloodpressure', true) == "on") { ?> checked="checked"<?php } ?>  />History of high blood pressure</label>
+        <label for="diabetes"><input type="checkbox" name="diabetes" <?php if ( get_user_meta($formUser, 'diabetes', true) == "on") { ?> checked="checked"<?php } ?>  />Diabetes</label>
+        <label for="palpitations"><input type="checkbox" name="palpitations" <?php if ( get_user_meta($formUser, 'palpitations', true) == "on") { ?> checked="checked"<?php } ?>  />Palpitations</label>
+        <label for="chestpain"><input type="checkbox" name="chestpain" <?php if ( get_user_meta($formUser, 'chestpain', true) == "on") { ?> checked="checked"<?php } ?>  />Chest Pain or Tightness</label>
+        <label for="suddendeath"><input type="checkbox" name="suddendeath" <?php if ( get_user_meta($formUser, 'suddendeath', true) == "on") { ?> checked="checked"<?php } ?>  />Sudden death in immediate family of anyone under 50</label>
+        <label for="smoking"><input type="checkbox" id="smoking" name="smoking" <?php if ( get_user_meta($formUser, 'smoking', true) == "on") { ?> checked="checked"<?php } ?>  />Smoking </label>
+	    </div>
             <label class="smalllabel" for="howmanycigsperday">How many cigarettes do you smoke per day?</label>
             <input type="text" class="smalltextbox required" name="howmanycigsperday" id="weight" value='<?php echo get_user_meta($formUser, 'howmanycigsperday', true) ?>' />
         </div>
@@ -604,15 +599,11 @@ if ( ! isset ( $form_id ) )
     <?php endif ?>
     <fieldset>
         <legend>Declaration and submission</legend>
-        <div>
+        <div class='checkboxesContainer'>
             <label class='checkboxlabel' for='codeofconduct'><input class='required' type="checkbox" name="codeofconduct" id="codeofconduct"<?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I wish to become a member of the Bisons and have read and agree to abide by the club <a href='<?php echo $GLOBALS['blog_info']['url'] ?>/players-area/code-of-conduct/'>code of conduct</a>.</label>
-        </div>
-        <div>
             <label class='checkboxlabel' for='photographicpolicy'><input class='required'  type="checkbox" name="photographicpolicy" id="photographicpolicy"<?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I have read and fully understand the club <a href='<?php echo $GLOBALS['blog_info']['url'] ?>/players-area/photographic-policy/'>photographic policy</a>.</label>
-        </div>
-        <div>
             <label class='checkboxlabel' for='physicalsport'><input class='required'  type="checkbox" name="physicalsport" id="physicalsport"<?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I understand that Rugby is a contact sport, and like all contact sports, players may be exposed to the risk of physical injury. Should injury occur, I understand that the club cannot accept responsibility for any injuries which arise.</label>
         </div>
