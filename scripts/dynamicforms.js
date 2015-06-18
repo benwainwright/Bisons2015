@@ -19,8 +19,21 @@ function addRowToTableWhenFull() {
         if(full) {
 
             lastRow.keydown(null);
+
+
             clonedRow.insertAfter(lastRow);
             var clonedInputs = clonedRow.find('input');
+
+            jQuery.each(clonedInputs, function() {
+
+                rowNum = Number(jQuery(this).attr('name').slice(-1));
+                rowNum++;
+                withoutRowNum = jQuery(this).attr('name').substring(0, jQuery(this).attr('name').length - 1);
+                newName = withoutRowNum + String(rowNum);
+                jQuery(this).attr('name', newName);
+
+            });
+
             clonedInputs.keydown(addRowToTableWhenFull);
             clonedInputs.focus(setInputAsFocused);
             clonedInputs.focusout(setInputAsUnfocused);
