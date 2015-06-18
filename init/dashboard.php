@@ -29,7 +29,7 @@ function display_bisons_info()
 
 function display_server_time() {
 
-	echo '<p>The server time is' . date('g:i:s a').'</p>';
+	echo '<p>The server time is ' . date('g:i:s a').'</p>';
 }
 
 $taxonomy = get_terms ( array ( 'seasons' ) );
