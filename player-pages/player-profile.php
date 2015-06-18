@@ -53,8 +53,10 @@ $ppform->add_text_input ( 'theteam', 'cheesegrindr', 'Has the cheesiest Grindr p
 
 
 ?>
-<header>
 <h2>Player Profile</h2>
+<ul class="pageMenu">
+	<li><a class="fa fa-arrow-circle-left fa-lg" href="<?php echo site_url('players-area') ?>">Player's Area</a></li>
+</ul>
 </header>
 <?php if ( $ppform->is_errors() ) : ?>
 <ul class='formerrors'>
@@ -68,7 +70,7 @@ $ppform->add_text_input ( 'theteam', 'cheesegrindr', 'Has the cheesiest Grindr p
 <p class='flashmessage'>Your profile has been submitted. It may not be published straight away, as it will need to be reviewed by a member of the committe first.</p>
 <?php endif ?>
 
-<p>To be featured on the 'player profiles' section of the website, have a go at filling out the form below. Please note that the committee reserves the right not to publish content that you submit, and may make significant edits in order to maintain the good name of the club.</p>
+<p class="flashmessage">To be featured on the 'player profiles' section of the website, have a go at filling out the form below. Please note that the committee reserves the right not to publish content that you submit, and may make significant edits in order to maintain the good name of the club.</p>
 <p>Please do not feel that you have to fill in all the fields on this form; the only fields that are mandatory are those with an asterisk (*) by them. There are a lot of different questions simply to ensure that everybody has something to say.</p>
 
 <?php
