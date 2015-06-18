@@ -517,10 +517,13 @@ if ( ! isset ( $form_id ) )
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
             </select>
-             <ul class='feeslist'>
-            <?php foreach ($playerfees[ 'direct_debits' ] as $fee) : ?><li><strong><?php echo $fee['name'] ?></strong><br />An initial payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?> and monthly payments of <?php echo pence_to_pounds ( $fee['amount'] ) ?>. <?php echo $fee['description'] ?></li><?php endforeach ?>
-             </ul>
+	        <p class='forminfo'>
+	            <?php foreach ($playerfees[ 'direct_debits' ] as $fee) : ?><strong><?php echo $fee['name'] ?></strong><br />An initial payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?> and monthly payments of <?php echo pence_to_pounds ( $fee['amount'] ) ?>. <?php echo $fee['description'] ?><br /><br /><?php endforeach ?>
+	        </p>
+
         </div>
+
+
         <div id="playermempaysingle" style="display:none" >
             <label class="smalllabel" for="playermembershiptypesingle">Membership Type</label>
             <select class="required" name="playermembershiptypesingle" id="playermembershiptypesingle">
@@ -529,10 +532,12 @@ if ( ! isset ( $form_id ) )
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
             </select>
-           <ul class='feeslist'>
-            <?php foreach ($playerfees[ 'single_payments' ] as $fee) : ?><li><strong><?php echo $fee['name'] ?></strong><br />A single payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?>. <?php echo $fee['description'] ?></li><?php endforeach ?>
-             </ul>
+	        <p class='forminfo'>
+		        <?php foreach ($playerfees[ 'single_payments' ] as $fee) : ?><strong><?php echo $fee['name'] ?></strong><br />A single payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?>. <?php echo $fee['description'] ?><br /><br /><?php endforeach ?>
+	        </p>
         </div>
+
+
 	</div>
           
 	  <div id="supporterfees" class='supportersonly' >
