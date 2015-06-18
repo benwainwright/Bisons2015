@@ -434,7 +434,7 @@ if ( ! isset ( $form_id ) )
         <label for="smoking"><input type="checkbox" id="smoking" name="smoking" <?php if ( get_user_meta($formUser, 'smoking', true) == "on") { ?> checked="checked"<?php } ?>  />Smoking </label>
 	    </div>
             <label class="smalllabel" for="howmanycigsperday">How many cigarettes do you smoke per day?</label>
-            <input type="text" class="smalltextbox required" name="howmanycigsperday" id="weight" value='<?php echo get_user_meta($formUser, 'howmanycigsperday', true) ?>' />
+            <input type="number" class="smalltextbox required" name="howmanycigsperday" id="weight" value='<?php echo get_user_meta($formUser, 'howmanycigsperday', true) ?>' />
         </div>
     </fieldset>
     </div>
