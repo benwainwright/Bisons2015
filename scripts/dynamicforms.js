@@ -227,10 +227,10 @@ jQuery(document).ready(function () {
     jQuery('#smoking').click(function () {
 
         if (jQuery(this).prop('checked')) {
-            jQuery('#howmanycigs').show();
+            jQuery('#howmanycigs').css('display', 'table');
         }
         else {
-            jQuery('#howmanycigs').hide();
+            jQuery('#howmanycigs').css('display', 'none');
         }
     });
 
@@ -284,10 +284,10 @@ jQuery(document).ready(function () {
 
     jQuery('#playedbefore').change(function () {
         if (jQuery(this).val() == 'Yes') {
-            jQuery('#howmanyseasonsgroup').show();
+            jQuery('#howmanyseasonsgroup').css('display', 'table');
         }
         else {
-            jQuery('#howmanyseasonsgroup').hide();
+            jQuery('#howmanyseasonsgroup').css('display', 'none');
         }
     });
 
