@@ -19,7 +19,7 @@ $users = get_users();
 
 foreach($users as $user) {
 
-	wp_delete_meta($user->ID, 'GCLUserID');
+	delete_user_meta($user->ID, 'GCLUserID');
 
 }
 
