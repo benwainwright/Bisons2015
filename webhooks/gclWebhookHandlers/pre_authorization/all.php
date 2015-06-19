@@ -1,59 +1,69 @@
 <?php
+function bisonsGocardlessPreauthorization( $resource, $data ) {
+	// Determine user
 
-// Determine user
-$preAuth = GoCardless_PreAuthorization::find($resource['id']);
-$user = get_users(array('meta_key' => 'GCLUserID', $preAuth->user_id))[0];
+	try {
+		$preAuth = GoCardless_PreAuthorization::find( $resource['id'] );
+		$user    = get_users( array( 'meta_key' => 'GCLUserID', $preAuth->user_id ) )[0];
 
-// Check if bill already exists
-$query = new WP_Query(
-	array( 'post_type'      => 'GCLPreAuthLog',
-	       'posts_per_page' => 1,
-	       'meta_key'       => 'id',
-	       'meta_value'     => $preAuth->id) );
+	} catch ( Exception $e ) {
+		wp_send_json_error( $e );
+		exit;
+	}
 
-if ($query->have_posts()) {
-	$query->the_post();
+	// Check if bill already exists
+	$query = new WP_Query(
+		array(
+			'post_type'      => 'GCLPreAuthLog',
+			'posts_per_page' => 1,
+			'meta_key'       => 'id',
+			'meta_value'     => $preAuth->id
+		) );
 
-	update_post_meta( get_the_id(), 'status', $resource['status'] );
-	update_post_meta( $id, 'remaining_amount', $resource['remaining_amount'] );
+	if ( $query->have_posts() ) {
+		$query->the_post();
 
-	$action = 'log_updated';
-	$id = get_the_id();
-}
+		update_post_meta( get_the_id(), 'status', $resource['status'] );
+		update_post_meta( $id, 'remaining_amount', $resource['remaining_amount'] );
 
-else {
+		$action = 'log_updated';
+		$id     = get_the_id();
+	} else {
 
-	$date = date( 'Y-m-d H:i:s');
+		$date = date( 'Y-m-d H:i:s' );
 
-	// Create new webhook log
-	$hook_log = array(
-		'post_status' => 'publish',
-		'post_date'   => $date,
-		'post_type'   => 'GCLPreAuthLog'
-	);
+		// Create new webhook log
+		$hook_log = array(
+			'post_status' => 'publish',
+			'post_date'   => $date,
+			'post_type'   => 'GCLPreAuthLog'
+		);
 
-	$hook_log['post_author'] = $user->ID;
-
-
-	// Log webhook
-	$id = wp_insert_post( $hook_log );
-
-	update_post_meta( $id, 'id', $resource['id'] );
-	update_post_meta( $id, 'name', $resource['name'] );
-	update_post_meta( $id, 'expires_at', $resource['expires_at'] );
-	update_post_meta( $id, 'interval_length', $resource['interval_length'] );
-	update_post_meta( $id, 'interval_unit', $resource['interval_unit'] );
-	update_post_meta( $id, 'max_amount', $resource['max_amount'] );
-	update_post_meta( $id, 'remaining_amount', $resource['remaining_amount'] );
-	update_post_meta( $id, 'next_interval_start', $resource['next_interval_start'] );
-	$action = 'log_created';
-}
+		$hook_log['post_author'] = $user->ID;
 
 
-if ($id > 0) {
+		// Log webhook
+		$id = wp_insert_post( $hook_log );
 
-	$return = array(
-		'type'   => 'pre_authorization',
-		'action' => $action
-	);
+		update_post_meta( $id, 'id', $resource['id'] );
+		update_post_meta( $id, 'name', $resource['name'] );
+		update_post_meta( $id, 'expires_at', $resource['expires_at'] );
+		update_post_meta( $id, 'interval_length', $resource['interval_length'] );
+		update_post_meta( $id, 'interval_unit', $resource['interval_unit'] );
+		update_post_meta( $id, 'max_amount', $resource['max_amount'] );
+		update_post_meta( $id, 'remaining_amount', $resource['remaining_amount'] );
+		update_post_meta( $id, 'next_interval_start', $resource['next_interval_start'] );
+		$action = 'log_created';
+	}
+
+
+	if ( $id > 0 ) {
+
+		$return = array(
+			'type'   => 'pre_authorization',
+			'action' => $action
+		);
+	}
+
+	return $return;
 }
