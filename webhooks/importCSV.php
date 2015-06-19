@@ -15,15 +15,6 @@ while ( $query->have_posts() ) {
 	wp_delete_post( get_the_id(), true );
 }
 
-$users = get_users();
-
-foreach($users as $user) {
-
-	wp_delete_meta($user->ID, 'GCLUserID');
-
-}
-
-
 foreach ( $bills as $index => $billRow ) {
 
 	$bill = GoCardless_Bill::find( $billRow['Bill ID'] );
