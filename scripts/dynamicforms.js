@@ -267,7 +267,18 @@ jQuery(document).ready(function () {
         }
     });
 
-    jQuery('#paymethod').change(function () {
+    jQuery('#socialTop').click(function () {
+
+        if (jQuery(this).prop('checked')) {
+            jQuery('#topSizeDiv').css('display', 'table');
+        }
+        else {
+            jQuery('#topSizeDiv').css('display', 'none');
+        }
+    });
+
+
+    jQuery('#payMethod').change(function () {
         if (jQuery(this).val() == 'Monthly Direct Debit') {
 
             jQuery('#payWhenDiv').show();
