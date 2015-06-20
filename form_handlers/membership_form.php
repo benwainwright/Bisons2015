@@ -3,6 +3,7 @@ if ( ! INCLUDED ) {
 	exit;
 }
 
+
 $formUser = ( isset ( $_POST['form_belongs_to'] ) && current_user_can( 'committee_perms' ) )
 	? $_POST['form_belongs_to'] : get_current_user_id();
 
@@ -33,62 +34,47 @@ if ( ! get_user_meta( $formUser, 'GCLUserID' ) ) {
 
 	$return_addy = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 
+	$state = $_POST['payMethod'];
+
 	switch ( $_POST['payMethod'] ) {
 
-		case "Monthly Direct Debit":
+		case "dd":
 			$feeid = ( $_POST['playermembershiptypemonthly'] != '' )
 				? $_POST['playermembershiptypemonthly']
 				: $_POST['supportermembershiptypemonthly'];
-
-			$amount           = get_post_meta( $feeid, 'fee-amount', true );
-			$amount_in_pounds = pence_to_pounds( $amount, false );
-			$setup_fee        = pence_to_pounds( get_post_meta( $feeid, 'initial-payment', true ), false );
-
-			$preAuthDetails = array(
-				'max_amount'      => '200.00',
-				'name'            => get_post_meta( $feeid, 'fee-name', true ),
-				'interval_length' => 1,
-				'interval_unit'   => 'month',
-				'user'            => $user,
-				'state'           => "DD",
-			);
-
-			if ( $description = get_post_meta( $feeid, 'fee-description', true ) ) {
-				$preAuthDetails['description'] = $description;
-			}
-
-			if ( $setup_fee > 0 ) {
-				$preAuthDetails['setup_fee'] = $setup_fee;
-				$preAuthDetails['description'] .= ' Note that your first payment will be debited as a separate payment on the same date as the one off fee';
-			}
-
-			$gocardless_url = GoCardless::new_pre_authorization_url( $preAuthDetails );
-
-
 			break;
 
-		case "Single Payment":
+		case "sp":
 			$feeid = ( $_POST['playermembershiptypesingle'] != '' )
 				? $_POST['playermembershiptypesingle']
 				: $_POST['supportermembershiptypesingle'];
-
-
-			$subscription_details = array(
-				'amount'   => pence_to_pounds( get_post_meta( $feeid, 'initial-payment', true ), false ),
-				'name'     => get_post_meta( $feeid, 'fee-name', true ),
-				'currency' => 'GBP',
-				'user'     => $user,
-				'state'    => "SP",
-			);
-
-			if ( $description = get_post_meta( $feeid, 'fee-description', true ) ) {
-				$subscription_details['description'] = $description;
-			}
-
-			$gocardless_url = GoCardless::new_bill_url( $subscription_details );
-
 			break;
+
 	};
+
+	$amount           = get_post_meta( $feeid, 'fee-amount', true );
+	$amount_in_pounds = pence_to_pounds( $amount, false );
+
+	$preAuthDetails = array(
+		'max_amount'      => '200.00',
+		'name'            => get_post_meta( $feeid, 'fee-name', true ),
+		'interval_length' => 1,
+		'interval_unit'   => 'month',
+		'user'            => $user,
+		'state'           => $state,
+	);
+
+	$preAuthDetails['state'] .= "+$amount";
+
+	if ( $_POST['socialTop'] ) {
+		$preAuthDetails['state'] .= '+socialTopPlease';
+	}
+
+	if ( $description = get_post_meta( $feeid, 'fee-description', true ) ) {
+		$preAuthDetails['description'] = $description;
+	}
+
+	$gocardless_url = GoCardless::new_pre_authorization_url( $preAuthDetails );
 }
 
 $errors = array();
@@ -133,7 +119,8 @@ $singlelinefields = array(
 	'Payment Date'                        => 'payWhen',
 	'Day Of Month'                        => 'dayOfMonth',
 	'Weekday'                             => 'weekDay',
-	'Which Weekday'                       => 'whichWeekDay'
+	'Which Weekday'                       => 'whichWeekDay',
+	'Payment Method'                      => 'payMethod'
 );
 
 
@@ -178,8 +165,6 @@ foreach ( $singlelinefields as $label => $fieldname ) {
 			}
 	}
 }
-
-
 
 
 if ( $_POST['fainting'] != get_user_meta( $formUser, 'fainting', true ) ||
