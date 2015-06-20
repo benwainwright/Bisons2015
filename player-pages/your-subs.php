@@ -1,3 +1,5 @@
+
+
 <?php $d = $wp_query->query['bisons_data']; ?>
 
 <header>
@@ -13,6 +15,16 @@
 <table class='verticalTable'>
 	<tbody>
 		<tr>
+			<th>Payment Breakdown</th>
+			<td>
+				<select class="required" name="payMethod" id="payMethod">
+					<option value="">Choose...</option>
+					<?php selectOptionFromMeta($d['user'],'payMethod', 'dd', 'Monthly Direct Debit') ?>
+					<?php selectOptionFromMeta($d['user'],'payMethod', 'sp', 'Single Payment') ?>
+				</select>
+			</td>
+		</tr>
+		<tr>
 			<th>Type</th>
 			<td><?php echo $d['subName'] ?></td>
 		</tr>
@@ -20,9 +32,13 @@
 			<th>Status</th>
 			<td><?php echo $d['paymentInfo']['Subscription Status'] ?></td>
 		</tr>
+		<tr>
+			<th>Monthly Fee</th>
+			<td><?php echo money_format( '%n', (int) $d['currentMonthlyFee']) ?></td>
+		</tr>
 		<?php if ($d['paymentInfo']['Total Paid'] > 0 ) : ?>
 		<tr>
-			<th>Amount</th>
+			<th>Amount Paid</th>
 			<td><?php echo money_format( '%n', (int) $d['paymentInfo']['Total Paid']) ?></td>
 		</tr>
 		<?php endif ?>

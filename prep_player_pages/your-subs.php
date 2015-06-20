@@ -13,20 +13,26 @@ $form_user = ( isset ( $_GET['player_id'] ) && current_user_can( 'committee_perm
 
 if ($_POST) {
 
+
+	update_user_meta($form_user, 'payMethod', $_POST['payMethod']);
 	update_user_meta($form_user, 'dayOfMonth', $_POST['dayOfMonth']);
 	update_user_meta($form_user, 'payWhen', $_POST['payWhen']);
 	update_user_meta($form_user, 'whichWeekDay', $_POST['whichWeekDay']);
 	update_user_meta($form_user, 'weekDay', $_POST['weekDay']);
+	cancelNextBill($form_user);
+	bisonsScheduleNextPayment($form_user);
 }
 
 
 // If a membership form exists, load it from WordPress
 if ( get_user_meta( $form_user, 'joined', true ) ) {
 
+
 	$data['user'] = $form_user;
 	$data['joined'] = true;
 	$data['payMethod'] = get_user_meta( $form_user, 'payMethod', true ) ? get_user_meta( $form_user, 'payMethod', true ) : false;
 	$data['payStatus'] = getDDStatus($form_user);
+	$data['currentMonthlyFee'] = current_user_meta('currentMonthlyFee');
 	$data['GCLUserID'] = get_user_meta( $form_user, 'GCLUserID', true ) ? get_user_meta( $form_user, 'GCLUserID', true ) : false;
 	$data['query']  = new WP_Query(array ( 'post_type' => 'GCLBillLog', 'posts_per_page' => 10, 'author' => $form_user));
 	$data['paymentInfo'] = getPaymentInfo($form_user);
@@ -34,10 +40,10 @@ if ( get_user_meta( $form_user, 'joined', true ) ) {
 	$data['payWhen'] = get_user_meta($form_user, 'payWhen', true);
 	$data['nextPaymentDate'] = date('jS M, Y', getNextPaymentDate(get_current_user_id()));
 	$data['dayOfMonth'] = get_user_meta($form_user, 'dayOfMonth', true);
-} else {
 
+} else {
 	// If nomembership form found, redirect to the membership form with a flash message
-	$flashmessage = 'No payment information is available just yet as you haven\'t joined the club. To put that right, fill in the form below!';
+	$flashmessage = 'You haven\'t joined the club yet! To put that right, fill in the form below!';
 	wp_redirect( home_url( 'players-area/membership-form/?nonce=' . wp_create_nonce( 'bisons_flashmessage_nonce' ) . '&flash=' . urlencode( $flashmessage ) ) );
 	exit();
 }
