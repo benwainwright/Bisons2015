@@ -21,8 +21,8 @@ foreach ( $bills as $index => $billRow ) {
 
 	$user = null;
 
-	if ( count( $user = get_users( array( 'meta_key' => 'gcl_sub_id', 'meta_value' => $bill->source_id ) ) ) == 0 ) {
-		$user = get_users( array( 'meta_key' => 'gcl_sub_id', 'meta_value' => $bill->id ) );
+	if ( count( $user = get_users( array( 'meta_key' => 'GCLSubID', 'meta_value' => $bill->source_id ) ) ) == 0 ) {
+		$user = get_users( array( 'meta_key' => 'GCLSubID', 'meta_value' => $bill->id ) );
 	}
 
 
