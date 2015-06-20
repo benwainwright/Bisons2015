@@ -33,7 +33,7 @@ if ( ! get_user_meta( $formUser, 'GCLUserID' ) ) {
 
 	$return_addy = "http://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 
-	switch ( $_POST['paymethod'] ) {
+	switch ( $_POST['payMethod'] ) {
 
 		case "Monthly Direct Debit":
 			$feeid = ( $_POST['playermembershiptypemonthly'] != '' )

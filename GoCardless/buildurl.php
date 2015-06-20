@@ -1,6 +1,6 @@
 <?php
   $return_addy = "http://".$_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
-  switch (  $_POST['paymethod']  ) 
+  switch (  $_POST['payMethod']  )
   {
        case "I've already paid":
            break;

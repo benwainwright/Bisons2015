@@ -54,7 +54,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				'roles'          => $user->roles,
 				'joined'         => get_user_meta( $user->ID, 'joined', true ),
 				'user_id'        => $user->data->ID,
-				'DD_sub_id'      => get_user_meta( $user->ID, 'gcl_sub_id', true ),
+				'DD_sub_id'      => get_user_meta( $user->ID, 'GCLSubID', true ),
 				'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
 				'lastAttended'   => $attendance[ $user->ID ]['lastAttended'],
 				'presentPercent' => $totalPossible ? round( ( 100 / $totalPossible ) * $present ) : 0,

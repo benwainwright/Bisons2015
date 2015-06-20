@@ -80,7 +80,7 @@ if ( ! isset ( $form_id ) )
 <p class="flashmessage">In a moment, you will be redirected to a direct debit mandate form at GoCardless. Once you have finished setting up your payment information, you will be returned to this site. See you in a bit!</p>
 <script type='text/javascript'> setTimeout(function(){ document.location = '<?php echo $gocardless_url ?>'; }, 3000); </script>
 <?php endif ?>
-<?php if ( isset ( $confirmed_resource ) ) : ?>
+<?php if ( isset ( $resourceConfirmed ) ) : ?>
 <p class="flashmessage">Congratulations! Your direct debit (or full payment) has now been setup - you should receive an email from GoCardless (our payment processor) very shortly. 
 <?php endif ?>           
 <?php if ( get_user_meta($formUser, 'joined', true ) == true ) : ?>
@@ -465,8 +465,8 @@ if ( ! isset ( $form_id ) )
         <legend>Payment</legend>
         <p class="info">Please indicate how you will be paying your membership fees. Note that if you select either a direct debit or a single payment, saving this form will cause you to be redirected to another website in order to setup the direct debit. You will be returned here afterwards. If you have already paid, a committee member will need to manually approve your membership.</p>
         <div>
-            <label class="smalllabel" for="paymethod">Payment Method</label>
-            <select class="required" name="paymethod" id="paymethod">
+            <label class="smalllabel" for="payMethod">Payment Method</label>
+            <select class="required" name="payMethod" id="payMethod">
                 <option value="">Choose...</option>
                 <option>Monthly Direct Debit</option>
                 <option>Single Payment</option>
