@@ -1,17 +1,22 @@
-<?php function BisonsSchedulePayments() {
+<?php
 
-	$paymentDates = get_option('bisons_user_payment_dates');
 
-	foreach ($paymentDates as $userId => $date) {
+/**
+ * Checks the master list of payment dates. If the result of nextPaymentDate()
+ * is not the same as the payment date stored in the list for each user,
+ * schedule a new
+ */
+function BisonsSchedulePayments() {
 
-		$nextPaymentDate = getNextPaymentDate($userId);
+	$args = array(
+		'meta_key'     => 'nextBillDate',
+		'meta_compare' => '>',
+		'meta_value'   => time()
+	);
 
-		if ($nextPaymentDate > $date) {
-			$paymentDates[$userId] = $date;
+	$users = get_users( $args );
 
-			// Create bill with GCL API
-		}
+	foreach ( $users as $user ) {
+		bisonsScheduleNextPayment($user->ID);
 	}
-
-	update_option('bisons_user_payment_dates', $paymentDates);
 }
