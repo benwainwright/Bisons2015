@@ -10,59 +10,12 @@ $formUser = ( isset ( $_GET['player_id'] ) && current_user_can ('committee_perms
 $userData = get_userdata ( $formUser );
 
 // If there is a resource_id in the querystring, it must returning from Gocardless, so confirm the payment and then save the resource information if it confirms properly
-if ( isset ( $_GET['resource_id'] ) )
-{   
-    $confirm_params = array(
-      'resource_id'    => $_GET['resource_id'],
-      'resource_type'  => $_GET['resource_type'],
-      'resource_uri'   => $_GET['resource_uri'],
-      'signature'      => $_GET['signature']
-    );
-    
-    if (isset($_GET['state'])) {
-      $confirm_params['state'] = $_GET['state'];
-    }
-    
-    try { 
-        $confirmed_resource = GoCardless::confirm_resource($confirm_params);
-    }
-    catch ( Exception  $error )
-    {
-        echo "GoCardless Error: $e->getMessage()";
-    }
-        
-    if ( $confirmed_resource )
-    {
-
-        switch ( $state )
-        {
-            
-            case "DD": 
-                
-                $resource = GoCardless_PreAuthorization::find($_GET['resource_id']);
-	            update_user_meta($formUser, 'payMethod', 'dd' );  // Single payment pending
-
-            break;
-            
-            case "SP": 
-                update_user_meta($formUser, 'payment_type', "Single Payment" );
-                $resource = GoCardless_Bill::find($_GET['resource_id']);
-                update_user_meta($formUser, 'singlePaymentID', $_GET['resource_id'] );  // Single payment pending
-	            update_user_meta($formUser, 'payMethod', 'single' );  // Single payment pending
-
-            break;
-            
-        }
-
-	    update_user_meta($formUser, 'GCLUserID', $bill->user_id );
-        update_user_meta($formUser, 'mem_name', $resource->name );
-    }
-    
+if ( isset ( $_GET['resource_id'] ) ) {
+	confirmGCLPreauth( $_GET, $formUser );
 }
-  
 
 if ( ! isset ( $form_id ) )
-      $form_id = NULL;
+	$form_id = NULL;
 
 
     wp_enqueue_script('formvalidation');
@@ -447,18 +400,6 @@ if ( ! isset ( $form_id ) )
             <textarea name="whatcanyoubring" id="whatcanyoubring"><?php if ( get_user_meta($formUser, 'joined', true ) == true ) { echo get_user_meta($formUser, 'whatcanyoubring', true); } ?></textarea>
             <p class='forminfo'><strong>Optional</strong> The Bisons is run by a team of dedicated volunteers and we are always looking for people with useful skills that could make the team even better. This doesn't have to be rugby related, for example: perhaps you are good at numbers and might be a potential treasurer, or you have some serious marketing skills to help us get the club name out there.</p>
         </div>
-        <div>
-            <label for="topsize">Top size</label>
-            <select class='required' name='topsize'>
-                <option value="">Choose...</option>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'Small') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'Medium') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'X-Large') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'XX-Large') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'XXX-Large') ?>
-            </select>
-            <p class='forminfo'>What size would you like your exclusive Bisons social top to be?</p>
-        </div>
     </fieldset>
     <?php if ( ! get_user_meta($formUser, 'joined', true ) ) : ?>
     <fieldset id="paymentFieldset" style="display:none">
@@ -468,8 +409,8 @@ if ( ! isset ( $form_id ) )
             <label class="smalllabel" for="payMethod">Payment Method</label>
             <select class="required" name="payMethod" id="payMethod">
                 <option value="">Choose...</option>
-                <option>Monthly Direct Debit</option>
-                <option>Single Payment</option>
+                <option value="dd">Monthly Direct Debit</option>
+                <option value="sp">Single Payment</option>
             </select>
         </div>
         <?php 
@@ -518,7 +459,6 @@ if ( ! isset ( $form_id ) )
 	        <p class='forminfo'>
 	            <?php foreach ($playerfees[ 'direct_debits' ] as $fee) : ?><strong><?php echo $fee['name'] ?></strong><br />An initial payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?> and monthly payments of <?php echo pence_to_pounds ( $fee['amount'] ) ?>. <?php echo $fee['description'] ?><br /><br /><?php endforeach ?>
 	        </p>
-
         </div>
 
 
@@ -598,6 +538,23 @@ if ( ! isset ( $form_id ) )
 			  </select>
 		  </div>
     </fieldset>
+	    <fieldset>
+		    <div class='checkboxesContainer'>
+			    <label class='checkboxlabel' for='socialTop'><input id="socialTop" type="checkbox" name="socialTop" />Would you like to pay an extra £10 for an exclusive Bisons Social top?</label>
+			    </div>
+		    <div id="topSizeDiv" style="display:none">
+			    <label for="topsize">Top Size</label>
+			    <select class='required' name='topsize'>
+				    <option value="">Choose...</option>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'Small') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'Medium') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'X-Large') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'XX-Large') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'XXX-Large') ?>
+			    </select>
+		    </div>
+
+	    </fieldset>
     <?php endif ?>
     <fieldset>
         <legend>Declaration and submission</legend>
