@@ -422,6 +422,55 @@ class Bisons_Membership {
 		}
 	}
 
+	function requestNextBill( $chargeDate, $chargeAmount ) {
+
+		$this->remoteFindPreAuth( $this->GCLid );
+
+		$bill = array(
+			'name'               => __( 'BisonsRFC Subscription Fee', 'bisonsRFC' ),
+			'amount'             => $this->penceToPounds( $chargeAmount, false ),
+			'charge_customer_at' => $chargeDate
+		);
+
+		$this->remoteCreatePreauthBill( $bill );
+	}
+
+
+	function scheduleNextBill( $id ) {
+
+		$nextPaymentDate = get_user_meta( $id, 'nextBillDate', true );
+
+		if ( $nextPaymentDate != getNextPaymentDate( $id ) ) {
+			$nextPaymentDate = getNextPaymentDate( $id );
+			$scheduleDate    = $nextPaymentDate - 60 * 60 * 24 * 7;
+			$scheduleDate    = $scheduleDate > time() ? $scheduleDate : time();
+			$chargeDate      = date( 'Y-m-d', $nextPaymentDate );
+			$chargeAmount    = get_user_meta( $id, 'currentFee', true );
+
+			$args = array(
+				$id,
+				$chargeDate,
+				$chargeAmount
+			);
+
+			if ( wp_next_scheduled( 'BisonsCRONAddNewBill', $args ) <= time() ) {
+				wp_schedule_single_event( $scheduleDate, 'BisonsCRONAddNewBill', $args );
+			}
+
+			update_user_meta( $id, 'nextBillDate', $nextPaymentDate );
+		}
+	}
+
+
+	function penceToPounds( $pence, $poundsign = true ) {
+		$newpence = substr( $pence, - 2 );
+		$pounds   = substr( $pence, 0, - 2 ) ? substr( $pence, 0, - 2 ) : "0";
+		$pounds   = $pounds ? $pounds : "0";
+		$newpence = $newpence ? $newpence : "00";
+
+		return $poundsign ? "£$pounds.$newpence" : "$pounds.$newpence";
+	}
+
 	private static function error() {
 
 	}
