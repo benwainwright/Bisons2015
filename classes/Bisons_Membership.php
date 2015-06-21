@@ -73,27 +73,27 @@ class Bisons_Membership {
 
 	public function nextPaymentDate( $userId, $time = false ) {
 
-		$time = $time ? $time : time();
-		$currentDayOfMonth = date('j', $time);
-		$currentYear     = date( 'Y' , $time);
-		$currentMonth    = date( 'n' , $time);
-		$daysInThisMonth = cal_days_in_month( CAL_GREGORIAN, $currentMonth, $currentYear );
-		$specDay         = (int) get_user_meta( $userId, 'dayOfMonth', true );
-		$specDay         = $specDay > $daysInThisMonth ? $daysInThisMonth : $specDay;
-		$whichWeekdayPos = get_user_meta( $userId, 'whichWeekDay', true );
-		$whichWeekday    = get_user_meta( $userId, 'weekDay', true );
+		$time              = $time ? $time : time();
+		$currentDayOfMonth = date( 'j', $time );
+		$currentYear       = date( 'Y', $time );
+		$currentMonth      = date( 'n', $time );
+		$daysInThisMonth   = cal_days_in_month( CAL_GREGORIAN, $currentMonth, $currentYear );
+		$specDay           = (int) get_user_meta( $userId, 'dayOfMonth', true );
+		$specDay           = $specDay > $daysInThisMonth ? $daysInThisMonth : $specDay;
+		$whichWeekdayPos   = get_user_meta( $userId, 'whichWeekDay', true );
+		$whichWeekday      = get_user_meta( $userId, 'weekDay', true );
 
 		$payWhen = get_user_meta( $userId, 'payWhen', true );
 
 
 		if ( $currentMonth == 12 ) {
 			$firstDayOfNextMonth = mktime( 0, 0, 0, 1, 1, $currentYear + 1 );
-			$daysInNextMonth = cal_days_in_month( CAL_GREGORIAN, 1, $currentYear + 1 );
+			$daysInNextMonth     = cal_days_in_month( CAL_GREGORIAN, 1, $currentYear + 1 );
 
 
 		} else {
 			$firstDayOfNextMonth = mktime( 0, 0, 0, $currentMonth + 1, 1 );
-			$daysInNextMonth = cal_days_in_month( CAL_GREGORIAN, $currentMonth + 1, $currentYear );
+			$daysInNextMonth     = cal_days_in_month( CAL_GREGORIAN, $currentMonth + 1, $currentYear );
 
 		}
 
@@ -105,11 +105,9 @@ class Bisons_Membership {
 
 			case "last":
 
-				if ( $currentDayOfMonth != $daysInThisMonth) {
+				if ( $currentDayOfMonth != $daysInThisMonth ) {
 					$nextPaymentDate = mktime( 0, 0, 0, $currentMonth, $daysInThisMonth );
-				}
-
-				else {
+				} else {
 					$nextPaymentDate = mktime( 0, 0, 0, $currentMonth + 1, $daysInNextMonth );
 				}
 				break;
@@ -124,11 +122,13 @@ class Bisons_Membership {
 				break;
 
 			case "specificWeekDay":
-				$dateString      = $whichWeekdayPos . ' ' . $whichWeekday . ' of  ' . date( 'F' , $time) . ' ' . date( 'Y' , $time);
+				$dateString      = $whichWeekdayPos . ' ' . $whichWeekday . ' of  ' . date( 'F',
+						$time ) . ' ' . date( 'Y', $time );
 				$nextPaymentDate = strtotime( $dateString );
-				if ( $nextPaymentDate < $time || date( 'Y-m-d', $nextPaymentDate) == date('Y-m-d', $time) ) {
+				if ( $nextPaymentDate < $time || date( 'Y-m-d', $nextPaymentDate ) == date( 'Y-m-d', $time ) ) {
 					$dateString      = $whichWeekdayPos . ' ' . $whichWeekday . ' of ' . date( 'F',
-							$firstDayOfNextMonth ) . ' ' . ( $currentMonth == 12 ? date( 'Y' , $time) + 1 : date( 'Y' , $time ) );
+							$firstDayOfNextMonth ) . ' ' . ( $currentMonth == 12 ? date( 'Y', $time ) + 1 : date( 'Y',
+							$time ) );
 					$nextPaymentDate = strtotime( $dateString );
 				}
 		}
