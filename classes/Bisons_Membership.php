@@ -71,12 +71,22 @@ class Bisons_Membership {
 
 	}
 
+	/**
+	 * Given a user id, this function will calculate when the next payment should be
+	 * based on user settings in the database
+	 *
+	 * @param $userId
+	 * @param bool $time
+	 *
+	 * @return int
+	 */
 	public function nextPaymentDate( $userId, $time = false ) {
 
+		$nextPaymentDate = false;
 		$time              = $time ? $time : time();
-		$currentDayOfMonth = date( 'j', $time );
-		$currentYear       = date( 'Y', $time );
-		$currentMonth      = date( 'n', $time );
+		$currentDayOfMonth = (int) date( 'j', $time );
+		$currentYear       = (int) date( 'Y', $time );
+		$currentMonth      = (int) date( 'n', $time );
 		$daysInThisMonth   = cal_days_in_month( CAL_GREGORIAN, $currentMonth, $currentYear );
 		$specDay           = (int) get_user_meta( $userId, 'dayOfMonth', true );
 		$specDay           = $specDay > $daysInThisMonth ? $daysInThisMonth : $specDay;
@@ -86,7 +96,7 @@ class Bisons_Membership {
 		$payWhen = get_user_meta( $userId, 'payWhen', true );
 
 
-		if ( $currentMonth == 12 ) {
+		if ( $currentMonth === 12 ) {
 			$firstDayOfNextMonth = mktime( 0, 0, 0, 1, 1, $currentYear + 1 );
 			$daysInNextMonth     = cal_days_in_month( CAL_GREGORIAN, 1, $currentYear + 1 );
 
@@ -105,7 +115,7 @@ class Bisons_Membership {
 
 			case "last":
 
-				if ( $currentDayOfMonth != $daysInThisMonth ) {
+				if ( $currentDayOfMonth !== $daysInThisMonth ) {
 					$nextPaymentDate = mktime( 0, 0, 0, $currentMonth, $daysInThisMonth );
 				} else {
 					$nextPaymentDate = mktime( 0, 0, 0, $currentMonth + 1, $daysInNextMonth );
@@ -116,18 +126,20 @@ class Bisons_Membership {
 
 
 				$nextPaymentDate = mktime( 0, 0, 0, $currentMonth, $specDay );
-				if ( $nextPaymentDate < $time || $specDay == $currentDayOfMonth ) {
+				if ( $nextPaymentDate < $time || $specDay === $currentDayOfMonth ) {
 					$nextPaymentDate = mktime( 0, 0, 0, $currentMonth + 1, $specDay );
 				}
 				break;
 
 			case "specificWeekDay":
+
 				$dateString      = $whichWeekdayPos . ' ' . $whichWeekday . ' of  ' . date( 'F',
 						$time ) . ' ' . date( 'Y', $time );
 				$nextPaymentDate = strtotime( $dateString );
-				if ( $nextPaymentDate < $time || date( 'Y-m-d', $nextPaymentDate ) == date( 'Y-m-d', $time ) ) {
+
+				if ( $nextPaymentDate < $time || date( 'Y-m-d', $nextPaymentDate ) === date( 'Y-m-d', $time ) ) {
 					$dateString      = $whichWeekdayPos . ' ' . $whichWeekday . ' of ' . date( 'F',
-							$firstDayOfNextMonth ) . ' ' . ( $currentMonth == 12 ? date( 'Y', $time ) + 1 : date( 'Y',
+							$firstDayOfNextMonth ) . ' ' . ( $currentMonth === 12 ? date( 'Y', $time ) + 1 : date( 'Y',
 							$time ) );
 					$nextPaymentDate = strtotime( $dateString );
 				}
