@@ -4,7 +4,7 @@ function bisonsGocardlessBill( $resource, $data ) {
 
 	// Determine user
 	try {
-		$bill = GoCardless_Bill::find( $resource['id'] );
+		$bill   = GoCardless_Bill::find( $resource['id'] );
 		$user   = get_users( array( 'meta_key' => 'GCLUserID', $bill->user_id ) )[0];
 		$source = null;
 
@@ -21,7 +21,7 @@ function bisonsGocardlessBill( $resource, $data ) {
 
 		}
 
-	// Catch any exceptions thrown and output them as JSON if caught
+		// Catch any exceptions thrown and output them as JSON if caught
 	} catch ( Exception $e ) {
 		wp_send_json_error( $e );
 		exit;
@@ -87,7 +87,10 @@ function bisonsGocardlessBill( $resource, $data ) {
 			'source_type'       => $resource['source_type']
 		);
 	}
-
+	
+	if ( null !== $source ) {
+		update_user_meta( $user->ID, 'GCLSubStatus', $source->status );
+	}
 
 	if ( $id > 0 ) {
 		$return[] = array(

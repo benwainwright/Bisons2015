@@ -552,7 +552,7 @@ ul.edit-links li {
     display: table-cell;
     width: 35%;
     padding: 2%;
-    background-color: #f7f7f7;
+    background-color: #F2F2F2;
     border-left: 1px solid #E6E6E6;
     border-right: 1px solid #E6E6E6;
 }
@@ -615,7 +615,7 @@ td.large-cell {
 .metalist {
     list-style: none;
     margin-left: 0;
-    background: #f7f7f7;
+    background: #F2F2F2;
     margin: 1em auto;
     padding: 1em;
     border: 1px solid #EBEBEB;
@@ -1024,7 +1024,7 @@ form button.smallbutton {
 }
 
 #statusBar {
-    background-color: #f7f7f7;
+    background-color: #F2F2F2;
     z-index:1000;
     position:fixed;
     bottom:0;
@@ -1133,7 +1133,7 @@ fieldset div {
     clear: both;
     display: table;
     overflow: hidden;
-    background-color: #f7f7f7
+    background-color: #F2F2F2
 }
 
 fieldset div .inlinediv {
@@ -1158,20 +1158,27 @@ input.cvc {
     width: 55px;
 }
 
-fieldset select {
+fieldset select, table select {
     -webkit-appearance: none;
     -moz-appearance: none;
     font-size: 1em;
     border-radius: 0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
-    background: #f7f7f7 url("../images/down-arrow.png") no-repeat 98% 50%;
+    background: #F2F2F2 url("../images/down-arrow.png") no-repeat 98% 50%;
 }
 
 p.formoutputlabel {
     font-size: 1.2em;
     font-weight: bold;
     padding: 0.3em;
+}
+
+p.important {
+    background-color:#F2F2F2;
+    padding:1em;
+    box-sizing:border-box;
+    margin:0;
 }
 
 fieldset table th {
@@ -1233,7 +1240,7 @@ form input, form textarea, form select {
 }
 
 form input, form textarea {
-    background: #f7f7f7;
+    background: #F2F2F2;
 }
 
 #wrapper fieldset .forminfo, p.paymentreceived {
@@ -1242,12 +1249,30 @@ form input, form textarea {
 
 
 
-#wrapper p.flashmessage {
-    padding: 0.8em;
+#wrapper form.flashmessage {
+    padding: 0.1em 0.5em 0.5em 0.5em;
     margin: 0 0 1em 0;
     background-color: #C0FACE;
     width: auto;
+    list-style:none;
 }
+
+
+
+.flashmessage {
+    text-align:center;
+}
+
+html #wrapper form.flashmessage button{
+    margin:0.5em;
+    min-width:100px;
+    padding:0.5em 0;
+    background-color:#9AC8A5;
+    color:black;
+    float:none;
+    width:auto;
+}
+
 
 #wrapper fieldset .formerror {
     color: white;
@@ -1452,7 +1477,7 @@ table.photosets .photosetsMeta ul {
 
 table.photosets .photosetsMeta {
     border: 1px solid #B3B3B3;
-    background: #f7f7f7;
+    background: #F2F2F2;
 }
 
 .photosets td, .photogallery td, .playerprofiles {
@@ -1889,7 +1914,7 @@ table.playermanagement li {
 
 div.comprofile {
     clear: both;
-    background-color: #f7f7f7;
+    background-color: #F2F2F2;
     margin-bottom: 2em;
     padding: 1em;
 }
@@ -1921,7 +1946,7 @@ ol.comment-list {
 }
 
 ol.comment-list li {
-    background-color: #f7f7f7;
+    background-color: #F2F2F2;
     margin: 20px 0 0 0;
     padding: 10px;
 }

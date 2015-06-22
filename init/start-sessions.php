@@ -6,7 +6,7 @@ add_action('wp_login', 'myEndSession');
 
 function myStartSession() {
       
-    if(!session_id()) {
+    if(!session_id() && !headers_sent()) {
           
         session_start();
           

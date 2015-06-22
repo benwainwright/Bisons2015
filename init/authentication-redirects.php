@@ -32,7 +32,7 @@ function redirect_restricted_areas( $query )
 	            $isType = $current_post_type == $type;
 	            $isTypeArchive = $query->is_post_type_archive ( $type);
 	            $userNeeds2FA = current_user_can( 'needs_two_factor_for_restricted_areas' );
-	            $canSkip2FA = $_SESSION['bisons_skip2FA'];
+	            $canSkip2FA = isset( $_SESSION['bisons_skip2FA'] ) ? $_SESSION['bisons_skip2FA'] : false ;
 	            $twoFactorIsOn = get_option( 'bisonsTwoFactorAuth' );
 
           		if ( ( ! $hasPermission ) && ( ( $isSingle && $isType ) || $isTypeArchive ) )
@@ -62,7 +62,7 @@ function block_from_dashboard()
 {
 
 	$userNeeds2FA = current_user_can( 'needs_two_factor_for_restricted_areas' );
-	$canSkip2FA = $_SESSION['bisons_skip2FA'];
+	$canSkip2FA = isset( $_SESSION['bisons_skip2FA'] ) ? $_SESSION['bisons_skip2FA'] : false ;
 	$twoFactorIsOn = get_option( 'bisonsTwoFactorAuth' );
 	$canSeeDashBoard = current_user_can( 'see_dashboard' );
 	$isDashboard = is_admin();

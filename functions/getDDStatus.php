@@ -1,7 +1,7 @@
 <?php
 
 function getDDStatus($id) {
-	if ( get_user_meta( $id, 'payMethod', true ) == 'single' ) {
+	if ( get_user_meta( $id, 'payMethod', true ) == 'sp' ) {
 
 		// Work out if there is single payment for the current season
 		$userSinglePaymentID = get_user_meta( $id, 'singlePaymentID', true );

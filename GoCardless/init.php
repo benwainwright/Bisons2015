@@ -1,6 +1,7 @@
 <?php
 
 
+
 $options = get_option('api-settings-page');
 
 if (   $options['gcl-prod-app-id']
@@ -41,5 +42,5 @@ if (   $options['gcl-prod-app-id']
 }
 else
 {
-	trigger_error("GoCardless API settings are incomplete...", E_USER_WARNING);
+	errorMessage('Gocardless API settings are incomplete...');
 }

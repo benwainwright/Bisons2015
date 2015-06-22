@@ -128,7 +128,7 @@ jQuery(document).ready(function() {
       { jQuery('#howmanycigs').hide(); }
     });
     
-    jQuery('#paymethod').change(function() {
+    jQuery('#payMethod').change(function() {
         if( jQuery(this).val() == 'Monthly Direct Debit' )
         { 
               jQuery('#playermempaymonthly').show(); 
