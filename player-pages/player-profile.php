@@ -53,10 +53,10 @@ $ppform->add_text_input ( 'theteam', 'cheesegrindr', 'Has the cheesiest Grindr p
 
 
 ?>
-<h2>Player Profile</h2>
-<ul class="pageMenu">
-	<li><a class="fa fa-arrow-circle-left fa-lg" href="<?php echo site_url('players-area') ?>">Player's Area</a></li>
-</ul>
+<header>
+	<h2>Player Profile</h2>
+	<?php get_template_part( 'snippets/playerPage', 'menu' ) ?>
+
 </header>
 <?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
 <?php if ( $ppform->is_errors() ) : ?>

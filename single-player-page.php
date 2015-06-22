@@ -21,13 +21,7 @@ $pagename = $post->post_name;
                     while ( have_posts() ) : the_post(); ?>
                     <header>
                         <h2><?php the_title(); ?></h2>
-                          <?php if ( current_user_can('edit_post') ) { ?>
-                              <ul class='pageMenu'>
-	                              <li><a class="fa fa-arrow-circle-left fa-lg" href="<?php echo site_url('players-area') ?>">Player's Area</a></li>
-	                              <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=page'>New</a></li>
-                                  <li><?php edit_post_link( 'Edit'); ?></li>
-                              </ul>
-                          <?php } ?>
+	                    <?php get_template_part( 'snippets/playerPage', 'menu' ) ?>
 
                     </header>
 	                    <?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
