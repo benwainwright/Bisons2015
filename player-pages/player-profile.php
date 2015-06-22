@@ -58,6 +58,7 @@ $ppform->add_text_input ( 'theteam', 'cheesegrindr', 'Has the cheesiest Grindr p
 	<li><a class="fa fa-arrow-circle-left fa-lg" href="<?php echo site_url('players-area') ?>">Player's Area</a></li>
 </ul>
 </header>
+<?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
 <?php if ( $ppform->is_errors() ) : ?>
 <ul class='formerrors'>
       <?php foreach ($ppform->get_form_errors() as $error) : ?><li><?php echo $error ?></li><?php endforeach ?>

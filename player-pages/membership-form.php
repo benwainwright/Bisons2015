@@ -29,6 +29,7 @@ if ( ! isset ( $form_id ) )
 	</ul>
 </header>
 
+<?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
 <?php global $gocardless_url; if ( isset ( $gocardless_url ) ) : ?>
 <p class="flashmessage">In a moment, you will be redirected to a direct debit mandate form at GoCardless. Once you have finished setting up your payment information, you will be returned to this site. See you in a bit!</p>
 <script type='text/javascript'> setTimeout(function(){ document.location = '<?php echo $gocardless_url ?>'; }, 3000); </script>

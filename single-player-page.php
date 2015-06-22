@@ -30,6 +30,7 @@ $pagename = $post->post_name;
                           <?php } ?>
 
                     </header>
+	                    <?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
                     <?php the_content(); ?>
               <?php endwhile; 
               ?>

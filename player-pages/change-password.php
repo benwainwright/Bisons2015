@@ -5,6 +5,7 @@
 	</ul>
 </header>
 <p>You can use the form below to change your password. Once this is done, you will be logged out and will need to log back in with your new password.</p>
+<?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
 <?php
 wp_enqueue_script('dynamicforms');
 wp_enqueue_script('formvalidation');
