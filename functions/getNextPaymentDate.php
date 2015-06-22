@@ -37,7 +37,7 @@ function getNextPaymentDate($userId) {
 			}
 			break;
 
-		case "specificWeekDay":
+		case "specificWeekday":
 			$dateString = $whichWeekdayPos . ' ' . $whichWeekday . ' of  ' . date('F') . ' ' . date('Y');
 			$nextPaymentDate = strtotime($dateString);
 			if($nextPaymentDate < time()) {

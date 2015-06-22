@@ -279,7 +279,9 @@ jQuery(document).ready(function () {
 
 
     jQuery('#payMethod').change(function () {
-        if (jQuery(this).val() == 'Monthly Direct Debit') {
+
+
+        if (jQuery(this).val() == 'dd') {
 
             jQuery('#payWhenDiv').show();
             jQuery('#playermempaymonthly').show();
@@ -290,7 +292,7 @@ jQuery(document).ready(function () {
             jQuery('#supportermempaysingle').find('select').val('');
 
         }
-        else if (jQuery(this).val() == 'Single Payment') {
+        else if (jQuery(this).val() == 'sp') {
             jQuery('#payWhenDiv').hide();
             jQuery('#payWhen').find('select').val('');
             jQuery('#playermempaymonthly').hide();

@@ -24,7 +24,7 @@ if ( isset ($resource['source_type'])  ) {
 
 
 if ( null !== $source ) {
-	update_user_meta($user->ID, 'GCLsubscriptionStatus', $source->status);
+	update_user_meta($user->ID, 'GCLSubStatus', $source->status);
 }
 
 // Check if bill already exists

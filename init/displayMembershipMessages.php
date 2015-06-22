@@ -1,11 +1,11 @@
 <?php
 
 global $bisonPlayersFlashMessage;
+global $bisonsMembership;
 
-$status = getDDStatus(get_current_user_id());
+$status = $bisonsMembership->getStatus(get_current_user_id());
 
 if (get_user_meta(get_current_user_id(), 'joined', true) && ( $status == 'None' || $status == 'cancelled' || $status == 'cancelled') ) {
-
 
 	$bisonPlayersFlashMessage[] = array(
 		'priority' => 1,

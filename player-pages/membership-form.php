@@ -4,14 +4,16 @@
 
 
 
-$formUser = ( isset ( $_GET['player_id'] ) && current_user_can ('committee_perms') ) 
+
+$formUser = ( isset ( $_GET['player_id'] ) && current_user_can ('committee_perms') )
                 ? $_GET['player_id'] : get_current_user_id();
 
 $userData = get_userdata ( $formUser );
 
 // If there is a resource_id in the querystring, it must returning from Gocardless, so confirm the payment and then save the resource information if it confirms properly
 if ( isset ( $_GET['resource_id'] ) ) {
-	confirmGCLPreauth( $_GET, $formUser );
+	global $bisonsMembership;
+	$bisonsMembership->confirmPreauth($_GET, $formUser);
 }
 
 if ( ! isset ( $form_id ) )
@@ -23,26 +25,24 @@ if ( ! isset ( $form_id ) )
 ?>
 
 <header>
-<h2>Membership Form </h2>
+<h2>Membership Form</h2>
 	<?php get_template_part( 'snippets/playerPage', 'menu' ) ?>
 
+</header>
 <?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
 <?php global $gocardless_url; if ( isset ( $gocardless_url ) ) : ?>
-<p class="flashmessage">In a moment, you will be redirected to a direct debit mandate form at GoCardless. Once you have finished setting up your payment information, you will be returned to this site. See you in a bit!</p>
 <script type='text/javascript'> setTimeout(function(){ document.location = '<?php echo $gocardless_url ?>'; }, 3000); </script>
 <?php endif ?>
-<?php if ( isset ( $resourceConfirmed ) ) : ?>
-<p class="flashmessage">Congratulations! Your direct debit (or full payment) has now been setup - you should receive an email from GoCardless (our payment processor) very shortly. 
-<?php endif ?>           
+
 <?php if ( get_user_meta($formUser, 'joined', true ) == true ) : ?>
-<p class='flashmessage'><i class='fa fa-bell-o'></i>Please note that it is your responsibility to ensure that the information supplied below (particularly medical information) remains up to date. You can return to this form and make changes at any time. </p>
+<p class='important'><i class='fa fa-exclamation-circle'></i>Please note that it is your responsibility to ensure that the information supplied below (particularly medical information) remains up to date. You can return to this form and make changes at any time. </p>
 <?php else: ?>
-<p class='flashmessage'><i class='fa fa-bell-o'></i>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
+<p class='important'><i class='fa fa-exclamation-circle'></i>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
 <?php endif; ?>
 <div id="statusBar">
 </div>
 <form id='membershipform_payment' method="post" role="form">
-    
+
     <?php if  ( current_user_can ('committee_perms') ) : ?>
     <fieldset>
         <legend>Active Player</legend>
@@ -75,7 +75,7 @@ if ( ! isset ( $form_id ) )
             <p class='forminfo'>Please note that a supporter membership is specifically for those that want to support the team but do not want to play any rugby. If you will be playing with us, please make sure you choose 'player' here because we will need to take some details of your medical history for you as part of our duty of care.</p>
         </div>
     </fieldset>
-    
+
     <fieldset>
         <legend>Personal Details</legend>
         <div>
@@ -411,12 +411,12 @@ if ( ! isset ( $form_id ) )
                 <option value="sp">Single Payment</option>
             </select>
         </div>
-        <?php 
+        <?php
         $fees = new WP_Query ( array( 'post_type' => 'membership_fee', 'nopaging' => true ));
-        while ( $fees->have_posts() ) 
+        while ( $fees->have_posts() )
         {
             $fees->the_post();
-            
+
             $the_fee = array (
                 'id'    => get_the_id(),
                 'name' => get_post_meta( get_the_id(), 'fee-name', true),
@@ -424,8 +424,8 @@ if ( ! isset ( $form_id ) )
                 'amount' => get_post_meta( get_the_id(), 'fee-amount', true),
                 'description' => get_post_meta( get_the_id(), 'fee-description', true)
             );
-            
-            
+
+
             if ( get_post_meta( get_the_id(), 'supporter-player', true) == 'Supporter' && get_post_meta( get_the_id(), 'fee-type', true) == "Monthly Direct Debit" )
             {
                   $supporterfees[ 'direct_debits' ] [ ] = $the_fee;
@@ -442,7 +442,7 @@ if ( ! isset ( $form_id ) )
             {
             	$playerfees[ 'single_payments' ] [ ] = $the_fee;
             }
-            
+
         }
 		?>
 	  <div id="playerfees" class='playersonly'>
@@ -475,7 +475,7 @@ if ( ! isset ( $form_id ) )
 
 
 	</div>
-          
+
 	  <div id="supporterfees" class='supportersonly' >
         <div id="supportermempaymonthly" style="display:none" >
             <label class="smalllabel" for="supportermembershiptypemonthly">Membership Type</label>

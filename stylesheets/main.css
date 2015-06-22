@@ -1158,7 +1158,7 @@ input.cvc {
     width: 55px;
 }
 
-fieldset select {
+fieldset select, table select {
     -webkit-appearance: none;
     -moz-appearance: none;
     font-size: 1em;
@@ -1172,6 +1172,13 @@ p.formoutputlabel {
     font-size: 1.2em;
     font-weight: bold;
     padding: 0.3em;
+}
+
+p.important {
+    background-color:#F2F2F2;
+    padding:1em;
+    box-sizing:border-box;
+    margin:0;
 }
 
 fieldset table th {
@@ -1242,12 +1249,30 @@ form input, form textarea {
 
 
 
-#wrapper p.flashmessage {
-    padding: 0.8em;
+#wrapper form.flashmessage {
+    padding: 0.1em 0.5em 0.5em 0.5em;
     margin: 0 0 1em 0;
     background-color: #C0FACE;
     width: auto;
+    list-style:none;
 }
+
+
+
+.flashmessage {
+    text-align:center;
+}
+
+html #wrapper form.flashmessage button{
+    margin:0.5em;
+    min-width:100px;
+    padding:0.5em 0;
+    background-color:#9AC8A5;
+    color:black;
+    float:none;
+    width:auto;
+}
+
 
 #wrapper fieldset .formerror {
     color: white;
