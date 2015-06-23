@@ -7,6 +7,9 @@ $version = get_bloginfo( 'version' ); ?>
 
 <html>
 <head>
+
+	<meta name="viewport" content="width=device-width, minumum-scale=1.0, maximum-scale=1.0">
+
 	<link rel='stylesheet' id='login-css' href='<?php echo get_template_directory_uri() . '/stylesheets/2FA.css' ?>' type='text/css' media='all'/>
 
 	<link rel='stylesheet' id='login-css' href='<?php echo admin_url( '/css/login.min.css?ver=' . $version ) ?>'
