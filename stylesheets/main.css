@@ -83,8 +83,16 @@ html {
 
 #wrapper ul.pageMenu a {
     color: white;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
 
+#wrapper ul.pageMenu a:hover {
+    color:#FF5ABB;
+    text-shadow:none;
+}
 html, body {
     height: 100%;
     margin: 0;
@@ -92,6 +100,8 @@ html, body {
 }
 
 #bodyWrapper {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
     min-height: 100%;
     padding: 0 0 40px;
@@ -125,6 +135,7 @@ html #wrapper .metaBox a p {
 
 #wrapper h2 {
     text-align: center;
+    margin-top:1em;
 }
 
 h1 {
@@ -137,7 +148,7 @@ h2 {
     font-size: 1.8em;
     line-height: 1.3em;
     margin-bottom: 1%;
-    font-weight: normal;
+    font-weight: bold;
 }
 
 h3 {
@@ -169,7 +180,7 @@ header p {
 }
 
 p {
-    margin: 0.3em 0 0.3em 0;
+    margin: 0.3em 3px 1em 3px;
     width: 100%;
 }
 
@@ -177,6 +188,7 @@ footer a {
     color: white;
     border-bottom: 1px dashed white;
 }
+
 
 .ajaxcol {
     display: table-row;
@@ -237,7 +249,8 @@ div#wrapper {
 }
 
 #maincol p, #sidebar p, #pagecol p, td, li {
-    line-height: 1.6em;
+    line-height: 1.8em;
+
 }
 
 td h3 {
@@ -246,7 +259,7 @@ td h3 {
 }
 
 #wrapper h3 {
-    padding-top: 0.5em;
+    padding-top: 1.5em;
 }
 
 /* Flash message */
@@ -751,8 +764,8 @@ th ul.postlist {
     margin-right: 5px;
 }
 
-.post ul, .page ul {
-    margin-left: 1em;
+.post ul, .page ul, .post ol, .page ol {
+    margin-left: 2em;
     margin-bottom: 1em;
 }
 
@@ -947,6 +960,7 @@ form select {
     min-width: 100px;
     padding: 0.3em;
     text-align: center;
+    font-weight:bold;
 }
 
 input[type=file] {
@@ -1177,8 +1191,10 @@ p.formoutputlabel {
 p.important {
     background-color:#F2F2F2;
     padding:1em;
-    box-sizing:border-box;
-    margin:0;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin:1em 0;
 }
 
 fieldset table th {
@@ -1237,7 +1253,21 @@ form input, form textarea, form select {
     border: 0;
     padding: 0.5em;
     width: 100%;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
 }
+
+form td, form label {
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+
+}
+
+
 
 form input, form textarea {
     background: #F2F2F2;
@@ -1251,7 +1281,7 @@ form input, form textarea {
 
 #wrapper form.flashmessage {
     padding: 0.1em 0.5em 0.5em 0.5em;
-    margin: 0 0 1em 0;
+    margin: 0;
     background-color: #C0FACE;
     width: auto;
     list-style:none;
@@ -1608,7 +1638,7 @@ div.metaBox.nextEvent h4 {
 }
 
 #wrapper .metaBox ul {
-    margin: 0 0 0.5em 0;
+    margin: 0 0 1em 0;
 }
 
 #wrapper .metaBox ul.extra {
@@ -1660,11 +1690,9 @@ div.eventMeta ul {
 }
 
 #wrapper div.eventMeta li {
-    font-size: 1.1em;
     list-style: none;
     background: #2E2E2E;
     margin: 0.3em 0;
-    line-height: 1.2em;
     color: white;
     width: 100%;
     text-align: center;
@@ -1827,8 +1855,9 @@ td {
 
 td, th {
     padding: 0.5em;
-    line-height: 1.2em;
-}
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;}
 
 td li {
     line-height: 1.2em;
@@ -1843,6 +1872,10 @@ th li {
     list-style: none;
     margin: 0;
     font-size: 0.6em;
+}
+
+table.verticalTable.selectBoxes {
+    text-align:left;
 }
 
 table.verticalTable td, table.verticalTable th {
@@ -1977,6 +2010,15 @@ ul.feeslist {
     background-color: #FFDBF0;
     color: #FF5ABB;
 }
+#wrapper tr.focusedTableRow td {
+    background: #FFDBF0;
+
+
+}
+#wrapper tr.focusedTableRow select {
+    background:transparent url("../images/down-arrow.png") no-repeat 98% 50%;
+
+}
 
 #wrapper input.error, #wrapper select.error, #wrapper textarea.error, #wrapper option.error {
     background-color: #FFCCCC;
@@ -2098,11 +2140,10 @@ html #wrapper li.score {
     list-style: none;
     font-size: 0.8em;
     margin: 2px 0;
-    line-height: 1.5em;
 }
 
 .albumMeta ul, .profileMeta ul {
-    margin: 0 6px 6px 6px
+    margin: 0.3em 6px 6px 6px
 }
 
 .albumMeta h3, .profileMeta h3 {
@@ -2516,6 +2557,7 @@ html .albumThumb img {
 
     h2 {
         font-size: 23px;
+
     }
 
     div#wrapper {
@@ -2705,7 +2747,7 @@ html .albumThumb img {
     }
 
     #maincol, .page {
-        margin: 100px 0 10px 0 !important;
+        padding: 80px 0 10px 0 !important;
     }
 
     header {

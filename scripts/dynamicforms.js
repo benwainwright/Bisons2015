@@ -1,53 +1,53 @@
 function addRowToTableWhenFull() {
     var lastRow = jQuery(this).parent().parent().parent().find('tr:last');
-        var clonedRow = jQuery(lastRow).clone();
-        var full = true;
+    var clonedRow = jQuery(lastRow).clone();
+    var full = true;
 
-        clonedRow.find('input').each(function(element){
+    clonedRow.find('input').each(function (element) {
 
-            if(jQuery(this).val() == '') {
-                full = false;
-            }
+        if (jQuery(this).val() == '') {
+            full = false;
+        }
 
-            else {
-                jQuery(this).val('');
-                jQuery(this).removeClass();
-            }
+        else {
+            jQuery(this).val('');
+            jQuery(this).removeClass();
+        }
+
+    });
+
+    if (full) {
+
+        lastRow.keydown(null);
+
+
+        clonedRow.insertAfter(lastRow);
+        var clonedInputs = clonedRow.find('input');
+
+        jQuery.each(clonedInputs, function () {
+
+            rowNum = Number(jQuery(this).attr('name').slice(-1));
+            rowNum++;
+            withoutRowNum = jQuery(this).attr('name').substring(0, jQuery(this).attr('name').length - 1);
+            newName = withoutRowNum + String(rowNum);
+            jQuery(this).attr('name', newName);
 
         });
 
-        if(full) {
+        clonedInputs.keydown(addRowToTableWhenFull);
+        clonedInputs.focus(setInputAsFocused);
+        clonedInputs.focusout(setInputAsUnfocused);
 
-            lastRow.keydown(null);
-
-
-            clonedRow.insertAfter(lastRow);
-            var clonedInputs = clonedRow.find('input');
-
-            jQuery.each(clonedInputs, function() {
-
-                rowNum = Number(jQuery(this).attr('name').slice(-1));
-                rowNum++;
-                withoutRowNum = jQuery(this).attr('name').substring(0, jQuery(this).attr('name').length - 1);
-                newName = withoutRowNum + String(rowNum);
-                jQuery(this).attr('name', newName);
-
-            });
-
-            clonedInputs.keydown(addRowToTableWhenFull);
-            clonedInputs.focus(setInputAsFocused);
-            clonedInputs.focusout(setInputAsUnfocused);
-
-        }
+    }
 }
 
 var setInputAsFocused = function () {
 
     var text = jQuery(this).siblings('.forminfo').html();
     var sb = jQuery('#statusBar');
-    
+
     // If there is text in a forminfo, put it into the status bar
-    if(text) {
+    if (text) {
         display = sb.css('display');
 
         sb.data('prevDisplay', display);
@@ -61,7 +61,7 @@ var setInputAsFocused = function () {
     var elementHeight = jQuery(this).outerHeight();
     var sbTopPosition = windowHeight - sbHeight;
     var elementTopRelativeToDocument = jQuery(this).offset().top;
-    var elementBottomRelativeToWindow =  jQuery(this).offset().top - jQuery(window).scrollTop();
+    var elementBottomRelativeToWindow = jQuery(this).offset().top - jQuery(window).scrollTop();
 
     var statusBarIsVisible = sb.css('display') == 'block';
 
@@ -75,6 +75,9 @@ var setInputAsFocused = function () {
         }, 500);
     }
 
+    if (jQuery(this).parent().parent().prop('tagName') == 'TR') {
+        jQuery(this).parent().parent().addClass('focusedTableRow');
+    }
 
     jQuery(this).addClass('focusedinput');
     jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
@@ -83,26 +86,29 @@ var setInputAsFocused = function () {
 
 function setInputAsUnfocused() {
 
-        var sb = jQuery('#statusBar');
+    var sb = jQuery('#statusBar');
 
-        if(sb.hasClass('statusBarInfo')) {
-            sb.removeClass('statusBarInfo');
-        }
-        jQuery(this).parent().parent().find('.fieldsetInfo');
+    if (sb.hasClass('statusBarInfo')) {
+        sb.removeClass('statusBarInfo');
+    }
+    jQuery(this).parent().parent().find('.fieldsetInfo');
 
-        html = sb.data('prevHTML');
+    html = sb.data('prevHTML');
 
-        if(html) {
-            sb.html(html);
-        }
+    if (html) {
+        sb.html(html);
+    }
 
-        if (sb.find('li').length = 0 ) {
-            sb.hide();
-        }
+    if (sb.find('li').length = 0) {
+        sb.hide();
+    }
 
-        jQuery(this).removeClass('focusedinput');
-        jQuery(this).siblings('label').removeClass('focusedinput');
-        jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
+    if (jQuery(this).parent().parent().prop('tagName') == 'TR') {
+        jQuery(this).parent().parent().removeClass('focusedTableRow');
+    }
+    jQuery(this).removeClass('focusedinput');
+    jQuery(this).siblings('label').removeClass('focusedinput');
+    jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
 }
 
 
@@ -146,6 +152,7 @@ jQuery(document).ready(function () {
 
 
     jQuery('#payWhen').change(function () {
+
 
         switch (jQuery(this).val()) {
 
