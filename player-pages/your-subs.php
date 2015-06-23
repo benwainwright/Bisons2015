@@ -1,4 +1,12 @@
-<?php $d = $wp_query->query['bisons_data']; ?>
+<?php
+
+// Enqueue form Javascript
+wp_enqueue_script( 'dynamicforms' );
+wp_enqueue_script( 'formvalidation' );
+
+$d = $wp_query->query['bisons_data'];
+
+?>
 
 <header>
 	<h2>Subscription Information</h2>

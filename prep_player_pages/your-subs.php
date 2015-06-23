@@ -2,9 +2,6 @@
 global $bisonsMembership;
 global $bisonPlayersFlashMessage;
 
-// Enqueue form Javascript
-wp_enqueue_script( 'dynamicforms' );
-wp_enqueue_script( 'formvalidation' );
 
 $data = &$wp_query->query['bisons_data'];
 
