@@ -68,6 +68,7 @@ html {
 #wrapper ul.pageMenu li {
     display: inline-block;
     margin: 0.5em;
+    font-size:1.3em;
 }
 
 #wrapper ul.pageMenu {
@@ -444,7 +445,7 @@ table a img {
     background-color: #2E2E2E;
     padding: 7px;
     color: white;
-    font-size: 0.8em;
+    font-size: 0.9em;
 }
 
 #wrapper header p span.authorsmall:before {
@@ -2952,56 +2953,8 @@ html .albumThumb img {
         background-color: #2E2E2E;
         padding: 7px;
         color: white;
-        font-size: 0.7em;
     }
 
-    #wrapper header p span.authorsmall:before {
-        content: '\f304';
-        display: inline-block;
-        -webkit-font-smoothing: antialiased;
-        font: normal 16px/1 'Genericons';
-        vertical-align: top;
-    }
-
-    #wrapper header p span.timesmall:before {
-        content: '\f303';
-        display: inline-block;
-        -webkit-font-smoothing: antialiased;
-        font: normal 16px/1 'Genericons';
-        vertical-align: top;
-    }
-
-    #wrapper header p span.datesmall:before {
-        content: '\f306';
-        display: inline-block;
-        -webkit-font-smoothing: antialiased;
-        font: normal 16px/1 'Genericons';
-        vertical-align: top;
-    }
-
-    #wrapper header p span.commentsmall:before {
-        content: '\f108';
-        display: inline-block;
-        -webkit-font-smoothing: antialiased;
-        font: normal 16px/1 'Genericons';
-        vertical-align: top;
-    }
-
-    #wrapper header p .commentsmall:before {
-        content: '\f108';
-        display: inline-block;
-        -webkit-font-smoothing: antialiased;
-        font: normal 16px/1 'Genericons';
-        vertical-align: top;
-    }
-
-    #wrapper header p .post-edit-link:before {
-        content: '\f411';
-        display: inline-block;
-        -webkit-font-smoothing: antialiased;
-        font: normal 16px/1 'Genericons';
-        vertical-align: top;
-    }
 
     img.wp-post-image {
         float: right;
