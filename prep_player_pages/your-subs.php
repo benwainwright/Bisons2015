@@ -58,7 +58,6 @@ if ( $_POST && ! isset( $_POST['confirm_change'] )) {
 	$diffDays   = $diffDays > 1 ? $diffDays . ' days' : $diffDays . ' day';
 
 
-	new dBug($nextFeeData);
 	if ( $nextFeeData['differenceInDays'] > 0 ) {
 		$forwardOrBack      = 'back';
 		$increasedOrReduced = 'increased';
