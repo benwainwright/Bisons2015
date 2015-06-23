@@ -11,7 +11,7 @@ function bisonsGocardlessSubscription( $resource, $data ) {
 		wp_send_json_error( $e );
 		exit;
 	}
-	$user = get_users( array( 'meta_key' => 'GCLUserID', $subscription->user_id ) )[0];
+	$user = get_users( array( 'meta_key' => 'GCLUserID', 'meta_value' => $subscription->user_id ) )[0];
 
 // Check if bill already exists
 	$query = new WP_Query(

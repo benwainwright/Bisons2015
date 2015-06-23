@@ -1,5 +1,15 @@
 <?php
 function bisonsGocardlessBillFailed($resource, $data) {
+
+
+	try {
+		$bill   = GoCardless_Bill::find( $resource['id'] );
+		$user   = get_users( array( 'meta_key' => 'GCLUserID', 'meta_value' => $bill->user_id ) )[0];
+		$source = null;
+	}
+	catch(Exception $e) {
+
+	}
 	$retries = get_user_meta( $user->ID, 'retries', true ) ? get_user_meta( $user->ID, 'retries', true ) : 0;
 
 	$bill = GoCardless_Bill::find( $resource['source_id'] );
