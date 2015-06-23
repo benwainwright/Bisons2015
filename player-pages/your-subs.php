@@ -17,7 +17,7 @@ $d = $wp_query->query['bisons_data'];
 	of this information, please do not hesitate to contact a member of the committee.</p>
 
 <form method="POST">
-	<table class='verticalTable'>
+	<table class='verticalTable selectBoxes'>
 		<tbody>
 		<tr>
 			<th>Payment Breakdown</th>
@@ -48,9 +48,9 @@ $d = $wp_query->query['bisons_data'];
 			</tr>
 		<?php endif ?>
 		<tr>
-			<th>Type</th>
+			<th>Paid On</th>
 			<td>
-				<select name='payWhen'>
+				<select id='payWhen' name='payWhen'>
 					<?php selectOptionFromMeta( $d['user'], 'payWhen', 'first', 'First day of Month' ) ?>
 					<?php selectOptionFromMeta( $d['user'], 'payWhen', 'last', 'Last day of Month' ) ?>
 					<?php selectOptionFromMeta( $d['user'], 'payWhen', 'specificDay', 'Specific day of Month' ) ?>
@@ -60,7 +60,7 @@ $d = $wp_query->query['bisons_data'];
 			</td>
 		</tr>
 
-		<tr>
+		<tr id='payDateDiv' <?php if ( get_user_meta($d['user'], 'payWhen', true) != 'specificDay' ) echo ' style="display:none"' ?>>
 			<th>Day of Month</th>
 			<td>
 				<select name='dayOfMonth'>
@@ -70,8 +70,7 @@ $d = $wp_query->query['bisons_data'];
 				</select>
 			</td>
 		</tr>
-
-		<tr>
+		<tr id='payWeekDayDiv' <?php if ( get_user_meta($d['user'], 'payWhen', true) != 'specificWeekday' ) echo ' style="display:none"' ?>>
 			<th>Which Weekday</th>
 			<td>
 				<select name='whichWeekDay'>
@@ -88,6 +87,7 @@ $d = $wp_query->query['bisons_data'];
 				</select>
 			</td>
 		</tr>
+
 
 
 		<tr>
