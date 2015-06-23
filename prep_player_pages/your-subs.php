@@ -71,7 +71,7 @@ if ( $_POST && ! isset( $_POST['confirm_change'] )) {
 
 		$flashmessage = "Moving your payment date to the <strong>$newPaymentString</strong> would mean moving your next payment date $forwardOrBack by <strong>" . $diffDays .
 		                "</strong>. To account for this, your next payment (which will be charged on the <strong>$hypDate</strong>) " .
-		                "will be reduced by <strong>$difference</strong> to <strong>$nextFee</strong>. All following payments will be made at the usual amount of <strong>$currentFee</strong>";
+		                "will be $increasedOrReduced by <strong>$difference</strong> to <strong>$nextFee</strong>. All following payments will be made at the usual amount of <strong>$currentFee</strong>";
 						"<input type='hidden' name='payWhen' value='" . $_POST['payWhen']. "' /> " .
 						"<input type='hidden' name='payWhen' value='" . $_POST['dayOfMonth']. "' /> " .
 						"<input type='hidden' name='payWhen' value='" . $_POST['whichWeekDay']. "' /> " .
