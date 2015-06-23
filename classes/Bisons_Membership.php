@@ -712,7 +712,7 @@ class Bisons_Membership {
 
 
 		$message = "\n" . $e->getMessage() . "\n";
-		$message .= "\nDate:\n" . print_r( $data, true ) . "\n";
+		$message .= "\nData:\n" . print_r( $data, true ) . "\n";
 		$message .= "Code: " . $e->getCode() . "\n";
 		$message .= "File: " . $e->getFile() . "\n";
 		$message .= "Line: " . $e->getLine() . "\n";
