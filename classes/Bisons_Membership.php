@@ -665,13 +665,17 @@ class Bisons_Membership {
 			$query = new WP_Query( $args );
 
 			$paymentInfo = array(
-				'Subscription Status' => ucwords( $this->getStatus( $id ) ),
-				'Membership Type'     => get_user_meta( $id, 'joiningas', true ),
-				'Successful Payments' => 0,
-				'Total Paid'          => 0,
-				'Total Refunded'      => 0,
-				'Last Bill'           => 0
+				'Subscription Status'             => ucwords( $this->getStatus( $id ) ),
+				'Membership Type'                 => get_user_meta( $id, 'joiningas', true ),
+				'Successful Payments'             => 0,
+				'Successful Payments This Season' => 0,
+				'Total Paid'                      => 0,
+				'Total Paid This Season'          => 0,
+				'Total Refunded'                  => 0,
+				'Last Bill'                       => 0
 			);
+
+			$seasons = wp_list_pluck( get_terms( 'seasons' ), 'name' );
 
 			setlocale( LC_MONETARY, 'en_GB.UTF-8' );
 
@@ -684,6 +688,12 @@ class Bisons_Membership {
 					case "withdrawn":
 					case "paid":
 
+						if ( ! has_term( $seasons, 'seasons' ) ) {
+
+							$amount = get_post_meta( get_the_id(), 'amount', true );
+							$paymentInfo['Successful Payments This Season'] ++;
+							$paymentInfo['Total Paid This Season'] += $amount;
+						}
 						$paymentInfo['Successful Payments'] ++;
 						$paymentInfo['Total Paid'] += get_post_meta( get_the_id(), 'amount', true );
 
