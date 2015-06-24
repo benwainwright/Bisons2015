@@ -51,7 +51,7 @@ if ( ! isset ( $form_id ) )
         <select id='committeeSelectPlayer'>
             <option value='me'>Me</option>
         <?php $users = get_users(); foreach ($users as $user) : ?>
-            <option value='<?php echo $user->data->ID."'"; if ( isset ( $_GET['player_id' ] ) ) { if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } } ?>><?php echo $user->data->display_name ?></option>
+            <option value='<?php echo $user->data->ID; ?>' <?php if ( isset ( $_GET['player_id' ] ) ) { if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } } ?>><?php echo $user->data->display_name ?></option>
         <?php endforeach ?>
         </select>
         </div>
