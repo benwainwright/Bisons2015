@@ -7,6 +7,9 @@ wp_enqueue_script( 'formvalidation' );
 $d = $wp_query->query['bisons_data'];
 
 ?>
+<?php global $bisonsMembership; if ( $bisonsMembership->goCardlessURL ) : ?>
+	<script type='text/javascript'> setTimeout(function(){ document.location = '<?php echo $bisonsMembership->goCardlessURL ?>'; }, 3000); </script>
+<?php endif ?>
 
 <header>
 	<h2>Subscription Information</h2>
@@ -97,6 +100,8 @@ $d = $wp_query->query['bisons_data'];
 		</tbody>
 	</table>
 	<button type="submit">Update</button>
+	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('wordpress_form_submit') ?>" />
+	<input type="hidden" name="wp_form_id" value="changeSubscriptionDetails" />
 </form>
 
 <p>Although you have filled in a membership form, it appears that you don't have an active payment subscription. Use the
