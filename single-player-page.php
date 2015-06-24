@@ -11,10 +11,7 @@ $pagename = $post->post_name;
 
     <div id="pagecol" class='ajaxcol'>
         <div class='page'>
-<?php if ( isset ( $GLOBALS['bisons_flash_message'] )  ) : ?>
-        <p id="flashmessage"><?php echo $GLOBALS['bisons_flash_message'] ?></p>
-    <?php endif ?>
-        <?php if ( have_posts() ) : 
+        <?php if ( have_posts() ) :
                 if( file_exists( dirname( __FILE__  ) . '/player-pages/' . $pagename . '.php' ) ) :
                     get_template_part( 'player-pages/' . $pagename );
                 else :
