@@ -56,6 +56,11 @@ class Bisons_Membership {
 
 	public function remoteCreatePreauthBill( $bill ) {
 
+
+		if ( ! $this->preAuth ) {
+			$this->remoteFindPreAuth( $this->GCLid );
+		}
+
 		try {
 			return $this->preAuth->create_bill( $bill );
 		} catch ( Exception $e ) {
