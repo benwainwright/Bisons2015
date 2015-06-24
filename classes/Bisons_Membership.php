@@ -176,27 +176,31 @@ class Bisons_Membership {
 
 		$data = $this->postData;
 
+		$u = get_users( array( 'ID' => $user->ID ) )[0];
+
 		$user = array(
-			'first_name'       => $data['firstname'],
-			'last_name'        => $data['surname'],
-			'email'            => $data['email_addy'],
-			'billing_address1' => $data['streetaddyl1'],
-			'billing_address2' => $data['streetaddyl2'],
-			'billing_town'     => $data['streetaddytown'],
-			'billing_postcode' => $data['postcode']
+			'first_name'       => $u->first_name,
+			'last_name'        => $u->last_name,
+			'email'            => $u->user_email,
+			'billing_address1' => get_user_meta($form_user, 'streetaddyl1', true),
+			'billing_address2' => get_user_meta($form_user, 'streetaddyl2', true),
+			'billing_town'     => get_user_meta($form_user, 'streetaddytown', true),
+			'billing_postcode' => get_user_meta($form_user, 'postcode', true)
 		);
 
-		$state = $data['payMethod'];
+		$state = get_user_meta($form_user, 'payMethod', true);
 
 		if ( 'dd' === $state ) {
 
-			$feeid = ( $data['playermembershiptypemonthly'] != '' )
-				? $data['playermembershiptypemonthly']
-				: $data['supportermembershiptypemonthly'];
+			$feeid = ( get_user_meta($form_user, 'playermembershiptypemonthly', true) != '' )
+				? get_user_meta($form_user, 'playermembershiptypemonthly', true)
+				: get_user_meta($form_user, 'supportermembershiptypemonthly', true);
+
 		} elseif ( 'sp' == $state ) {
-			$feeid = ( $data['playermembershiptypesingle'] != '' )
-				? $data['playermembershiptypesingle']
-				: $data['supportermembershiptypesingle'];
+
+			$feeid = ( get_user_meta($form_user, 'playermembershiptypesingle', true) != '' )
+				? get_user_meta($form_user, 'playermembershiptypesingle', true)
+				: get_user_meta($form_user, 'supportermembershiptypesingle', true);
 
 		}
 
@@ -251,7 +255,6 @@ class Bisons_Membership {
 		$this->getGCLUrl();
 
 		$post = $this->postData;
-
 
 		$userID = $this->user;
 
@@ -315,85 +318,89 @@ class Bisons_Membership {
 			'chestpain',
 			'suddendeath',
 			'smoking',
-			'palpatations'
+			'palpatations',
+			'playermembershiptypemonthly',
+			'supportermembershiptypemonthly',
+			'playermembershiptypesingle',
+			'supportermembershiptypesingle'
 
 		);
 
 
 		foreach ( $singlelinefields as $fieldname ) {
-			update_user_meta( $userID, $fieldname, $post[ $fieldname ] );
+			if ( isset ( $post[ $fieldname ] ) ) {
+				update_user_meta( $userID, $fieldname, $post[ $fieldname ] );
+			}
+
 		}
 
 
-		if ( $post['medconsdisabyesno'] == "Yes" ) {
-			$i         = 1;
-			$realCount = 1;
-			while ( isset( $post[ 'condsdisablities_name_row' . $i ] ) ) {
+		if ( isset ( $post['medconsdisabyesno'] ) ) {
+			if ( $post['medconsdisabyesno'] == "Yes" ) {
+				$i         = 1;
+				$realCount = 1;
+				while ( isset( $post[ 'condsdisablities_name_row' . $i ] ) ) {
 
-				if ( $post[ 'condsdisablities_name_row' . $i ] != '' ) {
-					update_user_meta( $userID, 'condsdisablities_name_row' . $realCount,
-						$post[ 'condsdisablities_name_row' . $i ] );
-					update_user_meta( $userID, 'condsdisablities_drugname_row' . $realCount,
-						$post[ 'condsdisablities_drugname_row' . $i ] );
-					update_user_meta( $userID, 'condsdisablities_drugdose_freq_row' . $realCount,
-						$post[ 'condsdisablities_drugdose_freq_row' . $i ] );
-					update_user_meta( $userID, 'condsdisablities_rowcount', $realCount );
-					$realCount ++;
+					if ( $post[ 'condsdisablities_name_row' . $i ] != '' ) {
+						update_user_meta( $userID, 'condsdisablities_name_row' . $realCount,
+							$post[ 'condsdisablities_name_row' . $i ] );
+						update_user_meta( $userID, 'condsdisablities_drugname_row' . $realCount,
+							$post[ 'condsdisablities_drugname_row' . $i ] );
+						update_user_meta( $userID, 'condsdisablities_drugdose_freq_row' . $realCount,
+							$post[ 'condsdisablities_drugdose_freq_row' . $i ] );
+						update_user_meta( $userID, 'condsdisablities_rowcount', $realCount );
+						$realCount ++;
+					}
+					$i ++;
 				}
-				$i ++;
 			}
 		}
 
 
-		if ( $post['allergiesyesno'] == "Yes" ) {
-			$i         = 1;
-			$realCount = 1;
-			while ( isset( $post[ 'allergies_name_row' . $i ] ) ) {
-				if ( $post[ 'allergies_name_row' . $i ] != '' ) {
-					update_user_meta( $userID, 'allergies_name_row' . $realCount,
-						$post[ 'allergies_name_row' . $i ] );
-					update_user_meta( $userID, 'allergies_drugname_row' . $realCount,
-						$post[ 'allergies_drugname_row' . $i ] );
-					update_user_meta( $userID, 'allergies_drugdose_freq_row' . $realCount,
-						$post[ 'allergies_drugdose_freq_row' . $i ] );
-					update_user_meta( $userID, 'allergies_rowcount', $realCount );
-					$realCount ++;
+		if ( isset ( $post['allergiesyesno'] ) ) {
+			if ( $post['allergiesyesno'] == "Yes" ) {
+				$i         = 1;
+				$realCount = 1;
+				while ( isset( $post[ 'allergies_name_row' . $i ] ) ) {
+					if ( $post[ 'allergies_name_row' . $i ] != '' ) {
+						update_user_meta( $userID, 'allergies_name_row' . $realCount,
+							$post[ 'allergies_name_row' . $i ] );
+						update_user_meta( $userID, 'allergies_drugname_row' . $realCount,
+							$post[ 'allergies_drugname_row' . $i ] );
+						update_user_meta( $userID, 'allergies_drugdose_freq_row' . $realCount,
+							$post[ 'allergies_drugdose_freq_row' . $i ] );
+						update_user_meta( $userID, 'allergies_rowcount', $realCount );
+						$realCount ++;
+					}
+					$i ++;
 				}
-				$i ++;
 			}
 		}
 
+		if ( isset ( $post['injuredyesno'] ) ) {
 
-		if ( $post['injuredyesno'] == "Yes" ) {
-			$i         = 1;
-			$realCount = 1;
-			while ( isset( $post[ 'injuries_name_row' . $i ] ) ) {
-				if ( $post[ 'injuries_name_row' . $i ] != '' ) {
-					update_user_meta( $userID, 'injuries_name_row' . $realCount, $post[ 'injuries_name_row' . $i ] );
-					update_user_meta( $userID, 'injuries_when_row' . $realCount, $post[ 'injuries_when_row' . $i ] );
-					update_user_meta( $userID, 'injuries_treatmentreceived_row' . $realCount,
-						$post[ 'injuries_treatmentreceived_row' . $i ] );
-					update_user_meta( $userID, 'injuries_who_row' . $realCount, $post[ 'injuries_who_row' . $i ] );
-					update_user_meta( $userID, 'injuries_status_row' . $realCount,
-						$post[ 'injuries_status_row' . $i ] );
-					update_user_meta( $userID, 'injuries_rowcount', $realCount );
+			if ( $post['injuredyesno'] == "Yes" ) {
+				$i         = 1;
+				$realCount = 1;
+				while ( isset( $post[ 'injuries_name_row' . $i ] ) ) {
+					if ( $post[ 'injuries_name_row' . $i ] != '' ) {
+						update_user_meta( $userID, 'injuries_name_row' . $realCount,
+							$post[ 'injuries_name_row' . $i ] );
+						update_user_meta( $userID, 'injuries_when_row' . $realCount,
+							$post[ 'injuries_when_row' . $i ] );
+						update_user_meta( $userID, 'injuries_treatmentreceived_row' . $realCount,
+							$post[ 'injuries_treatmentreceived_row' . $i ] );
+						update_user_meta( $userID, 'injuries_who_row' . $realCount, $post[ 'injuries_who_row' . $i ] );
+						update_user_meta( $userID, 'injuries_status_row' . $realCount,
+							$post[ 'injuries_status_row' . $i ] );
+						update_user_meta( $userID, 'injuries_rowcount', $realCount );
+					}
+					$i ++;
 				}
-				$i ++;
-			}
-
-			for ( $i = 1; isset( $post[ 'injuries_name_row' . $i ] ) && $post[ 'injuries_name_row' . $i ] != ''; $i ++ ) {
-				update_user_meta( $userID, 'injuries_name_row' . $i, $post[ 'injuries_name_row' . $i ] );
-				update_user_meta( $userID, 'injuries_when_row' . $i, $post[ 'injuries_when_row' . $i ] );
-				update_user_meta( $userID, 'injuries_treatmentreceived_row' . $i,
-					$post[ 'injuries_treatmentreceived_row' . $i ] );
-				update_user_meta( $userID, 'injuries_who_row' . $i, $post[ 'injuries_who_row' . $i ] );
-				update_user_meta( $userID, 'injuries_status_row' . $i, $post[ 'injuries_status_row' . $i ] );
-				update_user_meta( $userID, 'injuries_rowcount', $i );
 			}
 		}
 
 		update_user_meta( $userID, 'lastModified', time() );
-
 		update_user_meta( $userID, 'memtype', $post['memtype'] );
 	}
 
@@ -652,7 +659,7 @@ class Bisons_Membership {
 	 */
 	function getPaymentInfo( $id ) {
 
-		if ( get_user_meta ( $id, 'joined', true) ) {
+		if ( get_user_meta( $id, 'joined', true ) ) {
 
 			$args  = array( 'post_type' => 'GCLBillLog', 'author' => $id, 'posts_per_page' => - 1 );
 			$query = new WP_Query( $args );
@@ -696,9 +703,8 @@ class Bisons_Membership {
 				}
 
 			}
-		}
-		else {
-			$paymentInfo = array(   'Subscription Status' => 'Not Joined' );
+		} else {
+			$paymentInfo = array( 'Subscription Status' => 'Not Joined' );
 		}
 
 		return $paymentInfo;
