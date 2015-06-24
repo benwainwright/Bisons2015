@@ -1,6 +1,10 @@
 <?php
 global $bisonsMembership;
 global $bisonPlayersFlashMessage;
+global $wp_query;
+
+$status = $bisonsMembership->getStatus( $form_user );
+$membershipIsActive = ! ( $status == 'None' || $status == 'cancelled');
 
 
 $data = &$wp_query->query['bisons_data'];
@@ -9,7 +13,7 @@ $form_user = ( isset ( $_GET['player_id'] ) && current_user_can( 'committee_perm
 	? $_GET['player_id'] : get_current_user_id();
 
 
-if ( $_POST && ! isset( $_POST['confirm_change'] )) {
+if ( $_POST && ! isset( $_POST['confirm_change'] ) && $membershipIsActive ) {
 
 
 
@@ -69,9 +73,11 @@ if ( $_POST && ! isset( $_POST['confirm_change'] )) {
 		                "</strong>. To account for this, your next payment (which will be charged on the <strong>$hypDate</strong>) " .
 		                "will be $increasedOrReduced by <strong>$difference</strong> to <strong>$nextFee</strong>. All following payments will be made at the usual amount of <strong>$currentFee</strong>";
 						"<input type='hidden' name='payWhen' value='" . $_POST['payWhen']. "' /> " .
-						"<input type='hidden' name='payWhen' value='" . $_POST['dayOfMonth']. "' /> " .
-						"<input type='hidden' name='payWhen' value='" . $_POST['whichWeekDay']. "' /> " .
-						"<input type='hidden' name='payWhen' value='" . $_POST['weekDay']. "' /> " ;
+						"<input type='hidden' name='dayOfMonth' value='" . $_POST['dayOfMonth']. "' /> " .
+						"<input type='hidden' name='whichWeekDay' value='" . $_POST['whichWeekDay']. "' /> " .
+						"<input type='hidden' name='weekDay' value='" . $_POST['weekDay']. "' /> " .
+						"<input type='hidden' name='nextFee' value='$nextFee' /> " ;
+
 
 
 		$bisonPlayersFlashMessage[] = array(
@@ -82,8 +88,27 @@ if ( $_POST && ! isset( $_POST['confirm_change'] )) {
 	}
 }
 
-else if ($_POST['confirm_change'] === 'ok') {
+else if ($_POST['confirm_change'] === 'ok'|| ! $membershipIsActive ) {
+
 	$bisonsMembership->updateMembershipInfo();
+
+	$gclSubID = get_user_meta($form_user, 'GCLSubID', true);
+
+	if ( $gclSubID ) {
+		$bisonsMembership->remoteFindPreAuth($gclSubID);
+	}
+
+	if ( $bisonsMembership->preAuth->status != 'active' ) {
+		$bisonsMembership->getGCLUrl();
+	}
+
+	else
+	{
+		$nextDate = date ( 'Y-m-d', $bisonsMembership->nextPaymentDate( $form_user ) );
+		$bisonsMembership->requestNextBill( $form_user, $_POST['nextFee'], $nextDate );
+	}
+
+
 }
 
 
@@ -95,7 +120,7 @@ if ( get_user_meta( $form_user, 'joined', true ) ) {
 	$data['joined']            = true;
 	$data['payMethod']         = get_user_meta( $form_user, 'payMethod', true ) ? get_user_meta( $form_user,
 		'payMethod', true ) : false;
-	$data['payStatus']         = $bisonsMembership->getStatus( $form_user );
+	$data['payStatus']         =
 	$data['currentMonthlyFee'] = pence_to_pounds(current_user_meta( 'currentFee' ), false);
 	$data['GCLUserID']         = get_user_meta( $form_user, 'GCLUserID', true ) ? get_user_meta( $form_user,
 		'GCLUserID', true ) : false;
