@@ -35,8 +35,15 @@ function loadgmaps()
         });
     });
 }
+
+jQuery.fn.redraw = function() {
+    return this.hide(0, function(){jQuery(this).show()});
+};
+
 jQuery(document).ready(function() {
-    
+
+    jQuery('body').redraw();
+
     var aboveHeight = jQuery('#mainheader').outerHeight();
     
     loadgmaps();
