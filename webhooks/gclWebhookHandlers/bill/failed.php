@@ -23,13 +23,7 @@ function bisonsGocardlessBillFailed($resource, $data) {
 		update_post_meta( $mem_form->ID, 'retries', $retries );
 	} // Downgrade membership
 	else {
-		switch ( get_user_meta( $user->ID, 'payment_status', true ) ) {
-			case 2:
-				update_user_meta( $user->ID, 'payment_status', 3 );
-			case 7:
-			case 8:
-				update_user_meta( $user->ID, 'payment_status', 10 );
-		}
-		update_user_meta( $user->ID, 'mem_status', 'Inactive' );
+		update_user_meta( $user->ID, 'GCLsubscriptionStatus', 'cancelled' );
 	}
+
 }

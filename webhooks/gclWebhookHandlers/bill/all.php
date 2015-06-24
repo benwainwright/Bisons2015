@@ -48,6 +48,7 @@ function bisonsGocardlessBill( $resource, $data ) {
 
 		update_post_meta( get_the_id(), 'action', $data['action'] );
 		update_post_meta( get_the_id(), 'status', $resource['status'] );
+
 		$action   = 'log_updated';
 		$id       = get_the_id();
 		$postMeta = array(
@@ -76,6 +77,7 @@ function bisonsGocardlessBill( $resource, $data ) {
 		update_post_meta( $id, 'amount', $resource['amount'] );
 		update_post_meta( $id, 'amount_minus_fees', $resource['amount_minus_fees'] );
 		update_post_meta( $id, 'source_type', $resource['source_type'] );
+
 		$action   = 'log_created';
 		$postMeta = array(
 			'action'            => $data['action'],
@@ -87,7 +89,7 @@ function bisonsGocardlessBill( $resource, $data ) {
 			'source_type'       => $resource['source_type']
 		);
 	}
-	
+
 	if ( null !== $source ) {
 		update_user_meta( $user->ID, 'GCLSubStatus', $source->status );
 	}
