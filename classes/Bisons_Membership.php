@@ -575,14 +575,6 @@ class Bisons_Membership {
 		}
 	}
 
-	function clearNextBillDates() {
-		$users = get_users( array( 'meta_key' => 'payMethod', 'meta_value' => 'dd' ) );
-
-		foreach ( $users as $user ) {
-			delete_user_meta( $user->ID, 'nextBillDate' );
-		}
-	}
-
 	function scheduleNextBill( $id ) {
 
 		$nextPaymentDate = get_user_meta( $id, 'nextPaymentDate', true );
@@ -594,13 +586,11 @@ class Bisons_Membership {
 			$chargeDate      = date( 'Y-m-d', $nextPaymentDate );
 			$chargeAmount    = get_user_meta( $id, 'currentFee', true );
 
-
 			$args = array(
 				$id,
 				$chargeAmount,
 				$chargeDate
 			);
-
 
 			if ( wp_next_scheduled( 'bisonsRequestNextBill', $args ) <= time() ) {
 				wp_schedule_single_event( $scheduleDate, 'bisonsRequestNextBill', $args );
@@ -609,6 +599,16 @@ class Bisons_Membership {
 			update_user_meta( $id, 'nextPaymentDate', $nextPaymentDate );
 		}
 	}
+
+	function clearNextBillDates() {
+		$users = get_users( array( 'meta_key' => 'payMethod', 'meta_value' => 'dd' ) );
+
+		foreach ( $users as $user ) {
+			delete_user_meta( $user->ID, 'nextPaymentDate' );
+		}
+	}
+
+
 
 
 	function getStatus( $id ) {
