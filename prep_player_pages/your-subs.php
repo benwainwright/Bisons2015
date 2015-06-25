@@ -5,11 +5,7 @@ global $bisonPlayersFlashMessage;
 global $wp_query;
 
 
-
-
-$form_user = ( isset ( $_GET['player_id'] ) && current_user_can( 'committee_perms' ) )
-	? $_GET['player_id'] : get_current_user_id();
-
+$formUser = bisonsGetUser();
 
 
 // If a membership form exists, load it from WordPress
