@@ -67,24 +67,23 @@ if ( get_user_meta( $formUser, 'joined', true ) ) {
 
 	$data['user']            = $formUser;
 	$data['joined']          = true;
-	$data['payMethod']       = get_user_meta( $form_user, 'payMethod', true ) ? get_user_meta( $form_user,
+	$data['payMethod']       = get_user_meta( $formUser, 'payMethod', true ) ? get_user_meta( $formUser,
 		'payMethod', true ) : false;
-	$data['payStatus']       =
 	$data['currentMonthlyFee'] = pence_to_pounds( current_user_meta( 'currentFee' ), false );
-	$data['GCLUserID']       = get_user_meta( $form_user, 'GCLUserID', true ) ? get_user_meta( $form_user,
+	$data['GCLUserID']       = get_user_meta( $formUser, 'GCLUserID', true ) ? get_user_meta( $formUser,
 		'GCLUserID', true ) : false;
 	$data['query']           = new WP_Query( array(
 		'post_type'      => 'GCLBillLog',
 		'posts_per_page' => 10,
-		'author'         => $form_user
+		'author'         => $formUser
 	) );
-	$data['paymentInfo']     = $bisonsMembership->getPaymentInfo( $form_user );
-	$data['subName']         = get_user_meta( $form_user, 'GCLSubName', true ) ? get_user_meta( $form_user,
+	$data['paymentInfo']     = $bisonsMembership->getPaymentInfo( $formUser );
+	$data['subName']         = get_user_meta( $formUser, 'GCLSubName', true ) ? get_user_meta( $formUser,
 		'GCLSubName',
 		true ) : 'None';
-	$data['payWhen']         = get_user_meta( $form_user, 'payWhen', true );
+	$data['payWhen']         = get_user_meta( $formUser, 'payWhen', true );
 	$data['nextPaymentDate'] = date( 'jS M, Y', $bisonsMembership->nextPaymentDate( get_current_user_id() ) );
-	$data['dayOfMonth']      = get_user_meta( $form_user, 'dayOfMonth', true );
+	$data['dayOfMonth']      = get_user_meta( $formUser, 'dayOfMonth', true );
 
 } else {
 
