@@ -51,8 +51,6 @@ foreach ( $bills as $index => $billRow ) {
 		);
 
 
-
-
 		$hook_log['post_author'] = $user->ID;
 
 		// Add a GCLUserID meta tag to that user if it doesn't exist
@@ -73,6 +71,8 @@ foreach ( $bills as $index => $billRow ) {
 		update_post_meta( $id, 'amount_minus_fees', $bill->amount_minus_fees );
 		update_post_meta( $id, 'source_type', $bill->source_type );
 
+		echo $id;
+		exit;
 	}
 }
 
