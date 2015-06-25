@@ -1,6 +1,22 @@
-<?php 
+<?php
+
+
 define('INCLUDED', TRUE);
 include_once('dBug.php');
+
+
+// Load official GoCardless library
+include_once('GoCardless/init.php');
+
+foreach ( glob( __DIR__ . '/functions/*.php')  as $filename )
+{ include_once($filename); }
+
+foreach ( glob( __DIR__ . '/classes/*.php')  as $filename )
+{ include_once($filename); }
+
+foreach ( glob( __DIR__ . '/listTables/*.php')  as $filename )
+{ include_once($filename); }
+
 add_theme_support( 'post-thumbnails' ); 
 set_post_thumbnail_size( 400, 400 );
 add_filter('show_admin_bar', '__return_false');
@@ -15,21 +31,10 @@ function style_bisons_editor() {
 add_action( 'after_setup_theme', 'style_bisons_editor' );
 
 
-// Load official GoCardless library
-include_once('GoCardless/init.php');
-
 
 include_once(  __DIR__ . '/wp-cron/activateSchedules.php');
 
-// Classes
-include_once('classes/Wordpress_Form.php');
-include_once('classes/WP_List_table_copy.php');
 
-foreach ( glob( __DIR__ . '/listTables/*.php')  as $filename )
-{ include_once($filename); }
-
-foreach ( glob( __DIR__ . '/helper_functions/*.php')  as $filename )
-{ include_once($filename); }
 
 foreach ( glob( __DIR__ . '/init/*.php')  as $filename )
 { include_once($filename); }

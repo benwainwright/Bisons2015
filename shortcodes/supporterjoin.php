@@ -299,8 +299,8 @@ function join_as_supporter_shortcode()
         <legend>Payment</legend>
         <p class="info">Please indicate how you will be paying your membership fees. Note that once you have saved this form, you will be redirected to GoCardless, who handle our Direct Debits. Once they are done with you, you will be returned to our website afterwards.</p>
         <div>
-            <label class="smalllabel" for="paymethod">Payment Method</label>
-            <select class="mustselect" name="paymethod" id="paymethod">
+            <label class="smalllabel" for="payMethod">Payment Method</label>
+            <select class="mustselect" name="payMethod" id="payMethod">
                 <option></option>
                 <option>Monthly Direct Debit</option>
                 <option>Single Payment</option>

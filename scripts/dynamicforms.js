@@ -1,3 +1,117 @@
+function addRowToTableWhenFull() {
+    var lastRow = jQuery(this).parent().parent().parent().find('tr:last');
+    var clonedRow = jQuery(lastRow).clone();
+    var full = true;
+
+    clonedRow.find('input').each(function (element) {
+
+        if (jQuery(this).val() == '') {
+            full = false;
+        }
+
+        else {
+            jQuery(this).val('');
+            jQuery(this).removeClass();
+        }
+
+    });
+
+    if (full) {
+
+        lastRow.keydown(null);
+
+
+        clonedRow.insertAfter(lastRow);
+        var clonedInputs = clonedRow.find('input');
+
+        jQuery.each(clonedInputs, function () {
+
+            rowNum = Number(jQuery(this).attr('name').slice(-1));
+            rowNum++;
+            withoutRowNum = jQuery(this).attr('name').substring(0, jQuery(this).attr('name').length - 1);
+            newName = withoutRowNum + String(rowNum);
+            jQuery(this).attr('name', newName);
+
+        });
+
+        clonedInputs.keydown(addRowToTableWhenFull);
+        clonedInputs.focus(setInputAsFocused);
+        clonedInputs.focusout(setInputAsUnfocused);
+
+    }
+}
+
+var setInputAsFocused = function () {
+
+    var text = jQuery(this).siblings('.forminfo').html();
+    var sb = jQuery('#statusBar');
+
+    // If there is text in a forminfo, put it into the status bar
+    if (text) {
+        display = sb.css('display');
+
+        sb.data('prevDisplay', display);
+        sb.data('prevHTML', sb.html());
+        sb.addClass('statusBarInfo').html(text).show();
+    }
+
+    // Get dimensions of focused element
+    var windowHeight = jQuery(window).height();
+    var sbHeight = sb.outerHeight();
+    var elementHeight = jQuery(this).outerHeight();
+    var sbTopPosition = windowHeight - sbHeight;
+    var elementTopRelativeToDocument = jQuery(this).offset().top;
+    var elementBottomRelativeToWindow = jQuery(this).offset().top - jQuery(window).scrollTop();
+
+    var statusBarIsVisible = sb.css('display') == 'block';
+
+    // If the element is hidden behind the statusbar, scroll up a bit
+    if (statusBarIsVisible && elementBottomRelativeToWindow > sbTopPosition) {
+
+        var scroll = elementTopRelativeToDocument - windowHeight + sbHeight + elementHeight + 10;
+
+        $('html, body').animate({
+            scrollTop: scroll
+        }, 500);
+    }
+
+    if (jQuery(this).parent().parent().prop('tagName') == 'TR') {
+        jQuery(this).parent().parent().addClass('focusedTableRow');
+    }
+
+    jQuery(this).addClass('focusedinput');
+    jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
+    jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
+}
+
+function setInputAsUnfocused() {
+
+    var sb = jQuery('#statusBar');
+
+    if (sb.hasClass('statusBarInfo')) {
+        sb.removeClass('statusBarInfo');
+    }
+    jQuery(this).parent().parent().find('.fieldsetInfo');
+
+    html = sb.data('prevHTML');
+
+    if (html) {
+        sb.html(html);
+    }
+
+    if (sb.find('li').length = 0) {
+        sb.hide();
+    }
+
+    if (jQuery(this).parent().parent().prop('tagName') == 'TR') {
+        jQuery(this).parent().parent().removeClass('focusedTableRow');
+    }
+    jQuery(this).removeClass('focusedinput');
+    jQuery(this).siblings('label').removeClass('focusedinput');
+    jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
+}
+
+
 jQuery(document).ready(function () {
 
     jQuery('#committeeSelectPlayer').change(function () {
@@ -39,6 +153,7 @@ jQuery(document).ready(function () {
 
     jQuery('#payWhen').change(function () {
 
+
         switch (jQuery(this).val()) {
 
 
@@ -77,20 +192,11 @@ jQuery(document).ready(function () {
     });
 
 
-    jQuery('input, select, textarea').focus(function () {
-        jQuery(this).siblings('.forminfo').show();
-        jQuery(this).addClass('focusedinput');
-        jQuery(this).siblings('label:not(.error)').addClass('focusedinput');
-        jQuery(this).parents('.inlinediv').siblings('label').addClass('focusedinput');
+    jQuery('input, select, textarea').focus(setInputAsFocused);
+    jQuery('input, select, textarea').focusout(setInputAsUnfocused);
 
-    });
 
-    jQuery('input, select, textarea').focusout(function () {
-        jQuery(this).siblings('.forminfo').hide();
-        jQuery(this).removeClass('focusedinput');
-        jQuery(this).siblings('label').removeClass('focusedinput');
-        jQuery(this).parents('.inlinediv').siblings('label').removeClass('focusedinput');
-    });
+    jQuery('table.autoAddRow').find('tbody tr:last input').keydown(addRowToTableWhenFull);
 
     jQuery('#joiningas').change(function () {
         if (jQuery(this).val() == 'Supporter') {
@@ -151,26 +257,50 @@ jQuery(document).ready(function () {
 
     jQuery('#gender').change(function () {
         if (jQuery(this).val() == 'Other') {
-            jQuery('#othergender').show();
+            jQuery('#othergender').css('display', 'table')
         }
         else {
-            jQuery('#othergender').hide();
+            jQuery('#othergender').hide('display', 'none');
         }
     });
 
     jQuery('#smoking').click(function () {
 
         if (jQuery(this).prop('checked')) {
-            jQuery('#howmanycigs').show();
+            jQuery('#howmanycigs').css('display', 'table');
         }
         else {
-            jQuery('#howmanycigs').hide();
+            jQuery('#howmanycigs').css('display', 'none');
         }
     });
 
-    jQuery('#paymethod').change(function () {
-        if (jQuery(this).val() == 'Monthly Direct Debit') {
+    jQuery('#socialTop').click(function () {
 
+        if (jQuery(this).prop('checked')) {
+            jQuery('#topSizeDiv').css('display', 'table');
+        }
+        else {
+            jQuery('#topSizeDiv').css('display', 'none');
+        }
+    });
+
+
+    jQuery('.feesSelect').change(function(){
+
+        description = jQuery(this).find('option:selected').attr('data-description');
+        amount = jQuery(this).find('option:selected').attr('data-amount');
+        jQuery('#description').text(description);
+        jQuery('#amountToPay').text('£' + (amount / 100).toFixed(2) );
+
+    });
+
+    jQuery('#payMethod').change(function () {
+        jQuery('#description').text('None selected');
+
+
+        if (jQuery(this).val() == 'dd') {
+
+            jQuery('.ddOnly').show();
             jQuery('#payWhenDiv').show();
             jQuery('#playermempaymonthly').show();
             jQuery('#playermempaysingle').hide();
@@ -180,7 +310,8 @@ jQuery(document).ready(function () {
             jQuery('#supportermempaysingle').find('select').val('');
 
         }
-        else if (jQuery(this).val() == 'Single Payment') {
+        else if (jQuery(this).val() == 'sp') {
+            jQuery('.ddOnly').hide();
             jQuery('#payWhenDiv').hide();
             jQuery('#payWhen').find('select').val('');
             jQuery('#playermempaymonthly').hide();
@@ -191,6 +322,7 @@ jQuery(document).ready(function () {
             jQuery('#supportermempaysingle').show();
         }
         else {
+
             jQuery('#payWhenDiv').hide();
             jQuery('#payWhen').find('select').val('');
             jQuery('#playermempaymonthly').hide();
@@ -218,29 +350,16 @@ jQuery(document).ready(function () {
 
     jQuery('#playedbefore').change(function () {
         if (jQuery(this).val() == 'Yes') {
-            jQuery('#howmanyseasonsgroup').show();
+            jQuery('#howmanyseasonsgroup').css('display', 'table');
         }
         else {
-            jQuery('#howmanyseasonsgroup').hide();
+            jQuery('#howmanyseasonsgroup').css('display', 'none');
         }
     });
 
 
     jQuery('#conddisablefieldset').find('.addrow').click(function () {
 
-        var rownum = jQuery('#conddisablefieldset').find('tbody').find('tr').length + 1;
-
-        var row = '<tr><td><input class="required tableInputs" name="condsdisablities_name_row' + rownum + '" type=\'text\' /></td><td>'
-            + '<input class="required tableInputs" name="condsdisablities_drugname_row' + rownum + '" type=\'text\' /></td><td> '
-            + '<input class="required tableInputs" name="condsdisablities_drugdose_freq_row' + rownum + '" type=\'text\' /></td>'
-            + '</tr>';
-        jQuery('#conddisablefieldset').find('tbody').append(row);
-
-        if (jQuery('#conddisablefieldset').find('tbody').find('tr').length > 1) {
-            jQuery('#conddisablefieldset').find('.removerow').show();
-        }
-
-        return false;
     });
 
     jQuery('#conddisablefieldset').find('.removerow').click(function () {

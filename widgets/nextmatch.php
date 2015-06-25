@@ -31,6 +31,8 @@ class NextMatch extends WP_Widget {
         	'post_type'	=> 'fixtures',
         	'orderby'	=>	'meta_value',
 			'meta_key'  => 'fixture-date',
+	        'meta_compare' => '>',
+	        'meta_value'    => time(),
 			'posts_per_page' => 1
 		));
 		

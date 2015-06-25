@@ -22,14 +22,14 @@ $homeaway = get_post_meta($parent, 'fixture-home-away', true);
             <ul>
                   
                   <?php if ( $homeaway == 'Home' ) : ?>
-                  <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
+                  <li class="teamName"><i class="fa fa-star"></i>Bristol Bisons RFC (Home)</li>
                   <li class='score'><?php echo $ourscore ?></li>
-                  <li class="fa fa-star teamName"><a href='<?php echo $opplink ?>'><?php echo $opposing ?></a> (Away)</li>
+                  <li class="teamName"><a href='<?php echo $opplink ?>'><i class="fa fa-star"></i><?php echo $opposing ?></a> (Away)</li>
                   <li class='score'><?php echo $theirscore ?></li>
                   <?php else : ?>
-                  <li class="fa fa-star teamName"><a href='<?php echo $opplink ?>'><?php echo $opposing ?></a> (Home)</li>
+                  <li class="teamName"><a href='<?php echo $opplink ?>'><i class="fa fa-star"></i><?php echo $opposing ?></a> (Home)</li>
                   <li class='score'><?php echo $theirscore ?></li>
-                  <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
+                  <li class="teamName"><i class="fa fa-star"></i>Bristol Bisons RFC (Away)</li>
                   <li class='score'><?php echo $ourscore ?></li>
                   <?php endif ?>
               </ul>
@@ -41,7 +41,7 @@ $homeaway = get_post_meta($parent, 'fixture-home-away', true);
 					$event_player = get_user_by('id', get_post_meta ( get_the_id(), 'match_event_player_' . $i, true ) ) ;
 					$player_name = $event_player->data->display_name;
               		?>
-              	<li class='fa fa-flag'><?php global $match_events; echo $match_events[$event_key][0]; echo get_profile_url ( $event_player->ID ) ? ' - <a href="'.get_profile_url ( $event_player->ID ).'">'.$player_name.'</a>' : ' - ' .$player_name ?></li>
+              	<li><i class="fa fa-flag"></i><?php global $match_events; echo $match_events[$event_key][0]; echo get_profile_url ( $event_player->ID ) ? ' - <a href="'.get_profile_url ( $event_player->ID ).'">'.$player_name.'</a>' : ' - ' .$player_name ?></li>
               	<?php endfor ?>
               </ul>
               <?php endif ?>

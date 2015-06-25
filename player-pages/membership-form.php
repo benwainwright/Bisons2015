@@ -1,68 +1,23 @@
 <?php
     wp_enqueue_script('dynamicforms');
-    wp_enqueue_script('formvalidation-membership-form');
+    wp_enqueue_script('formvalidation-membership');
 
 
 
-$formUser = ( isset ( $_GET['player_id'] ) && current_user_can ('committee_perms') ) 
+
+$formUser = ( isset ( $_GET['player_id'] ) && current_user_can ('committee_perms') )
                 ? $_GET['player_id'] : get_current_user_id();
 
 $userData = get_userdata ( $formUser );
 
 // If there is a resource_id in the querystring, it must returning from Gocardless, so confirm the payment and then save the resource information if it confirms properly
-if ( isset ( $_GET['resource_id'] ) )
-{   
-    $confirm_params = array(
-      'resource_id'    => $_GET['resource_id'],
-      'resource_type'  => $_GET['resource_type'],
-      'resource_uri'   => $_GET['resource_uri'],
-      'signature'      => $_GET['signature']
-    );
-    
-    if (isset($_GET['state'])) {
-      $confirm_params['state'] = $_GET['state'];
-    }
-    
-    try { 
-        $confirmed_resource = GoCardless::confirm_resource($confirm_params);
-    }
-    catch ( Exception  $error )
-    {
-        echo "GoCardless Error: $e->getMessage()";
-    }
-        
-    if ( $confirmed_resource )
-    {
-
-        switch ( $state )
-        {
-            
-            case "DD": 
-                
-                $resource = GoCardless_PreAuthorization::find($_GET['resource_id']);
-	            update_user_meta($formUser, 'payMethod', 'dd' );  // Single payment pending
-
-            break;
-            
-            case "SP": 
-                update_user_meta($formUser, 'payment_type', "Single Payment" );
-                $resource = GoCardless_Bill::find($_GET['resource_id']);
-                update_user_meta($formUser, 'singlePaymentID', $_GET['resource_id'] );  // Single payment pending
-	            update_user_meta($formUser, 'payMethod', 'single' );  // Single payment pending
-
-            break;
-            
-        }
-
-	    update_user_meta($formUser, 'GCLUserID', $bill->user_id );
-        update_user_meta($formUser, 'mem_name', $resource->name );
-    }
-    
+if ( isset ( $_GET['resource_id'] ) ) {
+	global $bisonsMembership;
+	$bisonsMembership->confirmPreauth($_GET, $formUser);
 }
-  
 
 if ( ! isset ( $form_id ) )
-      $form_id = NULL;
+	$form_id = NULL;
 
 
     wp_enqueue_script('formvalidation');
@@ -70,43 +25,42 @@ if ( ! isset ( $form_id ) )
 ?>
 
 <header>
-<h2>Bristol Bisons RFC Membership Form </h2>
-</header>
+<h2>Membership Form</h2>
+	<?php get_template_part( 'snippets/playerPage', 'menu' ) ?>
 
+</header>
+<?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
 <?php global $gocardless_url; if ( isset ( $gocardless_url ) ) : ?>
-<p class="flashmessage">In a moment, you will be redirected to a direct debit mandate form at GoCardless. Once you have finished setting up your payment information, you will be returned to this site. See you in a bit!</p>
 <script type='text/javascript'> setTimeout(function(){ document.location = '<?php echo $gocardless_url ?>'; }, 3000); </script>
 <?php endif ?>
-<?php if ( isset ( $confirmed_resource ) ) : ?>
-<p class="flashmessage">Congratulations! Your direct debit (or full payment) has now been setup - you should receive an email from GoCardless (our payment processor) very shortly. 
-<?php endif ?>           
+
 <?php if ( get_user_meta($formUser, 'joined', true ) == true ) : ?>
-<p><strong>Please note that it is your responsibility to ensure that the information supplied below (particularly medical information) remains up to date</strong>. You can return to this form and make changes at any time; to do so, scroll down to the bottom and click 'Edit Details'. When you have finished, click 'Save Changes' and the committee will be notified of any changes you have made.</p>
+<p class='important'><i class='fa fa-exclamation-circle'></i>Please note that it is your responsibility to ensure that the information supplied below (particularly medical information) remains up to date. You can return to this form and make changes at any time. </p>
 <?php else: ?>
-<p>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
+<p class='important'><i class='fa fa-exclamation-circle'></i>Please take a moment to fill out the form below. Note that all the information supplied will remain completely <strong>confidential</strong>. Should you have any questions about anything on this form, please contact the <strong>membership secretary</strong> using the contact details at the top of the <a href='<?php echo home_url ('/players-area/') ?>'>players area</a>...</p>
 <?php endif; ?>
-<ul class='invalidformerrors'>
-    <?php foreach ( $errors as $error ) : ?>
-    <li><?php echo $error ?></li>
-    <?php endforeach ?>
-</ul>
+<div id="statusBar">
+</div>
 <form id='membershipform_payment' method="post" role="form">
-    
+
     <?php if  ( current_user_can ('committee_perms') ) : ?>
     <fieldset>
-        <legend>Select Player</legend>
-        <?php if ( isset ( $_GET['player_id' ] ) ) : ?>
-        <p class='info'>This is NOT YOUR MEMBERSHIP form. You can fill in someone else's form below or use the dropdown box below to return to your membership form.</p>
-        <input type='hidden' name='form_belongs_to' value='<?php echo $_GET['player_id' ] ?>' />
-        <?php else : ?>
-        <p class='info'>This is your own membership form. As a committee member, you can use the dropdown box below to select and edit the membership form of another player.</p>
-        <?php endif ?>
+        <legend>Active Player</legend>
+		<div>
+			<label>Select</label>
         <select id='committeeSelectPlayer'>
             <option value='me'>Me</option>
         <?php $users = get_users(); foreach ($users as $user) : ?>
-            <option value='<?php echo $user->data->ID."'"; if ( isset ( $_GET['player_id' ] ) ) { if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } } ?>><?php echo $user->data->display_name ?></option>
+            <option value='<?php echo $user->data->ID; ?>' <?php if ( isset ( $_GET['player_id' ] ) ) { if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } } ?>><?php echo $user->data->display_name ?></option>
         <?php endforeach ?>
         </select>
+        </div>
+        <?php if ( isset ( $_GET['player_id' ] ) ) : ?>
+        <p class='info'>This is NOT YOUR MEMBERSHIP form. You can fill in someone else's form below or use the dropdown box below to return to your membership form.</p>
+
+        <?php else : ?>
+	        <p class='info'>This is your own membership form. As a committee member, you can use this dropdown box to select and edit the membership form of other players.</p>
+        <?php endif ?>
     </fieldset>
     <?php endif ?>
     <fieldset>
@@ -118,10 +72,10 @@ if ( ! isset ( $form_id ) )
                 <?php selectOptionFromMeta($formUser, 'joiningas', 'Player') ?>
 	            <?php selectOptionFromMeta($formUser, 'joiningas', 'Supporter') ?>
             </select>
-            <p class='forminfo'>Please note that a supporter membership is specifically for those that want to support the team but do not want to play any rugby. If you will be playing with us, pleae make sure you choose 'player' here because we will need to take some details of your medical history for you as part of our duty of care.</p>
+            <p class='forminfo'>Please note that a supporter membership is specifically for those that want to support the team but do not want to play any rugby. If you will be playing with us, please make sure you choose 'player' here because we will need to take some details of your medical history for you as part of our duty of care.</p>
         </div>
     </fieldset>
-    
+
     <fieldset>
         <legend>Personal Details</legend>
         <div>
@@ -133,7 +87,7 @@ if ( ! isset ( $form_id ) )
             <input type="text" class="smalltextbox required min2chars" name="surname" id="surname" value='<?php echo $userData->user_lastname ?>'/>
         </div>
         <div>
-            <label>Gender</label>
+            <label for="gender">Gender</label>
             <select class="required" name='gender' id='gender'>
                 <option value="">Choose...</option>
                 <option<?php selected( get_user_meta($formUser, 'gender', true), 'Male') ?>>Male</option>
@@ -146,7 +100,7 @@ if ( ! isset ( $form_id ) )
             <input type="text" class="smalltextbox required" name="othergender" value='<?php echo get_user_meta($formUser, 'othergender', true) ?>' />
             <p class="forminfo">As a fully inclusive rugby club, we completely recognise that a gender designation of 'male' or 'female' is far too simplistic for the real world. However, because we are a rugby team, we are bound by <a href='http://www.rfu.com/' title='RFU Website'>RFU</a> regulations which unfortunately are categorised in simple male/female terms. Please be aware therefore that only a person who self-identifies as 'male' in some way can play in 'male' rugby. Likewise, only a person who self-identifies as 'female' in some way can play in 'female' rugby.</p>
         </div>
-        <div>
+        <div class="noBackground">
             <label class="smalllabel" for="dob">Date of Birth</label>
              <div class="inlinediv">
              <select class="norightmargin required" id="dob-day" name="dob-day">
@@ -261,7 +215,7 @@ if ( ! isset ( $form_id ) )
 	            <?php selectOptionFromMeta($formUser, 'sameaddress', 'No') ?>
             </select>
         </div>
-        <div id="nokaddygroup"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'sameaddress', true) == "No") { ?> style="display:block"<?php } ?>>
+        <div class='fieldGroup' id="nokaddygroup"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'sameaddress', true) == "No") { ?> style="display:block"<?php } ?>>
             <div>
                 <label for="nokstreetaddy">Street address</label>
                 <textarea class='required' name="nokstreetaddy" id="nokstreetaddy"><?php if ( get_user_meta($formUser, 'joined', true ) == true ) { echo get_user_meta($formUser, 'nokstreetaddy', true); } ?></textarea>
@@ -308,34 +262,30 @@ if ( ! isset ( $form_id ) )
 
     <fieldset id="conddisablefieldset"<?php if (get_user_meta($formUser, 'medconsdisabyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Conditions or disabilities</legend>
-        <p class="info">Please enter the details of your condition or disability, and any medication (e.g. tablets, inhalers or creams) you take for each condition, making sure to give drug names.</p>
-        <table id="conditionsdisabilitiestable" class='center'>
+        <p class="info">Please enter the details of your condition or disability, and any medication (e.g. tablets, inhalers or creams) you take for each condition, making sure to give drug names.  <em>When you fill an empty row, a new one will be added.</em></p>
+        <table id="conditionsdisabilitiestable" class='center autoAddRow'>
             <thead>
                 <tr>
-                    <th>Condition or disability</th>
+                    <th>Condition or Disability</th>
                     <th>Medication</th>
                     <th>Dose and frequency</th>
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'condsdisablities_rowcount', true); $i++ ) : ?>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'condsdisablities_rowcount', true) +1; $i++ ) : ?>
                 <tr class='clonerow'>
-                    <td><input class='required tableInputs' name="condsdisablities_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_name_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="condsdisablities_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugname_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="condsdisablities_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugdose_freq_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Condition or Disability" class='tableInputs' name="condsdisablities_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_name_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Medication" class='tableInputs' name="condsdisablities_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugname_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Dose and frequency" class='tableInputs' name="condsdisablities_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'condsdisablities_drugdose_freq_row' . $i, true); } ?>" /></td>
                 </tr>
                 <?php endfor; ?>
             </tbody>
         </table>
-        <?php if ( ! $disabled ) { ?>
-        <button class="smallbutton removerow"<?php if ( get_user_meta($formUser, 'condsdisablities_rowcount', true) > 1 ) { ?> style='display:inline'<?php } ?>>Remove Row</button>
-        <button class="smallbutton addrow">Add Row</button>
-        <?php } ?>
     </fieldset>
     <fieldset id="allergiesfieldset"<?php if (get_user_meta($formUser, 'allergiesyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Allergies</legend>
         <p class="info">Please enter the details of your allergy, and any medication (e.g. tablets, inhalers, creams) you use for each, making sure to give drug names.</p>
-        <table id="allergiestable" class='center'>
+        <table id="allergiestable" class='center autoAddRow'>
             <thead>
                 <tr>
                     <th>Allergy</th>
@@ -344,50 +294,42 @@ if ( ! isset ( $form_id ) )
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'allergies_rowcount', true); $i++ ) : ?>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'allergies_rowcount', true) + 1; $i++ ) : ?>
                 <tr class='clonerow'>
-                    <td><input class='required tableInputs' name="allergies_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_name_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="allergies_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugname_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="allergies_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugdose_freq_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Allergy" class='tableInputs' name="allergies_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_name_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Medication" class='tableInputs' name="allergies_drugname_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugname_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Dose and Frequency" class='tableInputs' name="allergies_drugdose_freq_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'allergies_drugdose_freq_row' . $i, true); } ?>" /></td>
                 </tr>
                 <?php endfor; ?>
             </tbody>
         </table>
-        <?php if ( ! $disabled ) { ?>
-        <button class="smallbutton removerow"<?php if ( get_user_meta($formUser, 'allergies_rowcount', true) > 1 ) { ?> style='display:inline'<?php } ?>>Remove Row</button>
-        <button class="smallbutton addrow">Add Row</button>
-        <?php } ?>
     </fieldset>
         <fieldset id="injuriesfieldset"<?php if (get_user_meta($formUser, 'injuredyesno', true) == "Yes" && get_user_meta($formUser, 'joiningas', true) == "Player" ) { ?> style="display:block;"<?php } else { echo " style='display:none'"; } ?>>
         <legend>Injuries</legend>
         <p class="info">Please list any injuries (e.g. concussion), indicating when they happened, who treated you (e.g. your doctor) and the current status of your injuries (e.g. whether they are fully recovered or not).</p>
-        <table id="injuriestable" class='center'>
+        <table id="injuriestable" class='center autoAddRow'>
             <thead>
                 <tr>
                     <th>Injury</th>
                     <th>When</th>
-                    <th>Treatment received</th>
-                    <th>Who treated you</th>
-                    <th>Current status of injury</th>
+                    <th>Treatment Received</th>
+                    <th>Treated By</th>
+                    <th>Current Status</th>
                 </tr>
             </thead>
             <tbody>
-                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'injuries_rowcount', true); $i++ ) : ?>
+                <?php for ( $i = 1; $i == 1 || $i <= get_user_meta($formUser, 'injuries_rowcount', true) +1; $i++ ) : ?>
                 <tr class='clonerow'>
-                    <td><input class='required tableInputs' name="injuries_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_name_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_when_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_when_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_treatmentreceived_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_treatmentreceived_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_who_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_who_row' . $i, true); } ?>" /></td>
-                    <td><input class='required tableInputs' name="injuries_status_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_status_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Injury" class='tableInputs' name="injuries_name_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_name_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="When" class='tableInputs' name="injuries_when_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_when_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Treament " class='tableInputs' name="injuries_treatmentreceived_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_treatmentreceived_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Treated By" class='tableInputs' name="injuries_who_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_who_row' . $i, true); } ?>" /></td>
+                    <td><input placeholder="Current Status" class='tableInputs' name="injuries_status_row<?php echo $i; ?>" type='text' <?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> value="<?php echo get_user_meta($formUser, 'injuries_status_row' . $i, true); } ?>" /></td>
 
                 </tr>
                 <?php endfor; ?>
             </tbody>
         </table>
-        <?php if ( ! $disabled ) { ?>
-        <button class="smallbutton removerow"<?php if ( get_user_meta($formUser, 'injuries_rowcount', true) > 1 ) { ?> style='display:inline'<?php } ?>>Remove Row</button>
-        <button class="smallbutton addrow">Add Row</button>
-        <?php } ?>
     </fieldset>
 
     <fieldset>
@@ -428,24 +370,20 @@ if ( ! isset ( $form_id ) )
     <fieldset>
         <legend>Cardiac Questionairre</legend>
         <p class="info">Please tick each box that applies to you.</p>
-        <div>
-        <label><input type="checkbox" name="fainting" <?php if ( get_user_meta($formUser, 'fainting', true) == "on") { ?> checked="checked"<?php } ?> />Fainting</label>
-        <label><input type="checkbox" name="dizzyturns" <?php if ( get_user_meta($formUser, 'dizzyturns', true) == "on") { ?> checked="checked"<?php } ?>  />Dizzy Turns</label>
-        <label><input type="checkbox" name="breathlessness" <?php if ( get_user_meta($formUser, 'breathlessness', true) == "on") { ?> checked="checked"<?php } ?>  />Breathlessness or more easily tired than team-mates</label>
-        <label><input type="checkbox" name="bloodpressure" <?php if ( get_user_meta($formUser, 'bloodpressure', true) == "on") { ?> checked="checked"<?php } ?>  />History of high blood pressure</label>
-        </div>
-        <div>
-        <label><input type="checkbox" name="diabetes" <?php if ( get_user_meta($formUser, 'diabetes', true) == "on") { ?> checked="checked"<?php } ?>  />Diabetes</label>
-        <label><input type="checkbox" name="palpitations" <?php if ( get_user_meta($formUser, 'palpitations', true) == "on") { ?> checked="checked"<?php } ?>  />Palpitations</label>
-        <label><input type="checkbox" name="chestpain" <?php if ( get_user_meta($formUser, 'chestpain', true) == "on") { ?> checked="checked"<?php } ?>  />Chest Pain or Tightness</label>
-        <label><input type="checkbox" name="suddendeath" <?php if ( get_user_meta($formUser, 'suddendeath', true) == "on") { ?> checked="checked"<?php } ?>  />Sudden death in immediate family of anyone under 50</label>
-        </div>
-        <div>
-        <label><input type="checkbox" id="smoking" name="smoking" <?php if ( get_user_meta($formUser, 'smoking', true) == "on") { ?> checked="checked"<?php } ?>  />Smoking </label>
-        </div>
-        <div id="howmanycigs"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'smoking', true) == "On") { ?> style="display:block"<?php } ?>>
+	    <div class="checkboxesContainer">
+        <label for="fainting"><input type="checkbox" name="fainting" <?php if ( get_user_meta($formUser, 'fainting', true) == "on") { ?> checked="checked"<?php } ?> />Fainting</label>
+        <label for="dizzyturns"><input type="checkbox" name="dizzyturns" <?php if ( get_user_meta($formUser, 'dizzyturns', true) == "on") { ?> checked="checked"<?php } ?>  />Dizzy Turns</label>
+        <label for="breathlessness"><input type="checkbox" name="breathlessness" <?php if ( get_user_meta($formUser, 'breathlessness', true) == "on") { ?> checked="checked"<?php } ?>  />Breathlessness or more easily tired than team-mates</label>
+        <label for="bloodpressure"><input type="checkbox" name="bloodpressure" <?php if ( get_user_meta($formUser, 'bloodpressure', true) == "on") { ?> checked="checked"<?php } ?>  />History of high blood pressure</label>
+        <label for="diabetes"><input type="checkbox" name="diabetes" <?php if ( get_user_meta($formUser, 'diabetes', true) == "on") { ?> checked="checked"<?php } ?>  />Diabetes</label>
+        <label for="palpitations"><input type="checkbox" name="palpitations" <?php if ( get_user_meta($formUser, 'palpitations', true) == "on") { ?> checked="checked"<?php } ?>  />Palpitations</label>
+        <label for="chestpain"><input type="checkbox" name="chestpain" <?php if ( get_user_meta($formUser, 'chestpain', true) == "on") { ?> checked="checked"<?php } ?>  />Chest Pain or Tightness</label>
+        <label for="suddendeath"><input type="checkbox" name="suddendeath" <?php if ( get_user_meta($formUser, 'suddendeath', true) == "on") { ?> checked="checked"<?php } ?>  />Sudden death in immediate family of anyone under 50</label>
+        <label for="smoking"><input type="checkbox" id="smoking" name="smoking" <?php if ( get_user_meta($formUser, 'smoking', true) == "on") { ?> checked="checked"<?php } ?>  />Smoking </label>
+	    </div>
+		    <div id="howmanycigs"<?php if ( get_user_meta($formUser, 'joined', true ) == true && get_user_meta($formUser, 'smoking', true) == "On") { ?> style="display:block"<?php } ?>>
             <label class="smalllabel" for="howmanycigsperday">How many cigarettes do you smoke per day?</label>
-            <input type="text" class="smalltextbox required" name="howmanycigsperday" id="weight" value='<?php echo get_user_meta($formUser, 'howmanycigsperday', true) ?>' />
+            <input type="number" class="smalltextbox required" name="howmanycigsperday" id="weight" value='<?php echo get_user_meta($formUser, 'howmanycigsperday', true) ?>' />
         </div>
     </fieldset>
     </div>
@@ -460,37 +398,25 @@ if ( ! isset ( $form_id ) )
             <textarea name="whatcanyoubring" id="whatcanyoubring"><?php if ( get_user_meta($formUser, 'joined', true ) == true ) { echo get_user_meta($formUser, 'whatcanyoubring', true); } ?></textarea>
             <p class='forminfo'><strong>Optional</strong> The Bisons is run by a team of dedicated volunteers and we are always looking for people with useful skills that could make the team even better. This doesn't have to be rugby related, for example: perhaps you are good at numbers and might be a potential treasurer, or you have some serious marketing skills to help us get the club name out there.</p>
         </div>
-        <div>
-            <label for="topsize">Top size</label>
-            <select class='required' name='topsize'>
-                <option value="">Choose...</option>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'Small') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'Medium') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'X-Large') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'XX-Large') ?>
-	            <?php selectOptionFromMeta($formUser, 'topsize', 'XXX-Large') ?>
-            </select>
-            <p class='forminfo'>What size would you like your exclusive Bisons social top to be?</p>
-        </div>
     </fieldset>
     <?php if ( ! get_user_meta($formUser, 'joined', true ) ) : ?>
     <fieldset id="paymentFieldset" style="display:none">
         <legend>Payment</legend>
         <p class="info">Please indicate how you will be paying your membership fees. Note that if you select either a direct debit or a single payment, saving this form will cause you to be redirected to another website in order to setup the direct debit. You will be returned here afterwards. If you have already paid, a committee member will need to manually approve your membership.</p>
         <div>
-            <label class="smalllabel" for="paymethod">Payment Method</label>
-            <select class="required" name="paymethod" id="paymethod">
+            <label class="smalllabel" for="payMethod">Payment Method</label>
+            <select class="required" name="payMethod" id="payMethod">
                 <option value="">Choose...</option>
-                <option>Monthly Direct Debit</option>
-                <option>Single Payment</option>
+                <option value="dd">Monthly Direct Debit</option>
+                <option value="sp">Single Payment</option>
             </select>
         </div>
-        <?php 
+        <?php
         $fees = new WP_Query ( array( 'post_type' => 'membership_fee', 'nopaging' => true ));
-        while ( $fees->have_posts() ) 
+        while ( $fees->have_posts() )
         {
             $fees->the_post();
-            
+
             $the_fee = array (
                 'id'    => get_the_id(),
                 'name' => get_post_meta( get_the_id(), 'fee-name', true),
@@ -498,8 +424,8 @@ if ( ! isset ( $form_id ) )
                 'amount' => get_post_meta( get_the_id(), 'fee-amount', true),
                 'description' => get_post_meta( get_the_id(), 'fee-description', true)
             );
-            
-            
+
+
             if ( get_post_meta( get_the_id(), 'supporter-player', true) == 'Supporter' && get_post_meta( get_the_id(), 'fee-type', true) == "Monthly Direct Debit" )
             {
                   $supporterfees[ 'direct_debits' ] [ ] = $the_fee;
@@ -516,7 +442,7 @@ if ( ! isset ( $form_id ) )
             {
             	$playerfees[ 'single_payments' ] [ ] = $the_fee;
             }
-            
+
         }
 		?>
 	  <div id="playerfees" class='playersonly'>
@@ -528,10 +454,12 @@ if ( ! isset ( $form_id ) )
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
             </select>
-             <ul class='feeslist'>
-            <?php foreach ($playerfees[ 'direct_debits' ] as $fee) : ?><li><strong><?php echo $fee['name'] ?></strong><br />An initial payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?> and monthly payments of <?php echo pence_to_pounds ( $fee['amount'] ) ?>. <?php echo $fee['description'] ?></li><?php endforeach ?>
-             </ul>
+	        <p class='forminfo'>
+	            <?php foreach ($playerfees[ 'direct_debits' ] as $fee) : ?><strong><?php echo $fee['name'] ?></strong><br />An initial payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?> and monthly payments of <?php echo pence_to_pounds ( $fee['amount'] ) ?>. <?php echo $fee['description'] ?><br /><br /><?php endforeach ?>
+	        </p>
         </div>
+
+
         <div id="playermempaysingle" style="display:none" >
             <label class="smalllabel" for="playermembershiptypesingle">Membership Type</label>
             <select class="required" name="playermembershiptypesingle" id="playermembershiptypesingle">
@@ -540,12 +468,14 @@ if ( ! isset ( $form_id ) )
                 <option value="<?php echo $fee['id'] ?>"><?php echo $fee['name'] ?></option>
             <?php endforeach ?>
             </select>
-           <ul class='feeslist'>
-            <?php foreach ($playerfees[ 'single_payments' ] as $fee) : ?><li><strong><?php echo $fee['name'] ?></strong><br />A single payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?>. <?php echo $fee['description'] ?></li><?php endforeach ?>
-             </ul>
+	        <p class='forminfo'>
+		        <?php foreach ($playerfees[ 'single_payments' ] as $fee) : ?><strong><?php echo $fee['name'] ?></strong><br />A single payment of <?php echo pence_to_pounds ( $fee['initial-payment'] ) ?>. <?php echo $fee['description'] ?><br /><br /><?php endforeach ?>
+	        </p>
         </div>
+
+
 	</div>
-          
+
 	  <div id="supporterfees" class='supportersonly' >
         <div id="supportermempaymonthly" style="display:none" >
             <label class="smalllabel" for="supportermembershiptypemonthly">Membership Type</label>
@@ -577,7 +507,6 @@ if ( ! isset ( $form_id ) )
 			  <select class="required" name="payWhen" id="payWhen">
 				  <option value="first">First day of the month</option>
 				  <option value="last">Last day of the month</option>
-				  <option value="lastWorkingDay">Last working day of the month</option>
 				  <option value="specificDay">Specific day</option>
 				  <option value="specificWeekday">Specific weekday</option>
 			  </select>
@@ -594,11 +523,11 @@ if ( ! isset ( $form_id ) )
 		  <div id='payWeekDayDiv'  style="display:none">
 			  <label class="smalllabel" for="weekDay">Weekday</label>
 			  <select class="required" name="whichWeekDay">
-				  <option value="1">1st</option>
-				  <option value="2">2nd</option>
-				  <option value="3">3rd</option>
-				  <option value="4">4th</option>
-				  <option value="5">5th</option>
+				  <option value="first">1st</option>
+				  <option value="second">2nd</option>
+				  <option value="third">3rd</option>
+				  <option value="fourth">4th</option>
+				  <option value="fifth">5th</option>
 			  </select>
 			  <select class="required" name="weekDay">
 				  <?php for ($i = 0; $i <= 6; $i++) : ?>
@@ -607,28 +536,35 @@ if ( ! isset ( $form_id ) )
 			  </select>
 		  </div>
     </fieldset>
+	    <fieldset>
+		    <div class='checkboxesContainer'>
+			    <label class='checkboxlabel' for='socialTop'><input id="socialTop" type="checkbox" name="socialTop" />Would you like to pay an extra £10 for an exclusive Bisons Social top?</label>
+			    </div>
+		    <div id="topSizeDiv" style="display:none">
+			    <label for="topsize">Top Size</label>
+			    <select class='required' name='topsize'>
+				    <option value="">Choose...</option>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'Small') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'Medium') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'X-Large') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'XX-Large') ?>
+				    <?php selectOptionFromMeta($formUser, 'topsize', 'XXX-Large') ?>
+			    </select>
+		    </div>
+
+	    </fieldset>
     <?php endif ?>
     <fieldset>
         <legend>Declaration and submission</legend>
-        <div>
+        <div class='checkboxesContainer'>
             <label class='checkboxlabel' for='codeofconduct'><input class='required' type="checkbox" name="codeofconduct" id="codeofconduct"<?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I wish to become a member of the Bisons and have read and agree to abide by the club <a href='<?php echo $GLOBALS['blog_info']['url'] ?>/players-area/code-of-conduct/'>code of conduct</a>.</label>
-        </div>
-        <div>
             <label class='checkboxlabel' for='photographicpolicy'><input class='required'  type="checkbox" name="photographicpolicy" id="photographicpolicy"<?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I have read and fully understand the club <a href='<?php echo $GLOBALS['blog_info']['url'] ?>/players-area/photographic-policy/'>photographic policy</a>.</label>
-        </div>
-        <div>
             <label class='checkboxlabel' for='physicalsport'><input class='required'  type="checkbox" name="physicalsport" id="physicalsport"<?php if ( get_user_meta($formUser, 'joined', true ) == true ) { ?> disabled='true' checked='checked' <?php } ?>/>
 I understand that Rugby is a contact sport, and like all contact sports, players may be exposed to the risk of physical injury. Should injury occur, I understand that the club cannot accept responsibility for any injuries which arise.</label>
         </div>
-        <div>
-            <?php if ( $disabled ) : ?>
-            <button type='submit' name='edit_details' /><?php if (get_user_meta($formUser, 'joined', true ) == true ) { echo "Edit Details"; } ?>
-            <?php else : ?>
-            <button type='submit'><?php if (get_user_meta($formUser, 'joined', true ) == true ) { echo "Save Changes"; } else { echo "Submit"; } ?></button>
-            <?php endif ?>       
-         </div>
+	    <button type='submit'><?php if (get_user_meta($formUser, 'joined', true ) == true ) { echo "Save Changes"; } else { echo "Submit"; } ?></button>
     </fieldset>
     <?php if (get_user_meta($formUser, 'joined', true ) == true ) { ?><input type='hidden' name='form_id' value='<?php echo $form_id ?>' /><?php } ?>
     <input type='hidden' name='wp_form_id' value='membership_form' />

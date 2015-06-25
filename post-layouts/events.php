@@ -29,15 +29,13 @@ $image_url = wp_get_attachment_url( $image_id );
                   } 
                   ?>
                   <div class='eventMeta'>
-                  <ul>
-                   </ul>
                   <?php if (is_single()) { ?>
                   	<h4><a itemprop="url" href="<?php the_permalink() ?>"><span itemprop="summary"><?php the_title(); ?></span></a></h4>
                   	<ul class='extra'>
                         <?php echo datetime_string ( $date, $enddate, $time, $endtime, false, $isodate ) ?>
 
-                  <li class="fa fa-map-marker">Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($address); ?>'><?php echo $address; ?></a></span></li>
-                  <?php if($fbevent) : ?><li class='fa fa-facebook-square'><a href='<?php echo $fbevent; ?>'>Facebook Link</a></li><?php endif ?>
+                  <li><i class="fa fa-map-marker"></i>Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($address); ?>'><?php echo $address; ?></a></span></li>
+                  <?php if($fbevent) : ?><li><i class='fa fa-facebook-square'></i><a href='<?php echo $fbevent; ?>'>Facebook Link</a></li><?php endif ?>
 
                   </ul>
 

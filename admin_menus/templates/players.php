@@ -70,7 +70,7 @@
 				'Skills'                     =>  get_user_meta( $_GET['user_id'], 'whatcanyoubring', true ),
 			);
 
-			$gcl_sub_id = get_user_meta( $_GET['user_id'], 'gcl_sub_id', true );
+			$gcl_sub_id = get_user_meta( $_GET['user_id'], 'GCLSubID', true );
 
 			$nokAddy = array();
 			if ( get_user_meta( $_GET['user_id'], 'nokstreetaddy', true ) ) $nokAddy[] = get_user_meta( $_GET['user_id'], 'nokstreetaddy', true );
@@ -132,8 +132,8 @@
 			</table>
 
 			<?php
-
-				$paymentInfo = getPaymentInfo($_GET['user_id']);
+				global $bisonsMembership;
+				$paymentInfo = $bisonsMembership->getPaymentInfo($_GET['user_id']);
 
 					if ( $paymentInfo['Last Bill'] > 0 ) {
 

@@ -12,7 +12,7 @@ function datetime_string($startdate, $enddate = false, $starttime = false, $endt
         if ( $isodate) 
             $return .= "<time itemProp=\"startDate\" datetime=$isodate\">";
         
-        $return .= "<li class='fa fa-calendar'>$startdate</li><li class='fa fa-clock-o'>$starttime until $endtime</li>";
+        $return .= "<li><i class='fa fa-calendar'></i>$startdate</li><li><i class='fa fa-clock-o'></i>$starttime until $endtime</li>";
         
         if ( $isodate) 
             $return .= "</time>";        
@@ -24,7 +24,7 @@ function datetime_string($startdate, $enddate = false, $starttime = false, $endt
         if ( $isodate) 
             $return .= "<time itemProp=\"startDate\" datetime=$isodate\">";
 
-        $return .= "<li class='fa fa-calendar'>From $startdate until $enddate</li>";
+        $return .= "<li><i class='fa fa-calendar'></i>From $startdate until $enddate</li>";
         
         if ( $isodate) 
             $return .= "</time>";        
@@ -37,7 +37,7 @@ function datetime_string($startdate, $enddate = false, $starttime = false, $endt
         if ( $isodate) 
             $return .= "<time itemProp=\"startDate\" datetime=$isodate\">";
 
-        $return .= "<li class='fa fa-calendar'>From $starttime on $startdate until $endtime on the $enddate</li>";
+        $return .= "<li><i class='fa fa-calendar'></i>From $starttime on $startdate until $endtime on the $enddate</li>";
                    
         if ( $isodate) 
             $return .= "</time>";        
@@ -50,7 +50,7 @@ function datetime_string($startdate, $enddate = false, $starttime = false, $endt
         if ( $isodate) 
             $return .= "<time itemProp=\"startDate\" datetime=$isodate\">";
 
-            $return .= "<li class='fa fa-calendar'>$startdate</li>";
+            $return .= "<li><i class='fa fa-calendar'></i>$startdate</li>";
             
         if ( $isodate) 
             $return .= "</time>";        

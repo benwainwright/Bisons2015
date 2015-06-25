@@ -44,21 +44,21 @@ $homeaway = get_post_meta(get_the_id(), 'fixture-home-away', true);
             <ul>
                   
                   <?php if ( $homeaway == 'Home' ) : ?>
-                  <li class="fa fa-star teamName">Bristol Bisons RFC (Home)</li>
+                  <li class="teamName"><i class='fa fa-star'></i>Bristol Bisons RFC (Home)</li>
                   <li>Vs</li>
-                  <li class="fa fa-star teamName"><a href='<?php echo get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ) ?>'><?php echo $oppteam ?></a> (Away)</li>
+                  <li class="teamName"><i class='fa fa-star'></i><a href='<?php echo get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ) ?>'><?php echo $oppteam ?></a> (Away)</li>
                   <?php else : ?>
-                  <li class="fa fa-star teamName"><a href='<?php echo get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ) ?>'><?php echo $oppteam ?></a>  (Home)</li>
+                  <li class="teamName"><i class='fa fa-star'></i><a href='<?php echo get_permalink( get_post_meta( get_the_id(), 'fixture_team', true) ) ?>'><?php echo $oppteam ?></a>  (Home)</li>
                   <li>Vs</li>
-                  <li class="fa fa-star teamName">Bristol Bisons RFC (Away)</li>
+                  <li class="teamName"><i class='fa fa-star'></i>Bristol Bisons RFC (Away)</li>
                   <?php endif ?>
               </ul>
 
                   <?php if (is_single()) { ?>
               <ul class='extra'>
-                  <li class="fa fa-map-marker">Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($address); ?>'><?php echo $address; ?></a></span></li>
-                  <li class="fa fa-clock-o"><strong>Kickoff</strong><br /><?php echo $kickoff; ?></li>
-                  <li class="fa fa-clock-o"><strong>Players Arrive</strong><br /><?php echo $playtme; ?></li>
+                  <li><i class='fa fa-map-marker'></i>Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($address); ?>'><?php echo $address; ?></a></span></li>
+                  <li<i class='fa fa-clock-o'></i><strong>Kickoff</strong><br /><?php echo $kickoff; ?></li>
+                  <li<i class='fa fa-clock-o'></i><strong>Players Arrive</strong><br /><?php echo $playtme; ?></li>
                   <?php if($fixface) : ?><li class='fa fa-facebook-square'><a href='<?php echo $fbevent; ?>'>Facebook Event</a></li><?php endif ?>
               </ul>
                   <?php } ?>

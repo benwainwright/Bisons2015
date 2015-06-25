@@ -11,4 +11,4 @@ function bisonsGocardlessSubscriptionCancelled($resource, $data) {
 	}
 	update_user_meta( $user->ID, 'mem_status', 'Inactive' );
 
-}
+	}

@@ -1,7 +1,7 @@
 <?php
 
 function getDDStatus($id) {
-	if ( get_user_meta( $id, 'payMethod', true ) == 'single' ) {
+	if ( get_user_meta( $id, 'payMethod', true ) == 'sp' ) {
 
 		// Work out if there is single payment for the current season
 		$userSinglePaymentID = get_user_meta( $id, 'singlePaymentID', true );
@@ -21,7 +21,9 @@ function getDDStatus($id) {
 
 	} else {
 
-		$dd_status = get_user_meta( $id, 'GCLsubscriptionStatus', true );
+		$dd_status = get_user_meta( $id, 'GCLsubscriptionStatus', true )
+			? get_user_meta( $id, 'GCLsubscriptionStatus', true )
+			: get_user_meta( $id, 'GCLSubStatus', true );
 
 	}
 

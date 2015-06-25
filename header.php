@@ -14,7 +14,7 @@
         
         <!-- ****** The below are all courtesy of favicon.com ****** -->
         <link rel="shortcut icon" href="<?php echo $GLOBALS['blog_info']['template_url']; ?>/images/favicons/favicon.ico">
-        <link rel="icon" sizes="16x16 32x32 64x64" href="/favicon.ico">
+        <link rel="icon" sizes="16x16 32x32 64x64" href="<?php echo $GLOBALS['blog_info']['template_url']; ?>/favicon.ico">
         <link rel="icon" type="image/png" sizes="196x196" href="<?php echo $GLOBALS['blog_info']['template_url']; ?>/images/favicons/favicon-196.png">
         <link rel="icon" type="image/png" sizes="160x160" href="<?php echo $GLOBALS['blog_info']['template_url']; ?>/images/favicons/favicon-160.png">
         <link rel="icon" type="image/png" sizes="96x96" href="<?php echo $GLOBALS['blog_info']['template_url']; ?>/images/favicons/favicon-96.png">
@@ -39,6 +39,7 @@
 		<?php wp_head(); ?>
 
 	</head>
+
 	<body>
 	<div id="bodyWrapper">
 

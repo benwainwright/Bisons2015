@@ -38,8 +38,8 @@ if ($webhook_valid == TRUE)
                 
                 
                 // Look for membership forms that match the source id. If not look for forms that match the id
-                $mem_form = get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'gcl_sub_id', 'meta_value' => $bill['source_id'] ) ) ;
-                $mem_form = $mem_form ? $mem_form : get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'gcl_sub_id', 'meta_value' => $bill['id'] ) );
+                $mem_form = get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'GCLSubID', 'meta_value' => $bill['source_id'] ) ) ;
+                $mem_form = $mem_form ? $mem_form : get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'GCLSubID', 'meta_value' => $bill['id'] ) );
                 $mem_form = $mem_form[0]->ID;
                 
                 // Log webhook
@@ -116,7 +116,7 @@ if ($webhook_valid == TRUE)
             foreach ( $data['pre_authorizations'] as $pre_authorization )
             {
                 $id = wp_insert_post( $hook_log );
-                $mem_form = get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'gcl_sub_id', 'meta_value' => $pre_authorization['id'] ) ) ;
+                $mem_form = get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'GCLSubID', 'meta_value' => $pre_authorization['id'] ) ) ;
                 $mem_form = $mem_form[0]->ID;
                 $resource = array ( 'resource_type' => 'pre_authorization', 'resource_content' =>  $pre_authorization );
                 update_post_meta($id, 'resource', $resource);   
@@ -144,7 +144,7 @@ if ($webhook_valid == TRUE)
             foreach ( $data['subscriptions'] as $subscription )
             {
                 $id = wp_insert_post( $hook_log );
-                $mem_form = get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'gcl_sub_id', 'meta_value' => $subscription['id'] ) ) ;
+                $mem_form = get_posts ( array ( 'post_type' => 'membership_form',  'meta_key' => 'GCLSubID', 'meta_value' => $subscription['id'] ) ) ;
                 $mem_form = $mem_form[0]->ID;
                 $resource = array ( 'resource_type' => 'subscription', 'resource_content' => $subscription );
                 update_post_meta($id, 'resource', $resource);
