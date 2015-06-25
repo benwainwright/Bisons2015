@@ -13,7 +13,7 @@ if ( isset ( $_GET['resource_id'] ) ) {
 }
 
 // If a membership form exists, load it from WordPress
-if ( get_user_meta( $form_user, 'joined', true ) ) {
+if ( get_user_meta( $formUser, 'joined', true ) ) {
 
 	$data = &$wp_query->query['bisons_data'];
 
