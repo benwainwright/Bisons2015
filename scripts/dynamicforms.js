@@ -285,11 +285,22 @@ jQuery(document).ready(function () {
     });
 
 
+    jQuery('.feesSelect').change(function(){
+
+        description = jQuery(this).find('option:selected').attr('data-description');
+        amount = jQuery(this).find('option:selected').attr('data-amount');
+        jQuery('#description').text(description);
+        jQuery('#amountToPay').text('£' + (amount / 100).toFixed(2) );
+
+    });
+
     jQuery('#payMethod').change(function () {
+        jQuery('#description').text('None selected');
 
 
         if (jQuery(this).val() == 'dd') {
 
+            jQuery('.ddOnly').show();
             jQuery('#payWhenDiv').show();
             jQuery('#playermempaymonthly').show();
             jQuery('#playermempaysingle').hide();
@@ -300,6 +311,7 @@ jQuery(document).ready(function () {
 
         }
         else if (jQuery(this).val() == 'sp') {
+            jQuery('.ddOnly').hide();
             jQuery('#payWhenDiv').hide();
             jQuery('#payWhen').find('select').val('');
             jQuery('#playermempaymonthly').hide();
@@ -310,6 +322,7 @@ jQuery(document).ready(function () {
             jQuery('#supportermempaysingle').show();
         }
         else {
+
             jQuery('#payWhenDiv').hide();
             jQuery('#payWhen').find('select').val('');
             jQuery('#playermempaymonthly').hide();
