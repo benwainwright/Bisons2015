@@ -11,8 +11,6 @@ global $bisonsMembership;
 $status                  = $bisonsMembership->getStatus( $form_user );
 $membershipIsActive      = ! ( 'None' === $status || 'cancelled' === $status );
 $hasSubmittedConfirmForm = isset( $_POST['confirm_change'] );
-
-
 if ( $hasSubmittedConfirmForm ) {
 	$didConfirm = $_POST['confirm_change'] === 'ok';
 } else {
@@ -104,6 +102,4 @@ if ( ! $didConfirm && $membershipIsActive ) {
 		$nextDate = date( 'Y-m-d', $bisonsMembership->nextPaymentDate( $form_user ) );
 		$bisonsMembership->requestNextBill( $form_user, $_POST['nextFee'], $nextDate );
 	}
-
-
 }

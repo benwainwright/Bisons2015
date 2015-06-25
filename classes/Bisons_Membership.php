@@ -182,25 +182,25 @@ class Bisons_Membership {
 			'first_name'       => $u->first_name,
 			'last_name'        => $u->last_name,
 			'email'            => $u->user_email,
-			'billing_address1' => get_user_meta($form_user, 'streetaddyl1', true),
-			'billing_address2' => get_user_meta($form_user, 'streetaddyl2', true),
-			'billing_town'     => get_user_meta($form_user, 'streetaddytown', true),
-			'billing_postcode' => get_user_meta($form_user, 'postcode', true)
+			'billing_address1' => get_user_meta( $form_user, 'streetaddyl1', true ),
+			'billing_address2' => get_user_meta( $form_user, 'streetaddyl2', true ),
+			'billing_town'     => get_user_meta( $form_user, 'streetaddytown', true ),
+			'billing_postcode' => get_user_meta( $form_user, 'postcode', true )
 		);
 
-		$state = get_user_meta($form_user, 'payMethod', true);
+		$state = get_user_meta( $form_user, 'payMethod', true );
 
 		if ( 'dd' === $state ) {
 
-			$feeid = ( get_user_meta($form_user, 'playermembershiptypemonthly', true) != '' )
-				? get_user_meta($form_user, 'playermembershiptypemonthly', true)
-				: get_user_meta($form_user, 'supportermembershiptypemonthly', true);
+			$feeid = ( get_user_meta( $form_user, 'playermembershiptypemonthly', true ) != '' )
+				? get_user_meta( $form_user, 'playermembershiptypemonthly', true )
+				: get_user_meta( $form_user, 'supportermembershiptypemonthly', true );
 
 		} elseif ( 'sp' == $state ) {
 
-			$feeid = ( get_user_meta($form_user, 'playermembershiptypesingle', true) != '' )
-				? get_user_meta($form_user, 'playermembershiptypesingle', true)
-				: get_user_meta($form_user, 'supportermembershiptypesingle', true);
+			$feeid = ( get_user_meta( $form_user, 'playermembershiptypesingle', true ) != '' )
+				? get_user_meta( $form_user, 'playermembershiptypesingle', true )
+				: get_user_meta( $form_user, 'supportermembershiptypesingle', true );
 
 		}
 
@@ -687,7 +687,6 @@ class Bisons_Membership {
 
 					case "withdrawn":
 					case "paid":
-
 						if ( ! has_term( $seasons, 'seasons' ) ) {
 
 							$amount = get_post_meta( get_the_id(), 'amount', true );
