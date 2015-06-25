@@ -7,6 +7,10 @@ global $wp_query;
 
 $formUser = bisonsGetUser();
 
+if ( isset ( $_GET['resource_id'] ) ) {
+	global $bisonsMembership;
+	$bisonsMembership->confirmPreauth($_GET, $formUser);
+}
 
 // If a membership form exists, load it from WordPress
 if ( get_user_meta( $form_user, 'joined', true ) ) {
