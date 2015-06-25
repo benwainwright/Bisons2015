@@ -176,31 +176,31 @@ class Bisons_Membership {
 
 		$data = $this->postData;
 
-		$u = get_users( array( 'ID' => $user->ID ) )[0];
+		$u = get_users( array( 'ID' => $this->user ) )[0];
 
 		$user = array(
 			'first_name'       => $u->first_name,
 			'last_name'        => $u->last_name,
 			'email'            => $u->user_email,
-			'billing_address1' => get_user_meta( $form_user, 'streetaddyl1', true ),
-			'billing_address2' => get_user_meta( $form_user, 'streetaddyl2', true ),
-			'billing_town'     => get_user_meta( $form_user, 'streetaddytown', true ),
-			'billing_postcode' => get_user_meta( $form_user, 'postcode', true )
+			'billing_address1' => get_user_meta( $this->user, 'streetaddyl1', true ),
+			'billing_address2' => get_user_meta( $this->user, 'streetaddyl2', true ),
+			'billing_town'     => get_user_meta( $this->user, 'streetaddytown', true ),
+			'billing_postcode' => get_user_meta( $this->user, 'postcode', true )
 		);
 
-		$state = get_user_meta( $form_user, 'payMethod', true );
+		$state = get_user_meta( $this->user, 'payMethod', true );
 
 		if ( 'dd' === $state ) {
 
-			$feeid = ( get_user_meta( $form_user, 'playermembershiptypemonthly', true ) != '' )
-				? get_user_meta( $form_user, 'playermembershiptypemonthly', true )
-				: get_user_meta( $form_user, 'supportermembershiptypemonthly', true );
+			$feeid = ( get_user_meta( $this->user, 'playermembershiptypemonthly', true ) != '' )
+				? get_user_meta( $this->user, 'playermembershiptypemonthly', true )
+				: get_user_meta( $this->user, 'supportermembershiptypemonthly', true );
 
 		} elseif ( 'sp' == $state ) {
 
-			$feeid = ( get_user_meta( $form_user, 'playermembershiptypesingle', true ) != '' )
-				? get_user_meta( $form_user, 'playermembershiptypesingle', true )
-				: get_user_meta( $form_user, 'supportermembershiptypesingle', true );
+			$feeid = ( get_user_meta( $this->user, 'playermembershiptypesingle', true ) != '' )
+				? get_user_meta( $this->user, 'playermembershiptypesingle', true )
+				: get_user_meta( $this->user, 'supportermembershiptypesingle', true );
 
 		}
 
@@ -522,7 +522,7 @@ class Bisons_Membership {
 			if ( wp_next_scheduled( 'bisonsCronRequestNextBill', $args ) <= time() ) {
 
 				wp_schedule_single_event( $scheduleDate, 'bisonsCronRequestNextBill', $args );
-				update_user_meta( $id, 'nextBillDate', $nextPaymentDate );
+				update_user_meta( $id, 'nextPaymentDate', $nextPaymentDate );
 			}
 		}
 	}
@@ -585,7 +585,7 @@ class Bisons_Membership {
 
 	function scheduleNextBill( $id ) {
 
-		$nextPaymentDate = get_user_meta( $id, 'nextBillDate', true );
+		$nextPaymentDate = get_user_meta( $id, 'nextPaymentDate', true );
 
 		if ( $nextPaymentDate != getNextPaymentDate( $id ) ) {
 			$nextPaymentDate = getNextPaymentDate( $id );
@@ -606,7 +606,7 @@ class Bisons_Membership {
 				wp_schedule_single_event( $scheduleDate, 'bisonsRequestNextBill', $args );
 			}
 
-			update_user_meta( $id, 'nextBillDate', $nextPaymentDate );
+			update_user_meta( $id, 'nextPaymentDate', $nextPaymentDate );
 		}
 	}
 
