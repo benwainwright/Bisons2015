@@ -7,69 +7,34 @@ class Teamer {
 	private $password;
 	private $htmlBody;
 	private $rawHTML;
+	public $result;
 
 
 	function __construct( $login, $password ) {
 
 		$this->login = $login;
 		$this->password = $password;
+		$this->goutte = new Goutte\Client();
 
 	}
 
 	function request( $url = false, $method = 'GET', $postData = array() ) {
 
-		$url = $url ? $url : $this::$teamerURL;
+		$url = $url ? $url : self::$teamerURL;
+		$this->result = $this->goutte->request('GET', $url);
 
-
-
-		$args = array(
-			'method'      => $method,
-			timeout       => 10,
-			'user-agent'  => 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36',
-		);
-
-		if ( count ($postData) > 0 ) {
-
-			$args['body'] = $postData;
-		}
-
-		$response = wp_remote_request($url, $args);
-
-		if ( $response instanceof WP_Error ) {
-			new dBug($response);
-		}
-
-		else
-		{
-			$this->rawHTML = $response['body'];
-			$this->htmlBody = str_get_html($this->rawHTML);
-
-			return $this->htmlBody;
-
-		}
 	}
 
 	function login( ) {
 
-		$html = $this->request();
+		$this->request();
 
-		$loginForm = $html->find('form#login_form')[0];
+		$form = $this->result->selectButton('Login')->form();
+		$form['email'] = $this->login;
+		$form['password'] = $this->password;
 
-		$action = $loginForm->action;
-		$authToken = $loginForm->find('input[name="authenticity_token"]')[0]->value;
-
-		$data = array(
-			'email'                 => $this->email,
-			'password'              => $this->password,
-			'authenticity_token'    => $authToken,
-			'remember_me'           => 1
-		);
-
-		$this->request( $action, 'POST', $data);
-
-		// fields email, password, authenticity_token, remember_me
-
-		return $this->rawHTML;
+		$this->result = $this->goutte->submit($form);
+		return $this->result->html();
 
 	}
 
