@@ -73,8 +73,6 @@ foreach ( $bills as $index => $billRow ) {
 
 
 	}
-	echo $id;
-	exit;
 }
 
 
