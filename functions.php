@@ -5,6 +5,9 @@ define('INCLUDED', TRUE);
 include_once('dBug.php');
 
 
+// Load official GoCardless library
+include_once('GoCardless/init.php');
+
 foreach ( glob( __DIR__ . '/functions/*.php')  as $filename )
 { include_once($filename); }
 
@@ -27,9 +30,6 @@ function style_bisons_editor() {
 }
 add_action( 'after_setup_theme', 'style_bisons_editor' );
 
-
-// Load official GoCardless library
-include_once('GoCardless/init.php');
 
 
 include_once(  __DIR__ . '/wp-cron/activateSchedules.php');
