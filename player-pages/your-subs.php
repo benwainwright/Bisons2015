@@ -1,6 +1,8 @@
 <?php
 
 
+
+
 // Enqueue form Javascript
 wp_enqueue_script( 'dynamicforms' );
 wp_enqueue_script( 'formvalidation' );
@@ -8,8 +10,11 @@ wp_enqueue_script( 'formvalidation' );
 $d = $wp_query->query['bisons_data'];
 
 ?>
-<?php global $bisonsMembership; if ( $bisonsMembership->goCardlessURL ) : ?>
-	<script type='text/javascript'> setTimeout(function(){ document.location = '<?php echo $bisonsMembership->goCardlessURL ?>'; }, 3000); </script>
+<?php global $bisonsMembership;
+if ( $bisonsMembership->goCardlessURL ) : ?>
+	<script type='text/javascript'> setTimeout(function () {
+			document.location = '<?php echo $bisonsMembership->goCardlessURL ?>';
+		}, 3000); </script>
 <?php endif ?>
 
 <header>
@@ -17,7 +22,7 @@ $d = $wp_query->query['bisons_data'];
 	<?php get_template_part( 'snippets/playerPage', 'menu' ) ?>
 </header>
 <?php get_template_part( 'snippets/playerPage', 'flashMessages' ) ?>
-<p>Please find below details of all payments made via the online membership system. If you have any questions about any
+<p class="important">Please find below details of all payments made via the online membership system. If you have any questions about any
 	of this information, please do not hesitate to contact a member of the committee.</p>
 
 <form method="POST">
@@ -33,25 +38,106 @@ $d = $wp_query->query['bisons_data'];
 				</select>
 			</td>
 		</tr>
-		<tr>
+
+		<?php if ( 'Player' === get_user_meta($d['user'], 'joiningas', true) ): ?>
+		<tr id="playermempaymonthly"<?php if ( 'dd' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>'>
 			<th>Type</th>
-			<td><?php echo $d['subName'] ?></td>
+			<td>
+				<select class='feesSelect' name="playermembershiptypemonthly">
+					<option>
+						<?php
+
+						foreach ( $d['playerFees']['direct_debits'] as $fee ) {
+							selectOptionFromMeta( $d['user'], 'playermembershiptypemonthly', $fee['id'], $fee['name'], $fee );
+						}
+
+						?>
+					</option>
+					<p></p>
+				</select>
+			</td>
 		</tr>
+
+		<tr id="playermempaysingle"<?php if ( 'sp' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
+			<th>Type</th>
+			<td>
+				<select class='feesSelect' name="playermembershiptypesingle">
+					<option>
+						<?php
+
+						foreach ( $d['playerFees']['single_payments'] as $fee ) {
+							selectOptionFromMeta( $d['user'], 'playermembershiptypesingle', $fee['id'], $fee['name'], $fee);
+						}
+
+						?>
+					</option>
+				</select>
+			</td>
+		</tr>
+			<?php elseif ( 'Supporter' === get_user_meta($d['user'], 'joiningas', true) ): ?>
+
+		<tr id="supporterfees"<?php if ( 'dd' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
+
+			<th>Type</th>
+			<td>
+				<select class='feesSelect' name="supportermempaymonthly">
+					<option>
+						<?php
+
+						foreach ( $d['supporterFees']['single_payments'] as $fee ) {
+							selectOptionFromMeta( $d['user'], 'supportermempaymonthly', $fee['id'], $fee['name'], $fee );
+						}
+
+						?>
+					</option>
+				</select>
+			</td>
+		</tr>
+		<tr id="supportermempaysingle"<?php if ( 'sp' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
+			<th>Type</th>
+			<td>
+				<select class='feesSelect' name="supportermembershiptypesingle">
+					<option>
+						<?php
+
+						foreach ( $d['supporterFees']['direct_debits'] as $fee ) {
+							selectOptionFromMeta( $d['user'], 'supportermembershiptypesingle', $fee['id'], $fee['name'], array($fee['description'], $fee));
+						}
+
+						?>
+					</option>
+				</select>
+			</td>
+		</tr>
+		<?php endif ?>
+		<tr>
+			<th>Description</th>
+			<td id="description"><?php echo $d['description'] ?></td>
+		</tr>
+
+
 		<tr>
 			<th>Status</th>
 			<td><?php echo $d['paymentInfo']['Subscription Status'] ?></td>
 		</tr>
 		<tr>
-			<th>Monthly Fee</th>
-			<td><?php echo money_format( '%n', (int) $d['currentMonthlyFee'] ) ?></td>
+			<th>Fee</th>
+			<td id="amountToPay"><?php echo money_format( '%n', (int) $d['currentMonthlyFee'] ) ?></td>
 		</tr>
+		<?php if ( $d['paymentInfo']['Total Paid This Season'] !== $d['paymentInfo']['Total Paid'] ) : ?>
+			<tr>
+				<th>Amount Paid This Season</th>
+				<td><?php echo money_format( '%n', (int) $d['paymentInfo']['Total Paid This Season'] ) ?></td>
+			</tr>
+		<?php endif ?>
 		<?php if ( $d['paymentInfo']['Total Paid'] > 0 ) : ?>
 			<tr>
 				<th>Amount Paid</th>
 				<td><?php echo money_format( '%n', (int) $d['paymentInfo']['Total Paid'] ) ?></td>
 			</tr>
 		<?php endif ?>
-		<tr>
+
+		<tr class="ddOnly"<?php if ( 'sp' === get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
 			<th>Paid On</th>
 			<td>
 				<select id='payWhen' name='payWhen'>
@@ -64,7 +150,8 @@ $d = $wp_query->query['bisons_data'];
 			</td>
 		</tr>
 
-		<tr id='payDateDiv' <?php if ( get_user_meta($d['user'], 'payWhen', true) != 'specificDay' ) echo ' style="display:none"' ?>>
+		<tr class="ddOnly" id='payDateDiv' <?php if ( get_user_meta( $d['user'], 'payWhen', true ) != 'specificDay' || 'sp' === get_user_meta($d['user'], 'payMethod', true) ) {
+			echo ' style="display:none"'; } ?>>
 			<th>Day of Month</th>
 			<td>
 				<select name='dayOfMonth'>
@@ -74,7 +161,8 @@ $d = $wp_query->query['bisons_data'];
 				</select>
 			</td>
 		</tr>
-		<tr id='payWeekDayDiv' <?php if ( get_user_meta($d['user'], 'payWhen', true) != 'specificWeekday' ) echo ' style="display:none"' ?>>
+		<tr class="ddOnly" id='payWeekDayDiv' <?php if ( get_user_meta( $d['user'], 'payWhen', true ) != 'specificWeekday' || 'sp' === get_user_meta($d['user'], 'payMethod', true) ) {
+			echo ' style="display:none"'; } ?>>
 			<th>Which Weekday</th>
 			<td>
 				<select name='whichWeekDay'>
@@ -92,21 +180,18 @@ $d = $wp_query->query['bisons_data'];
 			</td>
 		</tr>
 
-
-
-		<tr>
+		<tr class="ddOnly">
 			<th>Next Payment Date</th>
 			<td><?php echo $d['nextPaymentDate'] ?></td>
 		</tr>
 		</tbody>
 	</table>
+
 	<button type="submit">Update</button>
-	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce('wordpress_form_submit') ?>" />
-	<input type="hidden" name="wp_form_id" value="changeSubscriptionDetails" />
+	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'wordpress_form_submit' ) ?>"/>
+	<input type="hidden" name="wp_form_id" value="changeSubscriptionDetails"/>
 </form>
 
-<p>Although you have filled in a membership form, it appears that you don't have an active payment subscription. Use the
-	form below to set one up.</p>
 
 <?php $q = $d['query'];
 if ( $q->have_posts() ) : ?>
