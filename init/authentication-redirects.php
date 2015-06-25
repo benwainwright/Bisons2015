@@ -30,7 +30,7 @@ function redirect_restricted_areas( $query )
 	            $hasPermission = current_user_can( $permission );
 	            $isSingle = $query->is_single;
 	            $isType = $current_post_type == $type;
-	            $isTypeArchive = $query->is_post_type_archive ( $type);
+	            $isTypeArchive = $query->is_post_type_archive ( $type );
 	            $userNeeds2FA = current_user_can( 'needs_two_factor_for_restricted_areas' );
 	            $canSkip2FA = isset( $_SESSION['bisons_skip2FA'] ) ? $_SESSION['bisons_skip2FA'] : false ;
 	            $twoFactorIsOn = get_option( 'bisonsTwoFactorAuth' );

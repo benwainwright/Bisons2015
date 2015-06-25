@@ -76,8 +76,6 @@ $mandrill = new Mandrill('ZzbBwttWRHJ41GL4BZmmsQ');
 // Feeds
 include_once('feeds/ical-all.php');
 
-// CRON scripts
-include_once('cron/cron_init.php');
 include_once('init/excerpt.php');
 
 // Email handling
