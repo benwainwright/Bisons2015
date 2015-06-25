@@ -49,6 +49,10 @@ foreach ( $bills as $index => $billRow ) {
 			'post_date'   => $date,
 			'post_type'   => 'GCLBillLog'
 		);
+
+
+
+
 		$hook_log['post_author'] = $user->ID;
 
 		// Add a GCLUserID meta tag to that user if it doesn't exist
@@ -56,6 +60,11 @@ foreach ( $bills as $index => $billRow ) {
 
 		// Create the bill
 		$id = wp_insert_post( $hook_log );
+
+		if ( $date < 1434207600) {
+			wp_set_object_terms( $id, '20142015', 'seasons' );
+		}
+
 		update_post_meta( $id, 'id', $bill->id );
 		update_post_meta( $id, 'source_id', $bill->source_id );
 		update_post_meta( $id, 'action', $bill->status );
