@@ -132,8 +132,8 @@
 			</table>
 
 			<?php
-
-				$paymentInfo = getPaymentInfo($_GET['user_id']);
+				global $bisonsMembership;
+				$paymentInfo = $bisonsMembership->getPaymentInfo($_GET['user_id']);
 
 					if ( $paymentInfo['Last Bill'] > 0 ) {
 
