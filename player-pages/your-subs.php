@@ -1,10 +1,12 @@
 <?php
 
+
 // Enqueue form Javascript
 wp_enqueue_script( 'dynamicforms' );
 wp_enqueue_script( 'formvalidation' );
 
 $d = $wp_query->query['bisons_data'];
+new dBug(get_user_meta($d['user']));
 
 ?>
 <?php global $bisonsMembership; if ( $bisonsMembership->goCardlessURL ) : ?>
