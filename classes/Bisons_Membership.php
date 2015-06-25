@@ -627,12 +627,13 @@ class Bisons_Membership {
 			);
 
 			$query = new WP_Query( $queryArray );
-
 			$dd_status = $query->post_count ? 'Paid in Full' : 'Unpaid';
 
 		} else {
 
-			$dd_status = get_user_meta( $id, 'GCLSubStatus', true );
+			$dd_status = get_user_meta( $id, 'GCLsubscriptionStatus', true )
+				? get_user_meta( $id, 'GCLsubscriptionStatus', true )
+				: get_user_meta( $id, 'GCLSubStatus', true );
 
 		}
 

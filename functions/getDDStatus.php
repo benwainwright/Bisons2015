@@ -21,7 +21,9 @@ function getDDStatus($id) {
 
 	} else {
 
-		$dd_status = get_user_meta( $id, 'GCLsubscriptionStatus', true );
+		$dd_status = get_user_meta( $id, 'GCLsubscriptionStatus', true )
+			? get_user_meta( $id, 'GCLsubscriptionStatus', true )
+			: get_user_meta( $id, 'GCLSubStatus', true );
 
 	}
 
