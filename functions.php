@@ -1,6 +1,9 @@
 <?php 
 define('INCLUDED', TRUE);
 include_once('dBug.php');
+
+include( __DIR__ . '/vendor/autoload.php');
+
 add_theme_support( 'post-thumbnails' ); 
 set_post_thumbnail_size( 400, 400 );
 add_filter('show_admin_bar', '__return_false');
