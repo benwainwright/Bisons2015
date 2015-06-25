@@ -32,8 +32,8 @@ foreach ( $bills as $index => $billRow ) {
 
 	$user = null;
 
-	if ( count( $user = get_users( array( 'meta_key' => 'GCLSubID', 'meta_value' => $bill->source_id ) ) ) == 0 ) {
-		$user = get_users( array( 'meta_key' => 'GCLSubID', 'meta_value' => $bill->id ) );
+	if ( count( $user = get_users( array( 'meta_key' => 'gcl_sub_id', 'meta_value' => $bill->source_id ) ) ) == 0 ) {
+		$user = get_users( array( 'meta_key' => 'gcl_sub_id', 'meta_value' => $bill->id ) );
 	}
 
 
@@ -71,9 +71,10 @@ foreach ( $bills as $index => $billRow ) {
 		update_post_meta( $id, 'amount_minus_fees', $bill->amount_minus_fees );
 		update_post_meta( $id, 'source_type', $bill->source_type );
 
-		echo $id;
-		exit;
+
 	}
+	echo $id;
+	exit;
 }
 
 
