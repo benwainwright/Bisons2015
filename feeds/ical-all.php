@@ -42,11 +42,11 @@ function ical_events_feed()
     if ( $_GET['of'] != 'events')
     {
         // Load fixtures from Wordpress
-        $fixtures = new WP_Query( array('post_type' => 'fixture', 
-                                        'nopaging'  => 'true', 
+        $fixtures = new WP_Query( array('post_type' => 'fixture',
+                                        'posts_per_page' => -1,
                                         'orderby'   => 'meta_value', 
                                         'meta_key'  => 'fixture-date', 
-                                        'order'     => 'ASC') );
+                                        'order'     => 'DESC') );
         
         // Loop through each one
         while ($fixtures -> have_posts()) 
@@ -89,10 +89,10 @@ function ical_events_feed()
     {
         // Load all events from Wordpress database
         $events = new WP_Query( array('post_type' => 'event', 
-                                      'nopaged'   => 'true', 
+                                      'posts_per_page' => -1,
                                       'orderby'   => 'meta_value', 
                                       'meta_key'  => 'date', 
-                                      'order'     => 'ASC', ));
+                                      'order'     => 'DESC', ));
     
         
         // Loop through each one
