@@ -22,8 +22,12 @@ function header_css_and_js($hook) {
     wp_enqueue_style('fa');
     
     // Javascript
+	wp_enqueue_script('jquery');
+
     wp_register_script('web_font_loader', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js', null, '1.4.8'); 
     wp_enqueue_script('web_font_loader');
+	wp_register_script('modernizr', get_template_directory_uri() . '/scripts/libraries/modernizr.custom.min.js', null, '2.8.3');
+	wp_enqueue_script('modernizr');
     wp_register_script('web_font_loader_local', get_template_directory_uri() . '/scripts/webfont.js', null, '1.0.9'); 
     wp_enqueue_script('web_font_loader_local');
 	wp_register_script('formvalidation', '//cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js', null, '1.13.1', true); 
@@ -40,7 +44,6 @@ function header_css_and_js($hook) {
     }
     
     	
-    wp_enqueue_script('jquery');
     wp_enqueue_script('jquery-migrate', $GLOBALS['blog_info']['url'].'/wp-includes/js/jquery/jquery-migrate.min.js', false, '1.2.1', true);
     wp_register_script( 'jquery_maps_plugin', get_template_directory_uri() . '/scripts/gmap3.min.js', false, '1.0.0', true);
     wp_enqueue_script( 'jquery_maps_plugin' );
@@ -87,6 +90,8 @@ function admin_js_and_css($hook) {
     wp_enqueue_style('jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css');
     wp_register_style( 'custom_edit_css', get_template_directory_uri() . "/stylesheets/style-admin.php?post-type=".$post_type, false, '1.2.8');
     wp_enqueue_style( 'custom_edit_css' );
+	wp_register_script('modernizr', get_template_directory_uri() . '/scripts/libraries/modernizr.custom.min.js', null, '2.8.3');
+	wp_enqueue_script('modernizr');
 	
 	// Chosen - jQuery plugin to create more user query list boxes
   	wp_register_style ( 'chosen_css', get_template_directory_uri() . '/scripts/jQueryPlugins/chosen/chosen.css', false, '1.4.2');
