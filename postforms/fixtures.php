@@ -18,7 +18,7 @@ $teams = new WP_Query(array(
                 <th><label for="fixture-date">Date of fixture</label></th>
                 <td>
                     <input type='date' class='notempty' name='fixture-date' value='<?php echo get_post_meta( $post->ID, 'fixture-date', true) ? date('Y-m-d', get_post_meta( $post->ID, 'fixture-date', true) ) : '';     ?>' />
-                    <span class="description">What day is the fixture on? This needs to be entered in AMERICAN date format (this is a restriction of Wordpress, unfortunately.), so YYYY-MM-DD.</span>
+                    <span class="description">What day is the fixture on?</span>
                 </td>
             </tr>
             <tr>

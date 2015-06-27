@@ -33,6 +33,8 @@ function header_css_and_js($hook) {
 
 	wp_register_script('jQueryUI', get_template_directory_uri() . '/scripts/libraries/jquery-ui-1.11.4.custom/jquery-ui.min.js', array('jquery'), '1.11.4');
 	wp_enqueue_script('jQueryUI');
+	wp_register_script('dateInputShim', get_template_directory_uri() . '/scripts/dateInputShim.js', array('modernizr', 'jQueryUI', 'jquery'), '2.8.3');
+	wp_enqueue_script('dateInputShim');
     wp_register_script('web_font_loader_local', get_template_directory_uri() . '/scripts/webfont.js', null, '1.0.9'); 
     wp_enqueue_script('web_font_loader_local');
 	wp_register_script('formvalidation', '//cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js', null, '1.13.1', true); 
@@ -103,6 +105,9 @@ function admin_js_and_css($hook) {
 
 	wp_register_script('jQueryUI', get_template_directory_uri() . '/scripts/libraries/jquery-ui-1.11.4.custom/jquery-ui.min.js', array('jquery'), '1.11.4');
 	wp_enqueue_script('jQueryUI');
+	wp_register_script('dateInputShim', get_template_directory_uri() . '/scripts/dateInputShim.js', array('modernizr', 'jQueryUI', 'jquery'), '2.8.3');
+	wp_enqueue_script('dateInputShim');
+
 	
 	// Chosen - jQuery plugin to create more user query list boxes
   	wp_register_style ( 'chosen_css', get_template_directory_uri() . '/scripts/jQueryPlugins/chosen/chosen.css', false, '1.4.2');
