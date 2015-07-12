@@ -51,6 +51,8 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 			$row = array(
 
+				'id'             => $user->ID,
+
 				'roles'          => $user->roles,
 				'joined'         => get_user_meta( $user->ID, 'joined', true ),
 				'user_id'        => $user->data->ID,
@@ -152,6 +154,9 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	}
 
 	function prepare_items() {
+
+		$this->process_actions();
+
 		$this->_column_headers = $this->get_column_info();
 
 		// Sort data
@@ -357,8 +362,33 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		return "<span class='memForm_$return'>$return</span>";
 	}
 
+	function process_actions() {
+
+
+		if ( $_GET['action'] === 'markInactive' && wp_verify_nonce( $_GET['nonce'], 'mark_inactive_' . $_GET['user'] )
+		) {
+			echo "<h1>HELLO</h1>";
+
+			update_user_meta($_GET['user'], 'inActive', true);
+			$query = remove_query_arg( array( 'action', 'nonce', 'user' ), $_SERVER['QUERY_STRING'] );
+			wp_redirect( admin_url( 'admin.php?' . $query ) );
+			exit;
+		}
+	}
+
 	function column_fullname( $item ) {
-		return "<a href=' " . admin_url( "admin.php?page=players&user_id={$item[ 'user_id' ]}'" ) . ">" . $item ['fullname'] . "</a>";
+
+		$nonce = wp_create_nonce( 'mark_inactive_' . $item['id'] );
+
+
+		$actions = array(
+		'trash' => sprintf( '<a class="markInactive" href="?page=%s&action=%s&user=%s&nonce=%s">Inactive</a>', $_REQUEST['page'],
+			'markInactive', $item['id'], $nonce )
+		);
+
+		$link = "<a href=' " . admin_url( "admin.php?page=players&user_id={$item[ 'user_id' ]}'" ) . ">" . $item ['fullname'] . "</a>";
+
+		return sprintf( '%1$s %2$s', $link, $this->row_actions( $actions ) );
 	}
 
 	function column_cb( $item ) {
