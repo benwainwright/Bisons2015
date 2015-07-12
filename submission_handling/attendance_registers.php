@@ -50,8 +50,22 @@ delete_post_meta ( $post, 'players_absent');
 foreach( $users as $user ) {
 
 	if ( false === array_search($user->ID, $allPlayers) ) {
+
+		if ( current_user_can( 'bisons_debug') ) {
+			echo "<br />User user->ID ($user->user_nicename) was absent";
+		}
 		add_post_meta ( $post, 'players_absent', (int) $user->ID);
 	}
+
+	else {
+		if ( current_user_can( 'bisons_debug') ) {
+			echo "<br />User user->ID ($user->user_nicename) was not absent";
+		}
+	}
+}
+
+if ( current_user_can( 'bisons_debug') ) {
+exit;
 }
 
 // Save date
