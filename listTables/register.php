@@ -136,6 +136,7 @@ class RegisterListTable extends WP_List_Table_Copy {
 		$nonce = wp_create_nonce( 'delete_register_' . $item['id'] );
 
 		$actions = array(
+			'edit' => sprintf( '<a href="post.php?action=%s&post=%s">Edit</a>', 'edit', $item['id']),
 			'delete' => sprintf( '<a href="?page=%s&action=%s&register=%s&nonce=%s">Delete</a>', $_REQUEST['page'],
 				'delete', $item['id'], $nonce )
 		);
