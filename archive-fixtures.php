@@ -10,10 +10,10 @@
     <h2>Fixtures</h2>
     <ul class='pageMenu'>
     <?php if ( current_user_can('edit_post', get_the_id() ) ) { ?>
-        <li><a class='fa fa-plus-square fa-lg' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=fixture'>Add</a></li>
+        <li><a class='fa fa-plus-square' href='<?php echo $GLOBALS['blog_info']['url']; ?>/wp-admin/post-new.php?post_type=fixture'>Add</a></li>
     <?php } ?>
-        <li><a class='fa fa-rss-square fa-lg' href='<?php echo  str_replace ( 'http://', 'webcal://', site_url('/calendar.ics?of=fixtures'))?>'>iCal (fixtures)<a/></li>
-        <li><a  class='fa fa-rss-square fa-lg' href='<?php echo  str_replace ( 'http://', 'webcal://', site_url('/calendar.ics')) ?>'>iCal (all)</a></li>
+        <li><a class='fa fa-rss-square' href='<?php echo  str_replace ( 'http://', 'webcal://', site_url('/calendar.ics?of=fixtures'))?>'>iCal (fixtures)<a/></li>
+        <li><a  class='fa fa-rss-square' href='<?php echo  str_replace ( 'http://', 'webcal://', site_url('/calendar.ics')) ?>'>iCal (all)</a></li>
     </ul>
     </header>
 <?php 
