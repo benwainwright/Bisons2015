@@ -1,6 +1,6 @@
 <?php
 
-function getAttendance($noCache = true) {
+function getAttendance( $noCache = false ) {
 
 	$players = get_transient( 'bisons_attendance' );
 
@@ -17,9 +17,6 @@ function getAttendance($noCache = true) {
 			$query->the_post();
 
 
-			if ( current_user_can( 'bisons_debug') ) {
-				new dBug(get_post_meta(get_the_id()));
-			}			$date = get_post_meta( get_the_id(), 'reg-date', true );
 
 			foreach ( get_post_meta( get_the_id(), 'players_present', false ) as $player ) {
 				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'p');
@@ -83,10 +80,6 @@ function getAttendance($noCache = true) {
 		set_transient( 'bisons_attendance', $players, 60 * 60 * 24 );
 	}
 
-	if ( current_user_can( 'bisons_debug') ) {
-		new dBug($players);
-		exit;
-	}
 
 	return $players;
 
