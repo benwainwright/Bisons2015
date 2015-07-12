@@ -4,7 +4,7 @@ function getAttendance( $noCache = false, $season = false ) {
 
 	$data = get_transient( 'bisons_attendance' );
 
-	if ( false === $players || $noCache || $season ) {
+	if ( false === $data || $noCache || $season ) {
 
 		$query = array(
 			'post_status'    => 'publish',
@@ -28,6 +28,7 @@ function getAttendance( $noCache = false, $season = false ) {
 		if ( $season ) {
 			$query['tax_query'] = $tax_query;
 		}
+
 
 		$query   = new WP_Query( $query );
 		$players = array();
@@ -143,7 +144,10 @@ function getAttendance( $noCache = false, $season = false ) {
 		$data['players'] = $players;
 		$data['stats']   = $stats;
 
-		set_transient( 'bisons_attendance', $data, 60 * 60 * 24 );
+
+		if ( ! $season ) {
+			set_transient( 'bisons_attendance', $data, 60 * 60 * 24 );
+		}
 	}
 
 
