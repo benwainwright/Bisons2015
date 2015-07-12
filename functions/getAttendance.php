@@ -5,39 +5,40 @@ function getAttendance( $noCache = false ) {
 	$players = get_transient( 'bisons_attendance' );
 
 
-
 	if ( false === $players || $noCache ) {
 
 
-
 		$players = array();
-		$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'attendance_registers', 'posts_per_page' => - 1 ) );
+		$query   = new WP_Query( array( 'post_status'    => 'publish',
+		                                'post_type'      => 'attendance_registers',
+		                                'posts_per_page' => - 1
+		) );
 
 		while ( $query->have_posts() ) {
 			$query->the_post();
 
 
+			$date = get_post_meta( get_the_id(), 'reg-date', true );
 
 			foreach ( get_post_meta( get_the_id(), 'players_present', false ) as $player ) {
-				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'p');
+				$players[ $player ]['register'][] = array( 'date' => $date, 'mark' => 'p' );
 			}
 
 			foreach ( get_post_meta( get_the_id(), 'players_watching', false ) as $player ) {
-				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'w');
+				$players[ $player ]['register'][] = array( 'date' => $date, 'mark' => 'w' );
 			}
 
 			foreach ( get_post_meta( get_the_id(), 'players_coaching', false ) as $player ) {
-				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'c');
+				$players[ $player ]['register'][] = array( 'date' => $date, 'mark' => 'c' );
 			}
 
 			foreach ( get_post_meta( get_the_id(), 'players_absent', false ) as $player ) {
-				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'a');
+				$players[ $player ]['register'][] = array( 'date' => $date, 'mark' => 'a' );
 			}
 
 		}
 
 
-		
 		foreach ( $players as $userID => $player ) {
 
 			$highestDate = 0;
