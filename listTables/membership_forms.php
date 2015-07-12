@@ -27,7 +27,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 	function __construct( $args = array() ) {
 
 		// Get attendance data
-		$attendance = getAttendance();
+		$attendance = getAttendance()['players'];
 
 		// Get users
 		$users = get_users();
