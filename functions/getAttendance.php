@@ -88,7 +88,12 @@ function getAttendance( $noCache = false, $season = false ) {
 			$absent = get_post_meta( get_the_id(), 'players_absent', false );
 
 			foreach ( $absent as $player ) {
-				$players[ $player ]['register'][] = array( 'date' => $date, 'mark' => 'a' );
+
+				$regDate = strtotime(get_user_by( 'id', $player)->user_registered);
+
+				if ( $date > $regDate ) {
+					$players[ $player ]['register'][] = array( 'date' => $date, 'mark' => 'a' );
+				}
 			}
 
 		}
