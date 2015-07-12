@@ -4,7 +4,7 @@ class RegisterListTable extends WP_List_Table_Copy {
 
 
 	function __construct( $noCache = false, $args = array() ) {
-		$query = new WP_Query( array( 'post_type' => 'attendance_registers', 'posts_per_page' => - 1 ) );
+		$query = new WP_Query( array( 'post_type' => 'attendance_registers', 'posts_per_page' => - 1, 'post_status' => 'publish') );
 
 		$users     = get_users();
 		$userNames = array();
