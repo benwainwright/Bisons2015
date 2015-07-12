@@ -36,6 +36,7 @@ function create_team_roles() {
 	$admin->add_cap( 'modify_gcl_user_id' );
 	$admin->add_cap( 'needs_two_factor_for_restricted_areas' );
 	$admin->add_cap( 'reset_2fa' );
+	$admin->add_cap( 'bisons_debug' );
 }
 
 /*
@@ -59,6 +60,7 @@ function remove_team_roles() {
 	$admin->remove_cap( 'modify_gcl_user_id' );
 	$admin->remove_cap( 'needs_two_factor_for_restricted_areas' );
 	$admin->remove_cap( 'reset_2fa' );
+	$admin->remove_cap( 'bisons_debug' );
 
 
 }

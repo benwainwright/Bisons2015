@@ -18,6 +18,7 @@ if ( get_user_meta( $formUser, 'joined', true ) ) {
 	$data = &$wp_query->query['bisons_data'];
 
 
+
 	$fees = new WP_Query ( array( 'post_type' => 'membership_fee', 'nopaging' => true ) );
 	while ( $fees->have_posts() ) {
 		$fees->the_post();
