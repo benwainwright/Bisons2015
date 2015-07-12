@@ -44,8 +44,12 @@ if ( isset ( $_POST['players_coaching'] ) )
 
 $users = get_users();
 
+
+delete_post_meta ( $post, 'players_absent');
+
 foreach( $users as $user ) {
-	if ( ! array_search($user->ID, $allPlayers) ) {
+
+	if ( false === array_search($user->ID, $allPlayers) ) {
 		add_post_meta ( $post, 'players_absent', (int) $user->ID);
 	}
 }
