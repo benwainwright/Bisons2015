@@ -179,7 +179,7 @@ class RegisterListTable extends WP_List_Table_Copy {
 			case 'watching':
 
 				if ( 0 === $item[ $column_name . 'Count' ] ) {
-					return 'None';
+					return '<span class=\'none\'>None</span>';
 				} else if ( 1 === $item[ $column_name . 'Count' ] ) {
 					return $item[ $column_name ][0];
 				} else if ( $item[ $column_name . 'Count' ] < 3 ) {
