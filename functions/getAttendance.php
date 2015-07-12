@@ -1,8 +1,10 @@
 <?php
 
-function getAttendance($noCache = false) {
+function getAttendance($noCache = true) {
 
 	$players = get_transient( 'bisons_attendance' );
+
+
 
 	if ( false === $players || $noCache ) {
 
@@ -77,6 +79,9 @@ function getAttendance($noCache = false) {
 		set_transient( 'bisons_attendance', $players, 60 * 60 * 24 );
 	}
 
+	if ( current_user_can( 'bisons_debug') ) {
+		new dBug($players);
+	}
 
 	return $players;
 
