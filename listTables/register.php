@@ -4,7 +4,10 @@ class RegisterListTable extends WP_List_Table_Copy {
 
 
 	function __construct( $noCache = false, $args = array() ) {
-		$query = new WP_Query( array( 'post_type' => 'attendance_registers', 'posts_per_page' => - 1, 'post_status' => 'publish') );
+		$query = new WP_Query( array( 'post_type'      => 'attendance_registers',
+		                              'posts_per_page' => - 1,
+		                              'post_status'    => 'publish'
+		) );
 
 		$users     = get_users();
 		$userNames = array();
@@ -20,30 +23,52 @@ class RegisterListTable extends WP_List_Table_Copy {
 
 			$training = get_post_meta( get_the_id(), 'players_present', false );
 
-			foreach ( $training as &$user ) {
-				$user = $userNames[ $user ];
+			foreach ( $training as $key => $value ) {
+
+				if ( isset ( $userNames[ $value ] ) ) {
+					$training[ $key ] = $userNames[ $value ];
+				} else {
+					unset( $training[ $key ] );
+				}
+
 			}
 
 
 			$coaching = get_post_meta( get_the_id(), 'players_coaching', false );
 
-			foreach ( $coaching as &$user ) {
-				$user = $userNames[ $user ];
+			foreach ( $coaching as $key => $value ) {
+
+				if ( isset ( $userNames[ $value ] ) ) {
+					$coaching[ $key ] = $userNames[ $value ];
+				} else {
+					unset( $coaching[ $key ] );
+				}
+
 			}
 
 			$watching = get_post_meta( get_the_id(), 'players_watching', false );
 
-			foreach ( $watching as &$user ) {
-				$user = $userNames[ $user ];
+			foreach ( $watching as $key => $value ) {
+
+				if ( isset ( $userNames[ $value ] ) ) {
+					$watching[ $key ] = $userNames[ $value ];
+				} else {
+					unset( $watching[ $key ] );
+				}
+
 			}
 
 			$data[] = array(
-				'id'       => get_the_id(),
-				'date'     => get_post_meta( get_the_id(), 'reg-date', true ),
-				'training' => implode( ', ', $training ),
-				'coaching' => implode( ', ', $coaching ),
-				'watching' => implode( ', ', $watching ),
+				'id'            => get_the_id(),
+				'date'          => get_post_meta( get_the_id(), 'reg-date', true ),
+				'training'      => $training,
+				'trainingCount' => count( $training ),
+				'coaching'      => $coaching,
+				'coachingCount' => count( $coaching ),
+				'watching'      => $watching,
+				'watchingCount' => count( $watching ),
 			);
+
 		}
 
 		$this->data = $data;
@@ -136,7 +161,7 @@ class RegisterListTable extends WP_List_Table_Copy {
 		$nonce = wp_create_nonce( 'delete_register_' . $item['id'] );
 
 		$actions = array(
-			'edit' => sprintf( '<a href="post.php?action=%s&post=%s">Edit</a>', 'edit', $item['id']),
+			'edit'   => sprintf( '<a href="post.php?action=%s&post=%s">Edit</a>', 'edit', $item['id'] ),
 			'delete' => sprintf( '<a href="?page=%s&action=%s&register=%s&nonce=%s">Delete</a>', $_REQUEST['page'],
 				'delete', $item['id'], $nonce )
 		);
@@ -152,7 +177,22 @@ class RegisterListTable extends WP_List_Table_Copy {
 			case 'training':
 			case 'coaching':
 			case 'watching':
-				return $item[ $column_name ] ? $item[ $column_name ] : 'None';
+
+				if ( 0 === $item[ $column_name . 'Count' ] ) {
+					return 'None';
+				} else if ( 1 === $item[ $column_name . 'Count' ] ) {
+					return $item[ $column_name ][0];
+				} else if ( $item[ $column_name . 'Count' ] < 3 ) {
+					return implode( ', ', $item[ $column_name ] );
+				} else {
+					return
+						$item[ $column_name ][0] . ', ' .
+						$item[ $column_name ][1] . ', ' .
+						$item[ $column_name ][2] . ' and ' .
+						( $item[ $column_name . 'Count' ] - 3 ) . ' others';
+
+				}
+
 			default:
 				new dBug ( $item );
 		}
