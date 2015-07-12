@@ -90,7 +90,7 @@ foreach ( $attendance['register'] as $session ) {
 		<tbody>
 		<?php foreach ( $rows as $date => $mark ) : ?>
 			<tr>
-				<th><?php echo date('M j, Y', $date) ?></th>
+				<th><?php echo date('l, M j, Y', $date) ?></th>
 				<?php echo $mark ?>
 			</tr>
 		<?php endforeach ?>
