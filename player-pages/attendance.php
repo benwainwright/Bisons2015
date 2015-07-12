@@ -55,7 +55,7 @@ foreach ( $attendance['register'] as $session ) {
 			<label>Select</label>
 			<select id='committeeSelectPlayer'>
 				<option value='me'>Me</option>
-				<?php $users = get_users(); foreach ($users as $user) : ?>
+				<?php $users = getBisonsUsers(); foreach ($users as $user) : ?>
 					<option value='<?php echo $user->data->ID; ?>' <?php if ( isset ( $_GET['player_id' ] ) ) { if (  $_GET['player_id' ] == $user->data->ID ) { echo " selected='selected'"; } } ?>><?php echo $user->data->display_name ?></option>
 				<?php endforeach ?>
 			</select>

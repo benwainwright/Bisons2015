@@ -1,5 +1,5 @@
 <?php 
-$users = get_users();
+$users = getBisonsUsers();
 if ($users) : ?>
 <div id='custom-form'>
     <p>Use the box below to link this post to attribute this post to a different author.</p>

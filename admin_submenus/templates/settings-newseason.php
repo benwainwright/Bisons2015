@@ -144,7 +144,7 @@ foreach($currentCommittee as $oldCommitteeMember) {
 				</td>
 			</tr>
 
-			<?php $users = get_users(); ?>
+			<?php $users = getBisonsUsers(); ?>
 
 			<?php for($i = 1; $i <= 10; $i++) : ?>
 			<tr>

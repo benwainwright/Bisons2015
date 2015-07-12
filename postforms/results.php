@@ -52,7 +52,7 @@ Hide from blog</label>
                 </select>
                 <select name="match_event_player_<?php echo $index ?>">
                     <option></option>
-        			<?php $users = get_users(); foreach ($users as $user) : ?>
+        			<?php $users = getBisonsUsers(); foreach ($users as $user) : ?>
             		<option <?php if ( get_post_meta($post->ID, 'match_event_player_' . $index, true) == $user->data->ID ) echo 'selected="selected" ' ?>value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
                     <?php endforeach; ?>
                 </select>
@@ -72,7 +72,7 @@ Hide from blog</label>
                 </select>
                 <select name="match_event_player_<?php echo $index ?>">
                     <option></option>
-        			<?php $users = get_users(); foreach ($users as $user) : ?>
+        			<?php $users = getBisonsUsers(); foreach ($users as $user) : ?>
             		<option value='<?php echo $user->data->ID?>'><?php echo $user->data->display_name ?></option>
                     <?php endforeach; ?>
                 </select>
