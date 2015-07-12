@@ -11,6 +11,8 @@ body {
     to { opacity: 1; }
 }
 
+
+
 /* Global styles */
 * {
     margin: 0;
@@ -1887,6 +1889,20 @@ th li {
     margin: 0;
     font-size: 0.6em;
 }
+
+td.attendanceGood {
+    background-color:#D6F5D6;
+}
+
+td.attendanceOK {
+    background-color:#FFE0B2;
+}
+
+td.attendanceBad {
+    background-color:#FFCCCC;
+}
+
+
 
 table.verticalTable.selectBoxes {
     text-align:left;

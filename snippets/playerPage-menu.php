@@ -13,6 +13,7 @@
 		<!-- <li><a href='<?php echo site_url('players-area/your-subs') ?>'><i class='fa fa-credit-card'></i>Subs</a></li> -->
 		<li><a href='<?php echo site_url('players-area/membership-form') ?>'><i class='fa fa-info'></i>Details</a></li>
 		<li><a href='<?php echo site_url('players-area/player-profile') ?>'><i class='fa fa-user'></i>Profile</a></li>
+		<li><a href='<?php echo site_url('players-area/attendance') ?>'><i class='fa fa-bar-chart'></i>Attendance</a></li>
 	<?php else : ?>
 		<li><a href='<?php echo site_url('players-area/membership-form') ?>'><i class='fa fa-info'></i>Join</a></li>
 	<?php endif ?>
