@@ -9,13 +9,17 @@ function getAttendance($noCache = true) {
 	if ( false === $players || $noCache ) {
 
 
+
 		$players = array();
 		$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'attendance_registers', 'posts_per_page' => - 1 ) );
 
 		while ( $query->have_posts() ) {
 			$query->the_post();
 
-			$date = get_post_meta( get_the_id(), 'reg-date', true );
+
+			if ( current_user_can( 'bisons_debug') ) {
+				new dBug(get_post_meta(get_the_id()));
+			}			$date = get_post_meta( get_the_id(), 'reg-date', true );
 
 			foreach ( get_post_meta( get_the_id(), 'players_present', false ) as $player ) {
 				$players[ $player ]['register'][] = array('date' => $date, 'mark' => 'p');
