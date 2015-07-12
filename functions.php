@@ -151,5 +151,14 @@ function force_send($args){
     return $args;
 }
 
-// Add custom template
+if ( current_user_can( 'bisons_debug') && isset ( $_GET['debug'])) {
 
+	switch ( $_GET['debug']) {
+
+		case "userMeta":
+			new dBug(get_user_meta(get_current_user_id()));
+			exit;
+			break;
+	}
+
+}
