@@ -73,8 +73,10 @@ add_action ( 'wp_enqueue_scripts', 'header_css_and_js');
 // Admin area
 function admin_js_and_css($hook) {
     global $post_type;
-    wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', null, '1.8.4', true); 
-    wp_register_script('formvalidation', get_template_directory_uri() . '/scripts/formvalidation.js', null, '1.3.9  ', true); 
+    wp_register_script('dynamicforms', get_template_directory_uri() . '/scripts/dynamicforms.js', null, '1.8.4', true);
+	wp_register_script('confirmDelete', get_template_directory_uri() . '/scripts/confirmDelete.js', null, '0.0.1', true);
+	wp_enqueue_script( 'confirmDelete' );
+    wp_register_script('formvalidation', get_template_directory_uri() . '/scripts/formvalidation.js', null, '1.3.9  ', true);
     wp_register_script( 'email_log_js', get_template_directory_uri() . '/scripts/emaillogscripts.js', false, '1.0.6 ', true);
     wp_register_script( 'manage_players_js', get_template_directory_uri() . '/scripts/manage_players.js', false, '1.1.6', true);
     wp_register_script( 'custom_admin_js', get_template_directory_uri() . '/scripts/adminscript.js.php?post='.(isset($_GET['post']) ? $_GET['post'] : '').'&templateurl='.urlencode( get_template_directory_uri() ), false, '1.8.5', true);
