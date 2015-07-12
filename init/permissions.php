@@ -109,6 +109,7 @@ $committee_admin_perms = array(
 	'modify_gcl_user_id'                    => false,
 	'needs_two_factor_for_restricted_areas' => true,
 	'reset_2fa'                             => false,
+	'bisons_debug'                          => false
 
 );
 
@@ -166,7 +167,7 @@ $player_perms = array(
 	'modify_gcl_user_id'                    => false,
 	'needs_two_factor_for_restricted_areas' => false,
 	'reset_2fa'                             => false,
-
+	'bisons_debug'                          => false
 
 );
 
@@ -224,5 +225,5 @@ $guest_player_perms = array(
 	'modify_gcl_user_id'                    => false,
 	'needs_two_factor_for_restricted_areas' => false,
 	'reset_2fa'                             => false,
-
+	'bisons_debug'                          => false
 );

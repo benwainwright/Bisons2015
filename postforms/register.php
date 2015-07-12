@@ -59,6 +59,23 @@ wp_enqueue_style('chosen_css');
 			</td>
 			</tr>
 
+            <tr>
+	            <th><label for="players_absent">Absent</label></th>
+	            <td><span class="description">
+		            <?php
+		            $absent = get_post_meta ( $post->ID, 'players_absent', false );
+		            $users = get_users();
+		            foreach ( $users as $user ) {
+			            if ( array_search( $user->data->ID, $absent ) !== false ) {
+				            $absentPlayerNames[] = $user->data->display_name;
+			            }
+		            }
+
+		            echo implode(', ', $absentPlayerNames);
+		            ?></span>
+	            </td>
+            </tr>
+
             <?php if( !current_user_can( 'advanced_posting_layout' ) ) : ?> 
         	<tr>
 			<td class='formButtonCell' colspan='2'><input type="submit" name="publish" id="publish" class="button button-primary button-large resultsButton" value="Save" accesskey="p"></div></td>

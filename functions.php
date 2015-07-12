@@ -76,8 +76,6 @@ $mandrill = new Mandrill('ZzbBwttWRHJ41GL4BZmmsQ');
 // Feeds
 include_once('feeds/ical-all.php');
 
-// CRON scripts
-include_once('cron/cron_init.php');
 include_once('init/excerpt.php');
 
 // Email handling
@@ -120,7 +118,7 @@ if (isset ( $_POST['nonce'] ) )
 
 include_once('listTables/membership_forms.php');
 
-if (isset ( $_POST['action'] ) )
+if (isset ( $_POST['action'] ) || isset($_POST['action2']) )
 {
 	if ( strpos($_POST['action'], 'set_season_') !== false) {
 
@@ -128,9 +126,19 @@ if (isset ( $_POST['action'] ) )
 		include_once ('list_table_bulk_actions/set_season_as.php' );
 
 	}
+	elseif ( strpos($_POST['action2'], 'set_season_') !== false) {
 
-	else if ( file_exists( __DIR__ . '/list_table_bulk_actions/' . $_POST['action'] . '.php' ) && $_POST['action'] != '-1' ) {
+		$season = explode('set_season_', $_POST['action2'])[1];
+		include_once ('list_table_bulk_actions/set_season_as.php' );
+
+	}
+
+
+	elseif ( file_exists( __DIR__ . '/list_table_bulk_actions/' . $_POST['action'] . '.php' ) && $_POST['action'] != '-1' ) {
 		include_once ('list_table_bulk_actions/' . $_POST['action'] . '.php' );
+	}
+	elseif ( file_exists( __DIR__ . '/list_table_bulk_actions/' . $_POST['action2'] . '.php' ) && $_POST['action2'] != '-1' ) {
+		include_once ('list_table_bulk_actions/' . $_POST['action2'] . '.php' );
 	}
 
 }
@@ -143,5 +151,14 @@ function force_send($args){
     return $args;
 }
 
-// Add custom template
+if ( current_user_can( 'bisons_debug') && isset ( $_GET['debug'])) {
 
+	switch ( $_GET['debug']) {
+
+		case "userMeta":
+			new dBug(get_user_meta(get_current_user_id()));
+			exit;
+			break;
+	}
+
+}

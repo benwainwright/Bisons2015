@@ -21,7 +21,8 @@ function bisonsGocardlessBill( $resource, $data ) {
 
 		}
 
-		// Catch any exceptions thrown and output them as JSON if caught
+	// Catch any exceptions thrown and output them as JSON if caught
+
 	} catch ( Exception $e ) {
 		wp_send_json_error( $e );
 		exit;
@@ -89,6 +90,7 @@ function bisonsGocardlessBill( $resource, $data ) {
 			'source_type'       => $resource['source_type']
 		);
 	}
+
 
 	if ( null !== $source ) {
 		update_user_meta( $user->ID, 'GCLSubStatus', $source->status );
