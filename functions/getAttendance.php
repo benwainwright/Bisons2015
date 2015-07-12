@@ -8,7 +8,7 @@ function getAttendance($noCache = false) {
 
 
 		$players = array();
-		$query = new WP_Query( array( 'post_type' => 'attendance_registers', 'posts_per_page' => - 1 ) );
+		$query = new WP_Query( array( 'post_status' => 'publish', 'post_type' => 'attendance_registers', 'posts_per_page' => - 1 ) );
 
 		while ( $query->have_posts() ) {
 			$query->the_post();
