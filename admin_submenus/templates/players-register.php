@@ -16,7 +16,7 @@ foreach ( $taxonomy as $tax ) {
 	$taxes[] = array('slug' => $tax->slug, 'name' => $tax->name);
 }
 
-$taxes[] = array('slug' => 'current', 'name' => 'current');
+$taxes[] = array('slug' => 'current', 'name' => 'Current');
 
 $statsRows = array();
 
