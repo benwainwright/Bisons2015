@@ -81,6 +81,7 @@ function getAttendance($noCache = true) {
 
 	if ( current_user_can( 'bisons_debug') ) {
 		new dBug($players);
+		exit;
 	}
 
 	return $players;
