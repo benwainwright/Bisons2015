@@ -12,7 +12,7 @@ if ( isset ( $_POST['players_present'] ) )
 	 
 	foreach ( $_POST['players_present'] as $player)
 	{
-		if ( $player != 'new' ) add_post_meta ( $post, 'players_present', (int) $player);
+		add_post_meta ( $post, 'players_present', (int) $player);
 		$allPlayers[] = $player;
 	}
 }
@@ -56,10 +56,3 @@ update_post_meta($post, 'reg-date', esc_attr($date));
 
 // Load new register into cache
 getAttendance(true);
-
-if ( $_POST['newPlayerNumber'] > 0 )
-{
-	wp_redirect ( admin_url('post.php?post=' . $_POST['post_ID'] . '&action=edit&newPlayerNumber=' . $_POST['newPlayerNumber']));
-	exit;
-}
-
