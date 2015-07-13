@@ -29,41 +29,8 @@ add_action( 'wp_dashboard_setup', 'add_dashboard_widgets' );
 
 
 function displayTopTenAttenders() {
-	$attendance = getAttendance()['players'];
 
-	$attendancePercentages = array();
-
-	foreach ( $attendance as $playerID => $details ) {
-
-		$t                                  = $details['stats']['training'];
-		$w                                  = $details['stats']['watching'];
-		$c                                  = $details['stats']['coaching'];
-		$a                                  = $details['stats']['absent'];
-		$p                                  = $t + $w + $c;
-		$sum                                = $p + $a;
-		$presentPercentage                  = ( 100 / $sum ) * $p;
-		$attendancePercentages[ $playerID ] = $presentPercentage;
-	}
-
-	arsort( $attendancePercentages );
-
-	$i      = 1;
-	$topTen = array();
-
-	foreach ( $attendancePercentages as $userID => $percentage ) {
-
-		$topTen[ $i ] = array(
-			'name'       => get_user_by( 'id', $userID )->user_nicename,
-			'ID'         => $userID,
-			'percentage' => $percentage
-		);
-
-		if ( $i > 9 ) {
-			break;
-		} else {
-			$i ++;
-		}
-	}
+	$topTen = getTopAttenders();
 
 	?>
 	<p>Attendance is calculated including sessions watched or coached.</p>
