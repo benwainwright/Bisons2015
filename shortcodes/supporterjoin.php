@@ -203,11 +203,11 @@ function join_as_supporter_shortcode()
         </div>
         <div>
             <label class="smalllabel" for="email_addy">Email</label>
-            <input type="text" class="smalltextbox needemail" name="email_addy" id="email_addy">
+            <input type="email" class="smalltextbox needemail" name="email_addy" id="email_addy">
         </div>
         <div>
             <label class="smalllabel" for="contact_number">Contact Number</label>
-            <input type="text" class="smalltextbox needphonenum" name="contact_number" id="contact_number">
+            <input type="tel" class="smalltextbox needphonenum" name="contact_number" id="contact_number">
         </div>
     </fieldset>
     <fieldset>
@@ -246,7 +246,7 @@ function join_as_supporter_shortcode()
         </div>
        <div>
             <label class="smalllabel" for="nokcontactnumber">Phone Number</label>
-            <input type="text" class="smalltextbox needphonenum" name="nokcontactnumber" id="nokcontactnumber">
+            <input type="tel" class="smalltextbox needphonenum" name="nokcontactnumber" id="nokcontactnumber">
         </div>
         <div>
             <label>Lives at same address</label>

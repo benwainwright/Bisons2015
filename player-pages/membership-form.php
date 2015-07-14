@@ -340,7 +340,7 @@ if ( ! isset ( $form_id ) )
         </div>
         <div>
             <label class="smalllabel" for="hoursaweektrain">How many hours a week do you train?</label>
-            <input type="text" class="smalltextbox required" name="hoursaweektrain" id="hoursaweektrain" value='<?php echo get_user_meta($formUser, 'hoursaweektrain', true) ?>' />
+            <input type="number" class="smalltextbox required" name="hoursaweektrain" id="hoursaweektrain" value='<?php echo get_user_meta($formUser, 'hoursaweektrain', true) ?>' />
         </div>
         <div>
             <label class="smalllabel" for="playedbefore">Have you played rugby before?</label>
