@@ -39,7 +39,7 @@ function displayTopTenAttenders() {
 		<?php foreach ( $topTen as $position => $row ) : ?>
 			<tr>
 				<td><?php echo $position ?></td>
-				<td><?php echo $row['name'] ?></td>
+				<td><a href='<?php echo admin_url('admin.php?page=players&user_id=' . $row['ID']) ?>><?php echo $row['name'] ?></a></td>
 				<td><?php echo round ( $row['percentage'] ) ?>%</td>
 			</tr>
 		<?php endforeach ?>
