@@ -52,11 +52,11 @@
 
 			$personalDetails = array(
 				'Name'              => get_user_meta( $_GET['user_id'], 'firstname', true ) . ' ' . get_user_meta( $_GET['user_id'], 'surname', true ),
-				'Email'             => get_user_meta( $_GET['user_id'], 'email_addy', true ),
+				'Email'             => addMailToLink(get_user_meta( $_GET['user_id'], 'email_addy', true )),
 				'Gender'            => get_user_meta( $_GET['user_id'], 'othergender', true ) ? get_user_meta( $_GET['user_id'], 'othergender', true ) : get_user_meta( $_GET['user_id'], 'gender', true ),
 				'Date of Birth'     => reformat_date($dob, 'jS \of F Y'),
 				'Age'               => getage($dob),
-				'Contact Number'    => get_user_meta( $_GET['user_id'], 'contact_number', true),
+				'Contact Number'    => addTelLink(get_user_meta( $_GET['user_id'], 'contact_number', true)),
 				'Street Address'    => implode('<br />', $streetAddy)
 			);
 
@@ -79,7 +79,7 @@
 			$nextOfKin = array(
 				'Name'              => get_user_meta( $_GET['user_id'], 'nokfirstname', true ) . ' ' . get_user_meta( $_GET['user_id'], 'noksurname', true ),
 				'Relationship'      => get_user_meta( $_GET['user_id'], 'nokrelationship', true ),
-				'Contact Number'    => get_user_meta( $_GET['user_id'], 'nokcontactnumber', true ),
+				'Contact Number'    => addTelLink(get_user_meta( $_GET['user_id'], 'nokcontactnumber', true )),
 				'Address'           => get_user_meta( $_GET['user_id'], 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
 			);
 
