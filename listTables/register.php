@@ -4,9 +4,10 @@ class RegisterListTable extends WP_List_Table_Copy {
 
 
 	function __construct( $noCache = false, $args = array() ) {
-		$query = new WP_Query( array( 'post_type'      => 'attendance_registers',
-		                              'posts_per_page' => - 1,
-		                              'post_status'    => 'publish'
+		$query = new WP_Query( array(
+			'post_type'      => 'attendance_registers',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish'
 		) );
 
 		$users     = get_users();
@@ -67,6 +68,7 @@ class RegisterListTable extends WP_List_Table_Copy {
 				'coachingCount' => count( $coaching ),
 				'watching'      => $watching,
 				'watchingCount' => count( $watching ),
+				'presentCount'  => count( $training ) + count( $coaching ) + count( $watching ),
 			);
 
 		}
@@ -127,10 +129,11 @@ class RegisterListTable extends WP_List_Table_Copy {
 
 	function get_columns() {
 		$columns = array(
-			'date'     => 'Date',
-			'training' => 'Training',
-			'coaching' => 'Coaching',
-			'watching' => 'Watching',
+			'date'         => 'Date',
+			'training'     => 'Training',
+			'coaching'     => 'Coaching',
+			'watching'     => 'Watching',
+			'presentCount' => 'Total Present'
 		);
 
 		return $columns;
@@ -138,7 +141,8 @@ class RegisterListTable extends WP_List_Table_Copy {
 
 	function get_sortable_columns() {
 		$columns = array(
-			'date' => array( 'date', false ),
+			'date'         => array( 'date', false ),
+			'presentCount' => array( 'presentCount', false )
 		);
 
 		return $columns;
@@ -193,6 +197,9 @@ class RegisterListTable extends WP_List_Table_Copy {
 
 				}
 
+			case 'presentCount':
+				return $item[ $column_name ];
+				break;
 			default:
 				new dBug ( $item );
 		}
