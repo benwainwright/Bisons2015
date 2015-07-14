@@ -50,9 +50,11 @@
 				);
 			}
 
+
+			$user = get_user_by('id', $_GET['user_id']);
 			$personalDetails = array(
-				'Name'              => get_user_meta( $_GET['user_id'], 'firstname', true ) . ' ' . get_user_meta( $_GET['user_id'], 'surname', true ),
-				'Email'             => addMailToLink(get_user_meta( $_GET['user_id'], 'email_addy', true )),
+				'Name'              => $user->display_name,
+				'Email'             => addMailToLink($user->user_email),
 				'Gender'            => get_user_meta( $_GET['user_id'], 'othergender', true ) ? get_user_meta( $_GET['user_id'], 'othergender', true ) : get_user_meta( $_GET['user_id'], 'gender', true ),
 				'Date of Birth'     => reformat_date($dob, 'jS \of F Y'),
 				'Age'               => getage($dob),
