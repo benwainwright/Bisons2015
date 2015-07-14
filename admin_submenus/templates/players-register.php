@@ -34,6 +34,7 @@ foreach ( $taxes as $seasons ) {
 <div class="wrap">
 	<h2>Register <a class='add-new-h2' href='<?php echo admin_url( 'post-new.php?post_type=attendance_registers' ) ?>'>Record
 			Attendance</a></h2>
+	<p>Click on the button above to create a new register entry, or hover over existing entries in the table below to edit or delete them.</p>
 	<table class="widefat">
 		<thead>
 		<tr>
@@ -61,6 +62,5 @@ foreach ( $taxes as $seasons ) {
 		<?php endforeach ?>
 		</tbody>
 	</table>
-	<p>Hover over a register entry to edit or delete.</p>
 	<?php $register->display() ?>
 </div>
