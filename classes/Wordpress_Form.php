@@ -464,7 +464,7 @@ Class Wordpress_Form {
 		$this->has_file_uploads = true;
 
 		// Construct the HTML
-		$fieldhtml = $this->create_input_html( $name, $label, 'file', $classes, $forminfo );
+		$fieldhtml = $this->create_input_html( $name, $label, 'file', $classes, $forminfo, false, false, 'fileupload' );
 
 		// If the fieldset array is not already create, initialize it as an array
 		if ( ! isset( $this->fields[ $fieldset ] ) ) {
@@ -685,7 +685,8 @@ Class Wordpress_Form {
 		$classes = false,
 		$forminfo = false,
 		$labelclasses = false,
-		$value = false
+		$value = false,
+		$id = false
 	) {
 
 
@@ -710,7 +711,9 @@ Class Wordpress_Form {
 		if ( $type != 'textarea' ) {
 			$output .= $value ? " value='$value'" : '';
 		}
-		$output .= " name='$name' id='$name'";
+		$output .= " name='$name' ";
+
+		$output .= $id ? "id='$id'": "id='$name'";
 
 		if ( $type == 'textarea' ) {
 			$output .= ">";
