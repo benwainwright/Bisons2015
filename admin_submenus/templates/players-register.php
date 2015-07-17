@@ -55,9 +55,9 @@ foreach ( $taxes as $seasons ) {
 				<td><?php echo $season ?></td>
 				<td><?php echo $data['totalSessions'] ?></td>
 				<td><?php echo count( $data['allTrained'] ) ?></td>
-				<td><?php echo $data['averagePlayersTraining'] ?></td>
+				<td><?php echo round ( $data['averagePlayersTraining'] ) ?></td>
 				<td><?php echo count( $data['allTrained'] ) + count( $data['allWatched'] ) + count( $data['allCoached'] ) ?></td>
-				<td><?php echo $data['averagePlayersPresent'] ?></td>
+				<td><?php echo round ( $data['averagePlayersPresent'] ) ?></td>
 			</tr>
 		<?php endforeach ?>
 		</tbody>
