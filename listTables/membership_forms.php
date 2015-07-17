@@ -59,7 +59,7 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				'DD_sub_id'      => get_user_meta( $user->ID, 'GCLSubID', true ),
 				'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
 				'lastAttended'   => $attendance[ $user->ID ]['lastAttended'],
-				'presentPercent' => $totalPossible ? round( ( 100 / $totalPossible ) * $present ) : 0,
+				'presentPercent' => $totalPossible ? (int) round( ( 100 / $totalPossible ) * $present ) : 0,
 				'dd_status'      => $dd_status ? $dd_status : 'None',
 				'fullname'       => $user->first_name . ' ' . $user->last_name,
 				'type'           => get_user_meta( $user->ID, 'joiningas', true ) ? get_user_meta( $user->ID,
