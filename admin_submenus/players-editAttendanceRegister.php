@@ -1,7 +1,7 @@
 <?php
 /************************* Insert Menu ************************/
 function addEditAttendanceRegisterMenu() {
-	$attRegHook = add_submenu_page ( 'players', 'Registers', 'Attendance Register   ', 'committee_perms', 'registers', 'includeRegisterTemplate' );
+	$attRegHook = add_submenu_page ( 'players', 'Registers', 'Attendance Register', 'committee_perms', 'registers', 'includeRegisterTemplate' );
 	add_action( "load-$attRegHook", 'attRegisterAddOptions' );
 
 }
