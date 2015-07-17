@@ -5,7 +5,7 @@ wp_enqueue_style('chosen_css');
 ?>
 
 <div id='custom-form'>
-	<p>Please <a href='<?php echo admin_url('admin.php?page=add-player') ?>'>add any new players</a> to the database before recording the register to ensure their attendance is recorded also.</p>
+	<p>Please <a href='<?php echo admin_url('admin.php?page=add-player') ?>'>add any new players</a> to the database before recording the register to ensure their attendance is recorded also. Note that you will not be able to add a player to the register if he has been marked as 'inactive'. You can make an inactive player active again from the 'inactive players' dashboard page.</p>
     <table class="form-table">
         <tbody>
             <tr class='smallFormRow'>
