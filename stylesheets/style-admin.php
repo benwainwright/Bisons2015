@@ -248,3 +248,5 @@ span.dd_Active, span.dd_Paid_In_Full {
 table.memberData th {
  width:40%;
 }
+
+.checkList { list-style:none; margin-left:0.5em;}
