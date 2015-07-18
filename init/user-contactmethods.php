@@ -1,12 +1,23 @@
 <?php
 function modifyContactMethods( $fields ) {
 
-	if (current_user_can('modify_gcl_user_id')) {
-		$fields['GCLUserID'] = 'GoCardless User ID';
-		$fields['currentFee'] = 'Monthly DD Payment';
-
+	if ( current_user_can( 'editGCLMeta' ) ) {
+		$fields['GCLUserID']       = 'GCLUserID';
+		$fields['GCLSubID']        = 'GCLSubID';
+		$fields['GCLSubName']      = 'GCLSubName';
+		$fields['GCLSubStatus']    = 'GCLSubStatus';
+		$fields['currentFee']      = 'currentFee';
+		$fields['gcl_sub_id']      = 'gcl_sub_id';
+		$fields['joined']          = 'joined';
+		$fields['payMethod']       = 'payMethod';
+		$fields['payWhen']         = 'payWhen';
+		$fields['dayOfMonth']      = 'dayOfMonth';
+		$fields['whichWeekDay']    = 'whichWeekDay';
+		$fields['weekDay']         = 'weekDay';
+		$fields['nextPaymentDate'] = 'nextPaymentDate';
 	}
 
 	return $fields;
 }
-add_filter('user_contactmethods','modifyContactMethods');
+
+add_filter( 'user_contactmethods', 'modifyContactMethods' );
