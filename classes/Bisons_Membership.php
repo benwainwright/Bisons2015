@@ -39,7 +39,7 @@ class Bisons_Membership {
 	public function remoteConfirmPreauth( $confirm_params ) {
 
 		if ( WP_DEBUG ) {
-			$this->logRequest('remoteConfirmPreauth', $confirm_params);
+			$this->logRequest( 'remoteConfirmPreauth', $confirm_params );
 		}
 
 		try {
@@ -53,7 +53,7 @@ class Bisons_Membership {
 	public function remotePreAuthURL( $preAuthDetails ) {
 
 		if ( WP_DEBUG ) {
-			$this->logRequest('remotePreAuthURL', $preAuthDetails);
+			$this->logRequest( 'remotePreAuthURL', $preAuthDetails );
 		}
 
 		try {
@@ -67,7 +67,7 @@ class Bisons_Membership {
 	public function remoteCreatePreauthBill( $bill ) {
 
 		if ( WP_DEBUG ) {
-			$this->logRequest('remoteCreatePreauthBill', $bill);
+			$this->logRequest( 'remoteCreatePreauthBill', $bill );
 		}
 
 		if ( ! $this->preAuth ) {
@@ -84,7 +84,7 @@ class Bisons_Membership {
 	public function remoteFindPreAuth( $id ) {
 
 		if ( WP_DEBUG ) {
-			$this->logRequest('remoteFindPreAuth', $id);
+			$this->logRequest( 'remoteFindPreAuth', $id );
 		}
 
 		try {
@@ -277,12 +277,19 @@ class Bisons_Membership {
 
 		update_user_meta( $userID, 'joined', 1 );
 
-		$newUserInfo = array(
-			'ID'         => $userID,
-			'user_email' => $post['email_addy'],
-			'first_name' => $post['firstname'],
-			'last_name'  => $post['surname'],
-		);
+		$newUserInfo = array( 'ID' => $userID );
+
+		if ( isset ( $post['email_addy'] ) ) {
+			$newUserInfo['user_email'] = $post['email_addy'];
+		}
+
+		if ( isset ( $post['first_name'] ) ) {
+			$newUserInfo['first_name'] = $post['first_name'];
+		}
+
+		if ( isset ( $post['last_name'] ) ) {
+			$newUserInfo['surname'] = $post['last_name'];
+		}
 
 		wp_update_user( $newUserInfo );
 
@@ -340,15 +347,12 @@ class Bisons_Membership {
 			'supportermembershiptypemonthly',
 			'playermembershiptypesingle',
 			'supportermembershiptypesingle'
-
 		);
-
 
 		foreach ( $singlelinefields as $fieldname ) {
 			if ( isset ( $post[ $fieldname ] ) ) {
 				update_user_meta( $userID, $fieldname, $post[ $fieldname ] );
 			}
-
 		}
 
 
@@ -418,7 +422,6 @@ class Bisons_Membership {
 		}
 
 		update_user_meta( $userID, 'lastModified', time() );
-		update_user_meta( $userID, 'memtype', $post['memtype'] );
 	}
 
 
@@ -626,8 +629,6 @@ class Bisons_Membership {
 	}
 
 
-
-
 	function getStatus( $id ) {
 		if ( get_user_meta( $id, 'payMethod', true ) == 'sp' ) {
 
@@ -643,7 +644,7 @@ class Bisons_Membership {
 				'tax_query'  => $taxQuery
 			);
 
-			$query = new WP_Query( $queryArray );
+			$query     = new WP_Query( $queryArray );
 			$dd_status = $query->post_count ? 'Paid in Full' : 'Unpaid';
 
 		} else {
@@ -765,13 +766,13 @@ class Bisons_Membership {
 
 	private function logRequest( $function, $vars ) {
 
-		$f = __DIR__ . '/../logs/membership.requests.log';
+		$f  = __DIR__ . '/../logs/membership.requests.log';
 		$fh = fopen( $f, 'a' );
 		fwrite( $fh, "\n==$function()==" );
-		fwrite( $fh, "\nDate:" . date('Y-m-d h:i:s') );
-		fwrite( $fh,"\nData:\n" . print_r( $vars, true ) . "\n");
+		fwrite( $fh, "\nDate:" . date( 'Y-m-d h:i:s' ) );
+		fwrite( $fh, "\nData:\n" . print_r( $vars, true ) . "\n" );
 		fwrite( $fh, "==END==\n" );
-		fclose($fh);
+		fclose( $fh );
 	}
 }
 

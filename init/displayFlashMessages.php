@@ -5,14 +5,16 @@ global $bisonsMembership;
 
 $status = $bisonsMembership->getStatus( get_current_user_id() );
 
-$hasJoined                      = get_user_meta( get_current_user_id(), 'joined', true );
-$noDD                           = 'None' === $status;
-$DDCancelled                    = 'cancelled' === $status;
-$validFlashMessageInQueryString = wp_verify_nonce( $_GET['nonce'],
-		'bisonsFlashmessageNonce' ) && isset( $_GET['flash'] );
+$hasJoined   = get_user_meta( get_current_user_id(), 'joined', true );
+$noDD        = 'None' === $status;
+$DDCancelled = 'cancelled' === $status;
 
+if ( isset ( $_GET['nonce'] ) ) {
+	$validFlashMessageInQueryString = wp_verify_nonce( $_GET['nonce'],
+			'bisonsFlashmessageNonce' ) && isset( $_GET['flash'] );
+}
 
-if ( $validFlashMessageInQueryString ) {
+if ( isset ( $validFlashMessageInQueryString ) ) {
 
 	$bisonPlayersFlashMessage[] = array(
 		'priority' => 10000,
