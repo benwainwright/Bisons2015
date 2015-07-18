@@ -124,6 +124,7 @@ if ( ! $didConfirm && $membershipIsActive ) {
 			$flashMessage = "Moving your payment date to the <strong>$newPaymentString</strong> would mean moving your next payment date $forwardOrBack by <strong>" . $diffDays .
 			                "</strong>. To account for this, your next payment (which will be charged on the <strong>$hypDate</strong>) " .
 			                "will be $increasedOrReduced by <strong>$difference</strong> to <strong>$nextFee</strong>. All following payments will be made at the usual amount of <strong>$currentFee</strong>" .
+			                "<input type='hidden' name='payMethod' value='" . $_POST['payMethod'] . "' /> " .
 			                "<input type='hidden' name='payWhen' value='" . $_POST['payWhen'] . "' /> " .
 			                "<input type='hidden' name='dayOfMonth' value='" . $_POST['dayOfMonth'] . "' /> " .
 			                "<input type='hidden' name='whichWeekDay' value='" . $_POST['whichWeekDay'] . "' /> " .
@@ -167,7 +168,7 @@ if ( ! $didConfirm && $membershipIsActive ) {
 		$nextDate = date( 'Y-m-d', $bisonsMembership->nextPaymentDate( $formUser ) );
 
 		// Cancel all unpaid bills
-		$unpaidBills = $bisonsMembership->preAuth->fetch_sub_resources('bills', array( 'paid' => 'false' ));
+		$unpaidBills = $bisonsMembership->preAuth->fetch_sub_resource('bills', array( 'paid' => 'false' ));
 		foreach ( $unpaidBills as $bill ) {
 			if ($bill->can_be_cancelled) {
 				$bill->cancel();
