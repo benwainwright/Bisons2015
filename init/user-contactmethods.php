@@ -15,6 +15,11 @@ function modifyContactMethods( $fields ) {
 		$fields['whichWeekDay']    = 'whichWeekDay';
 		$fields['weekDay']         = 'weekDay';
 		$fields['nextPaymentDate'] = 'nextPaymentDate';
+		$fields['joiningas'] = 'joiningas';
+		$fields['playermembershiptypemonthly'] = 'playermembershiptypemonthly';
+		$fields['playermembershiptypesingle'] = 'playermembershiptypesingle';
+		$fields['supportermembershiptypemonthly'] = 'supportermembershiptypemonthly';
+		$fields['supportermembershiptypesingle'] = 'supportermembershiptypesingle';
 	}
 
 	return $fields;
