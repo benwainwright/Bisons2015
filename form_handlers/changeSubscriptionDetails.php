@@ -129,7 +129,7 @@ if ( ! $didConfirm && $membershipIsActive ) {
 			                "<input type='hidden' name='dayOfMonth' value='" . $_POST['dayOfMonth'] . "' /> " .
 			                "<input type='hidden' name='whichWeekDay' value='" . $_POST['whichWeekDay'] . "' /> " .
 			                "<input type='hidden' name='weekDay' value='" . $_POST['weekDay'] . "' /> " .
-			                "<input type='hidden' name='nextFee' value='$nextFee' /> " .
+			                "<input type='hidden' name='nextFee' value='{$nextFeeData['nextFee']}' /> " .
 			                "<input type='hidden' name='nonce' value=" . wp_create_nonce( 'wordpress_form_submit' ) . " />" .
 			                "<input type='hidden' name='wp_form_id' value='changeSubscriptionDetails' />";
 
@@ -170,8 +170,10 @@ if ( ! $didConfirm && $membershipIsActive ) {
 		// Cancel all unpaid bills
 		$unpaidBills = $bisonsMembership->preAuth->fetch_sub_resource('bills', array( 'paid' => 'false' ));
 		foreach ( $unpaidBills as $bill ) {
-			if ($bill->can_be_cancelled) {
-				$bill->cancel();
+			$getBill = $bisonsMembership->remoteFindBill( $bill->id );
+
+			if ( $getBill->can_be_cancelled && $getBill->name !== 'BisonsRFC Social Top') {
+				$getBill->cancel();
 			}
 		}
 
