@@ -21,7 +21,6 @@ function prepare_pages( $the_query )
 	        }
 		}
 
-	    $wp_query->query_vars['id'];
     }
 
 }
