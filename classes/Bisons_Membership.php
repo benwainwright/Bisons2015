@@ -96,6 +96,21 @@ class Bisons_Membership {
 
 	}
 
+	public function remoteFindBill( $id ) {
+
+		if ( WP_DEBUG ) {
+			$this->logRequest( 'remoteFindBill', $id );
+		}
+
+		try {
+			return GoCardless_Bill::find($id);
+		} catch ( Exception $e ) {
+			;
+			$this->error( $e, $id );
+		}
+
+	}
+
 	/**
 	 * Given a user id, this function will calculate when the next payment should be
 	 * based on user settings in the database
@@ -474,6 +489,9 @@ class Bisons_Membership {
 
 		if ( $confirmed_resource ) {
 
+			if ( isset( $this->$goCardlessURL ) ) {
+				$this->$goCardlessURL = null;
+			}
 
 			$vars = explode( '+', $queryString['state'] );
 			$type = $vars[0];
