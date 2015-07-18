@@ -37,6 +37,11 @@ class Bisons_Membership {
 
 
 	public function remoteConfirmPreauth( $confirm_params ) {
+
+		if ( WP_DEBUG ) {
+			$this->logRequest('remoteConfirmPreauth', $confirm_params);
+		}
+
 		try {
 			return GoCardless::confirm_resource( $confirm_params );
 
@@ -46,6 +51,11 @@ class Bisons_Membership {
 	}
 
 	public function remotePreAuthURL( $preAuthDetails ) {
+
+		if ( WP_DEBUG ) {
+			$this->logRequest('remotePreAuthURL', $preAuthDetails);
+		}
+
 		try {
 			return GoCardless::new_pre_authorization_url( $preAuthDetails );
 
@@ -56,6 +66,9 @@ class Bisons_Membership {
 
 	public function remoteCreatePreauthBill( $bill ) {
 
+		if ( WP_DEBUG ) {
+			$this->logRequest('remoteCreatePreauthBill', $bill);
+		}
 
 		if ( ! $this->preAuth ) {
 			$this->remoteFindPreAuth( $this->GCLid );
@@ -69,6 +82,10 @@ class Bisons_Membership {
 	}
 
 	public function remoteFindPreAuth( $id ) {
+
+		if ( WP_DEBUG ) {
+			$this->logRequest('remoteFindPreAuth', $id);
+		}
 
 		try {
 			$this->preAuth = GoCardless_PreAuthorization::find( $id );
@@ -743,6 +760,18 @@ class Bisons_Membership {
 		fwrite( $fh, "\n==START==" );
 		fwrite( $fh, $message );
 		fwrite( $fh, "==END==\n" );
+		fclose( $fh );
+	}
+
+	private function logRequest( $function, $vars ) {
+
+		$f = __DIR__ . '/../logs/membership.requests.log';
+		$fh = fopen( $f, 'a' );
+		fwrite( $fh, "\n==$function()==" );
+		fwrite( $fh, "\nDate:" . date('Y-m-d h:i:s') );
+		fwrite( $fh,"\nData:\n" . print_r( $vars, true ) . "\n");
+		fwrite( $fh, "==END==\n" );
+		fclose($fh);
 	}
 }
 
