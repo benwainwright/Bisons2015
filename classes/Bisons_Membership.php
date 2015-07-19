@@ -96,11 +96,11 @@ class Bisons_Membership {
 
 	}
 
-	public function remoteFindBill( $id ) {
+		public function remoteFindBill( $id ) {
 
-		if ( WP_DEBUG ) {
-			$this->logRequest( 'remoteFindBill', $id );
-		}
+			if ( WP_DEBUG ) {
+				$this->logRequest( 'remoteFindBill', $id );
+			}
 
 		try {
 			return GoCardless_Bill::find($id);

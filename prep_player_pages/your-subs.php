@@ -63,7 +63,8 @@ if ( get_user_meta( $formUser, 'joined', true ) ) {
 
 	}
 
-	$data['description'] = get_post_meta($feeid, 'fee-description', true);
+
+	$data['description'] = isset( $feeid ) ? get_post_meta($feeid, 'fee-description', true) : '';
 
 
 	$data['user']            = $formUser;

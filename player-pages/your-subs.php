@@ -40,7 +40,7 @@ if ( $bisonsMembership->goCardlessURL ) : ?>
 		</tr>
 
 		<?php if ( 'Player' === get_user_meta($d['user'], 'joiningas', true) ): ?>
-		<tr id="playermempaymonthly"<?php if ( 'dd' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>'>
+		<tr id="playermempaymonthly"<?php if ( 'dd' !== get_user_meta($d['user'], 'payMethod', true) ) { echo ' style="display:none;"'; } ?>'>
 			<th>Type</th>
 			<td>
 				<select class='feesSelect' name="playermembershiptypemonthly">
@@ -58,7 +58,7 @@ if ( $bisonsMembership->goCardlessURL ) : ?>
 			</td>
 		</tr>
 
-		<tr id="playermempaysingle"<?php if ( 'sp' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
+		<tr id="playermempaysingle"<?php if ( 'sp' !== get_user_meta($d['user'], 'payMethod', true) ) { echo ' style="display:none;"'; } ?>>
 			<th>Type</th>
 			<td>
 				<select class='feesSelect' name="playermembershiptypesingle">
@@ -76,7 +76,7 @@ if ( $bisonsMembership->goCardlessURL ) : ?>
 		</tr>
 			<?php elseif ( 'Supporter' === get_user_meta($d['user'], 'joiningas', true) ): ?>
 
-		<tr id="supporterfees"<?php if ( 'dd' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
+		<tr id="supporterfees"<?php if ( 'dd' !== get_user_meta($d['user'], 'payMethod', true) ) { echo ' style="display:none;"'; } ?>>
 
 			<th>Type</th>
 			<td>
@@ -93,7 +93,7 @@ if ( $bisonsMembership->goCardlessURL ) : ?>
 				</select>
 			</td>
 		</tr>
-		<tr id="supportermempaysingle"<?php if ( 'sp' !== get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
+		<tr id="supportermempaysingle"<?php if ( 'sp' !== get_user_meta($d['user'], 'payMethod', true) ) { echo ' style="display:none;"'; } ?>>
 			<th>Type</th>
 			<td>
 				<select class='feesSelect' name="supportermembershiptypesingle">
@@ -110,7 +110,7 @@ if ( $bisonsMembership->goCardlessURL ) : ?>
 			</td>
 		</tr>
 		<?php endif ?>
-		<tr>
+		<tr<?php if ('' == $d['description']) { echo ' style="display:none"'; } ?> id="descriptionRow">
 			<th>Description</th>
 			<td id="description"><?php echo $d['description'] ?></td>
 		</tr>
@@ -120,7 +120,7 @@ if ( $bisonsMembership->goCardlessURL ) : ?>
 			<th>Status</th>
 			<td><?php echo $d['paymentInfo']['Subscription Status'] ?></td>
 		</tr>
-		<tr>
+		<tr<?php if (0 == $d['currentMonthlyFee']) { echo ' style="display:none"'; } ?> id="feeRow">
 			<th>Fee</th>
 			<td id="amountToPay"><?php echo money_format( '%n', (int) $d['currentMonthlyFee'] ) ?></td>
 		</tr>
@@ -137,7 +137,7 @@ if ( $bisonsMembership->goCardlessURL ) : ?>
 			</tr>
 		<?php endif ?>
 
-		<tr class="ddOnly"<?php if ( 'sp' === get_user_meta($d['user'], 'payMethod', true) ) { echo 'style="display:none;"'; } ?>>
+		<tr class="ddOnly"<?php if ( 'sp' === get_user_meta($d['user'], 'payMethod', true) ) { echo ' style="display:none;"'; } ?>>
 			<th>Paid On</th>
 			<td>
 				<select id='payWhen' name='payWhen'>
