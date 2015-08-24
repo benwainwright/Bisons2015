@@ -57,8 +57,8 @@ $homeaway = get_post_meta(get_the_id(), 'fixture-home-away', true);
                   <?php if (is_single()) { ?>
               <ul class='extra'>
                   <li><i class='fa fa-map-marker'></i>Location<span itemprop="location"><br /><a href='http://maps.google.com?q=<?php echo strip_tags($address); ?>'><?php echo $address; ?></a></span></li>
-                  <li<i class='fa fa-clock-o'></i><strong>Kickoff</strong><br /><?php echo $kickoff; ?></li>
-                  <li<i class='fa fa-clock-o'></i><strong>Players Arrive</strong><br /><?php echo $playtme; ?></li>
+                  <li><i class='fa fa-clock-o'></i><strong>Kickoff</strong><br /><?php echo $kickoff; ?></li>
+                  <li><i class='fa fa-clock-o'></i><strong>Players Arrive</strong><br /><?php echo $playtme; ?></li>
                   <?php if($fixface) : ?><li class='fa fa-facebook-square'><a href='<?php echo $fbevent; ?>'>Facebook Event</a></li><?php endif ?>
               </ul>
                   <?php } ?>
