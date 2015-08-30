@@ -240,29 +240,36 @@ class Bisons_Membership {
 
 		$emailOptions = get_option( 'email-settings-page' );
 
-		$to = array(
-			array(
-				'name'  => 'Membership Secretary',
+		$toNewUser = array();
+
+		if ( $emailOptions['member-email-send-to-email'] ) {
+			$toNewUser[] = array(
+				'name'  => 'Committee Member',
 				'email' => $emailOptions['member-email-send-to-email']
-			)
-		);
-
-
-		if ( ! get_user_meta( $this->user, 'joined' ) ) {
-			$emailTemplate = 'new-user-registered';
-			$this->updateMembershipInfo();
-			wp_redirect( wp_url( '/players-area/payment' ) );
-			exit;
-		} else {
-			$emailTemplate = 'membership-details-updated';
-			$this->updateMembershipInfo();
-			$message = 'Details updated.... Thanks!';
+			);
 		}
 
-		$bisonPlayersFlashMessage[] = array(
-			'priority' => 100,
-			'message'  => $message
-		);
+		if ( $emailOptions['member-email-send-to-email'] ) {
+			$toNewUser[] = array(
+				'name'  => 'Committee Member',
+				'email' => $emailOptions['member-email-send-to-email-2']
+			);
+		}
+
+		if ( $emailOptions['member-update-send-to-email'] ) {
+			$updateUser[] = array(
+				'name'  => 'Committee Member',
+				'email' => $emailOptions['member-email-send-to-email-2']
+			);
+		}
+
+		if ( $emailOptions['member-update-send-to-email-2'] ) {
+			$updateUser[] = array(
+				'name'  => 'Committee Member',
+				'email' => $emailOptions['member-update-send-to-email-2']
+			);
+		}
+
 
 		switch ( $this->postData['gender'] ) {
 			case "Male":
@@ -286,8 +293,25 @@ class Bisons_Membership {
 			'heHas'       => $heHas
 		);
 
-		send_mandrill_template( $to, $emailTemplate, $data, array( 'membership' ), 'Membership Details Updated',
-			'no-reply@bisonsrfc.co.uk', 'Bristol Bisons RFC' );
+		if ( ! get_user_meta( $this->user, 'joined' ) ) {
+			$this->updateMembershipInfo();
+			send_mandrill_template( $toNewUser, 'new-user-registered', $data, array( 'membership' ), 'New Membership',
+				'no-reply@bisonsrfc.co.uk', 'Bristol Bisons RFC' );
+			wp_redirect( wp_url( '/players-area/payment' ) );
+			exit;
+		} else {
+			send_mandrill_template( $toNewUser, 'membership-details-updated', $data, array( 'membership' ), 'New Membership',
+				'no-reply@bisonsrfc.co.uk', 'Bristol Bisons RFC' );
+			$this->updateMembershipInfo();
+			$message = 'Details updated.... Thanks!';
+		}
+
+		$bisonPlayersFlashMessage[] = array(
+			'priority' => 100,
+			'message'  => $message
+		);
+
+
 
 	}
 
