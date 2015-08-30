@@ -69,6 +69,21 @@ li li {
 list-style:circle;
 }
 
+tr.updated, div.updated {
+outline: #FF5ABB 1px solid;
+}
+
+td.updated, th.updated, span.updated {
+color: #FF5ABB;
+font-weight:bold;
+}
+
+#riskFactors {
+background-color: white;
+border: 1px solid #e5e5e5;
+padding: 0px 10px;
+}
+
 .fixture-reports-results-list li {
 list-style:none;
 }
