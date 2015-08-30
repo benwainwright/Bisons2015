@@ -133,39 +133,7 @@
 				</tbody>
 			</table>
 
-			<?php
-				global $bisonsMembership;
-				$paymentInfo = $bisonsMembership->getPaymentInfo($_GET['user_id']);
-
-					if ( $paymentInfo['Last Bill'] > 0 ) {
-
-						$age = human_time_diff(time(), $paymentInfo['Last Bill']) . ' ago';
-						$paymentInfo['Last Bill'] = date('g:i a, jS \o\f M Y', $paymentInfo['Last Bill']) . " ($age)";
-					}
-						if ($paymentInfo['Total Refunded'] > 0) {
-							$paymentInfo['Net Total'] = money_format('%n', $paymentInfo['Total Paid'] - $paymentInfo['Total Refunded']);
-							$paymentInfo['Total Refunded'] = money_format('%n', (int)$paymentInfo['Total Refunded'] );
-						}
-
-						else {
-							unset ($paymentInfo['Total Refunded']);
-						}
-						$paymentInfo['Total Paid'] = money_format('%n', $paymentInfo['Total Paid'] );
-					?>
-
-					<h3>Payment and Membership</h3>
-						<table class='widefat memberData'>
-							<tbody>
-							<?php foreach ( $paymentInfo as $label => $data ) : ?>
-								<?php if ($data) : ?>
-									<tr>
-										<th><?php echo $label?></th>
-										<th><?php echo $data?></th>
-									</tr>
-								<?php endif ?>
-							<?php endforeach ?>
-							</tbody>
-						</table>
+	
 
 			<?php if ( $totalPoss > 0 ) : ?>
 			<h3>Attendance</h3>
