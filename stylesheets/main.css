@@ -1210,7 +1210,7 @@ p.important {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    margin:1em 0;
+    margin:0;
 }
 
 fieldset table th {
