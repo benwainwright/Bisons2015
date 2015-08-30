@@ -69,11 +69,11 @@ li li {
 list-style:circle;
 }
 
-tr.updated, div.updated {
+tr.bisonsUpdated, div.bisonsUpdated {
 outline: #FF5ABB 1px solid;
 }
 
-td.updated, th.updated, span.updated {
+td.bisonsUpdated, th.bisonsUpdated, span.bisonsUpdated {
 color: #FF5ABB;
 font-weight:bold;
 }

@@ -5,7 +5,7 @@
 		<h2>Member Details</h2>
 		<p>
 			<?php endif ?>Information held by the club is only to be used in accordance with club business and in line with the provisions of the <a href="https://en.wikipedia.org/wiki/Data_Protection_Act_1998">Data Protection Act</a>. Any items that have been
-			<span class="updated">recently updated</span> will be marked pink.
+			<span class="bisonsUpdated">recently updated</span> will be marked pink.
 		</p>
 	<p><?php if (get_user_meta($_GET['user_id'],'lastModified', true)) : ?>
 		<em>Last updated on the <?php echo date('jS \\of F, Y', get_user_meta($_GET['user_id'],'lastModified', true)) ?>.</em></p>
@@ -36,7 +36,7 @@
 
 				if ( array_search( $key, $updatedFields ) !== false ) {
 					$factorsChanged = true;
-					$factorString = "<span class='updated'>$factor</span>";
+					$factorString = "<span class='bisonsUpdated'>$factor</span>";
 				}
 
 				else {
@@ -296,13 +296,13 @@
 
 					?>
 					<tr<?php if ( $row[0] ) {
-						echo ' class="updated"'; } ?>>
+						echo ' class="bisonsUpdated"'; } ?>>
 						<th<?php if ( $row[0] ) {
-							echo ' class="updated"'; } ?>>
+							echo ' class="bisonsUpdated"'; } ?>>
 							<?php echo $label ?>
 						</th>
 						<td<?php if ( $row[0] ) {
-							echo ' class="updated"'; } ?>>
+							echo ' class="bisonsUpdated"'; } ?>>
 							<?php echo $row[1] ?>
 						</td>
 					</tr>
@@ -310,7 +310,7 @@
 			</table>
 		<?php endforeach ?>
 		<h3>Risk Factors</h3>
-		<div<?php if ($factorsChanged) echo " class='updated'" ?> id="riskFactors">
+		<div<?php if ($factorsChanged) echo " class='bisonsUpdated'" ?> id="riskFactors">
 		<?php if (count ( $myFactors) > 0 ) : ?>
 		<p><strong><?php echo $myFactorsString ?>.</strong></p>
 			<?php else : ?>
@@ -345,7 +345,7 @@
 							<?php foreach ( $row as $data ) : foreach ( $data as $key => $part ) : ?>
 								<?php if ( ! is_int( $key ) ) {
 									if ( $data[0] ) {
-										echo "<td class='updated'>";
+										echo "<td class='bisonsUpdated'>";
 									} else {
 										echo "<td>";
 									}
