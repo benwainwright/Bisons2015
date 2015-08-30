@@ -236,17 +236,23 @@ class Bisons_Membership {
 
 	public function joinClub() {
 
-		$this->updateMembershipInfo();
-
-		return $this->getGCLUrl();
-
 		global $bisonPlayersFlashMessage;
+
+		if ( ! get_user_meta( $this->user, 'joined' ) ) {
+
+			$this->updateMembershipInfo();
+			wp_redirect( wp_url( '/players-area/payment' ) );
+			exit;
+		} else {
+
+			$this->updateMembershipInfo();
+			$message = 'Details updated.... Thanks!';
+		}
 
 		$bisonPlayersFlashMessage[] = array(
 			'priority' => 100,
-			'message'  => 'In a moment, you will be redirected to a direct debit mandate form at GoCardless. Once you have finished setting up your payment information, you will be returned to this site. See you in a bit!'
+			'message'  => $message
 		);
-
 	}
 
 	// TODO sanitize input
@@ -609,8 +615,6 @@ class Bisons_Membership {
 	}
 
 
-
-
 	function getStatus( $id ) {
 		if ( get_user_meta( $id, 'payMethod', true ) == 'sp' ) {
 
@@ -626,7 +630,7 @@ class Bisons_Membership {
 				'tax_query'  => $taxQuery
 			);
 
-			$query = new WP_Query( $queryArray );
+			$query     = new WP_Query( $queryArray );
 			$dd_status = $query->post_count ? 'Paid in Full' : 'Unpaid';
 
 		} else {
