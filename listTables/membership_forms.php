@@ -56,11 +56,9 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 				'roles'          => $user->roles,
 				'joined'         => get_user_meta( $user->ID, 'joined', true ),
 				'user_id'        => $user->data->ID,
-				'DD_sub_id'      => get_user_meta( $user->ID, 'GCLSubID', true ),
 				'lastModified'   => get_user_meta( $user->ID, 'lastModified', true ),
 				'lastAttended'   => $attendance[ $user->ID ]['lastAttended'],
 				'presentPercent' => $totalPossible ? (int) round( ( 100 / $totalPossible ) * $present ) : 0,
-				'dd_status'      => $dd_status ? $dd_status : 'None',
 				'fullname'       => $user->first_name . ' ' . $user->last_name,
 				'type'           => get_user_meta( $user->ID, 'joiningas', true ) ? get_user_meta( $user->ID,
 					'joiningas', true ) : 'N/A',
@@ -99,7 +97,6 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			'type'           => 'Type',
 			'lastModified'   => 'Last Modified',
 			'lastAttended'   => 'Last Attended',
-			'dd_status'      => 'Payment',
 			'age'            => 'Age',
 			'email'          => 'Email'
 		);
@@ -141,7 +138,6 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		$columns = array(
 			'fullname'       => array( 'fullname', false ),
 			'joined'         => array( 'joined', false ),
-			'dd_status'      => array( 'dd_status', false ),
 			'presentPercent' => array( 'presentPercent', false ),
 			'lastModified'   => array( 'lastModified', false ),
 			'lastAttended'   => array( 'lastAttended', false ),
@@ -163,29 +159,17 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		usort( $this->rawData, array( &$this, 'usort_reorder' ) );
 
 		// Compiled filtered rows
-		$this->paidRows       = array();
-		$this->cancelledRows  = array();
 		$this->notJoinedRows  = array();
 		$this->supportersRows = array();
-		$this->noPayment      = array();
 
 		foreach ( $this->rawData as $key => $row ) {
 
-			if ( $row['dd_status'] == 'Paid in Full' || $row['dd_status'] == 'active' ) {
-				$this->paidRows[] = $row;
-			}
 
 			if ( $row['joined'] == false ) {
 				$this->notJoinedRows[] = $row;
 			}
 
-			if ( $row['dd_status'] == 'cancelled' ) {
-				$this->cancelledRows[] = $row;
-			}
 
-			if ( $row['dd_status'] == 'None' || $row['dd_status'] == 'cancelled' || $row['dd_status'] == 'expired' || $row['dd_status'] == 'inactive' ) {
-				$this->noPayment[] = $row;
-			}
 
 			if ( $row['type'] == 'Supporter' ) {
 				$this->supportersRows[] = $row;
@@ -207,21 +191,11 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 		// If requested, swap them into the main data array
 		switch ( $_GET['filter'] ) {
-			case "paid":
-				$this->data = $this->paidRows;
-				break;
-
-			case "cancelleddd":
-				$this->data = $this->cancelledRows;
-				break;
 
 			case "notjoined":
 				$this->data = $this->notJoinedRows;
 				break;
 
-			case "nopayment":
-				$this->data = $this->noPayment;
-				break;
 
 			case "supporters":
 				$this->data = $this->supportersRows;
@@ -234,8 +208,6 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 			case "committee":
 				$this->data = $this->committeeMembers;
 				break;
-
-
 
 			default:
 				$this->data = $this->rawData;
@@ -299,29 +271,11 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 		$count        = count( $this->rawData );
 		$views['all'] = "<a href='{$url }' {$class} >All <span class='count'>($count)</span></a>";
 
-		// Paid
-		$class         = ( $current == 'paid' ? ' class="current"' : '' );
-		$url           = add_query_arg( 'filter', 'paid' );
-		$count         = count( $this->paidRows );
-		$views['paid'] = "<a href='{$url }' {$class} >Paid <span class='count'>($count)</span></a>";
-
 		// Not joined link
 		$class               = ( $current == 'notjoined' ? ' class="current"' : '' );
 		$url                 = add_query_arg( 'filter', 'notjoined' );
 		$count               = count( $this->notJoinedRows );
 		$views['not_joined'] = "<a href='{$url }' {$class} >Not Joined <span class='count'>($count)</span></a>";
-
-		// No Payment
-		$class               = ( $current == 'nopayment' ? ' class="current"' : '' );
-		$url                 = add_query_arg( 'filter', 'nopayment' );
-		$count               = count( $this->noPayment );
-		$views['no_payment'] = "<a href='{$url }' {$class} >No Payment <span class='count'>($count)</span></a>";
-
-		// Cancelled DD link
-		$class                = ( $current == 'cancelleddd' ? ' class="current"' : '' );
-		$url                  = add_query_arg( 'filter', 'cancelleddd' );
-		$count                = count( $this->cancelledRows );
-		$views['cancelleddd'] = "<a href='{$url }' {$class} >Cancelled DD <span class='count'>($count)</span></a>";
 
 		// Supporters
 		$class               = ( $current == 'supporters' ? ' class="current"' : '' );
@@ -350,11 +304,6 @@ class Membership_Forms_Table extends WP_List_Table_Copy {
 
 	}
 
-	function column_dd_status( $item ) {
-		$status = ucwords ( $item['dd_status'] );
-		$class = str_replace(' ', '_', $status);
-		return "<span class='dd_$class'>$status</span>";
-	}
 
 	function column_joined( $item ) {
 		$return = $item ['joined'] ? 'Yes' : 'No';
