@@ -10,7 +10,7 @@
 
 	<?php } ?>
 	<?php if (get_user_meta(get_current_user_id(), 'joined', true)) : ?>
-		<li><a href='<?php echo site_url('players-area/payment') ?>'><i class='fa fa-credit-card'></i>Payment</a></li> -->
+		<li><a href='<?php echo site_url('players-area/payment') ?>'><i class='fa fa-credit-card'></i>Payment</a></li>
 		<li><a href='<?php echo site_url('players-area/membership-form') ?>'><i class='fa fa-info'></i>Details</a></li>
 		<li><a href='<?php echo site_url('players-area/player-profile') ?>'><i class='fa fa-user'></i>Profile</a></li>
 	<?php else : ?>
