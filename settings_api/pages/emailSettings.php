@@ -100,16 +100,8 @@ function initialize_email_settings( )
 
 	add_settings_section( 'member-email-settings-section', 'Member information emails', 'email_settings_member_info_callback', 'email-settings-page' );
 
-	$args = array( 'member-email-send-to-text', 'email-settings-page' );
-	add_settings_field( 'member-email-send-to-text', 'Send Member Updates to', 'singleline_input_field', 'email-settings-page', 'member-email-settings-section', $args );
-
-	add_settings_section( 'guest-nag-email-settings-section', 'Guest Member Nag Email', 'email_settings_guest_nag_callback', 'email-settings-page' );
-
-	$args = array( 'guest-nag-email-initial-interval', 'email-settings-page', 'The interval (in days) after which the first email will be sent.');
-	add_settings_field( 'guest-nag-email-initial-interval', 'Initial email interval', 'number_input_field', 'email-settings-page', 'guest-nag-email-settings-section', $args);
-
-	$args = array( 'guest-nag-email-later-interval', 'email-settings-page', 'The interval (in days) between which guest players will be sent the nag email (after the initial email has been sent).');
-	add_settings_field( 'guest-nag-email-later-interval', 'Reminder email frequency', 'number_input_field', 'email-settings-page', 'guest-nag-email-settings-section', $args);
+	$args = array( 'member-email-send-to-email', 'email-settings-page' );
+	add_settings_field( 'member-email-send-to-email', 'Send Member Updates to', 'singleline_input_field', 'email-settings-page', 'member-email-settings-section', $args );
 
 	register_setting( 'email-settings-page', 'email-settings-page' );
 }
