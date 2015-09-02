@@ -135,7 +135,7 @@
 			       get_user_meta( $_GET['user_id'], 'dob-year', true );
 
 			if ( get_user_meta( $_GET['user_id'], 'nokstreetaddy', true ) ) {
-				$nokAddy[] = get_user_meta( $_GET['user_id'], 'nokstreetaddy', true );
+				$nokAddy[] = str_replace("\n", '<br />', get_user_meta( $_GET['user_id'], 'nokstreetaddy', true ));
 			}
 			if ( get_user_meta( $_GET['user_id'], 'nokpostcode', true ) ) {
 				$nokAddy[] = get_user_meta( $_GET['user_id'], 'nokpostcode', true );
@@ -183,7 +183,7 @@
 					'Address'        => array(
 						array( 'sameaddress', 'nokstreetaddy', 'nokpostcode' ),
 						get_user_meta( $_GET['user_id'], 'sameaddress',
-							true ) == 'Yes' ? $personalDetails['Street Address'] : implode( '<br />', $nokAddy )
+							true ) == 'Yes' ? implode('<br />', $streetAddy ) : implode( '<br />', $nokAddy )
 					)
 				),
 				'Other Info'  => array(
@@ -311,7 +311,7 @@
 		<h3>Risk Factors</h3>
 		<div<?php if ($factorsChanged) echo " class='bisonsUpdated'" ?>>
 		<?php if (count ( $myFactors) > 0 ) : ?>
-		<p><strong><?php echo $myFactorsString ?>.</strong></p>
+		<p class="wideFatP"><strong><?php echo $myFactorsString ?>.</strong></p>
 			<?php else : ?>
 			<p class="wideFatP"><em>None recorded...</em></p>
 			<?php endif ?>
