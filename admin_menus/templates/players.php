@@ -4,13 +4,12 @@
 
 		<h2>Member Details</h2>
 		<p>
-			<?php endif ?>Information held by the club is only to be used in accordance with club business and in line with the provisions of the <a href="https://en.wikipedia.org/wiki/Data_Protection_Act_1998">Data Protection Act</a>. Any items that have been
+			Information held by the club is only to be used in accordance with club business and in line with the provisions of the <a href="https://en.wikipedia.org/wiki/Data_Protection_Act_1998">Data Protection Act</a>. Any items that have been
 			<span class="bisonsUpdated">recently updated</span> will be marked pink.
 		</p>
 	<p><?php if (get_user_meta($_GET['user_id'],'lastModified', true)) : ?>
 		<em>Last updated on the <?php echo date('jS \\of F, Y', get_user_meta($_GET['user_id'],'lastModified', true)) ?>.</em></p>
-		<?php
-
+		<?php endif;
 		if ( get_user_meta( $_GET['user_id'], 'joined', true ) ) {
 
 			$updatedFields = get_user_meta( $_GET['user_id'], 'updatedFields', true );
