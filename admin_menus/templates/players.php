@@ -2,7 +2,7 @@
 	<?php if ( isset( $_GET['user_id'] ) ) : $user = get_user_by( 'id', $_GET['user_id'] ); ?>
 
 
-		<h2>Member Details</h2>
+		<h2>Member Details <a class="add-new-h2" href="<?php echo site_url('players-area/membership-form/?player_id=' . $_GET['user_id']) ?>">Edit Membership Form</a></h2>
 		<p>
 			Information held by the club is only to be used in accordance with club business and in line with the provisions of the <a href="https://en.wikipedia.org/wiki/Data_Protection_Act_1998">Data Protection Act</a>. Any items that have been
 			<span class="bisonsUpdated">recently updated</span> will be marked pink.
