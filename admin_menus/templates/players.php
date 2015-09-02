@@ -309,11 +309,11 @@
 			</table>
 		<?php endforeach ?>
 		<h3>Risk Factors</h3>
-		<div<?php if ($factorsChanged) echo " class='bisonsUpdated'" ?> id="riskFactors">
+		<div<?php if ($factorsChanged) echo " class='bisonsUpdated'" ?>>
 		<?php if (count ( $myFactors) > 0 ) : ?>
 		<p><strong><?php echo $myFactorsString ?>.</strong></p>
 			<?php else : ?>
-			<p><em>None recorded...</em></p>
+			<p class="wideFatP"><em>None recorded...</em></p>
 			<?php endif ?>
 		</div>
 		<?php foreach ( $varied as $title => $section ) : ?>
@@ -357,7 +357,7 @@
 					<?php endforeach ?>
 				</table>
 			<?php else : ?>
-				<p><em>None recorded...</em></p>
+				<p class="wideFatP"><em>None recorded...</em></p>
 
 			<?php endif ?>
 		<?php endforeach ?>

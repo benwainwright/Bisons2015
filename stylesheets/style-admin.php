@@ -78,10 +78,12 @@ color: #FF5ABB;
 font-weight:bold;
 }
 
-#riskFactors {
+.wideFatP {
 background-color: white;
 border: 1px solid #e5e5e5;
 padding: 0px 10px;
+margin:0;
+line-height:3em;
 }
 
 .fixture-reports-results-list li {
