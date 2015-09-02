@@ -446,6 +446,10 @@ table a img {
     margin-left: 1em;
 }
 
+.page img.buttonImage {
+    margin:0;
+}
+
 .post header a, .page header a {
     border-bottom: none;
 }
