@@ -48,6 +48,7 @@ function send_mandrill_template($user, $template, $data, $tags = false, $subject
     if ( is_array ($user[0])) {
         foreach ( $user as $address)
         {
+	        $address['type'] = isset ( $address['type']) ? $address['type'] : 'to';
             $to[] = array( 'name' => $address['name'], 'email' => $address['email'], 'type' => $address['type']);
         }
     } else {

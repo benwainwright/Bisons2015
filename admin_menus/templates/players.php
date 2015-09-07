@@ -1,329 +1,409 @@
 <div class="wrap">
-	<?php if (isset($_GET['user_id'])) : ?>
+	<?php if ( isset( $_GET['user_id'] ) ) : $user = get_user_by( 'id', $_GET['user_id'] ); ?>
 
 
-		<h2>Member Details</h2>
-		<p>Information below is held on behalf of the club and should remain confidential.</p>
-		<?php
+		<h2>Member Details <a class="add-new-h2" href="<?php echo site_url('players-area/membership-form/?player_id=' . $_GET['user_id']) ?>">Edit Membership Form</a></h2>
+		<p>
+			Information held by the club is only to be used in accordance with club business and in line with the provisions of the <a href="https://en.wikipedia.org/wiki/Data_Protection_Act_1998">Data Protection Act</a>. Any items that have been
+			<span class="bisonsUpdated">recently updated</span> will be marked pink.
+		</p>
+	<p><?php if (get_user_meta($_GET['user_id'],'lastModified', true)) : ?>
+		<em>Last updated on the <?php echo date('jS \\of F, Y', get_user_meta($_GET['user_id'],'lastModified', true)) ?>.</em></p>
+		<?php endif;
+		if ( get_user_meta( $_GET['user_id'], 'joined', true ) ) {
 
-		// Get bills table
-		$billsTable = new GCLBillsTable(array ( 'screen' => 'playerDetails', 'singular' => 'player', 'plural' => 'players' ));
-		$billsTable->prepare_items();
-		
+			$updatedFields = get_user_meta( $_GET['user_id'], 'updatedFields', true );
+			$updatedFields = is_array( $updatedFields ) ? $updatedFields : array( $updatedFields );
 
-		if ( get_user_meta( $_GET['user_id'], 'joined', true) ) {
+			$riskFactors = array(
+				'fainting' => 'Fainting',
+				'dizzyturns' => 'Dizzy Turns',
+				'breathlessness' => 'Breathlessness or more easily tired than teammates',
+				'bloodpressure' => 'History of high blood pressure',
+				'diabetes' => 'Diabetes',
+				'palpitations' => 'Heart palpitations',
+				'chestpain' => 'Chest pain or tightness',
+				'suddendeath' => 'Sudden death in immediate family of anyone under 50',
+				'smoking' => 'Smoking',
+			);
+
+			$myFactors = array();
+			$myFactorsStrings = array();
+			$factorsChanged = false;
+
+			foreach ( $riskFactors as $key => $factor ) {
+
+				if ( array_search( $key, $updatedFields ) !== false ) {
+					$factorsChanged = true;
+					$factorString = "<span class='bisonsUpdated'>$factor</span>";
+				}
+
+				else {
+					$factorString = $factor;
+				}
+
+
+				if ( get_user_meta ( $_GET['user_id'], $key, true ) ) {
+					$myFactorsStrings[] = $factorString;
+					$myFactors = $factor;
+				}
+			}
+
+			$myFactorsString = implode(', ', $myFactorsStrings);
+
+
+
+			$attendance = getAttendance()['players'][ $_GET['user_id'] ]['stats'];
+
+
+			for ( $i = 1; $i <= get_user_meta( $_GET['user_id'], 'condsdisablities_rowcount', true ); $i ++ ) {
+				$medCons[] = array(
+					array(
+						array( "condsdisablities_name_row$i" ),
+						'Condition' => get_user_meta( $_GET['user_id'], "condsdisablities_name_row$i", true )
+					),
+					array(
+						array( "condsdisablities_drugname_row$i" ),
+						'Medication' => get_user_meta( $_GET['user_id'], "condsdisablities_drugname_row$i", true )
+					),
+					array(
+						array( "condsdisablities_drugdose_freq_row$i" ),
+						'Dose' => get_user_meta( $_GET['user_id'], "condsdisablities_drugdose_freq_row$i", true )
+					)
+				);
+			}
+
+			for ( $i = 1; $i <= get_user_meta( $_GET['user_id'], 'allergies_rowcount', true ); $i ++ ) {
+				$allergies[] = array(
+					array(
+						array( "allergies_name_row$i" ),
+						'Condition' => get_user_meta( $_GET['user_id'], "allergies_name_row$i", true )
+					),
+					array(
+						array( "allergies_drugname_row$i" ),
+						'Medication' => get_user_meta( $_GET['user_id'], "allergies_drugname_row$i", true )
+					),
+					array(
+						array( "allergies_drugdose_freq_row$i" ),
+						'Dose' => get_user_meta( $_GET['user_id'], "allergies_drugdose_freq_row$i", true )
+					)
+				);
+			}
+
+			for ( $i = 1; $i <= get_user_meta( $_GET['user_id'], 'allergies_rowcount', true ); $i ++ ) {
+				$injuries[] = array(
+					array(
+						array( "injuries_name_row$i" ),
+						'What' => get_user_meta( $_GET['user_id'], "injuries_name_row$i", true )
+					),
+					array(
+						array( "injuries_when_row$i" ),
+						'When' => get_user_meta( $_GET['user_id'], "injuries_when_row$i", true )
+					),
+					array(
+						array( "injuries_treatmentreceived_row$i" ),
+						'Treatment' => get_user_meta( $_GET['user_id'], "injuries_treatmentreceived_row$i", true )
+					),
+					array(
+						array( "injuries_who_row$i" ),
+						'Who Treated' => get_user_meta( $_GET['user_id'], "injuries_who_row$i", true )
+					),
+					array(
+						array( "injuries_status_row$i" ),
+						'Status' => get_user_meta( $_GET['user_id'], "injuries_status_row$i", true )
+					),
+				);
+			}
 
 			$streetAddy = array();
-			if (get_user_meta( $_GET['user_id'], 'streetaddyl1', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'streetaddyl1', true);
-			if (get_user_meta( $_GET['user_id'], 'streetaddyl2', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'streetaddyl2', true);
-			if (get_user_meta( $_GET['user_id'], 'streetaddytown', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'streetaddytown', true);
-			if (get_user_meta( $_GET['user_id'], 'postcode', true)) $streetAddy[] = get_user_meta( $_GET['user_id'], 'postcode', true);
+			if ( get_user_meta( $_GET['user_id'], 'streetaddyl1', true ) ) {
+				$streetAddy['streetaddyl1'] = get_user_meta( $_GET['user_id'], 'streetaddyl1', true );
+			}
+			if ( get_user_meta( $_GET['user_id'], 'streetaddyl2', true ) ) {
+				$streetAddy['streetaddyl2'] = get_user_meta( $_GET['user_id'], 'streetaddyl2', true );
+			}
+			if ( get_user_meta( $_GET['user_id'], 'streetaddytown', true ) ) {
+				$streetAddy['streetaddytown'] = get_user_meta( $_GET['user_id'], 'streetaddytown', true );
+			}
+			if ( get_user_meta( $_GET['user_id'], 'postcode', true ) ) {
+				$streetAddy['postcode'] = get_user_meta( $_GET['user_id'], 'postcode', true );
+			}
+
 
 			$dob = get_user_meta( $_GET['user_id'], 'dob-month', true ) . '/' .
 			       get_user_meta( $_GET['user_id'], 'dob-day', true ) . '/' .
 			       get_user_meta( $_GET['user_id'], 'dob-year', true );
 
-
-			for ($i = 1; $i <= get_user_meta( $_GET['user_id'], 'condsdisablities_rowcount', true ); $i++) {
-				$medCons[]	= array(
-					'Condition'      => get_user_meta( $_GET['user_id'], "condsdisablities_name_row$i", true ),
-					'Medication'      => get_user_meta( $_GET['user_id'], "condsdisablities_drugname_row$i", true ),
-					'Dose' => get_user_meta( $_GET['user_id'], "condsdisablities_drugdose_freq_row$i", true )
-				);
+			if ( get_user_meta( $_GET['user_id'], 'nokstreetaddy', true ) ) {
+				$nokAddy[] = str_replace("\n", '<br />', get_user_meta( $_GET['user_id'], 'nokstreetaddy', true ));
 			}
-
-			for ($i = 1; $i <= get_user_meta( $_GET['user_id'], 'allergies_rowcount', true ); $i++) {
-				$allergies[]	= array(
-					'Condition'      => get_user_meta( $_GET['user_id'], "allergies_name_row$i", true ),
-					'Medication'      => get_user_meta( $_GET['user_id'], "allergies_drugname_row$i", true ),
-					'Dose' =>       get_user_meta( $_GET['user_id'], "allergies_drugdose_freq_row$i", true )
-				);
+			if ( get_user_meta( $_GET['user_id'], 'nokpostcode', true ) ) {
+				$nokAddy[] = get_user_meta( $_GET['user_id'], 'nokpostcode', true );
 			}
-
-			for ($i = 1; $i <= get_user_meta( $_GET['user_id'], 'allergies_rowcount', true ); $i++) {
-				$injuries[]	= array(
-					'What'        => get_user_meta( $_GET['user_id'], "injuries_name_row$i", true ),
-					'When'        => get_user_meta( $_GET['user_id'], "injuries_when_row$i", true ),
-					'Treatment'   => get_user_meta( $_GET['user_id'], "injuries_treatmentreceived_row$i", true ),
-					'Who Treated' => get_user_meta( $_GET['user_id'], "injuries_who_row$i", true ),
-					'Status'      => get_user_meta( $_GET['user_id'], "injuries_status_row$i", true ),
-				);
-			}
-
-
-			$user = get_user_by('id', $_GET['user_id']);
-			$personalDetails = array(
-				'Name'              => $user->display_name,
-				'Email'             => addMailToLink($user->user_email),
-				'Gender'            => get_user_meta( $_GET['user_id'], 'othergender', true ) ? get_user_meta( $_GET['user_id'], 'othergender', true ) : get_user_meta( $_GET['user_id'], 'gender', true ),
-				'Date of Birth'     => reformat_date($dob, 'jS \of F Y'),
-				'Age'               => getage($dob),
-				'Contact Number'    => addTelLink(get_user_meta( $_GET['user_id'], 'contact_number', true)),
-				'Street Address'    => implode('<br />', $streetAddy)
+			$details = array(
+				'Personal'    => array(
+					'Name'           => array(
+						array( 'firstname', 'surname' ),
+						$user->user_firstname . ' ' . $user->user_lastname
+					),
+					'Email'          => array( array( 'email_addy' ), addMailToLink( $user->user_email ) ),
+					'Gender'         => array(
+						array( 'gender', 'othergender' ),
+						get_user_meta( $_GET['user_id'], 'othergender', true ) ? get_user_meta( $_GET['user_id'],
+							'othergender', true ) : get_user_meta( $_GET['user_id'], 'gender', true )
+					),
+					'Date of Birth'  => array(
+						array( 'dob-day', 'dob-month', 'dob-year' ),
+						reformat_date( $dob, 'jS \of F Y' )
+					),
+					'Age'            => array( array(), getage( $dob ) ),
+					'Contact Number' => array(
+						array( 'contact_number' ),
+						addTelLink( get_user_meta( $_GET['user_id'], 'contact_number', true ) )
+					),
+					'Street Address' => array(
+						array( 'streetaddyl1', 'streetaddyl2', 'streetaddytown', 'postcode' ),
+						implode( '<br />', $streetAddy )
+					)
+				),
+				'Next of Kin' => array(
+					'Name'           => array(
+						array( 'nokfirstname', 'noksurname' ),
+						get_user_meta( $_GET['user_id'], 'nokfirstname', true ) . ' ' . get_user_meta( $_GET['user_id'],
+							'noksurname', true )
+					),
+					'Relationship'   => array(
+						array( 'nokrelationship' ),
+						get_user_meta( $_GET['user_id'], 'nokrelationship', true )
+					),
+					'Contact Number' => array(
+						array( 'nokcontactnumber' ),
+						addTelLink( get_user_meta( $_GET['user_id'], 'nokcontactnumber', true ) )
+					),
+					'Address'        => array(
+						array( 'sameaddress', 'nokstreetaddy', 'nokpostcode' ),
+						get_user_meta( $_GET['user_id'], 'sameaddress',
+							true ) == 'Yes' ? implode('<br />', $streetAddy ) : implode( '<br />', $nokAddy )
+					)
+				),
+				'Other Info'  => array(
+					'Other sports'          => array(
+						array( 'othersports' ),
+						get_user_meta( $_GET['user_id'], 'othersports', true )
+					),
+					'Training hours a week' => array(
+						array( 'hoursaweektrain' ),
+						get_user_meta( $_GET['user_id'], 'hoursaweektrain', true )
+					),
+					'Previously played at'  => array(
+						array( 'playedbefore', 'whereandseasons' ),
+						get_user_meta( $_GET['user_id'], 'playedbefore',
+							true ) == 'Yes' ? get_user_meta( $_GET['user_id'], 'whereandseasons', true ) : 'No'
+					),
+					'Height'                => array(
+						array( 'height' ),
+						get_user_meta( $_GET['user_id'], 'height', true )
+					),
+					'Weight'                => array(
+						array( 'weight' ),
+						get_user_meta( $_GET['user_id'], 'weight', true )
+					),
+					'Referral Source'       => array(
+						array( 'howdidyouhear' ),
+						get_user_meta( $_GET['user_id'], 'howdidyouhear', true )
+					),
+					'Skills'                => array(
+						array( 'whatcanyoubring' ),
+						get_user_meta( $_GET['user_id'], 'whatcanyoubring', true )
+					),
+				)
 			);
 
-			$otherInfo = array(
-				'Other sports'               =>  get_user_meta( $_GET['user_id'], 'othersports', true ),
-				'Training hours a week'      =>  get_user_meta( $_GET['user_id'], 'hoursaweektrain', true ),
-				'Previously played at'       =>  get_user_meta( $_GET['user_id'], 'playedbefore', true ) == 'Yes' ? get_user_meta( $_GET['user_id'], 'whereandseasons', true ) : 'No',
-				'Height'                     =>  get_user_meta( $_GET['user_id'], 'height', true ),
-				'Weight'                     =>  get_user_meta( $_GET['user_id'], 'weight', true ),
-				'Referral Source'            =>  get_user_meta( $_GET['user_id'], 'howdidyouhear', true ),
-				'Skills'                     =>  get_user_meta( $_GET['user_id'], 'whatcanyoubring', true ),
+			foreach ( $details as $sectionNumber => $section ) {
+
+				foreach ( $section as $rowNumber => $row ) {
+
+					foreach ( $row[0] as $fieldNumber => $field ) {
+
+						if ( array_search( $field, $updatedFields ) !== false ) {
+							$details[ $sectionNumber ][ $rowNumber ][0] = true;
+						}
+					}
+					$details[ $sectionNumber ][ $rowNumber ][0] = is_array( $details[ $sectionNumber ][ $rowNumber ][0] ) ? false : true;
+				}
+
+			}
+
+			$varied = array(
+				'Medical Conditions or Disabilities' => $medCons,
+				'Allergies'                          => $allergies,
+				'Injuries'                           => $injuries
 			);
 
-			$gcl_sub_id = get_user_meta( $_GET['user_id'], 'GCLSubID', true );
 
-			$nokAddy = array();
-			if ( get_user_meta( $_GET['user_id'], 'nokstreetaddy', true ) ) $nokAddy[] = get_user_meta( $_GET['user_id'], 'nokstreetaddy', true );
-			if ( get_user_meta( $_GET['user_id'], 'nokpostcode', true ) ) $nokAddy[] = get_user_meta( $_GET['user_id'], 'nokpostcode', true );
+			foreach ( $varied as $sectionTitle => $section ) {
 
-			$nextOfKin = array(
-				'Name'              => get_user_meta( $_GET['user_id'], 'nokfirstname', true ) . ' ' . get_user_meta( $_GET['user_id'], 'noksurname', true ),
-				'Relationship'      => get_user_meta( $_GET['user_id'], 'nokrelationship', true ),
-				'Contact Number'    => addTelLink(get_user_meta( $_GET['user_id'], 'nokcontactnumber', true )),
-				'Address'           => get_user_meta( $_GET['user_id'], 'sameaddress', true ) == 'Yes' ? $personalDetails['Street Address'] : implode('<br />', $nokAddy)
-			);
+				if ( is_array( $section ) ) {
+					foreach ( $section as $rowNumber => $row ) {
+						foreach ( $row as $colNumber => $column ) {
+							foreach ( $column[0] as $fieldNumber => $field ) {
 
-			$attendance = getAttendance()['players'][$_GET['user_id']]['stats'];
+								if ( array_search( $field, $updatedFields ) !== false ) {
+									$varied[ $sectionTitle ][ $rowNumber ][ $colNumber ][0] = true;
+								}
+							}
+							$varied[ $sectionTitle ][ $rowNumber ][ $colNumber ][0] = is_array( $varied[ $sectionTitle ][ $rowNumber ][ $colNumber ][0] ) ? false : true;
+						}
+					}
+				}
+
+			}
+
 
 			$totalPoss = $attendance['training'] + $attendance['coaching'] + $attendance['watching'] + $attendance['absent'];
 
 			if ( $totalPoss > 0 ) {
 
 				$sessionsPresent = $attendance['training'] + $attendance['coaching'] + $attendance['watching'];
-				$attendanceInfo = array(
-					'Total Possible Sessions'   => $totalPoss,
-					'Sessions Present'          => $sessionsPresent,
-					'Attendance Percentage'     => (100/$totalPoss)*$sessionsPresent . '&#37;'
+				$attendanceInfo  = array(
+					'Total Possible Sessions' => $totalPoss,
+					'Sessions Present'        => $sessionsPresent,
+					'Attendance Percentage'   => ( 100 / $totalPoss ) * $sessionsPresent . '&#37;'
 				);
 			}
 
 
-		}
+		} else {
 
-		else {
+			$user = get_user_by( 'id', $_GET['user_id'] );
 
-			$user = get_user_by('id', $_GET['user_id']);
-
-			$personalDetails = array(
-				'Name'              => $user->user_firstname . ' ' . $user->user_lastname,
-				'Email'             => $user->data->user_email,
+			$details = array(
+				'Name'  => array( array(), $user->user_firstname . ' ' . $user->user_lastname ),
+				'Email' => array( array(), $user->data->user_email )
 			);
 
 
-			$gcl_sub_id = false;
 		}
 
 
-	?>
-		<div class="wrap">
-			<h2><?php echo $name ?></h2>
-			<h3>Personal Details</h3>
-			<table class='widefat memberData'>
-				<tbody>
-				<?php foreach ( $personalDetails as $label => $data ) : ?>
-					<?php if ($data) : ?>
-						<tr>
-							<th><?php echo $label?></th>
-							<th><?php echo $data?></th>
-						</tr>
-					<?php endif ?>
-				<?php endforeach ?>
-				</tbody>
-			</table>
+		foreach ( $details as $title => $section ) :
 
-			<?php
-				global $bisonsMembership;
-				$paymentInfo = $bisonsMembership->getPaymentInfo($_GET['user_id']);
+			?>
+			<h3><?php echo $title ?></h3>
+			<table class="widefat">
+				<?php foreach ( $section as $label => $row ) :
 
-					if ( $paymentInfo['Last Bill'] > 0 ) {
-
-						$age = human_time_diff(time(), $paymentInfo['Last Bill']) . ' ago';
-						$paymentInfo['Last Bill'] = date('g:i a, jS \o\f M Y', $paymentInfo['Last Bill']) . " ($age)";
-					}
-						if ($paymentInfo['Total Refunded'] > 0) {
-							$paymentInfo['Net Total'] = money_format('%n', $paymentInfo['Total Paid'] - $paymentInfo['Total Refunded']);
-							$paymentInfo['Total Refunded'] = money_format('%n', (int)$paymentInfo['Total Refunded'] );
-						}
-
-						else {
-							unset ($paymentInfo['Total Refunded']);
-						}
-						$paymentInfo['Total Paid'] = money_format('%n', $paymentInfo['Total Paid'] );
 					?>
-
-					<h3>Payment and Membership</h3>
-						<table class='widefat memberData'>
-							<tbody>
-							<?php foreach ( $paymentInfo as $label => $data ) : ?>
-								<?php if ($data) : ?>
-									<tr>
-										<th><?php echo $label?></th>
-										<th><?php echo $data?></th>
-									</tr>
-								<?php endif ?>
-							<?php endforeach ?>
-							</tbody>
-						</table>
-
-			<?php if ( $totalPoss > 0 ) : ?>
-			<h3>Attendance</h3>
-			<table class='widefat memberData'>
-				<tbody>
-				<?php foreach ( $attendanceInfo as $label => $data ) : ?>
-					<?php if ($data) : ?>
-						<tr>
-							<th><?php echo $label?></th>
-							<th><?php echo $data?></th>
-						</tr>
-					<?php endif ?>
+					<tr<?php if ( $row[0] ) {
+						echo ' class="bisonsUpdated"'; } ?>>
+						<th<?php if ( $row[0] ) {
+							echo ' class="bisonsUpdated"'; } ?>>
+							<?php echo $label ?>
+						</th>
+						<td<?php if ( $row[0] ) {
+							echo ' class="bisonsUpdated"'; } ?>>
+							<?php echo $row[1] ?>
+						</td>
+					</tr>
 				<?php endforeach ?>
-				</tbody>
 			</table>
-			<?php endif ?>
-			<?php
-
-			if ( ! $billsTable->isEmpty() ) {
-				$billsTable->display();
-			} ?>
-
-
-			<?php if ( count ( $nextOfKin ) > 0) : ?>
-			<h3>Next of Kin</h3>
-			<table class='widefat memberData'>
-				<tbody>
-				<?php foreach ( $nextOfKin as $label => $data ) : ?>
-					<?php if ($data) : ?>
-						<tr>
-							<th><?php echo $label?></th>
-							<th><?php echo $data?></th>
-						</tr>
-					<?php endif ?>
-				<?php endforeach ?>
-				</tbody>
-			</table>
-			<?php endif ?>
-
-			<?php if ( count ( $otherInfo ) > 0) : ?>
-			<h3>Other Information</h3>
-			<table class='widefat memberData'>
-				<tbody>
-				<?php foreach ( $otherInfo as $label => $data ) : ?>
-					<?php if ($data) : ?>
-						<tr>
-							<th><?php echo $label?></th>
-							<th><?php echo $data?></th>
-						</tr>
-					<?php endif ?>
-				<?php endforeach ?>
-				</tbody>
-			</table>
+		<?php endforeach ?>
+		<h3>Risk Factors</h3>
+		<div<?php if ($factorsChanged) echo " class='bisonsUpdated'" ?>>
+		<?php if (count ( $myFactors) > 0 ) : ?>
+		<p class="wideFatP"><strong><?php echo $myFactorsString ?>.</strong></p>
+			<?php else : ?>
+			<p class="wideFatP"><em>None recorded...</em></p>
 			<?php endif ?>
 		</div>
+		<?php foreach ( $varied as $title => $section ) : ?>
 
-		<?php if (count ($medCons) > 0) : ?>
-			<h3>Medical Conditions/Disabilities</h3>
-			<table class='widefat'>
-				<thead>
+			<h3><?php echo $title ?></h3>
+
+
+			<?php if ( count( $section ) > 0 ) :
+				$columns      = $section[0];
+				$columnsArray = array();
+				foreach ( $columns as $col ) {
+					foreach ( $col as $key => $value ) {
+						if ( ! is_int( $key ) ) {
+							$columnsArray[] = $key;
+						}
+					}
+				}
+
+				?>
+				<table class="widefat">
 					<tr>
-						<th>Condition</th>
-						<th>Medication</th>
-						<th>Dose</th>
+						<?php foreach ( $columnsArray as $col ) : ?>
+							<th><strong><?php echo $col ?></strong></th>
+						<?php endforeach ?>
 					</tr>
-				</thead>
-				<tbody>
-				<?php foreach ($medCons as $row) : ?>
-					<tr>
-						<td><?php echo $row['Condition'] ?></td>
-						<td><?php echo $row['Medication'] ?></td>
-						<td><?php echo $row['Dose'] ?></td>
-					</tr>
-				<?php endforeach ?>
-				</tbody>
-			</table>
-		<?php endif ?>
+					<?php foreach ( $section as $row ) : ?>
+						<tr>
+							<?php foreach ( $row as $data ) : foreach ( $data as $key => $part ) : ?>
+								<?php if ( ! is_int( $key ) ) {
+									if ( $data[0] ) {
+										echo "<td class='bisonsUpdated'>";
+									} else {
+										echo "<td>";
+									}
+									echo "$part";
+									echo "</td>";
+								}
+								?>
+							<?php endforeach; endforeach; ?>
+						</tr>
+					<?php endforeach ?>
+				</table>
+			<?php else : ?>
+				<p class="wideFatP"><em>None recorded...</em></p>
 
-		<?php if (count ($allergies) > 0) : ?>
-			<h3>Allergies</h3>
-			<table class='widefat'>
-				<thead>
-				<tr>
-					<th>Allergy</th>
-					<th>Medication</th>
-					<th>Dose</th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php foreach ($allergies as $row) : ?>
-					<tr>
-						<td><?php echo $row['Condition'] ?></td>
-						<td><?php echo $row['Medication'] ?></td>
-						<td><?php echo $row['Dose'] ?></td>
-					</tr>
-				<?php endforeach ?>
-				</tbody>
-			</table>
-		<?php endif ?>
-
-		<?php if (count ($injuries) > 0) : ?>
-			<h3>Injuries</h3>
-			<table class='widefat'>
-				<thead>
-				<tr>
-					<th>Injury</th>
-					<th>When</th>
-					<th>Treatment</th>
-					<th>Treated By</th>
-					<th>Status</th>
-				</tr>
-				</thead>
-				<tbody>
-				<?php foreach ($injuries as $row) : ?>
-					<tr>
-						<td><?php echo $row['What'] ?></td>
-						<td><?php echo $row['When'] ?></td>
-						<td><?php echo $row['Treatment'] ?></td>
-						<td><?php echo $row['Who Treated'] ?></td>
-						<td><?php echo $row['Status'] ?></td>
-
-					</tr>
-				<?php endforeach ?>
-				</tbody>
-			</table>
-		<?php endif ?>
+			<?php endif ?>
+		<?php endforeach ?>
 
 
 
-	<?php else : ?>
-	<h2>Players <a class='add-new-h2' href='<?php echo admin_url( 'admin.php?page=add-player' ) ?>'>Add Player</a>  <a class='add-new-h2' href='<?php echo admin_url( 'post-new.php?post_type=attendance_registers' ) ?>'>Record Attendance</a></h2>
-	<p>Please note that at this time, some of the information in this database (specifically attendance and Direct Debit information) is not yet accurate because historical information (prior to implementing this feature) has not yet been recorded</p>
+	<?php
+
+
+	else : ?>
+		<h2>Players <a class='add-new-h2' href='<?php echo admin_url( 'admin.php?page=add-player' ) ?>'>Add Player</a>
+			<a class='add-new-h2' href='<?php echo admin_url( 'post-new.php?post_type=attendance_registers' ) ?>'>Record
+				Attendance</a></h2>
+		<p>Please note that at this time, some of the information in this database (specifically attendance information)
+			is not yet accurate because historical information (prior to implementing this feature) has not yet been
+			recorded</p>
 		<?php
-	$formsTable = new Membership_Forms_Table(array ( 'screen' => 'playerList', 'singular' => 'player', 'plural' => 'players' ));
-	$formsTable->prepare_items();
+		$formsTable = new Membership_Forms_Table( array(
+			'screen'   => 'playerList',
+			'singular' => 'player',
+			'plural'   => 'players'
+		) );
+		$formsTable->prepare_items();
 
-	if ( $_POST )
-	{
-		switch ( $_POST['action'] )
-		{
-			case -1: break;
+		if ( $_POST ) {
+			switch ( $_POST['action'] ) {
+				case - 1:
+					break;
 
-			case 'bulk_email':
-				include_once( __DIR__ . '/../../snippets/bulk_email_form.php');
-				break;
+				case 'bulk_email':
+					include_once( __DIR__ . '/../../snippets/bulk_email_form.php' );
+					break;
 
-			default:
-				if (! isset ( $_POST['confirm_action'] ) )
-					include_once( __DIR__ . '/../../snippets/action_are_you_sure.php');
-				break;
+				default:
+					if ( ! isset ( $_POST['confirm_action'] ) ) {
+						include_once( __DIR__ . '/../../snippets/action_are_you_sure.php' );
+					}
+					break;
+			}
 		}
-	}
-	?>
-	<form method="post">
-		<?php
-		$formsTable->views();
-		$formsTable->display();
 		?>
-	</form>
+		<form method="post">
+			<?php
+			$formsTable->views();
+			$formsTable->display();
+			?>
+		</form>
 	<?php endif ?>
 </div>

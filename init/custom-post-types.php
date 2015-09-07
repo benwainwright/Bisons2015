@@ -20,7 +20,9 @@ function create_post_types() {
         'supports' => array('thumbnail')
         )
     );
-	
+
+
+
 	/**
 	 * Create 'Teams' post type
 	 */

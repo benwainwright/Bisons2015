@@ -69,6 +69,23 @@ li li {
 list-style:circle;
 }
 
+tr.bisonsUpdated, div.bisonsUpdated {
+outline: #FF5ABB 1px solid;
+}
+
+td.bisonsUpdated, th.bisonsUpdated, span.bisonsUpdated {
+color: #FF5ABB;
+font-weight:bold;
+}
+
+.wideFatP {
+background-color: white;
+border: 1px solid #e5e5e5;
+padding: 0px 10px;
+margin:0;
+line-height:3em;
+}
+
 .fixture-reports-results-list li {
 list-style:none;
 }

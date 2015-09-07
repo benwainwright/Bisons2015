@@ -268,16 +268,82 @@ class Bisons_Membership {
 
 	public function joinClub() {
 
-		$this->updateMembershipInfo();
-
-		return $this->getGCLUrl();
-
 		global $bisonPlayersFlashMessage;
+
+		$emailOptions = get_option( 'email-settings-page' );
+
+		$toNewUser = array();
+
+		if ( $emailOptions['member-email-send-to-email'] ) {
+			$toNewUser[] = array(
+				'name'  => 'Committee Member',
+				'email' => $emailOptions['member-email-send-to-email']
+			);
+		}
+
+		if ( $emailOptions['member-email-send-to-email'] ) {
+			$toNewUser[] = array(
+				'name'  => 'Committee Member',
+				'email' => $emailOptions['member-email-send-to-email-2']
+			);
+		}
+
+		if ( $emailOptions['member-update-send-to-email'] ) {
+			$updateUser[] = array(
+				'name'  => 'Committee Member',
+				'email' => $emailOptions['member-email-send-to-email-2']
+			);
+		}
+
+		if ( $emailOptions['member-update-send-to-email-2'] ) {
+			$updateUser[] = array(
+				'name'  => 'Committee Member',
+				'email' => $emailOptions['member-update-send-to-email-2']
+			);
+		}
+
+
+		switch ( $this->postData['gender'] ) {
+			case "Male":
+				$heHas   = 'he has';
+				$pronoun = 'his';
+				break;
+			case "Female":
+				$heHas   = 'she has';
+				$pronoun = 'her';
+				break;
+			case "Other":
+				$heHas   = 'they have';
+				$pronoun = 'their';
+				break;
+		}
+
+		$data = array(
+			'name'        => $this->postData['firstname'] . ' ' . $this->postData['surname'],
+			'profileLink' => admin_url() . 'admin.php?page=players&user_id=' . $this->user,
+			'pronoun'     => $pronoun,
+			'heHas'       => $heHas
+		);
+
+		if ( ! get_user_meta( $this->user, 'joined' ) ) {
+			$this->updateMembershipInfo();
+			send_mandrill_template( $toNewUser, 'new-user-registered', $data, array( 'membership' ), 'New Membership',
+				'no-reply@bisonsrfc.co.uk', 'Bristol Bisons RFC' );
+			wp_redirect( wp_url( '/players-area/payment' ) );
+			exit;
+		} else {
+			send_mandrill_template( $toNewUser, 'membership-details-updated', $data, array( 'membership' ), 'New Membership',
+				'no-reply@bisonsrfc.co.uk', 'Bristol Bisons RFC' );
+			$this->updateMembershipInfo();
+			$message = 'Details updated.... Thanks!';
+		}
 
 		$bisonPlayersFlashMessage[] = array(
 			'priority' => 100,
-			'message'  => 'In a moment, you will be redirected to a direct debit mandate form at GoCardless. Once you have finished setting up your payment information, you will be returned to this site. See you in a bit!'
+			'message'  => $message
 		);
+
+
 
 	}
 
@@ -290,7 +356,21 @@ class Bisons_Membership {
 
 		$userID = $this->user;
 
-		update_user_meta( $userID, 'joined', 1 );
+		$updatedFields = array();
+
+		$oldUser = get_userdata( $userID );
+
+		if ( $oldUser->user_email !== $post['email_addy'] ) {
+			$updatedFields[] = 'email_addy';
+		}
+
+		if ( $oldUser->user_firstname !== $post['firstname'] ) {
+			$updatedFields[] = 'firstname';
+		}
+
+		if ( $oldUser->user_lastname !== $post['surname'] ) {
+			$updatedFields[] = 'surname';
+		}
 
 		$newUserInfo = array( 'ID' => $userID );
 
@@ -365,8 +445,17 @@ class Bisons_Membership {
 		);
 
 		foreach ( $singlelinefields as $fieldname ) {
+
 			if ( isset ( $post[ $fieldname ] ) ) {
-				update_user_meta( $userID, $fieldname, $post[ $fieldname ] );
+
+				if ( $post[ $fieldname ] != get_user_meta( $userID, $fieldname, true ) ) {
+
+					update_user_meta( $userID, $fieldname, $post[ $fieldname ] );
+
+					if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+						$updatedFields[] = $fieldname;
+					}
+				}
 			}
 		}
 
@@ -378,12 +467,36 @@ class Bisons_Membership {
 				while ( isset( $post[ 'condsdisablities_name_row' . $i ] ) ) {
 
 					if ( $post[ 'condsdisablities_name_row' . $i ] != '' ) {
-						update_user_meta( $userID, 'condsdisablities_name_row' . $realCount,
-							$post[ 'condsdisablities_name_row' . $i ] );
-						update_user_meta( $userID, 'condsdisablities_drugname_row' . $realCount,
-							$post[ 'condsdisablities_drugname_row' . $i ] );
-						update_user_meta( $userID, 'condsdisablities_drugdose_freq_row' . $realCount,
-							$post[ 'condsdisablities_drugdose_freq_row' . $i ] );
+
+						if ( $post[ 'condsdisablities_name_row' . $i ] != get_user_meta( $userID, 'condsdisablities_name_row' . $realCount, true ) ) {
+							update_user_meta( $userID, 'condsdisablities_name_row' . $realCount,
+								$post[ 'condsdisablities_name_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'condsdisablities_name_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'condsdisablities_drugname_row' . $i ] != get_user_meta( $userID, 'condsdisablities_drugname_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'condsdisablities_drugname_row' . $realCount,
+								$post[ 'condsdisablities_drugname_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'condsdisablities_drugname_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'condsdisablities_drugdose_freq_row' . $i ] != get_user_meta( $userID, 'condsdisablities_drugdose_freq_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'condsdisablities_drugdose_freq_row' . $realCount,
+								$post[ 'condsdisablities_drugdose_freq_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'condsdisablities_drugdose_freq_row' . $realCount;
+							}
+
+						}
 						update_user_meta( $userID, 'condsdisablities_rowcount', $realCount );
 						$realCount ++;
 					}
@@ -399,12 +512,33 @@ class Bisons_Membership {
 				$realCount = 1;
 				while ( isset( $post[ 'allergies_name_row' . $i ] ) ) {
 					if ( $post[ 'allergies_name_row' . $i ] != '' ) {
-						update_user_meta( $userID, 'allergies_name_row' . $realCount,
-							$post[ 'allergies_name_row' . $i ] );
-						update_user_meta( $userID, 'allergies_drugname_row' . $realCount,
-							$post[ 'allergies_drugname_row' . $i ] );
-						update_user_meta( $userID, 'allergies_drugdose_freq_row' . $realCount,
-							$post[ 'allergies_drugdose_freq_row' . $i ] );
+
+						if ( $post[ 'allergies_name_row' . $i ] != get_user_meta( $userID, 'allergies_name_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'allergies_name_row' . $realCount,
+								$post[ 'allergies_name_row' . $i ] );
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'allergies_name_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'allergies_drugname_row' . $i ] != get_user_meta( $userID, 'allergies_drugname_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'allergies_drugname_row' . $realCount,
+								$post[ 'allergies_drugname_row' . $i ] );
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'allergies_drugname_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'allergies_drugdose_freq_row' . $i ] != get_user_meta( $userID, 'allergies_drugdose_freq_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'allergies_drugdose_freq_row' . $realCount,
+								$post[ 'allergies_drugdose_freq_row' . $i ] );
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'allergies_drugdose_freq_row' . $realCount;
+							}
+						}
 						update_user_meta( $userID, 'allergies_rowcount', $realCount );
 						$realCount ++;
 					}
@@ -420,15 +554,58 @@ class Bisons_Membership {
 				$realCount = 1;
 				while ( isset( $post[ 'injuries_name_row' . $i ] ) ) {
 					if ( $post[ 'injuries_name_row' . $i ] != '' ) {
-						update_user_meta( $userID, 'injuries_name_row' . $realCount,
-							$post[ 'injuries_name_row' . $i ] );
-						update_user_meta( $userID, 'injuries_when_row' . $realCount,
-							$post[ 'injuries_when_row' . $i ] );
-						update_user_meta( $userID, 'injuries_treatmentreceived_row' . $realCount,
-							$post[ 'injuries_treatmentreceived_row' . $i ] );
-						update_user_meta( $userID, 'injuries_who_row' . $realCount, $post[ 'injuries_who_row' . $i ] );
-						update_user_meta( $userID, 'injuries_status_row' . $realCount,
-							$post[ 'injuries_status_row' . $i ] );
+
+						if ( $post[ 'injuries_name_row' . $i ] != get_user_meta( $userID, 'injuries_name_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'injuries_name_row' . $realCount,
+								$post[ 'injuries_name_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'injuries_name_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'injuries_when_row' . $i ] != get_user_meta( $userID, 'injuries_when_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'injuries_when_row' . $realCount,
+								$post[ 'injuries_when_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'injuries_when_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'injuries_treatmentreceived_row' . $i ] != get_user_meta( $userID, 'injuries_treatmentreceived_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'injuries_treatmentreceived_row' . $realCount,
+								$post[ 'injuries_treatmentreceived_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'injuries_treatmentreceived_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'injuries_who_row' . $i ] != get_user_meta( $userID, 'injuries_who_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'injuries_who_row' . $realCount,
+								$post[ 'injuries_who_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'injuries_who_row' . $realCount;
+							}
+						}
+
+						if ( $post[ 'injuries_status_row' . $i ] != get_user_meta( $userID, 'injuries_status_row' . $realCount, true ) ) {
+
+							update_user_meta( $userID, 'injuries_status_row' . $realCount,
+								$post[ 'injuries_status_row' . $i ] );
+
+							if ( get_user_meta( $userID, 'joined', true ) == 1 ) {
+								$updatedFields[] = 'injuries_status_row' . $realCount;
+							}
+						}
+
+
 						update_user_meta( $userID, 'injuries_rowcount', $realCount );
 					}
 					$i ++;
@@ -436,6 +613,9 @@ class Bisons_Membership {
 			}
 		}
 
+
+		update_user_meta( $userID, 'updatedFields', $updatedFields );
+		update_user_meta( $userID, 'joined', 1 );
 		update_user_meta( $userID, 'lastModified', time() );
 	}
 

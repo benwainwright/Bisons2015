@@ -97,6 +97,8 @@ html {
     text-align: center;
 }
 
+
+
 #wrapper ul.pageMenu a {
     color: white;
     -webkit-transition: all 0.5s ease;
@@ -442,6 +444,10 @@ table a img {
 .post img.alignright, .page img.alignright {
     float: right;
     margin-left: 1em;
+}
+
+.page img.buttonImage {
+    margin:0;
 }
 
 .post header a, .page header a {
@@ -1210,7 +1216,7 @@ p.important {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-    margin:1em 0;
+    margin:0;
 }
 
 fieldset table th {
@@ -1307,6 +1313,10 @@ form input, form textarea {
 
 .flashmessage {
     text-align:center;
+}
+
+.flashmessage p{
+    margin: 0.3em 3px;
 }
 
 html #wrapper form.flashmessage button{
