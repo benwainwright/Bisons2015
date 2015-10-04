@@ -1,6 +1,6 @@
 <?php
 
-function getExternalScriptDomains( $queue ) {
+function getExternalScriptDomains( $queue ) {/*
 
 	$externalDomains = array();
 
@@ -24,11 +24,11 @@ function getExternalScriptDomains( $queue ) {
 
 	$externalDomains = array_unique( $externalDomains );
 
-	return $externalDomains;
+	return $externalDomains;*/
 }
 
 function contentSecurityPolicy() {
-
+/*
 	global $wp_scripts;
 	global $wp_styles;
 
@@ -41,6 +41,7 @@ function contentSecurityPolicy() {
 	$scriptDomains = implode( ' ', getExternalScriptDomains( $wp_scripts ) );
 	$styleDomains  = implode( ' ', getExternalScriptDomains( $wp_styles ) );
 	header( "Content-Security-Policy: default-src 'self'; script-src 'self' $scriptDomains; style-src 'self' $styleDomains" );
+	*/
 }
 
 add_action( 'wp_enqueue_scripts', 'contentSecurityPolicy', 10000 );
